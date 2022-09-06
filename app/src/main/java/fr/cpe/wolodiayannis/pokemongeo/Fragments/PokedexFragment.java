@@ -24,8 +24,8 @@ import java.util.List;
 import fr.cpe.wolodiayannis.pokemongeo.Entity.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.ListAdapter.PokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
 public class PokedexFragment extends Fragment {
     @Nullable
@@ -36,7 +36,6 @@ public class PokedexFragment extends Fragment {
         PokedexFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokedex_fragment, container, false);
 
         // Set the pokémon list from JSON
-
         binding.pokemonList.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
         List<Pokemon> pokemonList = new ArrayList<>();
         PokemonListAdapter adapter = new PokemonListAdapter(pokemonList);
@@ -66,11 +65,14 @@ public class PokedexFragment extends Fragment {
                     type2 = object.getString("type2");
                 // get the ID of the image
                 int imgID = Integer.parseInt(image.replaceAll("[a-zA-Z]", ""));
+                // log the pokemon
+                System.out.println("Pokemon " + name + " : " + imgID + " " + type1 + " " + type2);
                 // get the type of the pokemon
-                POKEMON_TYPE type1Enum = POKEMON_TYPE.valueOf(type1.toUpperCase());
+                POKEMON_TYPE type1Enum = POKEMON_TYPE.valueOf(type1.substring(0, 1).toUpperCase() + type1.substring(1));
                 POKEMON_TYPE type2Enum = null;
                 if (type2 != null)
-                    type2Enum = POKEMON_TYPE.valueOf(type2.toUpperCase());
+                    type2Enum = POKEMON_TYPE.valueOf(type2.substring(0, 1).toUpperCase() + type2.substring(1));
+
                 pokemonList.add(new Pokemon(i, name, imgID, type2Enum, type1Enum));
             }
         } catch (JSONException e) {
