@@ -64,16 +64,14 @@ public class PokedexFragment extends Fragment {
                 if (object.has("type2"))
                     type2 = object.getString("type2");
                 // get the ID of the image
-                int imgID = Integer.parseInt(image.replaceAll("[a-zA-Z]", ""));
-                // log the pokemon
-                System.out.println("Pokemon " + name + " : " + imgID + " " + type1 + " " + type2);
+                int imgID = getResources().getIdentifier(image, "drawable", binding.getRoot().getContext().getPackageName());
                 // get the type of the pokemon
                 POKEMON_TYPE type1Enum = POKEMON_TYPE.valueOf(type1.substring(0, 1).toUpperCase() + type1.substring(1));
                 POKEMON_TYPE type2Enum = null;
                 if (type2 != null)
                     type2Enum = POKEMON_TYPE.valueOf(type2.substring(0, 1).toUpperCase() + type2.substring(1));
 
-                pokemonList.add(new Pokemon(i, name, imgID, type2Enum, type1Enum));
+                pokemonList.add(new Pokemon(i, name, imgID, type1Enum, type2Enum));
             }
         } catch (JSONException e) {
             e.printStackTrace();
