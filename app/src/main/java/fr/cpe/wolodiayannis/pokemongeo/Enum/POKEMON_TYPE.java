@@ -1,22 +1,22 @@
 package fr.cpe.wolodiayannis.pokemongeo.Enum;
 
 public enum POKEMON_TYPE {
-    Acier,
-    Combat,
-    Dragon,
-    Eau,
-    Electrique,
-    Fee,
-    Feu,
-    Glace,
-    Insecte,
     Normal,
-    Plante,
+    Fire,
+    Water,
+    Electric,
+    Grass,
+    Ice,
+    Fighting,
     Poison,
-    Psy,
-    Roche,
-    Sol,
-    Spectre,
-    Tenebre,
-    Vol
+    Ground,
+    Flying,
+    Psychic,
+    Bug,
+    Rock,
+    Ghost,
+    Dragon,
+    Dark,
+    Steel,
+    Fairy
 }

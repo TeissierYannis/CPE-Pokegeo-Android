@@ -18,9 +18,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.Entity.Stats;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
-import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.ListAdapter.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.Utils.JsonFormatter;
@@ -49,48 +50,55 @@ public class PokedexFragment extends Fragment {
             for (int i = 0; i < jsonFormatter.getSize(); i++) {
                 JSONObject object = jsonFormatter.getResultIndex(i);
 
-                String name = object.getJSONObject("name").getString("french");
-                String type1 = object.getJSONArray("type").getString(0);
-                String type2 = null;
-                if (object.getJSONArray("type").length() > 1) {
-                    type2 = object.getJSONArray("type").getString(1);
-                }
-                // get the ID of the image
-                String image = object.getString("image");
-                int imgID = getResources().getIdentifier(image, "pokemons", binding.getRoot().getContext().getPackageName());
-                // get the type of the pokemon
+                int id = object.getInt("id");
+                String name = object.getString("name");
+                String species = object.getString("species");
 
-                List<POKEMON_TYPE> types = new ArrayList<>();
+                String sHeight = object.getString("height");
+                sHeight = sHeight.substring(sHeight.indexOf('(') + 1, sHeight.indexOf('m'));
+                float height = Float.parseFloat(sHeight);
 
-                types.add(POKEMON_TYPE.valueOf(type1.substring(0, 1).toUpperCase() + type1.substring(1)));
-                if (type2 != null) {
-                    types.add(POKEMON_TYPE.valueOf(type2.substring(0, 1).toUpperCase() + type2.substring(1)));
+                String sWeight = object.getString("weight");
+                sWeight = sWeight.substring(sWeight.indexOf('(') + 1, sWeight.indexOf("kg"));
+                float weight = Float.parseFloat(sWeight);
+
+                List<POKEMON_TYPE> types = new ArrayList<POKEMON_TYPE>();
+                for (int j = 0; j < object.getJSONArray("type").length(); j++) {
+                    String type = object.getJSONArray("type").getString(j);
+                    types.add(POKEMON_TYPE.valueOf(type));
+
                 }
+                Stats stats = new Stats(
+                        object.getJSONObject("stats").getInt("hp"),
+                        object.getJSONObject("stats").getInt("attack"),
+                        object.getJSONObject("stats").getInt("defense"),
+                        object.getJSONObject("stats").getInt("sp.atk"),
+                        object.getJSONObject("stats").getInt("sp.def"),
+                        object.getJSONObject("stats").getInt("speed")
+                );
+
+                String description = object.getString("description");
+                int gen = object.getInt("gen");
 
                 List<POKEMON_ABILITIES> abilities = new ArrayList<>();
                 List<Pokemon> evolutions = new ArrayList<>();
 
                 pokemonList.add(
                         Pokemon.CREATE(
-                                0,
-                                "Name",
-                                "Species",
+                                id,
+                                name,
+                                species,
                                 types,
-                                0f,
-                                0f,
+                                height,
+                                weight,
                                 abilities,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
+                                stats,
                                 evolutions,
-                                "Description",
-                                1,
-                                imgID
-                        )
-                );
+                                description,
+                                gen,
+                                id
+                        ));
+
             }
         } catch (JSONException e) {
             System.err.println("[PokedexFragment] Error while parsing JSON file\n" + e.getMessage());
