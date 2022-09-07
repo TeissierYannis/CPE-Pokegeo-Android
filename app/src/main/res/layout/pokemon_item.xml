@@ -1,62 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data/>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
         <ImageView
-            android:id="@+id/front"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:id="@+id/pokemon_image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/p001"
-            app:layout_constraintBottom_toTopOf="@id/separator"
-            android:scaleType="centerInside"
-            app:layout_constraintEnd_toStartOf="@id/name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:contentDescription="@string/pokemon_image_desc" />
         <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:id="@+id/name"
-            app:layout_constraintStart_toEndOf="@id/front"
-            app:layout_constraintEnd_toStartOf="@id/number"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/type1_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/type1_text"
-            app:layout_constraintStart_toEndOf="@id/front"
-            app:layout_constraintEnd_toStartOf="@id/type2_text"
-            app:layout_constraintBottom_toTopOf="@id/separator"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/type2_text"
-            app:layout_constraintStart_toEndOf="@id/type1_text"
-            app:layout_constraintEnd_toStartOf="@id/number"
-            app:layout_constraintBottom_toTopOf="@id/separator"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/separator"
+            android:id="@+id/pokemon_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            android:layout_below="@id/pokemon_image"
+            android:layout_centerHorizontal="true"
+            android:text="Bulbasaur"
+            android:textColor="@color/text"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            />
+
         <TextView
-            android:id="@+id/separator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="?android:attr/listSeparatorTextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/pokemon_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pokemon_name"
+            android:layout_centerHorizontal="true"
+            android:text="001"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            />
+    </RelativeLayout>
 </layout>

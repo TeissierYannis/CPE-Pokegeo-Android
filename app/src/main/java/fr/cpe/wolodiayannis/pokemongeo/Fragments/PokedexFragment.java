@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,16 +30,15 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
 public class PokedexFragment extends Fragment {
 
-    private List<Pokemon> pokemonList;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         PokedexFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokedex_fragment, container, false);
-        binding.pokemonList.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
-        pokemonList = new ArrayList<>();
+        binding.pokemonList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+
+        List<Pokemon> pokemonList = new ArrayList<>();
 
         PokemonListAdapter adapter = new PokemonListAdapter(pokemonList);
 

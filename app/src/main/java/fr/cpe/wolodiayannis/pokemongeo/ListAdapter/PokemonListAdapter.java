@@ -27,6 +27,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         PokemonItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.pokemon_item, parent, false);
+
         return new ViewHolder(binding);
     }
 
@@ -34,14 +35,10 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pokemon pokemon = pokemonList.get(position);
 
-        holder.binding.front.setImageResource(pokemon.getFrontResource());
-        holder.binding.name.setText(pokemon.getName());
-        holder.binding.type1Text.setText(pokemon.getTypes().get(0).toString());
+        holder.binding.pokemonImage.setImageResource(pokemon.getFrontResource());
+        holder.binding.pokemonName.setText(pokemon.getName());
         String number = "#" + pokemon.getID();
-        holder.binding.number.setText(number);
-        if (pokemon.getTypes().size() > 1) {
-            holder.binding.type2Text.setText(pokemon.getTypes().get(1).toString());
-        }
+        holder.binding.pokemonId.setText(number);
     }
 
     @Override
@@ -50,7 +47,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private PokemonItemBinding binding;
+        private final PokemonItemBinding binding;
 
         ViewHolder(PokemonItemBinding binding) {
             super(binding.getRoot());
