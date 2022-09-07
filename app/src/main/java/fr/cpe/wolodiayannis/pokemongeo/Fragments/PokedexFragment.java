@@ -100,7 +100,7 @@ public class PokedexFragment extends Fragment {
                                 description,
                                 gen,
                                 getResources().getIdentifier(
-                                        "p001",
+                                        "p" + object.getString("id"),
                                         "drawable",
                                         binding.getRoot().getContext().getPackageName()
                                 )
