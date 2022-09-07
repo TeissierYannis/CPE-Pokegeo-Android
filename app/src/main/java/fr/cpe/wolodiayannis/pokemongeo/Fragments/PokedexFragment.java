@@ -11,20 +11,18 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.Entity.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.ListAdapter.PokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.Utils.JsonFormatter;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
 public class PokedexFragment extends Fragment {
@@ -40,20 +38,12 @@ public class PokedexFragment extends Fragment {
         binding.pokemonList.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
         List<Pokemon> pokemonList = new ArrayList<>();
         PokemonListAdapter adapter = new PokemonListAdapter(pokemonList);
-        InputStreamReader isr = new InputStreamReader(getResources().openRawResource(R.raw.pokemons));
-        BufferedReader reader = new BufferedReader(isr);
-        StringBuilder builder = new StringBuilder();
-        String data = "";
-        //lecture du fichier. data == null => EOF
-        while (data != null) {
-            try {
-                data = reader.readLine();
-                builder.append(data);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        //Traitement du fichier
+
+        InputStreamReader isr = new InputStreamReader(getResources().openRawResource(R.raw.pokemon_stats));
+
+        JsonFormatter jsonFormatter = new JsonFormatter(isr);
+
+        // File handling
         try {
             for (int i = 0; i < jsonFormatter.getSize(); i++) {
                 JSONObject object = jsonFormatter.getResultIndex(i);
