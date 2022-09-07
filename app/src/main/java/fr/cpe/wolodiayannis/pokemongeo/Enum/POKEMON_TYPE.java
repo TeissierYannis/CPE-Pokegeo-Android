@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.Entity;
+package fr.cpe.wolodiayannis.pokemongeo.Enum;
 
 public enum POKEMON_TYPE {
     Acier,

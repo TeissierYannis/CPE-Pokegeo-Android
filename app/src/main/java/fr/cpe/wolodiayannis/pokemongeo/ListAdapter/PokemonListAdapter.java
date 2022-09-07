@@ -35,11 +35,11 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         Pokemon pokemon = pokemonList.get(position);
         holder.binding.front.setImageResource(pokemon.getFrontResource());
         holder.binding.name.setText(pokemon.getName());
-        holder.binding.type1Text.setText(pokemon.getType1String());
-        String number = "#" + pokemon.getOrder();
+        holder.binding.type1Text.setText(pokemon.getTypes().get(0).toString());
+        String number = "#" + pokemon.getID();
         holder.binding.number.setText(number);
-        if (pokemon.getType2() != null) {
-            holder.binding.type2Text.setText(pokemon.getType2String());
+        if (pokemon.getTypes().size() > 1) {
+            holder.binding.type2Text.setText(pokemon.getTypes().get(1).toString());
         }
     }
 

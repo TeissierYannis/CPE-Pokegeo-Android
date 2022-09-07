@@ -1,92 +1,130 @@
 package fr.cpe.wolodiayannis.pokemongeo.Entity;
 
-import fr.cpe.wolodiayannis.pokemongeo.R;
+import java.util.List;
+
+import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
+import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
 public class Pokemon {
-    private int order;
-    private String name;
-    private int height;
-    private int weight;
-    private int frontResource;
-    private POKEMON_TYPE type1;
-    private POKEMON_TYPE type2;
 
-    public Pokemon() {
-        order = 1;
-        name = "Unknown";
-        frontResource = R.drawable.p1;
-        type1 = POKEMON_TYPE.Plante;
+    int ID;
+    String name;
+    String species;
+    List<POKEMON_TYPE> types;
+    float height;
+    float weight;
+    List<POKEMON_ABILITIES> abilities;
+    Stats stats;
+    List<Pokemon> evolutions;
+    String description;
+    int gen;
+    int imgID;
+
+    public Pokemon(
+            int ID,
+            String name,
+            String species,
+            List<POKEMON_TYPE> types,
+            float height, float weight,
+            List<POKEMON_ABILITIES> abilities,
+            Stats stats,
+            List<Pokemon> evolutions,
+            String description,
+            int gen,
+            int imgID) {
+        this.ID = ID;
+        this.name = name;
+        this.species = species;
+        this.types = types;
+        this.height = height;
+        this.weight = weight;
+        this.abilities = abilities;
+        this.stats = stats;
+        this.evolutions = evolutions;
+        this.description = description;
+        this.gen = gen;
+        this.imgID = imgID;
     }
 
-    public Pokemon(int order, String name, int frontResource, POKEMON_TYPE type1, POKEMON_TYPE type2) {
-        this.order = order;
-        this.name = name;
-        this.frontResource = frontResource;
-        this.type1 = type1;
-        this.type2 = type2;
+    public static Pokemon CREATE(
+            int ID,
+            String name,
+            String species,
+            List<POKEMON_TYPE> types,
+            float height,
+            float weight,
+            List<POKEMON_ABILITIES> abilities,
+            int hp,
+            int attack,
+            int defense,
+            int spAttack,
+            int spDefense,
+            int speed,
+            List<Pokemon> evolutions,
+            String description,
+            int gen,
+            int imgID) {
+        return new Pokemon(
+                ID,
+                name,
+                species,
+                types,
+                height,
+                weight,
+                abilities,
+                Stats.CREATE(hp, attack, defense, spAttack, spDefense, speed),
+                evolutions,
+                description,
+                gen,
+                imgID
+        );
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getSpecies() {
+        return species;
     }
 
-    public int getOrder() {
-        return order;
+    public List<POKEMON_TYPE> getTypes() {
+        return types;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public List<POKEMON_ABILITIES> getAbilities() {
+        return abilities;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public List<Pokemon> getEvolutions() {
+        return evolutions;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getGen() {
+        return gen;
     }
 
     public int getFrontResource() {
-        return frontResource;
-    }
-
-    public void setFrontResource(int frontResource) {
-        this.frontResource = frontResource;
-    }
-
-    public POKEMON_TYPE getType1() {
-        return type1;
-    }
-
-    public void setType1(POKEMON_TYPE type1) {
-        this.type1 = type1;
-    }
-
-    public POKEMON_TYPE getType2() {
-        return type2;
-    }
-
-    public void setType2(POKEMON_TYPE type2) {
-        this.type2 = type2;
-    }
-
-    public String getType1String() {
-        return type1.name();
-    }
-
-    public String getType2String() {
-        return type2.name();
+        return this.imgID;
     }
 }
