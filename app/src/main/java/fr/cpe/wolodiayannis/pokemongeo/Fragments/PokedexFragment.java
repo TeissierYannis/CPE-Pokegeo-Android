@@ -99,8 +99,13 @@ public class PokedexFragment extends Fragment {
                                 evolutions,
                                 description,
                                 gen,
-                                id
-                        ));
+                                getResources().getIdentifier(
+                                        "p001",
+                                        "drawable",
+                                        binding.getRoot().getContext().getPackageName()
+                                )
+                        )
+                );
 
             }
         } catch (JSONException e) {
