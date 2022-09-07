@@ -1,12 +1,12 @@
 package fr.cpe.wolodiayannis.pokemongeo.Entity;
 
 public class Stats {
-    int hp;
-    int attack;
-    int defense;
-    int specialAttack;
-    int specialDefense;
-    int speed;
+    private final int hp;
+    private final int attack;
+    private final int defense;
+    private final int specialAttack;
+    private final int specialDefense;
+    private final int speed;
 
     public Stats(int hp, int attack, int defense, int specialAttack, int specialDefense, int speed) {
         this.hp = hp;

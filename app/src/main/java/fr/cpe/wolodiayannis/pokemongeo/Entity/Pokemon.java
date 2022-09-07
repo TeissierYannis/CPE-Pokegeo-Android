@@ -7,18 +7,18 @@ import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
 public class Pokemon {
 
-    int ID;
-    String name;
-    String species;
-    List<POKEMON_TYPE> types;
-    float height;
-    float weight;
-    List<POKEMON_ABILITIES> abilities;
-    Stats stats;
-    List<Pokemon> evolutions;
-    String description;
-    int gen;
-    int imgID;
+    private final int ID;
+    private final String name;
+    private final String species;
+    private final List<POKEMON_TYPE> types;
+    private final float height;
+    private final float weight;
+    private final List<POKEMON_ABILITIES> abilities;
+    private final Stats stats;
+    private final List<Pokemon> evolutions;
+    private final String description;
+    private final int gen;
+    private final int imgID;
 
     public Pokemon(
             int ID,
