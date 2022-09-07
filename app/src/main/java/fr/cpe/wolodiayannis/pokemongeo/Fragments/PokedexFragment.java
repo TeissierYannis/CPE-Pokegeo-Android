@@ -57,21 +57,18 @@ public class PokedexFragment extends Fragment {
                 float height = 0;
                 String sHeight = object.getString("height");
                 if (!sHeight.contains("None")) {
-                    sHeight = sHeight.substring(sHeight.indexOf('(') + 1, sHeight.indexOf('m'));
-                    height = Float.parseFloat(sHeight);
+                    height = Float.parseFloat(sHeight.substring(sHeight.indexOf('(') + 1, sHeight.indexOf('m')));
                 }
 
                 float weight = 0;
                 String sWeight = object.getString("weight");
                 if (!sWeight.contains("None")) {
-                    sWeight = sWeight.substring(sWeight.indexOf('(') + 1, sWeight.indexOf("kg"));
-                    weight = Float.parseFloat(sWeight);
+                    weight = Float.parseFloat(sWeight.substring(sWeight.indexOf('(') + 1, sWeight.indexOf("kg")));
                 }
 
                 List<POKEMON_TYPE> types = new ArrayList<POKEMON_TYPE>();
                 for (int j = 0; j < object.getJSONArray("type").length(); j++) {
-                    String type = object.getJSONArray("type").getString(j);
-                    types.add(POKEMON_TYPE.valueOf(type));
+                    types.add(POKEMON_TYPE.valueOf(object.getJSONArray("type").getString(j)));
                 }
 
                 Stats stats = new Stats(
