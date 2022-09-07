@@ -30,6 +30,7 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 public class PokedexFragment extends Fragment {
     @Nullable
     @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -54,17 +55,19 @@ public class PokedexFragment extends Fragment {
         }
         //Traitement du fichier
         try {
-            JSONArray array = new JSONArray(builder.toString());
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                String name = object.getString("name");
-                String image = object.getString("image");
-                String type1 = object.getString("type1");
+            for (int i = 0; i < jsonFormatter.getSize(); i++) {
+                JSONObject object = jsonFormatter.getResultIndex(i);
+                String name = object.getJSONObject("name").getString("french");
+
+                // gets types
+                String type1 = object.getJSONArray("type").getString(0);
                 String type2 = null;
-                if (object.has("type2"))
-                    type2 = object.getString("type2");
+                if (object.getJSONArray("type").length() > 1) {
+                    type2 = object.getJSONArray("type").getString(1);
+                }
                 // get the ID of the image
-                int imgID = getResources().getIdentifier(image, "drawable", binding.getRoot().getContext().getPackageName());
+                String image = object.getString("i
+                int imgID = getResources().getIdentifier(image, "pokemons", binding.getRoot().getContext().getPackageName());
                 // get the type of the pokemon
                 POKEMON_TYPE type1Enum = POKEMON_TYPE.valueOf(type1.substring(0, 1).toUpperCase() + type1.substring(1));
                 POKEMON_TYPE type2Enum = null;
