@@ -39,6 +39,10 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         holder.binding.pokemonName.setText(pokemon.getName());
         String number = "#" + pokemon.getID();
         holder.binding.pokemonId.setText(number);
+
+        holder.binding.pokemonBg.getBackground().setTint(
+                pokemon.getColor()
+        );
     }
 
     @Override
