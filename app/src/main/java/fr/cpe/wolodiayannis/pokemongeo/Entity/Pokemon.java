@@ -21,6 +21,22 @@ public class Pokemon {
     private final int imgID;
     private final int color;
 
+    public Pokemon() {
+        this.ID = 0;
+        this.name = "";
+        this.species = "";
+        this.types = null;
+        this.height = 0;
+        this.weight = 0;
+        this.abilities = null;
+        this.stats = null;
+        this.evolutions = null;
+        this.description = "";
+        this.gen = 0;
+        this.imgID = 0;
+        this.color = 0;
+    }
+
     public Pokemon(
             int ID,
             String name,
