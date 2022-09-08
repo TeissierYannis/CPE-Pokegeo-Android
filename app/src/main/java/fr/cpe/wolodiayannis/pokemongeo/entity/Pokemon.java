@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.Entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 import java.util.List;
 

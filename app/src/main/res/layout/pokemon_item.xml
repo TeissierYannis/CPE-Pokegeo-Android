@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data/>
+    <data>
+        <variable
+            name="pokemonViewModel"
+            type="fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel" />
+    </data>
 
     <RelativeLayout
         android:id="@+id/pokemon_bg"
@@ -20,7 +24,7 @@
             android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/p001"
+            android:src="@{pokemonViewModel.getImage(context, pokemonViewModel.front)}"
             android:contentDescription="@string/pokemon_image_desc" />
         <TextView
             android:id="@+id/pokemon_name"
@@ -28,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/pokemon_image"
             android:layout_centerHorizontal="true"
-            android:text="Bulbasaur"
+            android:text="@{pokemonViewModel.name}"
             android:textColor="@color/text"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -40,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/pokemon_name"
             android:layout_centerHorizontal="true"
-            android:text="001"
+            android:text="@{pokemonViewModel.ID}"
             android:textColor="@color/text"
             android:textSize="20sp"
             android:textStyle="normal"

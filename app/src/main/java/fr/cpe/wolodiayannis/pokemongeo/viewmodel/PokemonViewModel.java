@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.ViewModel;
+package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,8 +9,8 @@ import androidx.databinding.Bindable;
 
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.Entity.Stats;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
@@ -33,9 +33,7 @@ public class PokemonViewModel extends BaseObservable {
     @Bindable
     public int getFront() { return pokemon.getFrontResource(); }
     @Bindable
-    public int getID() {
-        return pokemon.getID();
-    }
+    public String getID() { return ("#" + pokemon.getID()); }
     @Bindable
     public String getName() {
         return pokemon.getName();

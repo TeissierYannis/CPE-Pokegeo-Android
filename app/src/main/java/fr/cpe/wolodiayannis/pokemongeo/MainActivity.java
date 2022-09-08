@@ -1,14 +1,14 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-
-import fr.cpe.wolodiayannis.pokemongeo.Fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
+import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;

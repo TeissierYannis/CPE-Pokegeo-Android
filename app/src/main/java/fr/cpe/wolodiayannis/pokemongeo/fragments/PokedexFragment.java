@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.Fragments;
+package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,13 +19,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.Entity.Stats;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
-import fr.cpe.wolodiayannis.pokemongeo.ListAdapter.PokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.listadapter.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.Utils.JsonFormatter;
+import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
 public class PokedexFragment extends Fragment {
@@ -66,7 +66,7 @@ public class PokedexFragment extends Fragment {
                     weight = Float.parseFloat(sWeight.substring(sWeight.indexOf('(') + 1, sWeight.indexOf("kg")));
                 }
 
-                List<POKEMON_TYPE> types = new ArrayList<POKEMON_TYPE>();
+                List<POKEMON_TYPE> types = new ArrayList<>();
                 for (int j = 0; j < object.getJSONArray("type").length(); j++) {
                     types.add(POKEMON_TYPE.valueOf(object.getJSONArray("type").getString(j)));
                 }

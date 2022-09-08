@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.Entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 public class Stats {
     private final int hp;

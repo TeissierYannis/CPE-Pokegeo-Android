@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.ListAdapter;
+package fr.cpe.wolodiayannis.pokemongeo.listadapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.Entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
 
 public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.ViewHolder> {
     List<Pokemon> pokemonList;
@@ -34,11 +35,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pokemon pokemon = pokemonList.get(position);
-
-        holder.binding.pokemonImage.setImageResource(pokemon.getFrontResource());
-        holder.binding.pokemonName.setText(pokemon.getName());
-        String number = "#" + pokemon.getID();
-        holder.binding.pokemonId.setText(number);
+        holder.viewModel.setPokemon(pokemon);
 
         holder.binding.pokemonBg.getBackground().setTint(
                 pokemon.getColor()
@@ -51,11 +48,15 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final PokemonItemBinding binding;
-
+        private PokemonItemBinding binding;
+        private PokemonViewModel viewModel = new PokemonViewModel();
         ViewHolder(PokemonItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.setPokemonViewModel(viewModel);
         }
     }
 }
+
+
+

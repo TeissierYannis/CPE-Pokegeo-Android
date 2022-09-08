@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.Utils;
+package fr.cpe.wolodiayannis.pokemongeo.utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
