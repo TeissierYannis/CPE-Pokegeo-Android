@@ -23,7 +23,7 @@
                 android:layout_width="50dp"
                 android:src="@drawable/ic_baseline_chevron_left_24"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:contentDescription="@string/go_back_icon"/>
 
             <TextView
@@ -73,10 +73,35 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/pokemon_about"
+                android:id="@+id/pokemon_description_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pokemon_bg"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Description"
+                android:textColor="@color/text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pokemon_description_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pokemon_description_label"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:text="@{pokemonViewModel.description}"
+                android:textColor="@color/text"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/pokemon_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pokemon_description_value"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/pokemon_details_about"
@@ -374,7 +399,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
+                android:max="780"
                 android:progress="@{pokemonViewModel.stats.total}" />
         </RelativeLayout>
     </ScrollView>

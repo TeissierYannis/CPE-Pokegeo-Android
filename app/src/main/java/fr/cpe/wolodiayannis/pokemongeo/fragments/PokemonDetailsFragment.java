@@ -35,13 +35,11 @@ public class PokemonDetailsFragment extends Fragment {
 
         // Get ViewModel data from the bundle
         PokemonViewModel viewModel = new PokemonViewModel();
-        viewModel.setPokemon(pokemon);
-
         // Set ViewModel to the binding
         binding.setPokemonViewModel(viewModel);
 
-
-
+        // Set the pokemon to the ViewModel
+        binding.getPokemonViewModel().setPokemon(pokemon);
         return binding.getRoot();
     }
 }
