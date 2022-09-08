@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
                 int gen = object.getInt("gen");
 
                 List<POKEMON_ABILITIES> abilities = new ArrayList<>();
+                for (int j = 0; j < object.getJSONArray("abilities").length(); j++) {
+                    abilities.add(POKEMON_ABILITIES.valueOf(object.getJSONArray("abilities").getString(j).replaceAll(" ", "_")));
+                }
                 List<Pokemon> evolutions = new ArrayList<>();
 
                 pokemonList.add(

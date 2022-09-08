@@ -75,7 +75,9 @@ public class PokemonViewModel extends BaseObservable {
         System.out.println("[PokemonViewModel] abilities: " + pokemon.getAbilities().toString());
         StringBuilder abilities = new StringBuilder();
         pokemon.getAbilities().forEach(ability -> abilities.append(ability.toString()).append(", "));
-        return abilities.toString();
+        // remove last ", "
+        abilities.delete(abilities.length() - 2, abilities.length());
+        return abilities.toString().replaceAll("_", " ");
     }
 
     @Bindable

@@ -5097,7 +5097,7 @@
     "weight": "(2 kg)",
     "abilities": [
       "Static",
-      "Lightningrod"
+      "Lightning Rod"
     ],
     "stats": {
       "hp": 20,
@@ -5669,7 +5669,7 @@
     "weight": "(38 kg)",
     "abilities": [
       "Speed Boost",
-      "Compoundeyes",
+      "Compound_Eyes",
       "Frisk"
     ],
     "stats": {
@@ -7718,7 +7718,7 @@
     "weight": "(31.6 kg)",
     "abilities": [
       "Shield Dust",
-      "Compoundeyes"
+      "Compound_Eyes"
     ],
     "stats": {
       "hp": 60,
@@ -8289,7 +8289,7 @@
     "height": "(0.5m)",
     "weight": "(5.5 kg)",
     "abilities": [
-      "Compoundeyes",
+      "Compound_Eyes",
       "Run Away"
     ],
     "stats": {
@@ -8557,7 +8557,7 @@
     "abilities": [
       "Cute Charm",
       "Normalize",
-      "Wonder Skin "
+      "Wonder Skin"
     ],
     "stats": {
       "hp": 50,
@@ -8584,7 +8584,7 @@
     "abilities": [
       "Cute Charm",
       "Normalize",
-      "Wonder Skin "
+      "Wonder Skin"
     ],
     "stats": {
       "hp": 70,
@@ -8804,7 +8804,7 @@
     "weight": "(15.2 kg)",
     "abilities": [
       "Static",
-      "Lightningrod",
+      "Lightning Rod",
       "Minus"
     ],
     "stats": {
@@ -8831,7 +8831,7 @@
     "weight": "(40.2 kg)",
     "abilities": [
       "Static",
-      "Lightningrod",
+      "Lightning Rod",
       "Minus"
     ],
     "stats": {
@@ -8858,7 +8858,7 @@
     "weight": "(4.2 kg)",
     "abilities": [
       "Plus",
-      "Lightningrod"
+      "Lightning Rod"
     ],
     "stats": {
       "hp": 60,
@@ -12958,7 +12958,7 @@
     "height": "(2.4m)",
     "weight": "(282.8 kg)",
     "abilities": [
-      "Lightningrod",
+      "Lightning Rod",
       "Solid Rock",
       "Reckless"
     ],
@@ -14495,7 +14495,7 @@
     "height": "(0.8m)",
     "weight": "(29.8 kg)",
     "abilities": [
-      "Lightningrod",
+      "Lightning Rod",
       "Motor Drive",
       "Sap Sipper"
     ],
@@ -14522,7 +14522,7 @@
     "height": "(1.6m)",
     "weight": "(79.5 kg)",
     "abilities": [
-      "Lightningrod",
+      "Lightning Rod",
       "Motor Drive",
       "Sap Sipper"
     ],
@@ -15569,7 +15569,7 @@
     "height": "(1.4m)",
     "weight": "(14 kg)",
     "abilities": [
-      "Wonder Skin ",
+      "Wonder Skin",
       "Magic Guard",
       "Tinted Lens"
     ],
@@ -16487,7 +16487,7 @@
     "height": "(0.1m)",
     "weight": "(0.6 kg)",
     "abilities": [
-      "Compoundeyes",
+      "Compound Eyes",
       "Unnerve",
       "Swarm"
     ],
@@ -16515,7 +16515,7 @@
     "height": "(0.8m)",
     "weight": "(14.3 kg)",
     "abilities": [
-      "Compoundeyes",
+      "Compound_Eyes",
       "Unnerve",
       "Swarm"
     ],
@@ -18344,7 +18344,7 @@
     "weight": "(2.5 kg)",
     "abilities": [
       "Shield Dust",
-      "Compoundeyes",
+      "Compound_Eyes",
       "Friend Guard"
     ],
     "stats": {
@@ -18398,7 +18398,7 @@
     "weight": "(17 kg)",
     "abilities": [
       "Shield Dust",
-      "Compoundeyes",
+      "Compound_Eyes",
       "Friend Guard"
     ],
     "stats": {
@@ -21382,7 +21382,7 @@
     "weight": "(3.3 kg)",
     "abilities": [
       "Iron Barbs",
-      "Lightningrod",
+      "Lightning Rod",
       "Sturdy"
     ],
     "stats": {
@@ -21437,7 +21437,7 @@
     "abilities": [
       "Dazzling",
       "Strong Jaw",
-      "Wonder Skin "
+      "Wonder Skin"
     ],
     "stats": {
       "hp": 68,
@@ -22016,7 +22016,7 @@
     "height": "(1m)",
     "weight": "(80.5 kg)",
     "abilities": [
-      "Soul-Heart"
+      "Soul Heart"
     ],
     "stats": {
       "hp": 80,
