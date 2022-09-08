@@ -25,10 +25,13 @@ import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.listadapter.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
 public class PokedexFragment extends Fragment {
+
+    private PokedexListenerInterface listener;
 
     @Nullable
     @Override
@@ -40,7 +43,7 @@ public class PokedexFragment extends Fragment {
 
         List<Pokemon> pokemonList = new ArrayList<>();
 
-        PokemonListAdapter adapter = new PokemonListAdapter(pokemonList);
+        PokemonListAdapter adapter = new PokemonListAdapter(pokemonList, listener);
 
         InputStreamReader isr = new InputStreamReader(getResources().openRawResource(R.raw.pokemon_stats));
         JsonFormatter jsonFormatter = new JsonFormatter(isr);
@@ -115,5 +118,9 @@ public class PokedexFragment extends Fragment {
         binding.pokemonList.setAdapter(adapter);
 
         return binding.getRoot();
+    }
+
+    public void setPokedexListenerInterface(PokedexListenerInterface listener) {
+        this.listener = listener;
     }
 }
