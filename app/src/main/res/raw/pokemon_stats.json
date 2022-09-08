@@ -849,7 +849,7 @@
   },
   {
     "id": "029",
-    "name": "NidoranÃ¢â„¢â‚¬",
+    "name": "Nidoran ♀",
     "species": "Poison Pin Pokemon",
     "type": [
       "Poison"
@@ -871,7 +871,7 @@
       "total": 275
     },
     "evolution": [
-      "NidoranÃ¢â„¢â‚¬",
+      "Nidoran ♀",
       "Nidorina",
       "Nidoqueen"
     ],
@@ -902,7 +902,7 @@
       "total": 365
     },
     "evolution": [
-      "NidoranÃ¢â„¢â‚¬",
+      "Nidoran ♀",
       "Nidorina",
       "Nidoqueen"
     ],
@@ -934,7 +934,7 @@
       "total": 505
     },
     "evolution": [
-      "NidoranÃ¢â„¢â‚¬",
+      "Nidoran ♀",
       "Nidorina",
       "Nidoqueen"
     ],
@@ -943,7 +943,7 @@
   },
   {
     "id": "032",
-    "name": "NidoranÃ¢â„¢â€š",
+    "name": "Nidoran ♂",
     "species": "Poison Pin Pokemon",
     "type": [
       "Poison"
@@ -965,7 +965,7 @@
       "total": 273
     },
     "evolution": [
-      "NidoranÃ¢â„¢â€š",
+      "Nidoran ♂",
       "Nidorino",
       "Nidoking"
     ],
@@ -996,7 +996,7 @@
       "total": 365
     },
     "evolution": [
-      "NidoranÃ¢â„¢â€š",
+      "Nidoran ♂",
       "Nidorino",
       "Nidoking"
     ],
@@ -1028,7 +1028,7 @@
       "total": 505
     },
     "evolution": [
-      "NidoranÃ¢â„¢â€š",
+      "Nidoran ♂",
       "Nidorino",
       "Nidoking"
     ],
@@ -22029,6 +22029,226 @@
     },
     "evolution": [],
     "description": "Description not available yet",
+    "gen": 7
+  },
+  {
+    "name": "Marshadow",
+    "species": "Gloomdweller Pokemon",
+    "id": "802",
+    "type": [
+      "Fighting",
+      "Ghost"
+    ],
+    "height": "(0.7m)",
+    "weight": "(22.2 kg)",
+    "abilities": [
+      "Technician"
+    ],
+    "stats": {
+      "hp": 90,
+      "attack": 125,
+      "defense": 80,
+      "sp.atk": 90,
+      "sp.def": 90,
+      "speed": 125,
+      "total": 600
+    },
+    "evolution": [],
+    "description": "It slips into the shadows of others and mimics their powers and movements. As it improves, it becomes stronger than those it’s imitating.",
+    "gen": 7
+  },
+  {
+    "name": "Poipole",
+    "species": "Poison Pin Pokemon",
+    "id": "803",
+    "type": [
+      "Poison"
+    ],
+    "height": "(0.6m)",
+    "weight": "(1.8 kg)",
+    "abilities": [
+      "Beast Boost"
+    ],
+    "stats": {
+      "hp": 67,
+      "attack": 73,
+      "defense": 67,
+      "sp.atk": 73,
+      "sp.def": 67,
+      "speed": 73,
+      "total": 420
+    },
+    "evolution": [
+      "Poipole",
+      "Naganadel"
+    ],
+    "description": "This Ultra Beast is well enough liked to be chosen as a first partner in its own world.",
+    "gen": 7
+  },
+  {
+    "name": "Naganadel",
+    "species": "Poison Pin Pokemon",
+    "id": "804",
+    "type": [
+      "Poison",
+      "Dragon"
+    ],
+    "height": "(3.6m)",
+    "weight": "(150.0 kg)",
+    "abilities": [
+      "Beast Boost"
+    ],
+    "stats": {
+      "hp": 73,
+      "attack": 73,
+      "defense": 73,
+      "sp.atk": 127,
+      "sp.def": 73,
+      "speed": 121,
+      "total": 540
+    },
+    "evolution": [
+      "Poipole",
+      "Naganadel"
+    ],
+    "description": "It stores hundreds of liters of poisonous liquid inside its body. It is one of the organisms known as UBs.",
+    "gen": 7
+  },
+  {
+    "name": "Stakataka",
+    "species": "Rampart Pokemon",
+    "id": "805",
+    "type": [
+      "Rock",
+      "Steel"
+    ],
+    "height": "(5.5m)",
+    "weight": "(820.0 kg)",
+    "abilities": [
+      "Beast Boost"
+    ],
+    "stats": {
+      "hp": 61,
+      "attack": 131,
+      "defense": 211,
+      "sp.atk": 53,
+      "sp.def": 101,
+      "speed": 13,
+      "total": 570
+    },
+    "evolution": [],
+    "description": "It appeared from an Ultra Wormhole. Each one appears to be made up of many life-forms stacked one on top of each other.",
+    "gen": 7
+  },
+  {
+"name": "Blacephalon",
+    "species": "Fireworks Pokemon",
+    "id": "806",
+    "type": [
+      "Fire",
+      "Ghost"
+    ],
+    "height": "(1.8m)",
+    "weight": "(13.0 kg)",
+    "abilities": [
+      "Beast Boost"
+    ],
+    "stats": {
+      "hp": 53,
+      "attack": 127,
+      "defense": 53,
+      "sp.atk": 151,
+      "sp.def": 79,
+      "speed": 107,
+      "total": 570
+    },
+    "evolution": [],
+    "description": "It appeared from an Ultra Wormhole. It is said to be a manifestation of the dreams of people long dead.",
+    "gen": 7
+  },
+  {
+    "name": "Zeraora",
+    "species": "Thunderclap Pokemon",
+    "id": "807",
+    "type": [
+      "Electric"
+    ],
+    "height": "(1.5m)",
+    "weight": "(44.5 kg)",
+    "abilities": [
+      "Volt Absorb"
+    ],
+    "stats": {
+      "hp": 88,
+      "attack": 112,
+      "defense": 75,
+      "sp.atk": 102,
+      "sp.def": 80,
+      "speed": 143,
+      "total": 600
+    },
+    "evolution": [],
+    "description": "It can run at speeds of over 6,200 mph. It can create thunderclouds by running through the atmosphere at high speed.",
+    "gen": 7
+  },
+  {
+    "name": "Meltan",
+    "species": "Hex Nut Pokemon",
+    "id": "808",
+    "type": [
+      "Steel"
+    ],
+    "height": "(0.2m)",
+    "weight": "(8.0 kg)",
+    "abilities": [
+      "Magnet Pull",
+      "Sturdy",
+      "Analytic"
+    ],
+    "stats": {
+      "hp": 46,
+      "attack": 65,
+      "defense": 65,
+      "sp.atk": 55,
+      "sp.def": 35,
+      "speed": 34,
+      "total": 300
+    },
+    "evolution": [
+      "Meltan",
+      "Melmetal"
+    ],
+    "description": "It is a mysterious Pokémon that appeared from a meteorite. It is made of a metal that is unknown on Earth.",
+    "gen": 7
+  },
+  {
+"name": "Melmetal",
+    "species": "Hex Nut Pokemon",
+    "id": "809",
+    "type": [
+      "Steel"
+    ],
+    "height": "(2.5m)",
+    "weight": "(800.0 kg)",
+    "abilities": [
+      "Iron Fist",
+      "Sturdy",
+      "Analytic"
+    ],
+    "stats": {
+      "hp": 135,
+      "attack": 143,
+      "defense": 143,
+      "sp.atk": 80,
+      "sp.def": 65,
+      "speed": 34,
+      "total": 600
+    },
+    "evolution": [
+      "Meltan",
+      "Melmetal"
+    ],
+    "description": "It is a Pokémon that was created by humans using the power of science. It is made of a metal that is unknown on Earth.",
     "gen": 7
   }
 ]
