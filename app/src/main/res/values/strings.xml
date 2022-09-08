@@ -3,4 +3,18 @@
     <string name="pokedex_title">Pokédex</string>
     <string name="pokedex_subtitle">Search for a Pokémon</string>
     <string name="pokemon_image_desc">Pokémon Image</string>
+    <string name="pokemon_details_about">About</string>
+    <string name="pokemon_details_species">Species</string>
+    <string name="pokemon_details_height">Height</string>
+    <string name="pokemon_details_weight">Weight</string>
+    <string name="pokemon_details_abilities">Abilities</string>
+    <string name="pokemon_details_stats">Stats</string>
+    <string name="pokemon_details_hp">HP</string>
+    <string name="pokemon_details_attack">Attack</string>
+    <string name="pokemon_details_defense">Defense</string>
+    <string name="pokemon_details_sp_atk">Sp.Atk</string>
+    <string name="pokemon_details_sp_def">Sp.Def</string>
+    <string name="pokemon_details_speed">Speed</string>
+    <string name="pokemon_details_total">Total</string>
+    <string name="go_back_icon">Go Back Icon</string>
 </resources>
