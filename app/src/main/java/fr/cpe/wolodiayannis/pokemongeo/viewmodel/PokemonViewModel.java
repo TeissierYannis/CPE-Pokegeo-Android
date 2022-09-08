@@ -2,10 +2,13 @@ package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
 
 import java.util.List;
 
@@ -23,7 +26,7 @@ public class PokemonViewModel extends BaseObservable {
     }
 
     public Drawable getImage(Context context, int res) {
-        if(res != -1)
+        if (res != -1)
             return ResourcesCompat.getDrawable(context.getResources(),
                     res, context.getTheme());
         else
@@ -31,49 +34,70 @@ public class PokemonViewModel extends BaseObservable {
     }
 
     @Bindable
-    public int getFront() { return pokemon.getFrontResource(); }
+    public int getFront() {
+        return pokemon.getFrontResource();
+    }
+
     @Bindable
-    public String getID() { return ("#" + pokemon.getID()); }
+    public String getID() {
+        return ("#" + pokemon.getID());
+    }
+
     @Bindable
     public String getName() {
         return pokemon.getName();
     }
+
     @Bindable
     public String getSpecies() {
         return pokemon.getSpecies();
     }
+
     @Bindable
     public List<POKEMON_TYPE> getTypes() {
         return pokemon.getTypes();
     }
+
     @Bindable
-    public float getHeight() {
-        return pokemon.getHeight();
+    public String getHeight() {
+        return (pokemon.getHeight() + " m");
     }
+
     @Bindable
-    public float getWeight() {
-        return pokemon.getWeight();
+    public String getWeight() {
+        return (pokemon.getWeight() + " kg");
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Bindable
-    public List<POKEMON_ABILITIES> getAbilities() {
-        return pokemon.getAbilities();
+    public String getAbilities() {
+        // convert abilities to string
+        System.out.println("[PokemonViewModel] abilities: " + pokemon.getAbilities().toString());
+        StringBuilder abilities = new StringBuilder();
+        pokemon.getAbilities().forEach(ability -> abilities.append(ability.toString()).append(", "));
+        return abilities.toString();
     }
+
     @Bindable
     public Stats getStats() {
         return pokemon.getStats();
     }
+
     @Bindable
     public List<Pokemon> getEvolutions() {
         return pokemon.getEvolutions();
     }
+
     @Bindable
     public String getDescription() {
         return pokemon.getDescription();
     }
+
     @Bindable
     public int getGen() {
         return pokemon.getGen();
     }
+
     @Bindable
     public int getColor() {
         return pokemon.getColor();

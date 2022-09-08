@@ -14,12 +14,11 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         showStartup();
     }
 
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         PokedexFragment fragment = new PokedexFragment();
 
         PokedexListenerInterface listener = this::showPokemonDetails;
-
         fragment.setPokedexListenerInterface(listener);
 
         transaction.replace(R.id.fragment_container, fragment);
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private void showPokemonDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        PokemonDetailsFragment fragment = new PokemonDetailsFragment();
+        PokemonDetailsFragment fragment = new PokemonDetailsFragment(pokemon);
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();

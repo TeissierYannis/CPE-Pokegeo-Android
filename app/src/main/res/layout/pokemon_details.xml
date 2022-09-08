@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -13,7 +15,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/back_arrow"
@@ -103,7 +105,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
-                android:text="Seed"
+                android:text="@{pokemonViewModel.species}"
                 android:textColor="@color/text"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -129,7 +131,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
-                android:text="2'3ft"
+                android:text="@{pokemonViewModel.height}"
                 android:textColor="@color/text"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -155,7 +157,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
-                android:text="2'3ft"
+                android:text="@{pokemonViewModel.weight}"
                 android:textColor="@color/text"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -181,7 +183,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
-                android:text="Overgrowth, Chlorophyl"
+                android:text="@{pokemonViewModel.abilities}"
                 android:textColor="@color/text"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -222,8 +224,8 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
-                android:progress="50" />
+                android:max="255"
+                android:progress="@{pokemonViewModel.stats.hp}" />
 
             <TextView
                 android:id="@+id/pokemon_attack_label"
@@ -247,8 +249,8 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
-                android:progress="50" />
+                android:max="210"
+                android:progress="@{pokemonViewModel.stats.attack}" />
 
             <TextView
                 android:id="@+id/pokemon_defense_label"
@@ -272,8 +274,8 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
-                android:progress="50" />
+                android:max="250"
+                android:progress="@{pokemonViewModel.stats.defense}" />
 
             <TextView
                 android:id="@+id/pokemon_spattack_label"
@@ -297,8 +299,8 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
-                android:progress="50" />
+                android:max="194"
+                android:progress="@{pokemonViewModel.stats.specialAttack}" />
 
             <TextView
                 android:id="@+id/pokemon_spdefense_label"
@@ -322,8 +324,8 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
-                android:progress="50" />
+                android:max="250"
+                android:progress="@{pokemonViewModel.stats.specialDefense}" />
 
             <TextView
                 android:id="@+id/pokemon_speed_label"
@@ -347,8 +349,8 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:max="100"
-                android:progress="50" />
+                android:max="200"
+                android:progress="@{pokemonViewModel.stats.speed}" />
 
             <TextView
                 android:id="@+id/pokemon_total_label"
@@ -373,7 +375,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="100"
-                android:progress="50" />
+                android:progress="@{pokemonViewModel.stats.total}" />
         </RelativeLayout>
     </ScrollView>
 </layout>
