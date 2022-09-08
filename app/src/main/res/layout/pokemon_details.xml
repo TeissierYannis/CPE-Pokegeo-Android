@@ -15,6 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/back_arrow"
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:src="@drawable/ic_baseline_chevron_left_24"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="@string/go_back_icon"/>
+
             <TextView
                 android:id="@+id/pokemon_name"
                 android:layout_width="wrap_content"
@@ -68,7 +77,7 @@
                 android:layout_below="@id/pokemon_bg"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="About"
+                android:text="@string/pokemon_details_about"
                 android:textColor="@color/text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -81,7 +90,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Species"
+                android:text="@string/pokemon_details_species"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -107,7 +116,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Height"
+                android:text="@string/pokemon_details_height"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -133,7 +142,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Weight"
+                android:text="@string/pokemon_details_weight"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -159,7 +168,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Abilities"
+                android:text="@string/pokemon_details_abilities"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -186,7 +195,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:text="Stats"
+                android:text="@string/pokemon_details_stats"
                 android:textColor="@color/text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -199,7 +208,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="HP"
+                android:text="@string/pokemon_details_hp"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -224,7 +233,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Attack"
+                android:text="@string/pokemon_details_attack"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -249,7 +258,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Defense"
+                android:text="@string/pokemon_details_defense"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -274,7 +283,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Sp.Atk"
+                android:text="@string/pokemon_details_sp_atk"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -299,7 +308,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Sp.Def"
+                android:text="@string/pokemon_details_sp_def"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -324,7 +333,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Speed"
+                android:text="@string/pokemon_details_speed"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -349,7 +358,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:text="Total"
+                android:text="@string/pokemon_details_total"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"
                 android:textStyle="normal" />
