@@ -15,11 +15,14 @@ import java.util.Objects;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonDetailsBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
 
 public class PokemonDetailsFragment extends Fragment {
 
-    private Pokemon pokemon;
+    private final Pokemon pokemon;
+    private BackArrowListenerInterface listener;
 
     public PokemonDetailsFragment(Pokemon pokemon) {
         this.pokemon = pokemon;
@@ -37,9 +40,18 @@ public class PokemonDetailsFragment extends Fragment {
         PokemonViewModel viewModel = new PokemonViewModel();
         // Set ViewModel to the binding
         binding.setPokemonViewModel(viewModel);
-
+        binding.backArrow.setOnClickListener(v -> listener.onBackArrowClicked());
         // Set the pokemon to the ViewModel
         binding.getPokemonViewModel().setPokemon(pokemon);
+
+        binding.pokemonBg.getBackground().setTint(
+                pokemon.getColor()
+        );
+
         return binding.getRoot();
+    }
+
+    public void setBackArrowListenerInterface(BackArrowListenerInterface backArrowListener) {
+        this.listener = backArrowListener;
     }
 }
