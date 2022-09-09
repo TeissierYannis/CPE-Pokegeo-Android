@@ -46,14 +46,14 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Pokemon pokemon = dataset.get(position);
-            holder.viewModel.setPokemon(pokemon);
+        Pokemon pokemon = dataset.get(position);
+        holder.viewModel.setPokemon(pokemon);
 
-            holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
+        holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
 
-            holder.binding.pokemonBg.getBackground().setTint(
-                    pokemon.getColor()
-            );
+        holder.binding.pokemonBg.getBackground().setTint(
+                pokemon.getColor()
+        );
     }
 
     @Override
