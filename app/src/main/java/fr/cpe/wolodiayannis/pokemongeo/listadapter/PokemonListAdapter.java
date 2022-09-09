@@ -1,5 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.listadapter;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,19 +46,19 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Pokemon pokemon = dataset.get(position);
-        holder.viewModel.setPokemon(pokemon);
+            Pokemon pokemon = dataset.get(position);
+            holder.viewModel.setPokemon(pokemon);
 
-        holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
+            holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
 
-        holder.binding.pokemonBg.getBackground().setTint(
-                pokemon.getColor()
-        );
+            holder.binding.pokemonBg.getBackground().setTint(
+                    pokemon.getColor()
+            );
     }
 
     @Override
     public int getItemCount() {
-        return pokemonList.size();
+        return dataset.size();
     }
 
     @Override
@@ -65,6 +67,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     }
 
     private final Filter SearchedFilter = new Filter() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList<Pokemon> filteredList = new ArrayList<>();
@@ -74,10 +77,16 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Pokemon pokemon : pokemonList) {
-                    if (pokemon.getName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(pokemon);
-                    }
+                // If filterPattern contains number filter by id
+                if (filterPattern.matches("[0-9]+")) {
+                    int id = Integer.parseInt(filterPattern);
+                    pokemonList.stream()
+                            .filter(pokemon -> pokemon.getID() == id)
+                            .forEach(filteredList::add);
+                } else {
+                    pokemonList.stream()
+                            .filter(pokemon -> pokemon.getName().toLowerCase().contains(filterPattern))
+                            .forEach(filteredList::add);
                 }
             }
 

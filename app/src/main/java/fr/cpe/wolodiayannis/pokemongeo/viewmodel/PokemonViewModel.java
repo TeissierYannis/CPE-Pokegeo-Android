@@ -27,8 +27,12 @@ public class PokemonViewModel extends BaseObservable {
 
     public Drawable getImage(Context context, int res) {
         if (res != -1)
-            return ResourcesCompat.getDrawable(context.getResources(),
-                    res, context.getTheme());
+            try {
+                return ResourcesCompat.getDrawable(context.getResources(),
+                        res, context.getTheme());
+            } catch (Exception e) {
+                return null;
+            }
         else
             return null;
     }
