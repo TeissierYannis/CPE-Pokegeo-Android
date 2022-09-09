@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/map"
+        android:title=""/>
+    <item
+        android:id="@+id/pokedex"
+        android:icon="@drawable/pokedex"
+        android:title=""/>
+    <item
+        android:id="@+id/inventory"
+        android:icon="@drawable/bag"
+        android:title="" />
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/pokeball"
+        android:title="" />
+</menu>

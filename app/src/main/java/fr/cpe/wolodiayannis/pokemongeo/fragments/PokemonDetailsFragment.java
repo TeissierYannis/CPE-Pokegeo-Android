@@ -35,19 +35,18 @@ public class PokemonDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         PokemonDetailsBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokemon_details, container, false);
-
         // Get ViewModel data from the bundle
         PokemonViewModel viewModel = new PokemonViewModel();
         // Set ViewModel to the binding
         binding.setPokemonViewModel(viewModel);
-        binding.backArrow.setOnClickListener(v -> listener.onBackArrowClicked());
         // Set the pokemon to the ViewModel
         binding.getPokemonViewModel().setPokemon(pokemon);
-
+        // Set event listener on the back arrow
+        binding.backArrow.setOnClickListener(v -> listener.onBackArrowClicked());
+        // Define the bg color's
         binding.pokemonBg.getBackground().setTint(
                 pokemon.getColor()
         );
-
         binding.pokemonHpValue.getProgressDrawable().setTint(
                 pokemon.getColor()
         );

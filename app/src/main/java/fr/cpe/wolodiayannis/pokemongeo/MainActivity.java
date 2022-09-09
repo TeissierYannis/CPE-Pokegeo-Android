@@ -7,6 +7,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +43,26 @@ public class MainActivity extends AppCompatActivity {
         pokemons = fetchPokemons();
 
         showStartup();
+
+        BottomNavigationView navView = findViewById(R.id.bottomNav);
+
+        navView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.map:
+                    // TODO
+                    break;
+                case R.id.inventory:
+                    //
+                    break;
+                case R.id.pokedex:
+                    showStartup();
+                    break;
+                case R.id.setting:
+                    //
+                    break;
+            }
+            return true;
+        });
     }
 
     public void showStartup() {
