@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,20 @@ public class PokedexFragment extends Fragment {
         PokemonListAdapter adapter = new PokemonListAdapter(MainActivity.getPokemonList(), listener);
 
         binding.pokemonList.setAdapter(adapter);
+
+        // search bar : pokedex_search
+        binding.pokedexSearch.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return binding.getRoot();
     }

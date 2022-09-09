@@ -401,7 +401,8 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:max="780"
-                android:progress="@{pokemonViewModel.stats.total}" />
+                android:progress="@{pokemonViewModel.stats.total}"
+                />
         </RelativeLayout>
     </ScrollView>
 </layout>

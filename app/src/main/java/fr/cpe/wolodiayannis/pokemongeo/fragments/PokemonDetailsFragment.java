@@ -48,6 +48,28 @@ public class PokemonDetailsFragment extends Fragment {
                 pokemon.getColor()
         );
 
+        binding.pokemonHpValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+        binding.pokemonAttackValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+        binding.pokemonDefenseValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+        binding.pokemonSpattackValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+        binding.pokemonSpdefenseValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+        binding.pokemonSpeedValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+        binding.pokemonTotalValue.getProgressDrawable().setTint(
+                pokemon.getColor()
+        );
+
         return binding.getRoot();
     }
 
