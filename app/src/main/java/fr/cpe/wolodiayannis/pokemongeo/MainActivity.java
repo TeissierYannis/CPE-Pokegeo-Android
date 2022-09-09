@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        }
+        };
 
         binding.bottomNavigation.setOnItemSelectedListener(listener);
 

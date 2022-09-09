@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -24,6 +23,7 @@
                 android:src="@drawable/ic_baseline_chevron_left_24"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
+                app:tint="?colorOnPrimary"
                 android:contentDescription="@string/go_back_icon"/>
 
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:text="@{pokemonViewModel.name}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                 android:layout_below="@id/pokemon_name"
                 android:layout_centerHorizontal="true"
                 android:text="@{pokemonViewModel.ID}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
@@ -80,7 +80,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="Description"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@{pokemonViewModel.description}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -105,7 +105,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/pokemon_details_about"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -118,7 +118,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_species"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -131,7 +131,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.species}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -144,7 +144,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_height"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -157,7 +157,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.height}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -170,7 +170,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_weight"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -183,7 +183,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.weight}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -196,7 +196,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_abilities"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -209,7 +209,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.abilities}"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -223,7 +223,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/pokemon_details_stats"
-                android:textColor="@color/text"
+                android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -236,7 +236,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_hp"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -261,7 +261,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_attack"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -286,7 +286,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_defense"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -311,7 +311,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_sp_atk"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -336,7 +336,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_sp_def"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -361,7 +361,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_speed"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -386,7 +386,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/pokemon_details_total"
-                android:textColor="@color/text_gray"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 

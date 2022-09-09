@@ -33,7 +33,7 @@
             android:layout_below="@id/pokemon_image"
             android:layout_centerHorizontal="true"
             android:text="@{pokemonViewModel.name}"
-            android:textColor="@color/text"
+            android:textColor="?colorOnPrimary"
             android:textSize="22sp"
             android:textStyle="bold"
             />
@@ -45,7 +45,7 @@
             android:layout_below="@id/pokemon_name"
             android:layout_centerHorizontal="true"
             android:text="@{pokemonViewModel.ID}"
-            android:textColor="@color/text"
+            android:textColor="?colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="normal"
             />
