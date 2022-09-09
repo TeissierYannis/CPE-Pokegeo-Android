@@ -1,13 +1,15 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,12 +42,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        binding.bottomNavigation.setItemIconTintList(null);
+
+        NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                switch (item.getItemId()) {
+                    case R.id.map:
+                        // TODO
+                        break;
+                    case R.id.pokedex:
+                        showPokedex();
+                        break;
+                    case R.id.inventory:
+                        // TODO
+                        break;
+                    case R.id.caught:
+                        // TODO
+                        break;
+                }
+                return true;
+            }
+        };
+
         pokemons = fetchPokemons();
 
-        showStartup();
+        showPokedex();
     }
 
-    public void showStartup() {
+    public void showPokedex() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         PokedexFragment fragment = new PokedexFragment();
@@ -62,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         PokemonDetailsFragment fragment = new PokemonDetailsFragment(pokemon);
 
-        BackArrowListenerInterface backArrowListener = this::showStartup;
+        BackArrowListenerInterface backArrowListener = this::showPokedex;
         fragment.setBackArrowListenerInterface(backArrowListener);
 
         transaction.replace(R.id.fragment_container, fragment);
