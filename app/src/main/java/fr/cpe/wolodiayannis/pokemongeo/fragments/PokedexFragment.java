@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
-import fr.cpe.wolodiayannis.pokemongeo.listadapter.PokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;

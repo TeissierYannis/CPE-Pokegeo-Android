@@ -23,6 +23,7 @@ import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
+import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         showPokedex();
                         break;
                     case R.id.inventory:
-                        // TODO
+                        showInventory();
                         break;
                     case R.id.caught:
                         // TODO
@@ -93,6 +94,15 @@ public class MainActivity extends AppCompatActivity {
 
         BackArrowListenerInterface backArrowListener = this::showPokedex;
         fragment.setBackArrowListenerInterface(backArrowListener);
+
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
+    public void showInventory() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        InventoryFragment fragment = new InventoryFragment();
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();

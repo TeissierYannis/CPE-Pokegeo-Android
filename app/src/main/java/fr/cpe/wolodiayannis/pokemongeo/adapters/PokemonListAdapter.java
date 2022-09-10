@@ -1,8 +1,7 @@
-package fr.cpe.wolodiayannis.pokemongeo.listadapter;
+package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
 import android.os.Build;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -103,7 +102,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             notifyDataSetChanged();
         }
     };
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final PokemonItemBinding binding;
