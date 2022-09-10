@@ -27,8 +27,20 @@ public class CaughtInventory {
         return this.caughtPokemonInventory;
     }
 
+    public CaughtInventory addCaughtPokemon(Pokemon pokemon, int quantity) {
+        if (this.pokemonIsCaught(pokemon)) {
+            this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).addQuantity(quantity);
+        } else {
+            if (!this.caughtPokemonInventoryIsFull()) {
+                pokemon.addQuantity(quantity);
+                this.caughtPokemonInventory.add(pokemon);
+            }
+        }
+        return this;
+    }
+
     public CaughtInventory removeCaughtPokemon(Pokemon pokemon, int quantity) {
-        if (this.PokemonIsCaught(pokemon)) {
+        if (this.pokemonIsCaught(pokemon)) {
             this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).removeQuantity(quantity);
             if (this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).getQuantity() == 0) {
                 this.caughtPokemonInventory.remove(pokemon);
@@ -40,7 +52,7 @@ public class CaughtInventory {
     }
 
     public int getCaughtPokemonQuantity(Pokemon pokemon) {
-        if (this.PokemonIsCaught(pokemon)) {
+        if (this.pokemonIsCaught(pokemon)) {
             return this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).getQuantity();
         }
         throw new RuntimeException("The pokemon wasn't caught");
@@ -54,7 +66,7 @@ public class CaughtInventory {
         }
     }
 
-    private boolean PokemonIsCaught(Pokemon pokemon) {
+    private boolean pokemonIsCaught(Pokemon pokemon) {
         for (Pokemon i : caughtPokemonInventory) {
             if (i.getName().equals(pokemon.getName())) {
                 return true;

@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.map:
                         // TODO
@@ -100,6 +98,18 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void showPokemonCaughtDetails(Pokemon pokemon) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        PokemonDetailsFragment fragment = new PokemonDetailsFragment(pokemon);
+
+        BackArrowListenerInterface backArrowListener = this::showCaught;
+        fragment.setBackArrowListenerInterface(backArrowListener);
+
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
     public void showInventory() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -113,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         CaughtFragment fragment = new CaughtFragment();
+
+        PokedexListenerInterface listener = this::showPokemonCaughtDetails;
+        fragment.setPokedexListenerInterface(listener);
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
