@@ -17,4 +17,7 @@
     <string name="pokemon_details_speed">Speed</string>
     <string name="pokemon_details_total">Total</string>
     <string name="go_back_icon">Go Back Icon</string>
+    <string name="inventory_item_img_desc">Inventory Item</string>
+    <string name="inventory_subtitle">Looking for an object ?</string>
+    <string name="inventory_title">Inventory</string>
 </resources>

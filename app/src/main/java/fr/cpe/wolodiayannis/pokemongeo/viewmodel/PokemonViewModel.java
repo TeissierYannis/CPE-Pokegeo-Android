@@ -8,13 +8,11 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.databinding.BindingAdapter;
 
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
 public class PokemonViewModel extends BaseObservable {
@@ -76,7 +74,6 @@ public class PokemonViewModel extends BaseObservable {
     @Bindable
     public String getAbilities() {
         // convert abilities to string
-        System.out.println("[PokemonViewModel] abilities: " + pokemon.getAbilities().toString());
         StringBuilder abilities = new StringBuilder();
         pokemon.getAbilities().forEach(ability -> abilities.append(ability.toString()).append(", "));
         // remove last ", "

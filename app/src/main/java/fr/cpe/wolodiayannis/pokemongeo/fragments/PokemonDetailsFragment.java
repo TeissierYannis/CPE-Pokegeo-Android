@@ -10,13 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import java.util.Objects;
-
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonDetailsBinding;
+import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonDetailsFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
 
 public class PokemonDetailsFragment extends Fragment {
@@ -34,7 +31,7 @@ public class PokemonDetailsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        PokemonDetailsBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokemon_details, container, false);
+        PokemonDetailsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokemon_details_fragment, container, false);
         // Get ViewModel data from the bundle
         PokemonViewModel viewModel = new PokemonViewModel();
         // Set ViewModel to the binding
