@@ -1,10 +1,19 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,9 +23,11 @@ import com.google.android.material.navigation.NavigationBarView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
@@ -25,13 +36,14 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
+import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     static List<Pokemon> pokemons;
 
@@ -44,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, 100);
+
+        }
         binding.bottomNavigation.setItemIconTintList(null);
 
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
@@ -51,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.map:
-                        // TODO
+                        showMap();
                         break;
                     case R.id.pokedex:
                         showPokedex();
@@ -71,7 +93,30 @@ public class MainActivity extends AppCompatActivity {
 
         pokemons = fetchPokemons();
 
-        showPokedex();
+        showMap();
+    }
+
+    private void getLocation() {
+        try {
+            LocationManager lm = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, MainActivity.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void showMap() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        MapFragment fragment = new MapFragment();
+
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
     public void showPokedex() {
@@ -81,6 +126,15 @@ public class MainActivity extends AppCompatActivity {
 
         PokedexListenerInterface listener = this::showPokemonDetails;
         fragment.setPokedexListenerInterface(listener);
+
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
+    public void showInventory() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        InventoryFragment fragment = new InventoryFragment();
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
@@ -105,15 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
         BackArrowListenerInterface backArrowListener = this::showCaught;
         fragment.setBackArrowListenerInterface(backArrowListener);
-
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
-    }
-
-    public void showInventory() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        InventoryFragment fragment = new InventoryFragment();
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
@@ -209,5 +254,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return pokemonList;
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        Toast.makeText(this, location.getLatitude() + " lat, " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+
+        try {
+            Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            String addr = addresses.get(0).getAddressLine(0);
+            System.out.println("[DEBUG :D] " + addr + " - " + location.getLatitude() + " lat, " + location.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
