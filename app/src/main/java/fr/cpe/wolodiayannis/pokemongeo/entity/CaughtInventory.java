@@ -4,30 +4,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CaughtInventory {
-    private final int MAX_CAUGHTED = 1000;
-    private final List<Pokemon> caughtedPokemon;
+    private final int MAX_CAUGHT = 1000;
+    private final List<Pokemon> caughtPokemonInventory;
 
     public CaughtInventory() {
-        this.caughtedPokemon = new ArrayList<>();
+        this.caughtPokemonInventory = new ArrayList<>();
     }
 
-    public Pokemon getPokemon(int index) {
-        if (index < 0 || index >= MAX_CAUGHTED) {
-            throw new InternalError("The index is out of the inventory");
+    public Pokemon getCaughtPokemon(int index) {
+        if (index < 0 || index >= MAX_CAUGHT) {
+            throw new InternalError("The index is out of the caught inventory");
         } else {
-            if (index < caughtedPokemon.size()) {
-                return caughtedPokemon.get(index);
+            if (index < caughtPokemonInventory.size()) {
+                return caughtPokemonInventory.get(index);
             } else {
                 return null;
             }
         }
     }
 
-    public List<Pokemon> getPokemon() {
-        return this.caughtedPokemon;
+    public List<Pokemon> getCaughtPokemon() {
+        return this.caughtPokemonInventory;
     }
 
-    public int getItemQuantity(Pokemon pokemon) {
-            return this.caughtedPokemon.get(this.caughtedPokemon.indexOf(pokemon)).getQuantity();
+    public CaughtInventory removeCaughtPokemon(Pokemon pokemon, int quantity) {
+        if (this.PokemonIsCaught(pokemon)) {
+            this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).removeQuantity(quantity);
+            if (this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).getQuantity() == 0) {
+                this.caughtPokemonInventory.remove(pokemon);
+            }
+        } else {
+            throw new RuntimeException("The pokemon wasn't caught");
+        }
+        return this;
+    }
+
+    public int getCaughtPokemonQuantity(Pokemon pokemon) {
+        if (this.PokemonIsCaught(pokemon)) {
+            return this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).getQuantity();
+        }
+        throw new RuntimeException("The pokemon wasn't caught");
+    }
+
+    private boolean caughtPokemonInventoryIsFull() {
+        if (this.caughtPokemonInventory.size() >= MAX_CAUGHT) {
+            throw new RuntimeException("The caught inventory is full");
+        } else {
+            return false;
+        }
+    }
+
+    private boolean PokemonIsCaught(Pokemon pokemon) {
+        for (Pokemon i : caughtPokemonInventory) {
+            if (i.getName().equals(pokemon.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
