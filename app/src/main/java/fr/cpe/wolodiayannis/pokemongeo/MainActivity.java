@@ -7,21 +7,29 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.config.Configuration;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,7 +51,11 @@ import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity {
+
+    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    private Location currentLocation;
+    private FusedLocationProviderClient fusedLocationClient;
 
     static List<Pokemon> pokemons;
 
@@ -51,21 +63,33 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return pokemons;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Ask for permissions
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                },
+                REQUEST_PERMISSIONS_REQUEST_CODE
+        );
+
+        // init OSMDroid
+        Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fetchLocation();
+
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, 100);
-
-        }
         binding.bottomNavigation.setItemIconTintList(null);
 
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
@@ -94,20 +118,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         pokemons = fetchPokemons();
 
         showMap();
-    }
-
-    private void getLocation() {
-        try {
-            LocationManager lm = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, MainActivity.this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void showMap() {
@@ -256,17 +266,41 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return pokemonList;
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        Toast.makeText(this, location.getLatitude() + " lat, " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-
-        try {
-            Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            String addr = addresses.get(0).getAddressLine(0);
-            System.out.println("[DEBUG :D] " + addr + " - " + location.getLatitude() + " lat, " + location.getLongitude());
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void fetchLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
         }
+
+        Task<Location> locationTask = this.fusedLocationClient.getLastLocation();
+        locationTask.addOnSuccessListener(location -> {
+            if (location != null) {
+                currentLocation = location;
+
+                Toast.makeText(this, "Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+                MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                try {
+                    assert mapFragment != null;
+                    mapFragment.getMapAsync(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fetchLocation();
+            }
+        }
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 }

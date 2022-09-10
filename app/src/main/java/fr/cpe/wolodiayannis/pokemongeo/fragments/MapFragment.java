@@ -11,14 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 import org.osmdroid.api.IMapController;
-import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 
@@ -26,6 +28,7 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 public class MapFragment extends Fragment {
 
     private MapView map;
+    MapFragmentBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Nullable
@@ -34,29 +37,42 @@ public class MapFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        MapFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.map_fragment, container, false);
+        this.binding = DataBindingUtil.inflate(inflater, R.layout.map_fragment, container, false);
 
-        Configuration
-                .getInstance()
-                .load(
-                        getActivity().getApplicationContext(),
-                        PreferenceManager.getDefaultSharedPreferences(
-                                getActivity().getApplicationContext()
-                        )
-                );
-
-        map = binding.map;
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
-        GeoPoint startPoint = new GeoPoint(48.8534, 2.3488);
-
-        // Set the zoom
-        map.getController().setZoom(20f);
-        map.setMinZoomLevel(20d);
-        map.setMaxZoomLevel(30d);
-
-        IMapController mapController = map.getController();
-        mapController.setCenter(startPoint);
+        initMap(binding);
 
         return binding.getRoot();
+    }
+
+    public void getMapAsync(MainActivity mainActivity) {
+        System.out.println("getMapAsync called : " + mainActivity.getCurrentLocation());
+        initMap(binding);
+        // Location to geopoint
+        GeoPoint startPoint = new GeoPoint(mainActivity.getCurrentLocation().getLatitude(), mainActivity.getCurrentLocation().getLongitude());
+        // Center map on current location
+        map.getController().setCenter(startPoint);
+        // Zoom on current location
+
+    }
+
+    // Init map with current location
+    public void initMap(MapFragmentBinding binding) {
+        this.map = binding.map;
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        map.setTilesScaledToDpi(true);
+
+        IMapController mapController = map.getController();
+        // Zoom
+        mapController.setZoom(20.0);
+        map.setMinZoomLevel(20.0);
+        map.setMaxZoomLevel(30.0);
+
+        //MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(
+        //        requireContext()
+        //), map);
+        //mLocationOverlay.enableMyLocation();
+        //map.getOverlays().add(mLocationOverlay);
     }
 }
