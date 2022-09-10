@@ -16,6 +16,7 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
@@ -24,6 +25,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     private final PokedexListenerInterface listener;
     private final List<Pokemon> pokemonList;
     private final ArrayList<Pokemon> dataset;
+    private CaughtInventory caughtInventory;
 
     public PokemonListAdapter(List<Pokemon> pokemonList, PokedexListenerInterface listener) {
         assert pokemonList != null;
@@ -32,6 +34,8 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         this.dataset = new ArrayList<>();
         this.dataset.addAll(pokemonList);
     }
+    
+
 
     @NonNull
     @Override
@@ -102,6 +106,8 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             notifyDataSetChanged();
         }
     };
+    
+    
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final PokemonItemBinding binding;
