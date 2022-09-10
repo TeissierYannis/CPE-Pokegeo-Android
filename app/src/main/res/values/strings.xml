@@ -20,4 +20,7 @@
     <string name="inventory_item_img_desc">Inventory Item</string>
     <string name="inventory_subtitle">Looking for an object ?</string>
     <string name="inventory_title">Inventory</string>
+    <string name="caught_title">Caught</string>
+    <string name="caught_subtitle">Your crazy collection !</string>
+    <string name="caught_pokemon_img_desc">Caught Pokémon</string>
 </resources>

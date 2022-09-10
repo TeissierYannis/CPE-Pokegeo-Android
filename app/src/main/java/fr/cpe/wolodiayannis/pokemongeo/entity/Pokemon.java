@@ -19,7 +19,8 @@ public class Pokemon {
     private final String description;
     private final int gen;
     private final int imgID;
-    private int color;
+    private final int color;
+    private int quantity;
 
     public Pokemon() {
         this.ID = 0;
@@ -186,5 +187,22 @@ public class Pokemon {
 
     public int getColor() {
         return this.color;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
+    public void removeQuantity(int quantity) {
+
+        if (this.quantity - quantity < 0) {
+            throw new RuntimeException("The quantity is superior to the quantity in the inventory");
+        } else {
+            this.quantity -= quantity;
+        }
     }
 }
