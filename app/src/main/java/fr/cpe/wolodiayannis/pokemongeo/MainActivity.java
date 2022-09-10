@@ -23,6 +23,7 @@ import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
+import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                         showInventory();
                         break;
                     case R.id.caught:
-                        // TODO
+                        showCaught();
                         break;
                 }
                 return true;
@@ -103,6 +104,15 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         InventoryFragment fragment = new InventoryFragment();
+
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
+    public void showCaught() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        CaughtFragment fragment = new CaughtFragment();
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();

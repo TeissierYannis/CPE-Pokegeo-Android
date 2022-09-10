@@ -10,6 +10,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
@@ -104,5 +105,10 @@ public class PokemonViewModel extends BaseObservable {
     @Bindable
     public int getColor() {
         return pokemon.getColor();
+    }
+
+    @Bindable
+    public String getQuantity() {
+        return Objects.equals(pokemon.getName(), "") ? "" : String.valueOf(pokemon.getQuantity());
     }
 }
