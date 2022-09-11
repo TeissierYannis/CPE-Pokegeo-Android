@@ -107,17 +107,33 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.map:
+                        // if already on map, do nothing
+                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof MapFragment) {
+                            return true;
+                        }
                         showMap();
                         break;
                     case R.id.pokedex:
+                        // if already on pokedex, do nothing
+                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PokedexFragment) {
+                            return true;
+                        }
                         stopFetchingLocation();
                         showPokedex();
                         break;
                     case R.id.inventory:
+                        // if already on inventory, do nothing
+                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof InventoryFragment) {
+                            return true;
+                        }
                         stopFetchingLocation();
                         showInventory();
                         break;
                     case R.id.caught:
+                        // if already on caught, do nothing
+                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof CaughtFragment) {
+                            return true;
+                        }
                         stopFetchingLocation();
                         showCaught();
                         break;
