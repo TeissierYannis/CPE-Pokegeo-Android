@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         // init listener of the bottom bar to change fragment
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
