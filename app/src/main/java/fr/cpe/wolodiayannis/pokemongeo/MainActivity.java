@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.format.Formatter;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         stopFetchingLocation();
                         showPokedex();
                         break;
-                    case R.id.inventory:
+                    case R.id.itemsInventory:
                         // if already on inventory, do nothing
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof InventoryFragment) {
                             return true;

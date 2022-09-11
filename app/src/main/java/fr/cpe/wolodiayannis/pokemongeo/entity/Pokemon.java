@@ -1,5 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
@@ -9,15 +12,29 @@ import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 /**
  * Pokemon class.
  */
+@DatabaseTable(tableName = "pokemon")
 public class Pokemon {
     /**
      * Pokemon's ID.
      */
+    @DatabaseField(generatedId = true)
     private final int ID;
     /**
      * Pokemon's name.
      */
+    @DatabaseField
     private final String name;
+    /**
+     * Pokemon's height.
+     */
+    @DatabaseField
+    private final float height;
+    /**
+     * Pokemon's weight.
+     */
+    @DatabaseField
+    private final float weight;
+
     /**
      * Pokemon's species.
      */
@@ -26,14 +43,6 @@ public class Pokemon {
      * Pokemon's type.
      */
     private final List<POKEMON_TYPE> types;
-    /**
-     * Pokemon's height.
-     */
-    private final float height;
-/**
-     * Pokemon's weight.
-     */
-    private final float weight;
     /**
      * Pokemon's abilities.
      */

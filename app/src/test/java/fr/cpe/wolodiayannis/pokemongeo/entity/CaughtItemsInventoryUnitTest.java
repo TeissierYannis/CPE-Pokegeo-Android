@@ -11,7 +11,7 @@ import java.util.List;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
-public class CaughtInventoryUnitTest {
+public class CaughtItemsInventoryUnitTest {
 
 
     public Pokemon createbulba() {

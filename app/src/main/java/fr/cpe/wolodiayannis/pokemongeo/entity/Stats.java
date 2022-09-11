@@ -1,8 +1,11 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Stats class.
  */
+@DatabaseTable(tableName = "stats")
 public class Stats {
     /**
      * Pokemon's HP.

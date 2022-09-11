@@ -1,21 +1,26 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Item class.
- */
-public class Item {
+ */@DatabaseTable(tableName = "items")
+public class Items {
+    /**
+     * Item image id.
+     */
+    @DatabaseField(generatedId = true)
+    private final int frontResource;
     /**
      * Item name.
      */
+    @DatabaseField
     private final String name;
     /**
      * Item description.
      */
     private final String description;
-    /**
-     * Item image id.
-     */
-    private final int frontResource;
     /**
      * Quantity of item.
      * TODO ?
@@ -28,7 +33,7 @@ public class Item {
      * @param description Item description.
      * @param frontResource Item image id.
      */
-    public Item(String name, String description, int frontResource) {
+    public Items(String name, String description, int frontResource) {
         this.name = name;
         this.description = description;
         this.frontResource = frontResource;
@@ -42,12 +47,12 @@ public class Item {
      * @param frontResource Item image id.
      * @return Item.
      */
-    public static Item CREATE(
+    public static Items CREATE(
             String name,
             String description,
             int frontResource
     ) {
-        return new Item(name, description, frontResource);
+        return new Items(name, description, frontResource);
     }
 
     /**

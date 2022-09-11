@@ -1,11 +1,14 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * CaughtInventory class.
  */
+@DatabaseTable(tableName = "caught_inventory")
 public class CaughtInventory {
     /**
      * List of caught pokemon.

@@ -9,7 +9,7 @@ import androidx.databinding.Bindable;
 
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Items;
 
 /**
  * Item View Model.
@@ -19,13 +19,13 @@ public class ItemViewModel extends BaseObservable {
     /**
      * Item.
      */
-    private Item item;
+    private Items item;
 
     /**
      * Set the item.
      * @param item Item.
      */
-    public void setItem(Item item) {
+    public void setItem(Items item) {
         this.item = item;
     }
 

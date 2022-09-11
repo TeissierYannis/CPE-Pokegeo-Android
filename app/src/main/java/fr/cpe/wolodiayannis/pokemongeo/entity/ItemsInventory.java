@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Inventory class.
  */
-public class Inventory {
+public class ItemsInventory {
 
     /**
      * Max slots in the inventory.
@@ -16,12 +16,12 @@ public class Inventory {
     /**
      * List of items in the inventory.
      */
-    private final List<Item> items;
+    private final List<Items> items;
 
     /**
      * Constructor.
      */
-    public Inventory() {
+    public ItemsInventory() {
         this.items = new ArrayList<>(MAX_ITEMS);
     }
 
@@ -39,7 +39,7 @@ public class Inventory {
      * @throws InternalError if index is out of bounds
      * @return item
      */
-    public Item getItem(int position) {
+    public Items getItem(int position) {
         if (position < 0 || position >= MAX_ITEMS) {
             throw new InternalError("The position is out of the inventory");
         } else {
@@ -55,7 +55,7 @@ public class Inventory {
      * Get item list
      * @return item list
      */
-    public List<Item> getItems() {
+    public List<Items> getItems() {
         return this.items;
     }
 
@@ -65,7 +65,7 @@ public class Inventory {
      * @param quantity quantity of the item to add
      * @return instance for chaining.
      */
-    public Inventory addItem(Item item, int quantity) {
+    public ItemsInventory addItem(Items item, int quantity) {
         if (this.itemIsInInventory(item)) {
             this.items.get(this.items.indexOf(item)).addQuantity(quantity);
         } else {
@@ -85,7 +85,7 @@ public class Inventory {
      * @throws RuntimeException if the item is not in the inventory
      * @return instance for chaining.
      */
-    public Inventory removeItem(Item item, int quantity) {
+    public ItemsInventory removeItem(Items item, int quantity) {
         if (this.itemIsInInventory(item)) {
             this.items.get(this.items.indexOf(item)).removeQuantity(quantity);
             if (this.items.get(this.items.indexOf(item)).getQuantity() == 0) {
@@ -104,7 +104,7 @@ public class Inventory {
      * @throws RuntimeException if the item is not in the inventory
      * @return quantity of the item
      */
-    public int getItemQuantity(Item item) {
+    public int getItemQuantity(Items item) {
         if (this.itemIsInInventory(item)) {
             return this.items.get(this.items.indexOf(item)).getQuantity();
         }
@@ -130,8 +130,8 @@ public class Inventory {
      * @param item item to check
      * @return true if the item is in the inventory
      */
-    private boolean itemIsInInventory(Item item) {
-        for (Item i : items) {
+    private boolean itemIsInInventory(Items item) {
+        for (Items i : items) {
             if (i.getName().equals(item.getName())) {
                 return true;
             }

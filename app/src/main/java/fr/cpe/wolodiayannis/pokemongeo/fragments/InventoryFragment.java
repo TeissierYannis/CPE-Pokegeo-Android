@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.InventoryListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryFragmentBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Inventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.ItemsInventory;
 
 /**
  * Inventory Fragment.
@@ -41,7 +41,7 @@ public class InventoryFragment extends Fragment {
 
         // new adapter
         InventoryListAdapter adapter = new InventoryListAdapter(
-                new Inventory(),
+                new ItemsInventory(),
                 getContext()
         );
         // bind adapter to recycler view
