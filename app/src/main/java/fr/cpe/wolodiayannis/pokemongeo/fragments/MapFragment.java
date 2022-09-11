@@ -28,6 +28,7 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 public class MapFragment extends Fragment {
 
     private MapView map;
+    private IMapController mapController;
     MapFragmentBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -39,40 +40,38 @@ public class MapFragment extends Fragment {
 
         this.binding = DataBindingUtil.inflate(inflater, R.layout.map_fragment, container, false);
 
-        initMap(binding);
+        map = binding.map;
+        map.getTileProvider().getTileCache().clear();
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        map.setTilesScaledToDpi(true);
+
+        mapController = map.getController();
+        // Zoom
+        mapController.setZoom(19.0);
+        //map.setMinZoomLevel(20.0);
+        //map.setMaxZoomLevel(30.0);
+
+        MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(
+                requireContext()
+        ), map);
+
+        mLocationOverlay.enableMyLocation();
+        map.getOverlays().add(mLocationOverlay);
+
+        GeoPoint startPoint = new GeoPoint(41.856614, 6.3522219);
+        mapController.setCenter(startPoint);
+
 
         return binding.getRoot();
     }
 
     public void getMapAsync(MainActivity mainActivity) {
         System.out.println("getMapAsync called : " + mainActivity.getCurrentLocation());
-        initMap(binding);
         // Location to geopoint
         GeoPoint startPoint = new GeoPoint(mainActivity.getCurrentLocation().getLatitude(), mainActivity.getCurrentLocation().getLongitude());
         // Center map on current location
         map.getController().setCenter(startPoint);
-        // Zoom on current location
-
-    }
-
-    // Init map with current location
-    public void initMap(MapFragmentBinding binding) {
-        this.map = binding.map;
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setMultiTouchControls(true);
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
-        map.setTilesScaledToDpi(true);
-
-        IMapController mapController = map.getController();
-        // Zoom
-        mapController.setZoom(20.0);
-        map.setMinZoomLevel(20.0);
-        map.setMaxZoomLevel(30.0);
-
-        //MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(
-        //        requireContext()
-        //), map);
-        //mLocationOverlay.enableMyLocation();
-        //map.getOverlays().add(mLocationOverlay);
     }
 }
