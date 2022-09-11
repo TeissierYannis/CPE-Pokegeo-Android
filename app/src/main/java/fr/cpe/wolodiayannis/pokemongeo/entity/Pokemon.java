@@ -2,6 +2,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
@@ -97,43 +98,43 @@ public class Pokemon {
     public int generateColor() {
         switch (this.types.get(0)) {
             case Normal:
-                return 0xFFA8A878;
+                return BACKGROUND_COLOR.Normal;
             case Fire:
-                return 0xFFF08030;
+                return BACKGROUND_COLOR.Fire;
             case Water:
-                return 0xFF6890F0;
+                return BACKGROUND_COLOR.Water;
             case Electric:
-                return 0xFFF8D030;
+                return BACKGROUND_COLOR.Electric;
             case Grass:
-                return 0xFF78C850;
+                return BACKGROUND_COLOR.Grass;
             case Ice:
-                return 0xFF98D8D8;
+                return BACKGROUND_COLOR.Ice;
             case Fighting:
-                return 0xFFC03028;
+                return BACKGROUND_COLOR.Fighting;
             case Poison:
-                return 0xFFA040A0;
+                return BACKGROUND_COLOR.Poison;
             case Ground:
-                return 0xFFE0C068;
+                return BACKGROUND_COLOR.Ground;
             case Flying:
-                return 0xFFA890F0;
+                return BACKGROUND_COLOR.Flying;
             case Psychic:
-                return 0xFFF85888;
+                return BACKGROUND_COLOR.Psychic;
             case Bug:
-                return 0xFFA8B820;
+                return BACKGROUND_COLOR.Bug;
             case Rock:
-                return 0xFFB8A038;
+                return BACKGROUND_COLOR.Rock;
             case Ghost:
-                return 0xFF705898;
+                return BACKGROUND_COLOR.Ghost;
             case Dragon:
-                return 0xFF7038F8;
+                return BACKGROUND_COLOR.Dragon;
             case Dark:
-                return 0xFF705848;
+                return BACKGROUND_COLOR.Dark;
             case Steel:
-                return 0xFFB8B8D0;
+                return BACKGROUND_COLOR.Steel;
             case Fairy:
-                return 0xFFEE99AC;
+                return BACKGROUND_COLOR.Fairy;
             default:
-                return 0xFF000000;
+                return BACKGROUND_COLOR.Unknown;
         }
     }
 

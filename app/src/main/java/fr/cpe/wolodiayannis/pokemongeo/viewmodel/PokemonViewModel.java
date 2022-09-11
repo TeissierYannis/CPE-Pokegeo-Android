@@ -36,6 +36,9 @@ public class PokemonViewModel extends BaseObservable {
             return null;
     }
 
+    /**
+     * @return the pokemon's image
+     */
     @Bindable
     public int getFront() {
         return pokemon.getFrontResource();

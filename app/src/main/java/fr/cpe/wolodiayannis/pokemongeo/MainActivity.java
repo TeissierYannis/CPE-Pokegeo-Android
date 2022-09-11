@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +14,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.format.Formatter;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setItemIconTintList(null);
 
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -133,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         showMap();
     }
 
+    /**
+     * Fetch the current location of the user
+     */
     public void showMap() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -144,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show the pokedex
+     */
     public void showPokedex() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -156,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show the inventory
+     */
     public void showInventory() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -165,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * On back arrow click, show the pokedex
+     */
     private void showPokemonDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -177,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * On back arrow click, show caught pokemons
+     */
     private void showPokemonCaughtDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -189,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show caught pokemons
+     */
     public void showCaught() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -201,6 +220,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Fetch pokemons from the json file
+     */
     private List<Pokemon> fetchPokemons() {
 
         List<Pokemon> pokemonList = new ArrayList<>();
@@ -280,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
         return pokemonList;
     }
+
 
     public void fetchLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
