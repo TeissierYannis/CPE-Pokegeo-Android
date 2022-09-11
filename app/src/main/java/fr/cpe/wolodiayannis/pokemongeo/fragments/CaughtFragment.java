@@ -18,29 +18,47 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.CaughtFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 
-
+/**
+ * CaughtFragment
+ */
 public class CaughtFragment extends Fragment {
 
+    /**
+     * Listener on click on pokemon
+     */
     private PokedexListenerInterface listener;
 
+    /**
+     * onCreateView.
+     * @param inflater inflater
+     * @param container container
+     * @param savedInstanceState savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        // Bind layout
         CaughtFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.caught_fragment, container, false);
+        // set grid layout
         binding.caughtList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-
+        // New caught inventory
         CaughtInventory caughtInventory = new CaughtInventory();
-
+        // new adapter
         PokemonListAdapter adapter = new PokemonListAdapter(caughtInventory.getCaughtPokemon(), listener);
-
+        // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);
 
         return binding.getRoot();
     }
 
+    /**
+     * set listener
+     * @param listener listener
+     */
     public void setPokedexListenerInterface(PokedexListenerInterface listener) {
         this.listener = listener;
     }

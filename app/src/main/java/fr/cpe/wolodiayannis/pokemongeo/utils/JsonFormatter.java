@@ -7,15 +7,32 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * JsonFormatter
+ */
 public class JsonFormatter {
+    /**
+     * Input Stream Reader.
+     */
     private final InputStreamReader isr;
+    /**
+     * Json Array.
+     */
     private JSONArray array;
 
+    /**
+     * Constructor.
+     *
+     * @param isr Input Stream Reader
+     */
     public JsonFormatter(InputStreamReader isr) {
         this.isr = isr;
         this.format();
     }
 
+    /**
+     * Format the Json.
+     */
     private void format() {
         BufferedReader reader = new BufferedReader(this.isr);
         StringBuilder builder = new StringBuilder();
@@ -39,15 +56,30 @@ public class JsonFormatter {
         }
     }
 
+    /**
+     * Get the Json Array.
+     *
+     * @return Json Array
+     */
     public JSONArray getResult() {
         return this.array;
     }
 
-        public int getSize() {
-            return this.array.length();
-        }
+    /**
+     * Get size of the Json Array.
+     *
+     * @return Size of the Json Array
+     */
+    public int getSize() {
+        return this.array.length();
+    }
 
-
+    /**
+     * Get the Json Object at the given index.
+     *
+     * @param i Index
+     * @return Json Object
+     */
     public JSONObject getResultIndex(int i) {
         JSONObject object = null;
         try {

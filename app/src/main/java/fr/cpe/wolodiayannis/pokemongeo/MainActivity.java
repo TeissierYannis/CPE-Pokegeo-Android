@@ -54,19 +54,47 @@ import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
 
+/**
+ * Main activity of the app.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Request code for permission request.
+     */
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    /**
+     * Actual location.
+     */
     private Location currentLocation;
+    /**
+     * FusedLocationProviderClient.
+     */
     private FusedLocationProviderClient fusedLocationClient;
 
+    /**
+     * Pokemon list.
+     */
     static List<Pokemon> pokemons;
+    /**
+     * Location handler.
+     */
     private Handler locationHandler;
 
+    /**
+     * Get pokemon list
+     *
+     * @return pokemon list
+     */
     public static List<Pokemon> getPokemonList() {
         return pokemons;
     }
 
+    /**
+     * onCreate Activity.
+     *
+     * @param savedInstanceState Bundle
+     */
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,20 +116,24 @@ public class MainActivity extends AppCompatActivity {
                 REQUEST_PERMISSIONS_REQUEST_CODE
         );
 
-        // init OSMDroid
-        // Configure OSMDroid with internet access
+        // init preference manager
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
+        // init fusedLocationClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // fetch location
         fetchLocation();
 
+        // init location handler
         this.locationHandler = new Handler();
 
+        // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+        // set color of bottom nav icons
         binding.bottomNavigation.setItemIconTintList(null);
 
+        // init listener of the bottom bar to change fragment
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -142,13 +174,19 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        // set listener to the bottom nav
         binding.bottomNavigation.setOnItemSelectedListener(listener);
 
+        // fetch pokemon list
         pokemons = fetchPokemons();
 
+        // show base fragment
         showMap();
     }
 
+    /**
+     * Show map fragment.
+     */
     public void showMap() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -160,6 +198,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show pokedex fragment.
+     */
     public void showPokedex() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -172,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show inventory fragment.
+     */
     public void showInventory() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -181,6 +225,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show pokemon details fragment.
+     *
+     * @param pokemon pokemon to display
+     */
     private void showPokemonDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -193,6 +242,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show caught details fragment.
+     *
+     * @param pokemon pokemon to display
+     */
     private void showPokemonCaughtDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -205,6 +259,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Show caught fragment.
+     */
     public void showCaught() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -217,6 +274,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Fetch pokemon from the json.
+     *
+     * @return list of pokemon
+     */
     private List<Pokemon> fetchPokemons() {
 
         List<Pokemon> pokemonList = new ArrayList<>();
@@ -297,12 +359,18 @@ public class MainActivity extends AppCompatActivity {
         return pokemonList;
     }
 
+    /**
+     * Start fetching location.
+     */
     public void fetchLocation() {
+        // check if location is enabled
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
+        // get location with task
         Task<Location> locationTask = this.fusedLocationClient.getLastLocation();
+        // add listener to task to send location to fragment
         locationTask.addOnSuccessListener(location -> {
             if (location != null) {
                 currentLocation = location;
@@ -319,6 +387,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * On permission result, fetch location.
+     *
+     * @param requestCode  request code
+     * @param permissions  permissions
+     * @param grantResults grant results
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -330,10 +405,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get current location.
+     *
+     * @return current location
+     */
     public Location getCurrentLocation() {
         return currentLocation;
     }
 
+    /**
+     * On resume app, update storage and check crash log.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -341,6 +424,9 @@ public class MainActivity extends AppCompatActivity {
         checkForCrashLogs();
     }
 
+    /**
+     * Check for crash logs.
+     */
     private void checkForCrashLogs() {
         //look for osmdroid crash logs
         File root = Environment.getExternalStorageDirectory();
@@ -389,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
      * refreshes the current osmdroid cache paths with user preferences plus soe logic to work around
      * file system permissions on api23 devices. it's primarily used for out android tests.
      *
-     * @param ctx
+     * @param ctx the context
      * @return current cache size in bytes
      */
     public static long updateStoragePreferences(Context ctx) {
@@ -415,16 +501,15 @@ public class MainActivity extends AppCompatActivity {
      * gets storage state and current cache size
      */
     private void updateStorageInfo() {
-
         long cacheSize = updateStoragePreferences(this);
-        //cache management ends here
-        final String state = Environment.getExternalStorageState();
-
-
+        //cache management ends her
         System.out.println("[DEBUG] " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
                 "Cache size: " + Formatter.formatFileSize(this, cacheSize));
     }
 
+    /**
+     * Start location handler to update location.
+     */
     private void startFetchingLocation() {
         this.locationHandler.postDelayed(new Runnable() {
             @Override
@@ -435,6 +520,9 @@ public class MainActivity extends AppCompatActivity {
         }, 500);
     }
 
+    /**
+     * Stop location handler.
+     */
     private void stopFetchingLocation() {
         this.locationHandler.removeCallbacksAndMessages(null);
     }

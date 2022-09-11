@@ -1,5 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo.Enum;
 
+/**
+ * Type of Pokemon
+ */
 public enum POKEMON_TYPE {
     Normal,
     Fire,

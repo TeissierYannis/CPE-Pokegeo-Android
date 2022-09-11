@@ -11,14 +11,30 @@ import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 
+/**
+ * Item View Model.
+ */
 public class ItemViewModel extends BaseObservable {
 
+    /**
+     * Item.
+     */
     private Item item;
 
+    /**
+     * Set the item.
+     * @param item Item.
+     */
     public void setItem(Item item) {
         this.item = item;
     }
 
+    /**
+     * Get the item image.
+     * @param context Context.
+     * @param res Resource.
+     * @return Drawable.
+     */
     public Drawable getImage(Context context, int res) {
         if (res != -1)
             try {
@@ -31,21 +47,37 @@ public class ItemViewModel extends BaseObservable {
             return null;
     }
 
+    /**
+     * Get the item front res.
+     * @return int.
+     */
     @Bindable
     public int getFront() {
         return item.getFrontResource();
     }
 
+    /**
+     * Get the item name.
+     * @return String.
+     */
     @Bindable
     public String getName() {
         return item.getName();
     }
 
+    /**
+     * Get the item description.
+     * @return String.
+     */
     @Bindable
     public String getDescription() {
         return item.getDescription();
     }
 
+    /**
+     * Get the item quantity.
+     * @return String.
+     */
     @Bindable
     public String getQuantity() {
         return Objects.equals(item.getName(), "") ? "" : String.valueOf(item.getQuantity());

@@ -16,14 +16,27 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
+/**
+ * Pokemon View Model.
+ */
 public class PokemonViewModel extends BaseObservable {
     private Pokemon pokemon = new Pokemon();
 
+    /**
+     * set pokemon.
+     * @param pokemon pokemon
+     */
     public void setPokemon(Pokemon pokemon) {
         this.pokemon = pokemon;
         notifyChange();
     }
 
+    /**
+     * Get the item image.
+     * @param context Context.
+     * @param res Resource.
+     * @return Drawable.
+     */
     public Drawable getImage(Context context, int res) {
         if (res != -1)
             try {
@@ -36,41 +49,73 @@ public class PokemonViewModel extends BaseObservable {
             return null;
     }
 
+    /**
+     * Get the pokemon front res.
+     * @return int.
+     */
     @Bindable
     public int getFront() {
         return pokemon.getFrontResource();
     }
 
+    /**
+     * Get the pokemon id.
+     * @return String.
+     */
     @Bindable
     public String getID() {
         return ("#" + pokemon.getID());
     }
 
+    /**
+     * Get the pokemon name.
+     * @return String.
+     */
     @Bindable
     public String getName() {
         return pokemon.getName();
     }
 
+    /**
+     * Get the pokemon species.
+     * @return String.
+     */
     @Bindable
     public String getSpecies() {
         return pokemon.getSpecies();
     }
 
+    /**
+     * Get the pokemon types.
+     * @return List of POKEMON_TYPE.
+     */
     @Bindable
     public List<POKEMON_TYPE> getTypes() {
         return pokemon.getTypes();
     }
 
+    /**
+     * Get the pokemon height.
+     * @return String.
+     */
     @Bindable
     public String getHeight() {
         return (pokemon.getHeight() + " m");
     }
 
+    /**
+     * Get the pokemon weight.
+     * @return String.
+     */
     @Bindable
     public String getWeight() {
         return (pokemon.getWeight() + " kg");
     }
 
+    /**
+     * Get the pokemon abilities.
+     * @return String.
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Bindable
     public String getAbilities() {
@@ -82,31 +127,56 @@ public class PokemonViewModel extends BaseObservable {
         return abilities.toString().replaceAll("_", " ");
     }
 
+    /**
+     * Get the pokemon stats.
+     * @return List of Stats.
+     */
     @Bindable
     public Stats getStats() {
         return pokemon.getStats();
     }
 
+    /**
+     * Get the pokemon evolution.
+     * @return List of Pokemon.
+     */
     @Bindable
     public List<Pokemon> getEvolutions() {
         return pokemon.getEvolutions();
     }
 
+    /**
+     * Get the pokemon description.
+     * @return String.
+     */
     @Bindable
     public String getDescription() {
         return pokemon.getDescription();
     }
 
+    /**
+     * Get the pokemon gen.
+     * @return int.
+     */
     @Bindable
     public int getGen() {
         return pokemon.getGen();
     }
 
+    /**
+     * Get the pokemon color.
+     * @return int
+     */
     @Bindable
     public int getColor() {
         return pokemon.getColor();
     }
 
+    /**
+     * Get the pokemon quantity.
+     * @return int.
+     * TODO ?
+     */
     @Bindable
     public String getQuantity() {
         return Objects.equals(pokemon.getName(), "") ? "" : String.valueOf(pokemon.getQuantity());

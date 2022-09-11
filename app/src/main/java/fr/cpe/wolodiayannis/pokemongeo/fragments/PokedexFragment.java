@@ -18,20 +18,35 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
+/**
+ * Pokedex fragment.
+ */
 public class PokedexFragment extends Fragment {
 
+    /**
+     * On click on pokemon listener.
+     */
     private PokedexListenerInterface listener;
 
+    /**
+     * onCreateView.
+     * @param inflater inflater
+     * @param container container
+     * @param savedInstanceState savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         PokedexFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokedex_fragment, container, false);
+        // Set the layout
         binding.pokemonList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-
+        // new adapter
         PokemonListAdapter adapter = new PokemonListAdapter(MainActivity.getPokemonList(), listener);
-
+        // set the adapter
         binding.pokemonList.setAdapter(adapter);
 
         // search bar : pokedex_search
@@ -51,6 +66,10 @@ public class PokedexFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * Set the listener.
+     * @param listener
+     */
     public void setPokedexListenerInterface(PokedexListenerInterface listener) {
         this.listener = listener;
     }

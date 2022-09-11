@@ -1,5 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo.Enum;
 
+/**
+ * Abilities of the pokemon
+ */
 public enum POKEMON_ABILITIES {
     Adaptability,
     Aerilate,

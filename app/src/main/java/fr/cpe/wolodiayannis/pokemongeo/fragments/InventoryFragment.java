@@ -17,21 +17,34 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.InventoryListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Inventory;
 
+/**
+ * Inventory Fragment.
+ */
 public class InventoryFragment extends Fragment {
 
+    /**
+     * onCreateView.
+     * @param inflater inflater
+     * @param container container
+     * @param savedInstanceState savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        // Bind layout
         InventoryFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.inventory_fragment, container, false);
+        // set grid layout
         binding.inventoryList.setLayoutManager(new StaggeredGridLayoutManager(5, LinearLayoutManager.VERTICAL));
 
+        // new adapter
         InventoryListAdapter adapter = new InventoryListAdapter(
                 new Inventory(),
                 getContext()
         );
+        // bind adapter to recycler view
         binding.inventoryList.setAdapter(adapter);
 
         return binding.getRoot();
