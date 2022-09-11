@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -116,6 +118,20 @@ public class MainActivity extends AppCompatActivity {
                 REQUEST_PERMISSIONS_REQUEST_CODE
         );
 
+        // if player do not have internet access, ask him to go online
+        if (!isOnline()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
         // init preference manager
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
@@ -182,6 +198,16 @@ public class MainActivity extends AppCompatActivity {
 
         // show base fragment
         showMap();
+    }
+
+    /**
+     * Check if the player is online.
+     * @return true if online, false otherwise
+     */
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     /**
