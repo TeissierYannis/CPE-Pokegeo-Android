@@ -543,9 +543,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 fetchLocation();
-                locationHandler.postDelayed(this, 500);
+                locationHandler.postDelayed(this, 100);
             }
-        }, 500);
+        }, 100);
     }
 
     /**

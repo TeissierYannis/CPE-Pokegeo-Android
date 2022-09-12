@@ -101,5 +101,8 @@ public class MapFragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(mainActivity.getCurrentLocation().getLatitude(), mainActivity.getCurrentLocation().getLongitude());
         // Center map on current location
         map.getController().setCenter(startPoint);
+        // Ask for recenter the screen
+        map.invalidate();
+
     }
 }
