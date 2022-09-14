@@ -1,8 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Inventory class.
  */
@@ -13,16 +10,14 @@ public class ItemsInventory {
      */
     private final int MAX_ITEMS = 50;
 
-    /**
-     * List of items in the inventory.
-     */
-    private final List<Items> items;
+    private final int user_id;
+    private final int item_id;
+    private int quantity;
 
-    /**
-     * Constructor.
-     */
-    public ItemsInventory() {
-        this.items = new ArrayList<>(MAX_ITEMS);
+    public ItemsInventory(int user_id, int item_id, int quantity) {
+        this.user_id = user_id;
+        this.item_id = item_id;
+        this.quantity = quantity;
     }
 
     /**
@@ -34,108 +29,50 @@ public class ItemsInventory {
     }
 
     /**
-     * Get items by index.
-     * @param position index
-     * @throws InternalError if index is out of bounds
-     * @return item
+     * Get user id.
+     * @return user id
      */
-    public Items getItem(int position) {
-        if (position < 0 || position >= MAX_ITEMS) {
-            throw new InternalError("The position is out of the inventory");
-        } else {
-            if (position < items.size()) {
-                return items.get(position);
-            } else {
-                return null;
-            }
-        }
+    public int getUser_id() {
+        return user_id;
     }
 
     /**
-     * Get item list
-     * @return item list
+     * Get item id.
+     * @return item id
      */
-    public List<Items> getItems() {
-        return this.items;
+    public int getItem_id() {
+        return item_id;
     }
 
     /**
-     * Add item to the inventory.
-     * @param item item to add
-     * @param quantity quantity of the item to add
-     * @return instance for chaining.
+     * Get quantity.
+     * @return quantity
      */
-    public ItemsInventory addItem(Items item, int quantity) {
-        if (this.itemIsInInventory(item)) {
-            this.items.get(this.items.indexOf(item)).addQuantity(quantity);
-        } else {
-            if (!this.inventoryIsFull()) {
-                item.addQuantity(quantity);
-                this.items.add(item);
-            }
-        }
-
-        return this;
+    public int getQuantity() {
+        return quantity;
     }
 
     /**
-     * Remove item from the inventory.
-     * @param item item to remove
-     * @param quantity quantity of the item to remove
-     * @throws RuntimeException if the item is not in the inventory
-     * @return instance for chaining.
+     * Set quantity.
+     * @param quantity quantity
      */
-    public ItemsInventory removeItem(Items item, int quantity) {
-        if (this.itemIsInInventory(item)) {
-            this.items.get(this.items.indexOf(item)).removeQuantity(quantity);
-            if (this.items.get(this.items.indexOf(item)).getQuantity() == 0) {
-                this.items.remove(item);
-            }
-        } else {
-            throw new RuntimeException("The item is not in the inventory");
-        }
-
-        return this;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     /**
-     * Get the quantity of one item
-     * @param item item to get the quantity
-     * @throws RuntimeException if the item is not in the inventory
-     * @return quantity of the item
+     * Add quantity.
+     * @param quantity quantity
      */
-    public int getItemQuantity(Items item) {
-        if (this.itemIsInInventory(item)) {
-            return this.items.get(this.items.indexOf(item)).getQuantity();
-        }
-
-        throw new RuntimeException("The item is not in the inventory");
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
     }
 
     /**
-     * Check if the inventory is full.
-     * @throws RuntimeException if the inventory is full
-     * @return false if not full
+     * Remove quantity.
+     * @param quantity quantity
      */
-    private boolean inventoryIsFull() {
-        if (this.items.size() >= MAX_ITEMS) {
-            throw new RuntimeException("The inventory is full");
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Check if the item is in the inventory.
-     * @param item item to check
-     * @return true if the item is in the inventory
-     */
-    private boolean itemIsInInventory(Items item) {
-        for (Items i : items) {
-            if (i.getName().equals(item.getName())) {
-                return true;
-            }
-        }
-        return false;
+    public void removeQuantity(int quantity) {
+        this.quantity -= quantity;
     }
 }

@@ -8,7 +8,7 @@ public class StatsUnitTest {
 
     @Test
     public void testStats() {
-        Stats stats = Stats.CREATE(1, 2, 3, 4, 5, 6);
+        Stat stats = Stat.CREATE(1, 2, 3, 4, 5, 6);
         assertEquals(1, stats.getHp());
         assertEquals(2, stats.getAttack());
         assertEquals(3, stats.getDefense());

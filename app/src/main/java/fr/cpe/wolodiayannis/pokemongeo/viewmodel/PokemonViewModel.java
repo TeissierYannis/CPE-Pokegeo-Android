@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
 /**
@@ -132,7 +132,7 @@ public class PokemonViewModel extends BaseObservable {
      * @return List of Stats.
      */
     @Bindable
-    public Stats getStats() {
+    public Stat getStats() {
         return pokemon.getStats();
     }
 

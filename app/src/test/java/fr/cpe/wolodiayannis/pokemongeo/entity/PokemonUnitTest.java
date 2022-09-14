@@ -36,7 +36,7 @@ public class PokemonUnitTest {
         List<POKEMON_ABILITIES> abilities = new ArrayList<POKEMON_ABILITIES>();
         List<Pokemon> evolutions = new ArrayList<Pokemon>();
 
-        Stats stats = Stats.CREATE(45, 49, 49, 65, 65, 45);
+        Stat stats = Stat.CREATE(45, 49, 49, 65, 65, 45);
 
         types.add(POKEMON_TYPE.Fire);
         abilities.add(POKEMON_ABILITIES.Blaze);
@@ -107,7 +107,7 @@ public class PokemonUnitTest {
         List<POKEMON_ABILITIES> abilities = new ArrayList<POKEMON_ABILITIES>();
         List<Pokemon> evolutions = new ArrayList<Pokemon>();
 
-        Stats stats = new Stats(45, 49, 49, 65, 65, 45);
+        Stat stats = new Stat(45, 49, 49, 65, 65, 45);
         abilities.add(POKEMON_ABILITIES.Blaze);
         evolutions.add(new Pokemon());
 

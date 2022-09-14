@@ -1,109 +1,59 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
-import com.j256.ormlite.table.DatabaseTable;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
 
 /**
  * CaughtInventory class.
  */
-@DatabaseTable(tableName = "caught_inventory")
 public class CaughtInventory {
-    /**
-     * List of caught pokemon.
-     */
-    private final List<Pokemon> caughtPokemonInventory;
+
+    private final int user_id;
+    private final int pokemon_id;
+    private int pokemon_experience;
+    private int current_life_state;
+    private final Timestamp caught_time;
 
     /**
-     * Constructor.
-     * Init the list of caught pokemon.
+     * Add a pokemon to the list.
+     * @param pokemon Pokemon to add.
      */
-    public CaughtInventory() {
-        this.caughtPokemonInventory = new ArrayList<>();
+    public CaughtInventory(int user_id, int pokemon_id, int pokemon_experience, int current_life_state, Timestamp caught_time) {
+        this.user_id = user_id;
+        this.pokemon_id = pokemon_id;
+        this.pokemon_experience = pokemon_experience;
+        this.current_life_state = current_life_state;
+        this.caught_time = caught_time;
+
+        // TODO maj sur la bdd
     }
 
-    /**
-     * Get a pokemon by is position in the list.
-     * @param index index of the pokemon in the list.
-     * @throws InternalError if the index is out of bound.
-     * @return the pokemon.
-     */
-    public Pokemon getCaughtPokemon(int index) {
-        if (index < 0 || index >= this.caughtPokemonInventory.size()) {
-            throw new InternalError("The index is out of the caught inventory");
-        } else {
-            return caughtPokemonInventory.get(index);
-        }
+    public int getUser_id() {
+        return user_id;
     }
 
-    /**
-     * Get the list of caught pokemon.
-     * @return the list of caught pokemon.
-     */
-    public List<Pokemon> getCaughtPokemon() {
-        return this.caughtPokemonInventory;
+    public int getPokemon_id() {
+        return pokemon_id;
     }
 
-    /**
-     * Add a pokemon to the list of caught pokemon.
-     * @param pokemon the pokemon to add.
-     * @param quantity the quantity of the pokemon to add.
-     * @return instance of the class for chaining.
-     */
-    public CaughtInventory addCaughtPokemon(Pokemon pokemon, int quantity) {
-        if (this.pokemonIsCaught(pokemon)) {
-            this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).addQuantity(quantity);
-        } else {
-            pokemon.addQuantity(quantity);
-            this.caughtPokemonInventory.add(pokemon);
-        }
-        return this;
+    public int getPokemon_experience() {
+        return pokemon_experience;
     }
 
-    /**
-     * Remove a pokemon from the list of caught pokemon.
-     * @param pokemon the pokemon to remove.
-     * @param quantity the quantity of the pokemon to remove.
-     * @throws RuntimeException if the pokemon is not caught.
-     * @return instance of the class for chaining.
-     */
-    public CaughtInventory removeCaughtPokemon(Pokemon pokemon, int quantity) {
-        if (this.pokemonIsCaught(pokemon)) {
-            this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).removeQuantity(quantity);
-            if (this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).getQuantity() == 0) {
-                this.caughtPokemonInventory.remove(pokemon);
-            }
-        } else {
-            throw new RuntimeException("The pokemon wasn't caught");
-        }
-        return this;
+    public void setPokemon_experience(int pokemon_experience) {
+        this.pokemon_experience = pokemon_experience;
+        // TODO maj sur la bdd
     }
 
-    /**
-     * Get pokemon quantity.
-     * @param pokemon the pokemon.
-     * @throws RuntimeException if the pokemon is not caught.
-     * @return the quantity of the pokemon.
-     */
-    public int getCaughtPokemonQuantity(Pokemon pokemon) {
-        if (this.pokemonIsCaught(pokemon)) {
-            return this.caughtPokemonInventory.get(this.caughtPokemonInventory.indexOf(pokemon)).getQuantity();
-        }
-        throw new RuntimeException("The pokemon wasn't caught");
+    public int getCurrent_life_state() {
+        return current_life_state;
     }
 
-    /**
-     * Check if a pokemon is caught.
-     * @param pokemon the pokemon.
-     * @return true if the pokemon is caught, false otherwise.
-     */
-    private boolean pokemonIsCaught(Pokemon pokemon) {
-        for (Pokemon i : caughtPokemonInventory) {
-            if (i.getName().equals(pokemon.getName())) {
-                return true;
-            }
-        }
-        return false;
+    public void setCurrent_life_state(int current_life_state) {
+        this.current_life_state = current_life_state;
+        // TODO maj sur la bdd
+    }
+
+    public Timestamp getCaught_time() {
+        return caught_time;
     }
 }

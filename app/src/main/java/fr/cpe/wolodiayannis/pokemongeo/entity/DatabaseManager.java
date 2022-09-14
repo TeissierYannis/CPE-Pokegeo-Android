@@ -21,9 +21,9 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, Pokemon.class);
-            TableUtils.createTableIfNotExists(connectionSource, PokemonTypes.class);
-            TableUtils.createTableIfNotExists(connectionSource, Stats.class);
-            TableUtils.createTableIfNotExists(connectionSource, Items.class);
+            TableUtils.createTableIfNotExists(connectionSource, PokemonType.class);
+            TableUtils.createTableIfNotExists(connectionSource, Stat.class);
+            TableUtils.createTableIfNotExists(connectionSource, Item.class);
             Log.i("DatabaseManager", "Database successfully created");
 
         } catch (Exception e) {
@@ -37,9 +37,9 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         try {
 
             TableUtils.dropTable(connectionSource, Pokemon.class, true);
-            TableUtils.dropTable(connectionSource, PokemonTypes.class, true);
-            TableUtils.dropTable(connectionSource, Stats.class, true);
-            TableUtils.dropTable(connectionSource, Items.class, true);
+            TableUtils.dropTable(connectionSource, PokemonType.class, true);
+            TableUtils.dropTable(connectionSource, Stat.class, true);
+            TableUtils.dropTable(connectionSource, Item.class, true);
             Log.i("DatabaseManager", "Database successfully Dropped");
             onCreate(database, connectionSource);
 
@@ -58,27 +58,27 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public void insertPokemonTypes(PokemonTypes pokemonTypes) {
+    public void insertPokemonTypes(PokemonType pokemonType) {
         try {
-            getDao(PokemonTypes.class).create(pokemonTypes);
+            getDao(PokemonType.class).create(pokemonType);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("DatabaseManager", "Can't insert pokemonTypes", e);
         }
     }
 
-    public void insertStats(Stats stats) {
+    public void insertStats(Stat stats) {
         try {
-            getDao(Stats.class).create(stats);
+            getDao(Stat.class).create(stats);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("DatabaseManager", "Can't insert stats", e);
         }
     }
 
-    public void insertItem(Items item) {
+    public void insertItem(Item item) {
         try {
-            getDao(Items.class).create(item);
+            getDao(Item.class).create(item);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("DatabaseManager", "Can't insert item", e);

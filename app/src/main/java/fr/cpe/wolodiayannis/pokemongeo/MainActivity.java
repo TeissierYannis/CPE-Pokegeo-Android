@@ -46,7 +46,7 @@ import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
 import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     types.add(POKEMON_TYPE.valueOf(object.getJSONArray("type").getString(j)));
                 }
 
-                Stats stats = new Stats(
+                Stat stats = new Stat(
                         object.getJSONObject("stats").getInt("hp"),
                         object.getJSONObject("stats").getInt("attack"),
                         object.getJSONObject("stats").getInt("defense"),

@@ -21,7 +21,7 @@ public class CaughtItemsInventoryUnitTest {
         List<POKEMON_ABILITIES> abilities = new ArrayList<>();
         abilities.add(POKEMON_ABILITIES.Overgrow);
         abilities.add(POKEMON_ABILITIES.Chlorophyll);
-        Stats stats = new Stats(45, 49, 49, 65, 65, 45);
+        Stat stats = new Stat(45, 49, 49, 65, 65, 45);
         return Pokemon.CREATE(1, "Bulbasaur", "Seed Pokemon",types , 0.7f, 6.9f, abilities, stats, null, "desc", 1, 0);
     }
 
