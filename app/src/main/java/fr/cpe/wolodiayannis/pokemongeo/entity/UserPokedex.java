@@ -6,11 +6,11 @@ public class UserPokedex {
     private int quantity_caught;
     private int quantity_seen;
 
-    public UserPokedex(int user_id, int pokemon_id) {
+    public UserPokedex(int user_id, int pokemon_id, int quantity_caught, int quantity_seen) {
         this.user_id = user_id;
         this.pokemon_id = pokemon_id;
-        this.quantity_caught = 1;
-        this.quantity_seen = 1;
+        this.quantity_caught = quantity_caught;
+        this.quantity_seen = quantity_seen;
     }
 
     public int getUser_id() {

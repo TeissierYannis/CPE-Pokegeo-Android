@@ -13,18 +13,14 @@ public class CaughtInventory {
     private int current_life_state;
     private final Timestamp caught_time;
 
-    /**
-     * Add a pokemon to the list.
-     * @param pokemon Pokemon to add.
-     */
+
+
     public CaughtInventory(int user_id, int pokemon_id, int pokemon_experience, int current_life_state, Timestamp caught_time) {
         this.user_id = user_id;
         this.pokemon_id = pokemon_id;
         this.pokemon_experience = pokemon_experience;
         this.current_life_state = current_life_state;
         this.caught_time = caught_time;
-
-        // TODO maj sur la bdd
     }
 
     public int getUser_id() {
