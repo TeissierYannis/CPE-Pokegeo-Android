@@ -18,7 +18,7 @@ public class Item {
         return name;
     }
 
-    public void fetchItem() {
-        // TODO : fetch item from database
+    public int getFrontResource() {
+        return this.id;
     }
 }

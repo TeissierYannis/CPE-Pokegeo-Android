@@ -16,8 +16,4 @@ public class Type {
     public String getName() {
         return name;
     }
-
-    public void fetchType() {
-        // TODO : fetch type from database
-    }
 }

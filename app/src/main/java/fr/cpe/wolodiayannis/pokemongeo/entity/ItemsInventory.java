@@ -1,5 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import fr.cpe.wolodiayannis.pokemongeo.datas.EnumList;
+
 /**
  * Inventory class.
  */
@@ -10,6 +12,7 @@ public class ItemsInventory {
      */
     private final int MAX_ITEMS = 50;
 
+    private final Item item;
     private final int user_id;
     private final int item_id;
     private int quantity;
@@ -18,6 +21,8 @@ public class ItemsInventory {
         this.user_id = user_id;
         this.item_id = item_id;
         this.quantity = quantity;
+
+        this.item = EnumList.getItems().get(item_id);
     }
 
     /**
@@ -52,6 +57,15 @@ public class ItemsInventory {
         return quantity;
     }
 
+
+    /**
+     * Get item.
+     * @return item
+     */
+    public Item getItem() {
+        return item;
+    }
+
     /**
      * Set quantity.
      * @param quantity quantity
@@ -75,4 +89,5 @@ public class ItemsInventory {
     public void removeQuantity(int quantity) {
         this.quantity -= quantity;
     }
+
 }

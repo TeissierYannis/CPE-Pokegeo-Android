@@ -16,7 +16,6 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
@@ -81,7 +80,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
         // Set the color of the pokemon bg.
         holder.binding.pokemonBg.getBackground().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
     }
 
@@ -122,7 +121,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                 if (filterPattern.matches("[0-9]+")) {
                     int id = Integer.parseInt(filterPattern);
                     pokemonList.stream()
-                            .filter(pokemon -> pokemon.getID() == id)
+                            .filter(pokemon -> pokemon.getId() == id)
                             .forEach(filteredList::add);
                 } else {
                     pokemonList.stream()

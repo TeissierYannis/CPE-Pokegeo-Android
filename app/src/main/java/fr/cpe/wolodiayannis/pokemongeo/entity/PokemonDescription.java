@@ -16,8 +16,4 @@ public class PokemonDescription {
     public String getDescription() {
         return description;
     }
-
-    public void fetchPokemonDescription() {
-        // TODO : fetch pokemon description from database
-    }
 }

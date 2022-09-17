@@ -32,21 +32,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
@@ -54,7 +47,7 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
-import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
+import fr.cpe.wolodiayannis.pokemongeo.utils.APIFetcher;
 
 /**
  * Main activity of the app.
@@ -195,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(listener);
 
         // fetch pokemon list
-        pokemons = fetchPokemons();
+        APIFetcher.fetchAllData();
 
         // show base fragment
         showMap();

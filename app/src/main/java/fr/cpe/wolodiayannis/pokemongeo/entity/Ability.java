@@ -17,8 +17,4 @@ public class Ability {
     public String getName() {
         return name;
     }
-
-    public void fetchAbility() {
-        // TODO : fetch ability from database
-    }
 }

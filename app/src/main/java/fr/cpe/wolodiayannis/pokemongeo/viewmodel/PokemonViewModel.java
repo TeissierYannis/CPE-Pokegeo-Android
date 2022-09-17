@@ -10,11 +10,10 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import java.util.List;
-import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 
 /**
  * Pokemon View Model.
@@ -64,7 +63,7 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getID() {
-        return ("#" + pokemon.getID());
+        return ("#" + pokemon.getId());
     }
 
     /**
@@ -77,20 +76,11 @@ public class PokemonViewModel extends BaseObservable {
     }
 
     /**
-     * Get the pokemon species.
-     * @return String.
-     */
-    @Bindable
-    public String getSpecies() {
-        return pokemon.getSpecies();
-    }
-
-    /**
      * Get the pokemon types.
      * @return List of POKEMON_TYPE.
      */
     @Bindable
-    public List<POKEMON_TYPE> getTypes() {
+    public List<Type> getTypes() {
         return pokemon.getTypes();
     }
 
@@ -132,18 +122,10 @@ public class PokemonViewModel extends BaseObservable {
      * @return List of Stats.
      */
     @Bindable
-    public Stat getStats() {
+    public List<Stat> getStats() {
         return pokemon.getStats();
     }
 
-    /**
-     * Get the pokemon evolution.
-     * @return List of Pokemon.
-     */
-    @Bindable
-    public List<Pokemon> getEvolutions() {
-        return pokemon.getEvolutions();
-    }
 
     /**
      * Get the pokemon description.
@@ -159,8 +141,8 @@ public class PokemonViewModel extends BaseObservable {
      * @return int.
      */
     @Bindable
-    public int getGen() {
-        return pokemon.getGen();
+    public int getGeneration() {
+        return pokemon.getGeneration();
     }
 
     /**
@@ -169,16 +151,7 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public int getColor() {
-        return pokemon.getColor();
+        return pokemon.getBackgroundColor();
     }
 
-    /**
-     * Get the pokemon quantity.
-     * @return int.
-     * TODO ?
-     */
-    @Bindable
-    public String getQuantity() {
-        return Objects.equals(pokemon.getName(), "") ? "" : String.valueOf(pokemon.getQuantity());
-    }
 }

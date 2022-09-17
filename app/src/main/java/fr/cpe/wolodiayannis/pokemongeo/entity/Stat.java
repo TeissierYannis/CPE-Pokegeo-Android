@@ -16,8 +16,4 @@ public class Stat {
     public String getName() {
         return name;
     }
-
-    public void fetchStat() {
-        // TODO : fetch stat from database
-    }
 }

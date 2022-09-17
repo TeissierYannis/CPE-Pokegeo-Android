@@ -17,8 +17,4 @@ public class PokemonGeneration {
     public int getGeneration_id() {
         return generation_id;
     }
-
-    public void fetchPokemonGeneration() {
-        // TODO : fetch pokemon generation from database
-    }
 }

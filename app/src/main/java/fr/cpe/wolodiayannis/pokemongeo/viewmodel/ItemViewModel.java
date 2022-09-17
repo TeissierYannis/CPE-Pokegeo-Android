@@ -7,8 +7,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-import java.util.Objects;
-
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 
 /**
@@ -68,11 +66,10 @@ public class ItemViewModel extends BaseObservable {
     /**
      * Get the item description.
      * @return String.
+     * TODO ?
      */
-    @Bindable
-    public String getDescription() {
-        return item.getDescription();
-    }
+    // @Bindable
+    // public String getDescription() { return item.getDescription(); }
 
     /**
      * Get the item quantity.
@@ -80,6 +77,9 @@ public class ItemViewModel extends BaseObservable {
      */
     @Bindable
     public String getQuantity() {
-        return Objects.equals(item.getName(), "") ? "" : String.valueOf(item.getQuantity());
+
+        // TODO get from the itemsinventory
+        return "";
+        // return Objects.equals(item.getName(), "") ? "" : String.valueOf(item.getQuantity());
     }
 }

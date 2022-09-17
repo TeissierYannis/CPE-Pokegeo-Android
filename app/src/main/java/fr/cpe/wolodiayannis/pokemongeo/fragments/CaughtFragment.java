@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.CaughtFragmentBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.datas.UserDatas;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 
 /**
@@ -46,9 +46,10 @@ public class CaughtFragment extends Fragment {
         // set grid layout
         binding.caughtList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         // New caught inventory
-        CaughtInventory caughtInventory = new CaughtInventory();
+        //CaughtInventory caughtInventory = new CaughtInventory();
         // new adapter
-        PokemonListAdapter adapter = new PokemonListAdapter(caughtInventory.getCaughtPokemon(), listener);
+
+        PokemonListAdapter adapter = new PokemonListAdapter(UserDatas.getCaughtPokemonList(), listener);
         // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);
 

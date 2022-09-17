@@ -17,8 +17,4 @@ public class UserExperienceLevel {
     public int getExperience() {
         return experience;
     }
-
-    public void fetchExperienceLevel() {
-        // TODO : fetch experience level from database
-    }
 }

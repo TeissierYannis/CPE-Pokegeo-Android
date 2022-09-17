@@ -22,8 +22,4 @@ public class PokemonStats {
     public int getBase_stat() {
         return base_stat;
     }
-
-    public void fetchPokemonStats() {
-        // TODO : fetch pokemon stats from database
-    }
 }

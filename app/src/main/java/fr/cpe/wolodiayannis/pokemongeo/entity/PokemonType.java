@@ -16,8 +16,4 @@ public class PokemonType {
     public int getType_id() {
         return type_id;
     }
-
-    public void fetchPokemonType() {
-        // TODO : fetch pokemon type from database
-    }
 }
