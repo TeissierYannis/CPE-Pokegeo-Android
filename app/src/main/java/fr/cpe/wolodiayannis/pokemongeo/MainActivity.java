@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         // set listener to the bottom nav
         binding.bottomNavigation.setOnItemSelectedListener(listener);
 
-        // fetch pokemon list
+        // fetch the datas from the API
         APIFetcher.fetchAllData();
 
         // show base fragment
