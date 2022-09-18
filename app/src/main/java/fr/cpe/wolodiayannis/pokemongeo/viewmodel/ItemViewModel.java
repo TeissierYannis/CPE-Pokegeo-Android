@@ -77,7 +77,6 @@ public class ItemViewModel extends BaseObservable {
      */
     @Bindable
     public String getQuantity() {
-
         // TODO get from the itemsinventory
         return "";
         // return Objects.equals(item.getName(), "") ? "" : String.valueOf(item.getQuantity());

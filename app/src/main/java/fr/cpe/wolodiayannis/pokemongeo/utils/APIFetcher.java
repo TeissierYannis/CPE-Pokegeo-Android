@@ -30,7 +30,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.UserExperienceLevel;
 import fr.cpe.wolodiayannis.pokemongeo.entity.UserPokedex;
 
 public class APIFetcher {
-    private static final String BASE_URL = "http://vps-af8ec19b.vps.ovh.net:6868/";
+    private static final String BASE_URL = "http://vps-af8ec19b.vps.ovh.net:6868/api/v&";
     private static final String POKEMON_URL = BASE_URL + "pokemon/";
     private static final String TYPE_URL = BASE_URL + "type/";
     private static final String ITEM_URL = BASE_URL + "item/";
