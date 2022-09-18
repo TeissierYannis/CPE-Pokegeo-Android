@@ -9,7 +9,7 @@ import androidx.databinding.Bindable;
 
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Items;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 
 /**
  * Item View Model.
@@ -19,13 +19,13 @@ public class ItemViewModel extends BaseObservable {
     /**
      * Item.
      */
-    private Items item;
+    private Item item;
 
     /**
      * Set the item.
      * @param item Item.
      */
-    public void setItem(Items item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
@@ -53,7 +53,8 @@ public class ItemViewModel extends BaseObservable {
      */
     @Bindable
     public int getFront() {
-        return item.getFrontResource();
+        // placeholder
+        return -1;
     }
 
     /**
@@ -71,7 +72,7 @@ public class ItemViewModel extends BaseObservable {
      */
     @Bindable
     public String getDescription() {
-        return item.getDescription();
+        return "desc";
     }
 
     /**
@@ -80,6 +81,6 @@ public class ItemViewModel extends BaseObservable {
      */
     @Bindable
     public String getQuantity() {
-        return Objects.equals(item.getName(), "") ? "" : String.valueOf(item.getQuantity());
+        return Objects.equals(item.getName(), "") ? "" : String.valueOf(1);
     }
 }
