@@ -117,18 +117,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // if player do not have internet access, ask him to go online
-        if (!isOnline()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-        } else {
+        if (isOnline()) {
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -146,15 +135,14 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         // fetch location
         fetchLocation();
-
         // init location handler
         this.locationHandler = new Handler();
 
         // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
         // set color of bottom nav icons
         binding.bottomNavigation.setItemIconTintList(null);
-
         // init listener of the bottom bar to change fragment
         NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -196,12 +184,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         };
-
         // set listener to the bottom nav
         binding.bottomNavigation.setOnItemSelectedListener(listener);
-
-        // fetch pokemon list
-        pokemons = fetchPokemons();
 
         // show base fragment
         showMap();
@@ -215,7 +199,21 @@ public class MainActivity extends AppCompatActivity {
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -309,91 +307,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Fetch pokemon from the json.
-     *
-     * @return list of pokemon
-     */
-    private List<Pokemon> fetchPokemons() {
-
-        List<Pokemon> pokemonList = new ArrayList<>();
-
-        InputStreamReader isr = new InputStreamReader(getResources().openRawResource(R.raw.pokemon_stats));
-        JsonFormatter jsonFormatter = new JsonFormatter(isr);
-
-        // File handling
-        try {
-            for (int i = 0; i < jsonFormatter.getSize(); i++) {
-                JSONObject object = jsonFormatter.getResultIndex(i);
-
-                int id = object.getInt("id");
-                String name = object.getString("name");
-                String species = object.getString("species");
-
-                float height = 0;
-                String sHeight = object.getString("height");
-                if (!sHeight.contains("None")) {
-                    height = Float.parseFloat(sHeight.substring(sHeight.indexOf('(') + 1, sHeight.indexOf('m')));
-                }
-
-                float weight = 0;
-                String sWeight = object.getString("weight");
-                if (!sWeight.contains("None")) {
-                    weight = Float.parseFloat(sWeight.substring(sWeight.indexOf('(') + 1, sWeight.indexOf("kg")));
-                }
-
-                List<POKEMON_TYPE> types = new ArrayList<>();
-                for (int j = 0; j < object.getJSONArray("type").length(); j++) {
-                    types.add(POKEMON_TYPE.valueOf(object.getJSONArray("type").getString(j)));
-                }
-
-                Stats stats = new Stats(
-                        object.getJSONObject("stats").getInt("hp"),
-                        object.getJSONObject("stats").getInt("attack"),
-                        object.getJSONObject("stats").getInt("defense"),
-                        object.getJSONObject("stats").getInt("sp.atk"),
-                        object.getJSONObject("stats").getInt("sp.def"),
-                        object.getJSONObject("stats").getInt("speed")
-                );
-
-                String description = object.getString("description");
-                int gen = object.getInt("gen");
-
-                List<POKEMON_ABILITIES> abilities = new ArrayList<>();
-                for (int j = 0; j < object.getJSONArray("abilities").length(); j++) {
-                    abilities.add(POKEMON_ABILITIES.valueOf(object.getJSONArray("abilities").getString(j).replaceAll(" ", "_")));
-                }
-                List<Pokemon> evolutions = new ArrayList<>();
-
-                pokemonList.add(
-                        Pokemon.CREATE(
-                                id,
-                                name,
-                                species,
-                                types,
-                                height,
-                                weight,
-                                abilities,
-                                stats,
-                                evolutions,
-                                description,
-                                gen,
-                                getResources().getIdentifier(
-                                        "p" + object.getString("id") + "_100",
-                                        "drawable",
-                                        getPackageName()
-                                )
-                        )
-                );
-
-            }
-        } catch (JSONException e) {
-            System.err.println("[PokedexFragment] Error while parsing JSON file\n" + e.getMessage());
-        }
-
-        return pokemonList;
-    }
-
-    /**
      * Start fetching location.
      */
     public void fetchLocation() {
@@ -455,54 +368,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateStorageInfo();
-        checkForCrashLogs();
-    }
-
-    /**
-     * Check for crash logs.
-     */
-    private void checkForCrashLogs() {
-        //look for osmdroid crash logs
-        File root = Environment.getExternalStorageDirectory();
-        String pathToMyAttachedFile = "/osmdroid/crash.log";
-        final File file = new File(root, pathToMyAttachedFile);
-        if (!file.exists() || !file.canRead()) {
-            return;
-        }
-
-        //if found, prompt user to send to
-        //osmdroidbugs@gmail.com
-
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                        emailIntent.setType("text/plain");
-                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"osmdroidbugs@gmail.com"});
-                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Open Map crash log");
-                        emailIntent.putExtra(Intent.EXTRA_TEXT, "Log data");
-
-                        Uri uri = Uri.fromFile(file);
-                        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                        startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        file.delete();
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crash logs");
-        builder.setMessage("Sorry, it looks like we crashed at some point, would you mind sending us the" +
-                        "crash log?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
     }
 
     /**
