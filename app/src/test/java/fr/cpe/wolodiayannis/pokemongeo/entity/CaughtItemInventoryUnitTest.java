@@ -8,9 +8,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
-
 public class CaughtItemInventoryUnitTest {
 
 

@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stats;
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 
 /**
  * Pokemon View Model.

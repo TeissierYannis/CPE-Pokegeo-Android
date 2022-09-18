@@ -3,10 +3,6 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_ABILITIES;
-import fr.cpe.wolodiayannis.pokemongeo.Enum.POKEMON_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
 
 /**
