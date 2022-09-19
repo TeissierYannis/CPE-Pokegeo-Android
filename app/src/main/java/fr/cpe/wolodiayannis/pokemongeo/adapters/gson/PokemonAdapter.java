@@ -5,7 +5,6 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 public class PokemonAdapter extends TypeAdapter<Pokemon> {

@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 /**
  * Pokemon API With Retrofit.
  */
-public interface PokemonAPI {
+public interface PokemonAPI extends BaseAPI {
         /**
         * Get all pokemons.
          */

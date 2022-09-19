@@ -1,10 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
 
@@ -13,22 +10,39 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
  */
 @JsonAdapter(ItemAdapter.class)
 public class Item {
+    /**
+     * Item id.
+     */
     @SerializedName("id")
     private int id;
+    /**
+     * Item name.
+     */
     @SerializedName("name")
     private String name;
 
-    public Item(){}
-
+    /**
+     * Item constructor.
+     * @param id Item id.
+     * @param name Item name.
+     */
     public Item(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     * Get item id.
+     * @return Item id.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Get item name.
+     * @return Item name.
+     */
     public String getName() {
         return name;
     }
