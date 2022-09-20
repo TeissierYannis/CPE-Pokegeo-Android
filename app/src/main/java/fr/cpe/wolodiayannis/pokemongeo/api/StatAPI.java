@@ -23,4 +23,5 @@ public interface StatAPI extends BaseAPI {
      * @param id stat id.
      */
     @GET("stat/{id}")
+    Call<Item> getStat(@Path("id") int id);
 }
