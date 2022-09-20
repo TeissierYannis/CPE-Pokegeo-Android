@@ -1,8 +1,9 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
-import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.TypeAdapter;
 
 /**
  * Type class.

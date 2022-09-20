@@ -121,7 +121,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                 if (filterPattern.matches("[0-9]+")) {
                     int id = Integer.parseInt(filterPattern);
                     pokemonList.stream()
-                            .filter(pokemon -> pokemon.getID() == id)
+                            .filter(pokemon -> pokemon.getId() == id)
                             .forEach(filteredList::add);
                 } else {
                     pokemonList.stream()

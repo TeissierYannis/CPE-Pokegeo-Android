@@ -2,14 +2,18 @@ package fr.cpe.wolodiayannis.pokemongeo.adapters.gson;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 
-public class PokemonAdapter extends TypeAdapter<Pokemon> {
+public class UserAdapter extends TypeAdapter<User>{
+
     @Override
-    public void write(com.google.gson.stream.JsonWriter out, Pokemon value) throws IOException {
+    public void write(JsonWriter out, User value) throws IOException {
+
         out.beginObject();
         out.name("data");
         out.beginArray();
@@ -18,16 +22,16 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
         out.value(value.getId());
         out.name("name");
         out.value(value.getName());
-        out.name("height");
-        out.value(value.getHeight());
-        out.name("weight");
-        out.value(value.getWeight());
-        out.name("description");
-        out.value(value.getDescription());
-        out.name("generation_id");
-        out.value(value.getGenerationId());
-        out.name("evolution_chain_id");
-        out.value(value.getEvolutionChainId());
+        out.name("pseudo");
+        out.value(value.getPseudo());
+        out.name("email");
+        out.value(value.getEmail());
+        out.name("experience");
+        out.value(value.getExperience());
+        out.name("is_init");
+        out.value(value.getIsInit());
+        out.name("created_at");
+        out.value(value.getCreatedAt().toString());
         out.endObject();
         out.endArray();
         out.endObject();
@@ -41,18 +45,18 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
      * @return the converted Java object. May be null.
      */
     @Override
-    public Pokemon read(JsonReader in) throws IOException {
+    public User read(JsonReader in) throws IOException {
         /*
          * {
          *   "message": "success",
          *   "data": {
          *     "id": 1,
-         *     "name": "bulbasaur",
-         *     "height": 7,
-         *     "weight": 69,
-         *     "description": "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon.",
-         *     "generation_id": 1,
-         *     "evolution_chain_id": 1
+         *     "name": "default"
+         *     "pseudo": "default"
+         *     "email": "default@pokegeo.com"
+         *     "experience": 0
+         *     "is_init": 0
+         *     "created_at": "2022-01-01 00:00:00"
          *   }
          * }
          */
@@ -67,18 +71,21 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
         in.nextName();
         String name = in.nextString();
         in.nextName();
-        int height = in.nextInt();
+        String pseudo = in.nextString();
         in.nextName();
-        int weight = in.nextInt();
+        String email = in.nextString();
         in.nextName();
-        String description = in.nextString();
+        int experience = in.nextInt();
         in.nextName();
-        int generationID = in.nextInt();
+        boolean isInit = in.nextBoolean();
         in.nextName();
-        int evolutionChainID = in.nextInt();
+        String sCreatedAt = in.nextString();
         in.endObject();
         in.endObject();
 
-        return new Pokemon(id, name, height, weight, description, generationID, evolutionChainID);
+        // String to Timestamp
+        Timestamp createdAt = Timestamp.valueOf(sCreatedAt);
+
+        return new User(id, name, pseudo, email, experience, isInit, createdAt);
     }
 }

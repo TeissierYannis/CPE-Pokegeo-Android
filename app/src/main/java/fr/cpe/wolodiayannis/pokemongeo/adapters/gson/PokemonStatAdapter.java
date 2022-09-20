@@ -40,12 +40,12 @@ public class PokemonStatAdapter extends TypeAdapter<PokemonStat> {
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
      *
-     * @param in
+     * @param in the stream to read from.
      * @return the converted Java object. May be null.
      */
     @Override
     public PokemonStat read(JsonReader in) throws IOException {
-        /**
+        /*
          * {
          *     "message": "success",
          *     "data": [
