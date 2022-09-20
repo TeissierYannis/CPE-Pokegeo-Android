@@ -1,7 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -22,7 +25,7 @@ public interface PokemonAPI extends BaseAPI {
      * @param id Item id.
      */
     @GET("pokemon/{id}")
-    Call<Item> getItem(@Path("id") int id);
+    Call<Pokemon> getPokemon(@Path("id") int id);
 
     /**
      * Get pokemon abilities
@@ -40,5 +43,5 @@ public interface PokemonAPI extends BaseAPI {
      * Get pokemon stats
      */
     @GET("pokemon/stats/{id}")
-    Call<StatList> getStats(@Path("id") int id);
+    Call<PokemonStatList> getStats(@Path("id") int id);
 }

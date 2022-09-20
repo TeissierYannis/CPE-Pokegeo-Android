@@ -19,7 +19,6 @@ public interface StatAPI extends BaseAPI {
 
     /**
      * Get one stat.
-     *
      * @param id stat id.
      */
     @GET("stat/{id}")

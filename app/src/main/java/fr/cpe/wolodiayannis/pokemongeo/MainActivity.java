@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -115,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
                 },
                 REQUEST_PERMISSIONS_REQUEST_CODE
         );
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.LOCATION_HARDWARE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.LOCATION_HARDWARE }, 1);
+        }
 
         // if player do not have internet access, ask him to go online
         if (isOnline()) {

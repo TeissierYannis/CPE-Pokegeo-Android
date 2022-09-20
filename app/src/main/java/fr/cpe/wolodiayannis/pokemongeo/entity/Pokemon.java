@@ -4,6 +4,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 
 /**
  * Pokemon class.
@@ -51,6 +54,21 @@ public class Pokemon {
      */
     @SerializedName("evolution_chain_id")
     private final int evolutionChainId;
+
+    /**
+     * List of abilities.
+     */
+    private final AbilityList abilityList;
+
+    /**
+     * List of types.
+     */
+    private final TypeList typeList;
+
+    /**
+     * List of stats.
+     */
+    private final StatList statList;
 
     /**
      * Pokemon's image id.
@@ -210,6 +228,26 @@ public class Pokemon {
     }
 
     */
+
+    /**
+     * Get abilities.
+     * @return abilities
+     */
+    public AbilityList getAbilities() {
+        return this.abilityList;
+    }
+
+    /**
+     * Get typess.
+     * @return
+     */
+    public TypeList getTypes() {
+        return this.typeList;
+    }
+
+    public StatList getStats() {
+        return this.typeList;
+    }
 
     /**
      * Get Pokemon's image id.
