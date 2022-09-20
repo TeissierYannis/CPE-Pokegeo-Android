@@ -110,36 +110,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/pokemon_species_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_about"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/pokemon_details_species"
-                android:textColor="?colorOnPrimary"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/pokemon_species_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_about"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="5dp"
-                android:text="@{pokemonViewModel.species}"
-                android:textColor="?colorOnSecondary"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
                 android:id="@+id/pokemon_height_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_species_label"
+                android:layout_below="@id/pokemon_about"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
@@ -152,7 +126,7 @@
                 android:id="@+id/pokemon_height_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_species_value"
+                android:layout_below="@id/pokemon_about"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
@@ -240,7 +214,8 @@
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
-            <ProgressBar
+            <!-- TODO: Add stats, move in Pokemon ListStat by List or something else of PokemonStat -->
+           <!-- <ProgressBar
                 android:id="@+id/pokemon_hp_value"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
@@ -250,7 +225,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="255"
-                android:progress="@{pokemonViewModel.stats.hp}" />
+                android:progress="@{pokemonViewModel.stats}" />
 
             <TextView
                 android:id="@+id/pokemon_attack_label"
@@ -403,6 +378,8 @@
                 android:max="780"
                 android:progress="@{pokemonViewModel.stats.total}"
                 />
+
+                -->
         </RelativeLayout>
     </ScrollView>
 </layout>
