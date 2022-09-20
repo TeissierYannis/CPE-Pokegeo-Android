@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
-import fr.cpe.wolodiayannis.pokemongeo.entity.ItemsInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
 /**
@@ -22,7 +22,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     /**
      * The inventory.
      */
-    private final ItemsInventory itemsInventory;
+    private final ItemInventory itemsInventory;
     /**
      * The context.
      */
@@ -33,7 +33,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      * @param itemsInventory the inventory
      * @param context the context
      */
-    public InventoryListAdapter(ItemsInventory itemsInventory, Context context) {
+    public InventoryListAdapter(ItemInventory itemsInventory, Context context) {
         this.itemsInventory = itemsInventory;
         this.context = context;
     }

@@ -125,7 +125,7 @@ public class PokemonViewModel extends BaseObservable {
      * @return List of Pokemon.
      */
     @Bindable
-    public int getEvolutions() {
+    public int getEvolutionChainId() {
         return pokemon.getEvolutionChainId();
     }
 
@@ -143,7 +143,7 @@ public class PokemonViewModel extends BaseObservable {
      * @return int.
      */
     @Bindable
-    public int getGen() {
+    public int getGenerationId() {
         return pokemon.getGenerationId();
     }
 
