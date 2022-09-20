@@ -3,6 +3,8 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
 
 /**
@@ -45,5 +47,18 @@ public class Item {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item item = (Item) o;
+        return getId() == item.getId() && getName().equals(item.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }

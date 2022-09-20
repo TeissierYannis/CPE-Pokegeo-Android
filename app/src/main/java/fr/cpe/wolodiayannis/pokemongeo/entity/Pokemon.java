@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
@@ -98,6 +99,13 @@ public class Pokemon {
         this.description = description;
         this.generationId = generationId;
         this.evolutionChainId = evolutionChainId;
+
+        // TODO to redefined
+        this.color = BACKGROUND_COLOR.Unknown;
+
+        this.abilityList = new AbilityList();
+        this.typeList = new TypeList();
+        this.statList = new StatList();
     }
 
     /**
@@ -182,52 +190,59 @@ public class Pokemon {
     }
 
     /**
+     * Get Pokemon background color.
+     * @return int Pokemon background color.
+     */
+    public int getBackgroundColor() {
+        return color;
+    }
+
+    /**
      * Generate bg color in fact of type one.
      * @return color int.
+    */
     public int generateColor() {
-        switch (this.types.get(0)) {
-            case Normal:
+        switch (this.typeList.getTypeList().get(0).getName()) {
+            case "normal" :
                 return BACKGROUND_COLOR.Normal;
-            case Fire:
-                return BACKGROUND_COLOR.Fire;
-            case Water:
-                return BACKGROUND_COLOR.Water;
-            case Electric:
-                return BACKGROUND_COLOR.Electric;
-            case Grass:
-                return BACKGROUND_COLOR.Grass;
-            case Ice:
-                return BACKGROUND_COLOR.Ice;
-            case Fighting:
+            case "fighting" :
                 return BACKGROUND_COLOR.Fighting;
-            case Poison:
-                return BACKGROUND_COLOR.Poison;
-            case Ground:
-                return BACKGROUND_COLOR.Ground;
-            case Flying:
+            case "flying" :
                 return BACKGROUND_COLOR.Flying;
-            case Psychic:
-                return BACKGROUND_COLOR.Psychic;
-            case Bug:
-                return BACKGROUND_COLOR.Bug;
-            case Rock:
+            case "poison" :
+                return BACKGROUND_COLOR.Poison;
+            case "ground" :
+                return BACKGROUND_COLOR.Ground;
+            case "rock":
                 return BACKGROUND_COLOR.Rock;
-            case Ghost:
+            case "bug":
+                return BACKGROUND_COLOR.Bug;
+            case "ghost":
                 return BACKGROUND_COLOR.Ghost;
-            case Dragon:
-                return BACKGROUND_COLOR.Dragon;
-            case Dark:
-                return BACKGROUND_COLOR.Dark;
-            case Steel:
+            case "steel":
                 return BACKGROUND_COLOR.Steel;
-            case Fairy:
+            case "fire":
+                return BACKGROUND_COLOR.Fire;
+            case "water":
+                return BACKGROUND_COLOR.Water;
+            case "grass":
+                return BACKGROUND_COLOR.Grass;
+            case "electric":
+                return BACKGROUND_COLOR.Electric;
+            case "psychic":
+                return BACKGROUND_COLOR.Psychic;
+            case "ice":
+                return BACKGROUND_COLOR.Ice;
+            case "dragon":
+                return BACKGROUND_COLOR.Dragon;
+            case "dark":
+                return BACKGROUND_COLOR.Dark;
+            case "fairy":
                 return BACKGROUND_COLOR.Fairy;
             default:
                 return BACKGROUND_COLOR.Unknown;
         }
     }
-
-    */
 
     /**
      * Get abilities.
@@ -246,8 +261,10 @@ public class Pokemon {
     }
 
     public StatList getStats() {
-        return this.typeList;
+        return this.statList;
     }
+
+    public AbilityList getAbility() { return abilityList;}
 
     /**
      * Get Pokemon's image id.

@@ -13,12 +13,14 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 
 /**
  * Pokemon View Model.
  */
 public class PokemonViewModel extends BaseObservable {
-    private Pokemon pokemon = new Pokemon();
+    private Pokemon pokemon = null;
 
     /**
      * set pokemon.
@@ -62,7 +64,7 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getID() {
-        return ("#" + pokemon.getID());
+        return ("#" + pokemon.getId());
     }
 
     /**
@@ -74,23 +76,7 @@ public class PokemonViewModel extends BaseObservable {
         return pokemon.getName();
     }
 
-    /**
-     * Get the pokemon species.
-     * @return String.
-     */
-    @Bindable
-    public String getSpecies() {
-        return pokemon.getSpecies();
-    }
 
-    /**
-     * Get the pokemon types.
-     * @return List of POKEMON_TYPE.
-     */
-    @Bindable
-    public List<POKEMON_TYPE> getTypes() {
-        return pokemon.getTypes();
-    }
 
     /**
      * Get the pokemon height.
@@ -119,7 +105,7 @@ public class PokemonViewModel extends BaseObservable {
     public String getAbilities() {
         // convert abilities to string
         StringBuilder abilities = new StringBuilder();
-        pokemon.getAbilities().forEach(ability -> abilities.append(ability.toString()).append(", "));
+        pokemon.getAbilities().getAbilityList().forEach(ability -> abilities.append(ability.getName()).append(", "));
         // remove last ", "
         abilities.delete(abilities.length() - 2, abilities.length());
         return abilities.toString().replaceAll("_", " ");
@@ -130,7 +116,7 @@ public class PokemonViewModel extends BaseObservable {
      * @return List of Stats.
      */
     @Bindable
-    public Stats getStats() {
+    public StatList getStats() {
         return pokemon.getStats();
     }
 
@@ -139,8 +125,8 @@ public class PokemonViewModel extends BaseObservable {
      * @return List of Pokemon.
      */
     @Bindable
-    public List<Pokemon> getEvolutions() {
-        return pokemon.getEvolutions();
+    public int getEvolutions() {
+        return pokemon.getEvolutionChainId();
     }
 
     /**
@@ -158,7 +144,7 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public int getGen() {
-        return pokemon.getGen();
+        return pokemon.getGenerationId();
     }
 
     /**
@@ -167,16 +153,6 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public int getColor() {
-        return pokemon.getColor();
-    }
-
-    /**
-     * Get the pokemon quantity.
-     * @return int.
-     * TODO ?
-     */
-    @Bindable
-    public String getQuantity() {
-        return Objects.equals(pokemon.getName(), "") ? "" : String.valueOf(pokemon.getQuantity());
+        return pokemon.getBackgroundColor();
     }
 }

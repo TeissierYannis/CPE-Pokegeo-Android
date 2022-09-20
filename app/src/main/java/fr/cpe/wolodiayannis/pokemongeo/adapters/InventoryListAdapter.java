@@ -58,7 +58,9 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         // Get the item if item do not exist create empty one
-        Item itemToAdd = new Item();
+
+        // TODO
+        Item itemToAdd = new Item(0, "default");
 
         // Set the item to the view model
         holder.viewModel.setItem(

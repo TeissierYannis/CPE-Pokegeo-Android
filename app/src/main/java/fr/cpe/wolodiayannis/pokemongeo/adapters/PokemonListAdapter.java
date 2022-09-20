@@ -80,7 +80,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
         // Set the color of the pokemon bg.
         holder.binding.pokemonBg.getBackground().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
     }
 

@@ -16,4 +16,8 @@ public class AbilityList {
     public List<Ability> getAbilityList() {
         return abilityList;
     }
+
+    public void addAbility(Ability ability) {
+        abilityList.add(ability);
+    }
 }
