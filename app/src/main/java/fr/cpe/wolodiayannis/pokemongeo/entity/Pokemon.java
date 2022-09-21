@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
@@ -15,7 +16,11 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
  * Pokemon class.
  */
 @JsonAdapter(PokemonAdapter.class)
-public class Pokemon {
+public class Pokemon implements Serializable {
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 1L;
     /**
      * Pokemon ID.
      */
@@ -102,6 +107,7 @@ public class Pokemon {
         this.generationId = generationId;
         this.evolutionChainId = evolutionChainId;
 
+        this.setImgID(-1);
         // TODO to redefined
         this.color = BACKGROUND_COLOR.Unknown;
 

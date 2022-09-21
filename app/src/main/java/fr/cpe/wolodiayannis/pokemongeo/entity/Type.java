@@ -3,13 +3,21 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.TypeAdapter;
 
 /**
  * Type class.
  */
 @JsonAdapter(TypeAdapter.class)
-public class Type {
+public class Type implements Serializable {
+
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * Type id.
      */

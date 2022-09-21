@@ -1,5 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,10 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 
-public class DataList {
+public class DataList implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     public final List<Type> types;
     public final List<Item> items;
@@ -82,4 +84,18 @@ public class DataList {
      * Get the abilities list.
      */
     public List<Ability> getAbilities() { return abilities; }
+
+    /**
+     * Serialize the DataList instance.
+     */
+    @Override
+    public String toString() {
+        return "DataList{" +
+                "types=" + types +
+                ", items=" + items +
+                ", stats=" + stats +
+                ", pokemons=" + pokemons +
+                ", abilities=" + abilities +
+                '}';
+    }
 }

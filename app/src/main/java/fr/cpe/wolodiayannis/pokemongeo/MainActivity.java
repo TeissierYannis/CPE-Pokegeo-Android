@@ -34,6 +34,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
@@ -47,6 +48,7 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
 
 /**
  * Main activity of the app.
@@ -131,7 +133,27 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("[ONLINE] You are online");
             // TODO Implement API call
 
-            dataList = DataFetcher.fetchAllData();
+
+            try {
+                dataList = (DataList) InternalStorage.readObject(this, "dataList");
+                System.out.println("[INFO] DataList loaded from internal storage");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("[INFO] DataList not found in internal storage");
+                System.out.println("[ERROR] " + e.getMessage());
+                e.printStackTrace();
+                System.out.println("[INFO] Fetching DataList from API");
+                dataList = DataFetcher.fetchAllData();
+
+                try {
+                    InternalStorage.writeObject(this, "dataList", dataList);
+                } catch (IOException er) {
+                    System.out.println("[ERROR] Cache not saved");
+                    er.printStackTrace();
+
+                }
+            }
+
+
         }
 
         // init preference manager

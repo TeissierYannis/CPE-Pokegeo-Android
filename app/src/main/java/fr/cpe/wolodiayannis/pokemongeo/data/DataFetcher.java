@@ -1,5 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.data;
 
+import java.io.Serializable;
+
 import fr.cpe.wolodiayannis.pokemongeo.api.request.AbilityRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.ItemRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.PokemonRequest;

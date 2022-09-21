@@ -3,13 +3,19 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
 
 /**
  * Ability class.
  */
 @JsonAdapter(ItemAdapter.class)
-public class Ability {
+public class Ability implements Serializable {
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Ability id.
