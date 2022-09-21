@@ -7,6 +7,9 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 public class PokemonList {
     private List<Pokemon> pokemonList;
 
+    public PokemonList(List<Pokemon> pokemonList) {
+        this.pokemonList = pokemonList;
+    }
     /**
      * Get the pokemon list.
      * @return List of pokemon.

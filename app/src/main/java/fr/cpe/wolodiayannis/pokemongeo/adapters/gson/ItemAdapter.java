@@ -10,17 +10,24 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 public class ItemAdapter extends TypeAdapter<Item> {
     @Override
     public void write(com.google.gson.stream.JsonWriter out, Item value) throws java.io.IOException {
+        /*
+         * {
+         *   "message": "success",
+         *   "data": {
+         *     "id": 1,
+         *     "name": "master-ball"
+         *   }
+         * }
+         */
         out.beginObject();
+        out.name("message").value("success");
         out.name("data");
-        out.beginArray();
         out.beginObject();
-        out.name("id");
-        out.value(value.getId());
-        out.name("name");
-        out.value(value.getName());
+        out.name("id").value(value.getId());
+        out.name("name").value(value.getName());
         out.endObject();
-        out.endArray();
         out.endObject();
+
     }
 
     /**
@@ -41,7 +48,6 @@ public class ItemAdapter extends TypeAdapter<Item> {
          *   }
          * }
          */
-
         in.beginObject();
         in.nextName();
         in.nextString();
