@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+        if (netInfo == null && !netInfo.isConnectedOrConnecting()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
                     .setCancelable(false)
@@ -217,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
                     });
             AlertDialog alert = builder.create();
             alert.show();
-        } else {
             return false;
         }
         return true;

@@ -39,7 +39,7 @@ public class StatRequest extends BaseRequest {
      * @param id Stat id.
      * @return Stat.
      */
-    public static Stat getStatFromID(int id) {
+    public static Stat getStat(int id) {
         Call<Stat> call = getAPI().getStat(id);
         try {
             Stat stat = call.execute().body();

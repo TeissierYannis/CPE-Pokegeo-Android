@@ -44,7 +44,7 @@ public class StatAdapter extends TypeAdapter<Stat> {
          * }
          */
         System.out.println("StatAdapter.read");
-        System.out.println(in.peek());
+        System.out.println(in.toString());
         in.beginObject();
         in.nextName();
         in.nextString();

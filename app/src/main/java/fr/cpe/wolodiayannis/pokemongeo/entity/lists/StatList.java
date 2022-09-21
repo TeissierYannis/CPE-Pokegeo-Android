@@ -8,7 +8,6 @@ import java.util.List;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.StatAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 
-@JsonAdapter(StatAdapter.class)
 public class StatList {
 
     private List<Stat> statsList;
