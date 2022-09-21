@@ -10,7 +10,7 @@ public class PokemonList {
     @SerializedName("data")
     private List<Pokemon> pokemonList;
 
-    public List<Pokemon> getItemList() {
+    public List<Pokemon> getPokemonList() {
         return pokemonList;
     }
 }
