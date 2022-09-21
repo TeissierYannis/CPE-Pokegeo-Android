@@ -26,14 +26,6 @@ public class StatList {
     }
 
     /**
-     * StatList constructor.
-     * @param statsList List of stats.
-     */
-    public StatList(List<Stat> statsList) {
-        this.statsList = statsList;
-    }
-
-    /**
      * Get the stat list.
      * @return List of stat.
      */
