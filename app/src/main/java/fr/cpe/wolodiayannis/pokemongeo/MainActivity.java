@@ -111,45 +111,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Ask for permissions
-        ActivityCompat.requestPermissions(
-                this,
-                new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.ACCESS_WIFI_STATE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE
-                },
-                REQUEST_PERMISSIONS_REQUEST_CODE
-        );
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.LOCATION_HARDWARE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.LOCATION_HARDWARE}, 1);
-        }
-
-        // if player do not have internet access, ask him to go online
-        if (isOnline()) {
-
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            System.out.println("[ONLINE] You are online");
-
-            try {
-                this.callAndCacheData();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        // init preference manager
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
         // init fusedLocationClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -162,6 +124,12 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         showNav(binding);
+
+        try {
+            this.LoadFromCache();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         // show base fragment
         showMap();
@@ -219,110 +187,16 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(listener);
     }
 
-    /**
-     * Hide navigation bar.
-     * @param binding ActivityMainBinding
-     */
-    private void hideNav(ActivityMainBinding binding) {
-        binding.bottomNavigation.setVisibility(View.INVISIBLE);
-    }
+    private void LoadFromCache() throws IOException, ClassNotFoundException {
+        List<Ability> abilityList = (List<Ability>) InternalStorage.readObject(this, "data_abilities");
+        List<Item> itemList = (List<Item>) InternalStorage.readObject(this, "data_items");
+        List<Pokemon> pokemonList = (List<Pokemon>) InternalStorage.readObject(this, "data_pokemons");
+        List<Type> typeList = (List<Type>) InternalStorage.readObject(this, "data_types");
+        List<Stat> statList = (List<Stat>) InternalStorage.readObject(this, "data_stats");
 
-    private void callAndCacheData() throws IOException, ClassNotFoundException {
-        List<Ability> abilityList = new ArrayList<>();
-        List<Item> itemList = new ArrayList<>();
-        List<Pokemon> pokemonList = new ArrayList<>();
-        List<Type> typeList = new ArrayList<>();
-        List<Stat> statList = new ArrayList<>();
-        try {
-            abilityList = (List<Ability>) InternalStorage.readObject(this, "data_abilities");
-            System.out.println("[CACHE] Ability list loaded from cache");
-        } catch (Exception e) {
-            try {
-                abilityList = DataFetcher.fetchAbilityList().getAbilityList();
-                InternalStorage.writeObject(this, "data_abilities", abilityList);
-                System.out.println("[CACHE] Ability list cached");
-            } catch (Exception exception) {
-                System.err.println("[CACHE] Abilities list cannot be cached : " + exception.getMessage());
-            }
-        }
-
-        try {
-            itemList = (List<Item>) InternalStorage.readObject(this, "data_items");
-            System.out.println("[CACHE] Item list loaded from cache");
-        } catch (Exception e) {
-            try {
-                itemList = DataFetcher.fetchItemList().getItemList();
-                InternalStorage.writeObject(this, "data_items", itemList);
-                System.out.println("[CACHE] Item list cached");
-            } catch (Exception exception) {
-                System.err.println("[CACHE] Items list cannot be cached : " + exception.getMessage());
-            }
-        }
-
-        try {
-           pokemonList = (List<Pokemon>) InternalStorage.readObject(this, "data_pokemons");
-            System.out.println("[CACHE] Pokemon list loaded from cache");
-        } catch (Exception e) {
-            try {
-                pokemonList = DataFetcher.fetchPokemonList().getPokemonList();
-                InternalStorage.writeObject(this, "data_pokemons", pokemonList);
-                System.out.println("[CACHE] Pokemon list cached");
-            } catch (Exception exception) {
-                System.err.println("[CACHE] Pokemon list cannot be cached : " + exception.getMessage());
-                exception.printStackTrace();
-            }
-        }
-
-        try {
-            typeList = (List<Type>) InternalStorage.readObject(this, "data_types");
-            System.out.println("[CACHE] Type list loaded from cache");
-        } catch (Exception e) {
-            try {
-                typeList = DataFetcher.fetchTypeList().getTypeList();
-                InternalStorage.writeObject(this, "data_types", typeList);
-                System.out.println("[CACHE] Type list cached");
-            } catch (Exception exception) {
-                System.err.println("[CACHE] Types list cannot be cached : " + exception.getMessage());
-            }
-        }
-        try {
-            statList = (List<Stat>) InternalStorage.readObject(this, "data_stats");
-            System.out.println("[CACHE] Stat list loaded from cache");
-        } catch (Exception e) {
-            try {
-                statList = DataFetcher.fetchStatList().getStatsList();
-                InternalStorage.writeObject(this, "data_stats", statList);
-                System.out.println("[CACHE] Stat list cached");
-            } catch (Exception exception) {
-                System.err.println("[CACHE] Stat list cannot be cached : " + exception.getMessage());
-            }
-        }
         dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
     }
 
-    /**
-     * Check if the player is online.
-     *
-     * @return true if online, false otherwise
-     */
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo == null && !netInfo.isConnectedOrConnecting()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-            return false;
-        }
-        return true;
-    }
 
     /**
      * Show map fragment.
