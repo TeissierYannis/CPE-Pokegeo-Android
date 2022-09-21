@@ -1,5 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -22,8 +23,10 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 public class PokemonViewModel extends BaseObservable {
     private Pokemon pokemon = null;
 
+
     /**
      * set pokemon.
+     *
      * @param pokemon pokemon
      */
     public void setPokemon(Pokemon pokemon) {
@@ -33,15 +36,26 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the item image.
+     *
      * @param context Context.
-     * @param res Resource.
+     * @param res     Resource.
      * @return Drawable.
      */
     public Drawable getImage(Context context, int res) {
         if (res != -1)
             try {
-                return ResourcesCompat.getDrawable(context.getResources(),
-                        res, context.getTheme());
+                // return drawable ID
+                @SuppressLint("DefaultLocale")
+                int drawableID =
+                        context
+                                .getResources()
+                                .getIdentifier(
+                                        "p" + String.format("%03d", this.pokemon.getId()),
+                                        "drawable",
+                                        context.getPackageName()
+                                );
+
+                return ResourcesCompat.getDrawable(context.getResources(), drawableID, null);
             } catch (Exception e) {
                 return null;
             }
@@ -50,16 +64,8 @@ public class PokemonViewModel extends BaseObservable {
     }
 
     /**
-     * Get the pokemon front res.
-     * @return int.
-     */
-    @Bindable
-    public int getFront() {
-        return pokemon.getFrontResource();
-    }
-
-    /**
      * Get the pokemon id.
+     *
      * @return String.
      */
     @Bindable
@@ -69,6 +75,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon name.
+     *
      * @return String.
      */
     @Bindable
@@ -77,9 +84,9 @@ public class PokemonViewModel extends BaseObservable {
     }
 
 
-
     /**
      * Get the pokemon height.
+     *
      * @return String.
      */
     @Bindable
@@ -89,6 +96,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon weight.
+     *
      * @return String.
      */
     @Bindable
@@ -98,6 +106,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon abilities.
+     *
      * @return String.
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -113,6 +122,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon stats.
+     *
      * @return List of Stats.
      */
     @Bindable
@@ -122,6 +132,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon evolution.
+     *
      * @return List of Pokemon.
      */
     @Bindable
@@ -131,6 +142,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon description.
+     *
      * @return String.
      */
     @Bindable
@@ -140,6 +152,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon gen.
+     *
      * @return int.
      */
     @Bindable
@@ -149,6 +162,7 @@ public class PokemonViewModel extends BaseObservable {
 
     /**
      * Get the pokemon color.
+     *
      * @return int
      */
     @Bindable

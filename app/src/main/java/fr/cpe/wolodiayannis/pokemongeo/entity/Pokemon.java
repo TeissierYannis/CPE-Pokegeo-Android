@@ -1,12 +1,18 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
+
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
+import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
+import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
@@ -75,11 +81,6 @@ public class Pokemon implements Serializable {
     private final StatList statList;
 
     /**
-     * Pokemon's image id.
-     */
-    private int imgID;
-
-    /**
      * Pokemon bg color.
      */
     private int color;
@@ -103,7 +104,6 @@ public class Pokemon implements Serializable {
         this.generationId = generationId;
         this.evolutionChainId = evolutionChainId;
 
-        this.setImgID(-1);
         // TODO to redefined
         this.color = BACKGROUND_COLOR.Unknown;
 
@@ -125,16 +125,6 @@ public class Pokemon implements Serializable {
      */
     public static Pokemon CREATE(int id, String name, int height, int weight, String description, int generationId, int evolutionChainId) {
         return new Pokemon(id, name, height, weight, description, generationId, evolutionChainId);
-    }
-
-    /**
-     * Pokemon set image ID.
-     * @param imgID Pokemon image ID.
-     * @return Pokemon Pokemon instance.
-     */
-    public Pokemon setImgID(int imgID) {
-        this.imgID = imgID;
-        return this;
     }
 
     /**
@@ -277,12 +267,4 @@ public class Pokemon implements Serializable {
      * @return abilities list
      */
     public AbilityList getAbility() { return abilityList;}
-
-    /**
-     * Get Pokemon's image id.
-     * @return Pokemon's image id.
-     */
-    public int getFrontResource() {
-        return this.imgID;
-    }
 }
