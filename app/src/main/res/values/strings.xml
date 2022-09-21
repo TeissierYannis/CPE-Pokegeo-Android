@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PokéFlow</string>
+    <string name="app_name">PokéGéo</string>
     <string name="pokedex_title">Pokédex</string>
     <string name="pokedex_subtitle">Search for a Pokémon</string>
     <string name="pokemon_image_desc">Pokémon Image</string>
@@ -23,4 +23,8 @@
     <string name="caught_title">Caught</string>
     <string name="caught_subtitle">Your crazy collection !</string>
     <string name="caught_pokemon_img_desc">Caught Pokémon</string>
+    <string name="wolodia_yannis"><![CDATA[Wolodia & Yannis]]></string>
+    <string name="app_icon_description">App icon</string>
+    <string name="pika_github_icon_desc">Github with pikachu\'s tail</string>
+    <string name="loading">Loading ...</string>
 </resources>

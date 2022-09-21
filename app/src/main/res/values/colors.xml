@@ -5,6 +5,8 @@
     <color name="colorText">#222543</color>
     <color name="colorTextLight">#CC222543</color>
 
+    <color name="pikaColor">#FFF100</color>
+    <color name="black">#000000</color>
     <!-- Dark Theme Colors -->
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorTextDark">#F0F2F6</color>
