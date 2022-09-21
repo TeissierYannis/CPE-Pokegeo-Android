@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.text.format.Formatter;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -159,6 +160,17 @@ public class MainActivity extends AppCompatActivity {
         // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        showNav(binding);
+
+        // show base fragment
+        showMap();
+    }
+
+    /**
+     * Show navigation
+     * @param binding ActivityMainBinding
+     */
+    private void showNav(ActivityMainBinding binding) {
         // set color of bottom nav icons
         binding.bottomNavigation.setItemIconTintList(null);
         // init listener of the bottom bar to change fragment
@@ -204,9 +216,14 @@ public class MainActivity extends AppCompatActivity {
         };
         // set listener to the bottom nav
         binding.bottomNavigation.setOnItemSelectedListener(listener);
+    }
 
-        // show base fragment
-        showMap();
+    /**
+     * Hide navigation bar.
+     * @param binding ActivityMainBinding
+     */
+    private void hideNav(ActivityMainBinding binding) {
+        binding.bottomNavigation.setVisibility(View.INVISIBLE);
     }
 
     private void callAndCacheData() throws IOException, ClassNotFoundException {
