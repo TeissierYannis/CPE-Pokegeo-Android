@@ -45,7 +45,7 @@ public class PokedexFragment extends Fragment {
         // Set the layout
         binding.pokemonList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         // new adapter
-        PokemonListAdapter adapter = new PokemonListAdapter(MainActivity.getPokemonList(), listener);
+        PokemonListAdapter adapter = new PokemonListAdapter(MainActivity.getDataList().getPokemons(), listener);
         // set the adapter
         binding.pokemonList.setAdapter(adapter);
 

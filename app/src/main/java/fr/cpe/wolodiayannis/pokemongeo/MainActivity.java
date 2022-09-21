@@ -4,16 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.text.format.Formatter;
@@ -34,16 +30,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
@@ -53,7 +46,6 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
-import fr.cpe.wolodiayannis.pokemongeo.utils.JsonFormatter;
 
 /**
  * Main activity of the app.
@@ -81,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
      * Location handler.
      */
     private Handler locationHandler;
+    /**
+     * All data list.
+     */
+    private static DataList dataList;
 
     /**
      * Get pokemon list
@@ -89,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
      */
     public static List<Pokemon> getPokemonList() {
         return pokemons;
+    }
+
+    public static DataList getDataList() {
+        return dataList;
     }
 
     /**
@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
             System.out.println("[ONLINE] You are online");
             // TODO Implement API call
+
+            this.dataList = new DataList();
 
         }
 
