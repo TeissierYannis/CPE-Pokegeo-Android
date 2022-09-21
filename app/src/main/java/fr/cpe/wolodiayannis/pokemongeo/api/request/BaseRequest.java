@@ -11,6 +11,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import fr.cpe.wolodiayannis.pokemongeo.api.BaseAPI;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,6 +26,10 @@ public class BaseRequest extends Request {
                 .build();
     }
 
+    /**
+     * Bypass SSL.
+     * @return
+     */
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
