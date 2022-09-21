@@ -36,6 +36,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import java.io.File;
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("[ONLINE] You are online");
             // TODO Implement API call
 
-            this.dataList = new DataList();
+            dataList = DataFetcher.fetchAllData();
 
         }
 
@@ -218,9 +219,9 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.show();
         } else {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**

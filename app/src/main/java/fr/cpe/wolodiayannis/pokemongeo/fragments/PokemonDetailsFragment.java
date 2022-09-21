@@ -62,30 +62,32 @@ public class PokemonDetailsFragment extends Fragment {
         binding.backArrow.setOnClickListener(v -> listener.onBackArrowClicked());
         // Define the bg color's
         binding.pokemonBg.getBackground().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
+        /**
         // Define progress bar color
         binding.pokemonHpValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
         binding.pokemonAttackValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
         binding.pokemonDefenseValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
         binding.pokemonSpattackValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
         binding.pokemonSpdefenseValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
         binding.pokemonSpeedValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
         binding.pokemonTotalValue.getProgressDrawable().setTint(
-                pokemon.getColor()
+                pokemon.getBackgroundColor()
         );
+         **/
 
         return binding.getRoot();
     }

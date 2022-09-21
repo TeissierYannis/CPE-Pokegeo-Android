@@ -16,6 +16,10 @@ public class ItemInventory {
     @SerializedName("data")
     private HashMap<Item, Integer> itemIventoryList;
 
+    public ItemInventory() {
+        this.itemIventoryList = new HashMap<>();
+    }
+
     public ItemInventory(HashMap<Item, Integer> itemIventoryList) {
         this.itemIventoryList = itemIventoryList;
     }
