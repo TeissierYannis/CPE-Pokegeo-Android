@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
 
+import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -34,5 +35,5 @@ public interface TypeAPI extends BaseAPI {
      * @param id Type id.
      */
     @GET("type/{id}")
-    Call<TypeList> getType(@Path("id") int id);
+    Call<Type> getType(@Path("id") int id);
 }

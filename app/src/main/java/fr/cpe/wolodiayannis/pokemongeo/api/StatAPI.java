@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 import retrofit2.Call;
@@ -22,5 +23,5 @@ public interface StatAPI extends BaseAPI {
      * @param id stat id.
      */
     @GET("stat/{id}")
-    Call<Item> getStat(@Path("id") int id);
+    Call<Stat> getStat(@Path("id") int id);
 }
