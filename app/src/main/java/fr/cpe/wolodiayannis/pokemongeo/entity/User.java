@@ -4,6 +4,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.types.DateTimeType;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.UserAdapter;
@@ -12,7 +13,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.UserAdapter;
  * User entity class.
  */
 @JsonAdapter(UserAdapter.class)
-public class User {
+public class User implements Serializable  {
     /**
      * User id.
      */

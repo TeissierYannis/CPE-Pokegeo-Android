@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemsInventoryAdapter;
@@ -11,7 +12,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemsInventoryAdapter;
  * Items inventory class.
  */
 @JsonAdapter(ItemsInventoryAdapter.class)
-public class ItemInventory {
+public class ItemInventory implements Serializable {
 
     @SerializedName("data")
     private HashMap<Item, Integer> itemIventoryList;

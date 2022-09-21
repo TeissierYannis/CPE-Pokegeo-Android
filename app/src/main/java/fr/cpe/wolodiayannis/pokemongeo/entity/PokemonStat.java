@@ -2,10 +2,12 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 import com.google.gson.annotations.JsonAdapter;
 
+import java.io.Serializable;
+
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonStatAdapter;
 
 @JsonAdapter(PokemonStatAdapter.class)
-public class PokemonStat {
+public class PokemonStat implements Serializable {
 
     /**
      * Stat of the pokemon.
