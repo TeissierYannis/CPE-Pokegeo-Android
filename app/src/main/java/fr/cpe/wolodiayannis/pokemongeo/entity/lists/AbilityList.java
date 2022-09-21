@@ -12,6 +12,13 @@ public class AbilityList {
      */
     private List<Ability> abilityList;
 
+    /**
+     * Constructor.
+     * @param abilityList List of ability.
+     */
+    public AbilityList(List<Ability> abilityList) {
+        this.abilityList = abilityList;
+    }
 
     /**
      * Get the ability list.

@@ -3,6 +3,8 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
@@ -103,9 +105,9 @@ public class Pokemon {
         // TODO to redefined
         this.color = BACKGROUND_COLOR.Unknown;
 
-        this.abilityList = new AbilityList();
-        this.typeList = new TypeList();
-        this.statList = new StatList();
+        this.abilityList = new AbilityList(new ArrayList<>());
+        this.typeList = new TypeList(new ArrayList<>());
+        this.statList = new StatList(new ArrayList<>());
     }
 
     /**

@@ -13,6 +13,14 @@ public class StatList {
     private List<Stat> statsList;
 
     /**
+     * Constructor.
+     * @param statsList
+     */
+    public StatList(List<Stat> statsList) {
+        this.statsList = statsList;
+    }
+
+    /**
      * Get the stat list.
      * @return List of stat.
      */
