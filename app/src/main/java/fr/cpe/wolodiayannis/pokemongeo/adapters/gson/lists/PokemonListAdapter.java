@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.adapters.gson;
+package fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

@@ -4,7 +4,7 @@ import com.google.gson.annotations.JsonAdapter;
 
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 @JsonAdapter(PokemonListAdapter.class)

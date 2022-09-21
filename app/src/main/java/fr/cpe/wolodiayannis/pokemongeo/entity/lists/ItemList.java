@@ -4,7 +4,7 @@ import com.google.gson.annotations.JsonAdapter;
 
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.ItemListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 
 @JsonAdapter(ItemListAdapter.class)

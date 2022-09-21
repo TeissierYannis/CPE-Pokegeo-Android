@@ -21,6 +21,8 @@ public class DataFetcher {
         TypeList typeList = TypeRequest.getAllTypes();
         AbilityList abilityList = AbilityRequest.getAllAbilities();
 
+        System.out.println("Pokemon list size : " + pokemonList.getPokemonList().size());
+
         return new DataList(
                 pokemonList.getPokemonList(),
                 itemList.getItemList(),

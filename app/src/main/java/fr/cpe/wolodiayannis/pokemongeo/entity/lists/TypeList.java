@@ -1,11 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity.lists;
 
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.TypeListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.TypeListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 
 @JsonAdapter(TypeListAdapter.class)
