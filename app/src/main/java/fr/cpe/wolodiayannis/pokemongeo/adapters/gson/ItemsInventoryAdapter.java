@@ -13,6 +13,21 @@ public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
     @Override
     public void write(com.google.gson.stream.JsonWriter out, ItemInventory value) throws java.io.IOException {
 
+        out.beginObject();
+        out.name("data");
+        out.beginArray();
+        for (Item item : value.getItemIventoryList().keySet()) {
+            out.beginObject();
+            out.name("id");
+            out.value(item.getId());
+            out.name("name");
+            out.value(item.getName());
+            out.name("quantity");
+            out.value(value.getItemIventoryList().get(item));
+            out.endObject();
+        }
+        out.endArray();
+        out.endObject();
     }
 
     /**
