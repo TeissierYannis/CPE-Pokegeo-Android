@@ -7,7 +7,6 @@ import java.util.List;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 public class PokemonList {
-    @SerializedName("data")
     private List<Pokemon> pokemonList;
 
     /**

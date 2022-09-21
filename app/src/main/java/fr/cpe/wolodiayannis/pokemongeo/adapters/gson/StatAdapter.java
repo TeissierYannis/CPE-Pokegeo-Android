@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 
+import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 
@@ -42,7 +43,8 @@ public class StatAdapter extends TypeAdapter<Stat> {
          *   }
          * }
          */
-
+        System.out.println("StatAdapter.read");
+        System.out.println(in.peek());
         in.beginObject();
         in.nextName();
         in.nextString();

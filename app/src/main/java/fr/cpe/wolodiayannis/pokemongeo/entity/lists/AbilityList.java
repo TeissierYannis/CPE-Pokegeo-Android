@@ -10,7 +10,6 @@ public class AbilityList {
     /**
      * List of ability
      */
-    @SerializedName("data")
     private List<Ability> abilityList;
 
 

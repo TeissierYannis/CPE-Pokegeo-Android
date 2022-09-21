@@ -12,7 +12,6 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
     public void write(com.google.gson.stream.JsonWriter out, Pokemon value) throws IOException {
         out.beginObject();
         out.name("data");
-        out.beginArray();
         out.beginObject();
         out.name("id");
         out.value(value.getId());
@@ -29,7 +28,6 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
         out.name("evolution_chain_id");
         out.value(value.getEvolutionChainId());
         out.endObject();
-        out.endArray();
         out.endObject();
     }
 
@@ -56,7 +54,7 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
          *   }
          * }
          */
-
+        System.out.println("[DEBUG] " + in);
         in.beginObject();
         in.nextName();
         in.nextString();

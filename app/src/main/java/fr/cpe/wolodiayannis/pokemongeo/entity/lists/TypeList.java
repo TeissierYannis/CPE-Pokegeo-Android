@@ -10,7 +10,6 @@ public class TypeList {
     /**
      * List of type
      */
-    @SerializedName("data")
     private List<Type> typeList;
 
     /**

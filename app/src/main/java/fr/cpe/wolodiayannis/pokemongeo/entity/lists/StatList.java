@@ -11,7 +11,6 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 @JsonAdapter(StatAdapter.class)
 public class StatList {
 
-    @SerializedName("data")
     private List<Stat> statsList;
 
     /**
