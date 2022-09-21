@@ -49,6 +49,11 @@ public class Item {
         return name;
     }
 
+    /**
+     * Check if two items are equals.
+     * @param o Item to compare.
+     * @return True if equals, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,6 +62,9 @@ public class Item {
         return getId() == item.getId() && getName().equals(item.getName());
     }
 
+    /**
+     * Hash the object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName());

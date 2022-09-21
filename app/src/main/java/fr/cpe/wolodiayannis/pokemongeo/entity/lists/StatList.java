@@ -14,6 +14,10 @@ public class StatList {
     @SerializedName("data")
     private List<Stat> statsList;
 
+    /**
+     * Get the stat list.
+     * @return List of stat.
+     */
     public List<Stat> getStatsList() {
         return statsList;
     }

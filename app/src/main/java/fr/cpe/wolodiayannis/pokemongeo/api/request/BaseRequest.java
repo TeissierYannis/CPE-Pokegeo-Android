@@ -18,6 +18,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseRequest extends Request {
 
+    /**
+     * Get Retrofit from the API.
+     * @return Retrofit builder.
+     */
     public static Retrofit getRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl("https://vps-af8ec19b.vps.ovh.net:6868/api/v1/")
@@ -28,7 +32,7 @@ public class BaseRequest extends Request {
 
     /**
      * Bypass SSL.
-     * @return
+     * @return UnsafeOkHttpClient.
      */
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {
@@ -67,7 +71,6 @@ public class BaseRequest extends Request {
                     return true;
                 }
             });
-
             return builder.build();
         } catch (Exception e) {
             throw new RuntimeException(e);

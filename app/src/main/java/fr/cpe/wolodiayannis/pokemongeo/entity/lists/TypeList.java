@@ -13,6 +13,10 @@ public class TypeList {
     @SerializedName("data")
     private List<Type> typeList;
 
+    /**
+     * Get the type list.
+     * @return List of type.
+     */
     public List<Type> getTypeList() {
         return typeList;
     }

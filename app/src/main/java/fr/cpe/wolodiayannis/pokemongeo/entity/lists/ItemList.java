@@ -13,6 +13,10 @@ public class ItemList {
     @SerializedName("data")
     private List<Item> itemList;
 
+    /**
+     * Get the item list.
+     * @return List of item.
+     */
     public List<Item> getItemList() {
         return itemList;
     }

@@ -253,17 +253,25 @@ public class Pokemon {
     }
 
     /**
-     * Get typess.
-     * @return
+     * Get types list.
+     * @return types list
      */
     public TypeList getTypes() {
         return this.typeList;
     }
 
+    /**
+     * Get stats list.
+     * @return stats list
+     */
     public StatList getStats() {
         return this.statList;
     }
 
+    /**
+     * Get abilities list.
+     * @return abilities list
+     */
     public AbilityList getAbility() { return abilityList;}
 
     /**

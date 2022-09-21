@@ -13,6 +13,10 @@ public class PokemonStatList {
     @SerializedName("data")
     private List<Stat> statList;
 
+    /**
+     * Get the pokemon stat list.
+     * @return List of pokemon stat.
+     */
     public List<Stat> getStatList() {
         return statList;
     }

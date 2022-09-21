@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
             // TODO Implement API call
 
             dataList = DataFetcher.fetchAllData();
-
         }
 
         // init preference manager

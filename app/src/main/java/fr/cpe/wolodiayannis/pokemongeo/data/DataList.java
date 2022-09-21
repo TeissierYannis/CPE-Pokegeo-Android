@@ -25,6 +25,14 @@ public class DataList {
     // public static final List<UserExperienceLevel> usersExperienceLevel;
     // public static final List<PokemonExperienceLevel> pokemonsExperienceLevel;
 
+    /**
+     * Constructor.
+     * @param types List of types.
+     * @param items List of items.
+     * @param stats List of stats.
+     * @param pokemons List of pokemons.
+     * @param abilities List of abilities.
+     */
     public DataList(List<Pokemon> pokemons, List<Item> items, List<Stat> stats, List<Type> types, List<Ability> abilities) {
         this.pokemons = pokemons;
         this.items = items;
@@ -33,21 +41,45 @@ public class DataList {
         this.abilities = abilities;
     }
 
+    /**
+     * DataList factory.
+     * @param types List of types.
+     * @param items List of items.
+     * @param stats List of stats.
+     * @param pokemons List of pokemons.
+     * @param abilities List of abilities.
+     * @return DataList instance.
+     */
     public static DataList CREATE(List<Pokemon> pokemons, List<Item> items, List<Stat> stats, List<Type> types, List<Ability> abilities) {
         return new DataList(pokemons, items, stats, types, abilities);
     }
 
+    /**
+     * Get the pokemons list.
+     */
     public List<Pokemon> getPokemons() {
         return pokemons;
     }
 
+    /**
+     * Get the items list.
+     */
     public List<Item> getItems() {
         return items;
     }
 
+    /**
+     * Get the stats list.
+     */
     public List<Stat> getStats() { return stats; }
 
+    /**
+     * Get the types list.
+     */
     public List<Type> getTypes() { return types; }
 
+    /**
+     * Get the abilities list.
+     */
     public List<Ability> getAbilities() { return abilities; }
 }

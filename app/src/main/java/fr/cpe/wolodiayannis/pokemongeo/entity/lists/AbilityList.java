@@ -13,6 +13,11 @@ public class AbilityList {
     @SerializedName("data")
     private List<Ability> abilityList;
 
+
+    /**
+     * Get the ability list.
+     * @return List of ability.
+     */
     public List<Ability> getAbilityList() {
         return abilityList;
     }

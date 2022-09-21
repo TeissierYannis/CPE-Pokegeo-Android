@@ -64,7 +64,7 @@ public class PokemonDetailsFragment extends Fragment {
         binding.pokemonBg.getBackground().setTint(
                 pokemon.getBackgroundColor()
         );
-        /**
+        /*
         // Define progress bar color
         binding.pokemonHpValue.getProgressDrawable().setTint(
                 pokemon.getBackgroundColor()

@@ -10,6 +10,10 @@ public class PokemonList {
     @SerializedName("data")
     private List<Pokemon> pokemonList;
 
+    /**
+     * Get the pokemon list.
+     * @return List of pokemon.
+     */
     public List<Pokemon> getPokemonList() {
         return pokemonList;
     }

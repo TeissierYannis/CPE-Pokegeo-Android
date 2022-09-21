@@ -68,7 +68,7 @@ public class PokedexFragment extends Fragment {
 
     /**
      * Set the listener.
-     * @param listener
+     * @param listener listener
      */
     public void setPokedexListenerInterface(PokedexListenerInterface listener) {
         this.listener = listener;

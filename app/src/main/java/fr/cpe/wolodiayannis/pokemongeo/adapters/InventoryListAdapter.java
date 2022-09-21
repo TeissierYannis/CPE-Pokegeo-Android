@@ -39,7 +39,10 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     }
 
     /**
-     * @{inheritDoc}
+     * Create a new ViewHolder.
+     * @param parent Parent ViewGroup.
+     * @param viewType ViewType.
+     * @return ViewHolder.
      */
     @NonNull
     @Override
@@ -52,7 +55,9 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     }
 
     /**
-     * @{inheritDoc}
+     * Bind the ViewHolder.
+     * @param holder ViewHolder.
+     * @param position Position.
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -69,16 +74,18 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     }
 
     /**
-     * @{inheritDoc}
+     * Get the number of items in the inventory.
+     * @return the number of items in the inventory.
      */
     @Override
     public int getItemCount() {
+        // TODO
         return 1;
     }
 
 
     /**
-     * The view holder.
+     * ViewHolder for the inventory list.
      */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final InventoryItemBinding binding;
