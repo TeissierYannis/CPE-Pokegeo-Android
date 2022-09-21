@@ -10,10 +10,6 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.StatAdapter;
 @JsonAdapter(StatAdapter.class)
 public class Stat implements Serializable {
     /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = 1L;
-    /**
      * Stat ID.
      */
     @SerializedName("id")

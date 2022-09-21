@@ -33,4 +33,24 @@ public class DataFetcher {
                 abilityList.getAbilityList()
         );
     }
+
+    public static PokemonList fetchPokemonList() {
+        return PokemonRequest.getPokemons();
+    }
+
+    public static ItemList fetchItemList() {
+        return ItemRequest.getAllItems();
+    }
+
+    public static StatList fetchStatList() {
+        return StatRequest.getAllStats();
+    }
+
+    public static TypeList fetchTypeList() {
+        return TypeRequest.getAllTypes();
+    }
+
+    public static AbilityList fetchAbilityList() {
+        return AbilityRequest.getAllAbilities();
+    }
 }

@@ -35,12 +35,17 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.LOCATION_HARDWARE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.LOCATION_HARDWARE }, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.LOCATION_HARDWARE}, 1);
         }
 
         // if player do not have internet access, ask him to go online
@@ -131,28 +136,12 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
 
             System.out.println("[ONLINE] You are online");
-            // TODO Implement API call
-
 
             try {
-                dataList = (DataList) InternalStorage.readObject(this, "dataList");
-                System.out.println("[INFO] DataList loaded from internal storage");
+                this.callAndCacheData();
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("[INFO] DataList not found in internal storage");
-                System.out.println("[ERROR] " + e.getMessage());
                 e.printStackTrace();
-                System.out.println("[INFO] Fetching DataList from API");
-                dataList = DataFetcher.fetchAllData();
-
-                try {
-                    InternalStorage.writeObject(this, "dataList", dataList);
-                } catch (IOException er) {
-                    System.out.println("[ERROR] Cache not saved");
-                    er.printStackTrace();
-
-                }
             }
-
 
         }
 
@@ -218,6 +207,79 @@ public class MainActivity extends AppCompatActivity {
 
         // show base fragment
         showMap();
+    }
+
+    private void callAndCacheData() throws IOException, ClassNotFoundException {
+        List<Ability> abilityList = new ArrayList<>();
+        List<Item> itemList = new ArrayList<>();
+        List<Pokemon> pokemonList = new ArrayList<>();
+        List<Type> typeList = new ArrayList<>();
+        List<Stat> statList = new ArrayList<>();
+        try {
+            abilityList = (List<Ability>) InternalStorage.readObject(this, "data_abilities");
+            System.out.println("[CACHE] Ability list loaded from cache");
+        } catch (Exception e) {
+            try {
+                abilityList = DataFetcher.fetchAbilityList().getAbilityList();
+                InternalStorage.writeObject(this, "data_abilities", abilityList);
+                System.out.println("[CACHE] Ability list cached");
+            } catch (Exception exception) {
+                System.err.println("[CACHE] Abilities list cannot be cached : " + exception.getMessage());
+            }
+        }
+
+        try {
+            itemList = (List<Item>) InternalStorage.readObject(this, "data_items");
+            System.out.println("[CACHE] Item list loaded from cache");
+        } catch (Exception e) {
+            try {
+                itemList = DataFetcher.fetchItemList().getItemList();
+                InternalStorage.writeObject(this, "data_items", itemList);
+                System.out.println("[CACHE] Item list cached");
+            } catch (Exception exception) {
+                System.err.println("[CACHE] Items list cannot be cached : " + exception.getMessage());
+            }
+        }
+
+        try {
+           pokemonList = (List<Pokemon>) InternalStorage.readObject(this, "data_pokemons");
+            System.out.println("[CACHE] Pokemon list loaded from cache");
+        } catch (Exception e) {
+            try {
+                pokemonList = DataFetcher.fetchPokemonList().getPokemonList();
+                InternalStorage.writeObject(this, "data_pokemons", pokemonList);
+                System.out.println("[CACHE] Pokemon list cached");
+            } catch (Exception exception) {
+                System.err.println("[CACHE] Pokemon list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
+            }
+        }
+
+        try {
+            typeList = (List<Type>) InternalStorage.readObject(this, "data_types");
+            System.out.println("[CACHE] Type list loaded from cache");
+        } catch (Exception e) {
+            try {
+                typeList = DataFetcher.fetchTypeList().getTypeList();
+                InternalStorage.writeObject(this, "data_types", typeList);
+                System.out.println("[CACHE] Type list cached");
+            } catch (Exception exception) {
+                System.err.println("[CACHE] Types list cannot be cached : " + exception.getMessage());
+            }
+        }
+        try {
+            statList = (List<Stat>) InternalStorage.readObject(this, "data_stats");
+            System.out.println("[CACHE] Stat list loaded from cache");
+        } catch (Exception e) {
+            try {
+                statList = DataFetcher.fetchStatList().getStatsList();
+                InternalStorage.writeObject(this, "data_stats", statList);
+                System.out.println("[CACHE] Stat list cached");
+            } catch (Exception exception) {
+                System.err.println("[CACHE] Stat list cannot be cached : " + exception.getMessage());
+            }
+        }
+        dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
     }
 
     /**

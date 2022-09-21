@@ -14,6 +14,7 @@ public class DataList implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // serializable lists
     public final List<Type> types;
     public final List<Item> items;
     public final List<Stat> stats;

@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity.lists;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.StatAdapter;
@@ -10,7 +11,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.StatListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 
 @JsonAdapter(StatListAdapter.class)
-public class StatList {
+public class StatList implements Serializable {
 
     /**
      * List of stats

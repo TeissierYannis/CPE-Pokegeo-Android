@@ -2,13 +2,14 @@ package fr.cpe.wolodiayannis.pokemongeo.entity.lists;
 
 import com.google.gson.annotations.JsonAdapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.TypeListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 
 @JsonAdapter(TypeListAdapter.class)
-public class TypeList {
+public class TypeList implements Serializable {
     /**
      * List of type
      */

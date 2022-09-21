@@ -14,11 +14,6 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.TypeAdapter;
 public class Type implements Serializable {
 
     /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = 1L;
-
-    /**
      * Type id.
      */
     @SerializedName("id")

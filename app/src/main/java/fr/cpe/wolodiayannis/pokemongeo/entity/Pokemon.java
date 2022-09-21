@@ -18,10 +18,6 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 @JsonAdapter(PokemonAdapter.class)
 public class Pokemon implements Serializable {
     /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = 1L;
-    /**
      * Pokemon ID.
      */
     @SerializedName("id")

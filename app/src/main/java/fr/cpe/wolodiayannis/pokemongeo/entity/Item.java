@@ -14,10 +14,6 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
 @JsonAdapter(ItemAdapter.class)
 public class Item implements Serializable {
     /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = 1L;
-    /**
      * Item id.
      */
     @SerializedName("id")
