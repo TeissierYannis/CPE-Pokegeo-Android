@@ -16,6 +16,7 @@ import android.os.StrictMode;
 import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -92,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Window window = getWindow();
+        window.setStatusBarColor(getColor(R.color.colorPrimaryDark));
 
         // Get data from intent putExtra
         Bundle extras = getIntent().getExtras();

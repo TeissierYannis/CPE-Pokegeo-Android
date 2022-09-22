@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -66,6 +67,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         progressBarText = findViewById(R.id.progress_bar_text);
+
+        Window window = getWindow();
+        window.setStatusBarColor(getColor(R.color.pikaColor));
 
         progressBar.setMax(100);
         progressBar.setScaleY(2f);
