@@ -18,6 +18,7 @@ import android.os.StrictMode;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +58,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,14 +97,28 @@ public class SplashScreenActivity extends AppCompatActivity {
             Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            new FetchingAndLoading().execute();
+        }
+    }
+
+    /**
+     * On permission result, fetch location.
+     *
+     * @param requestCode  request code
+     * @param permissions  permissions
+     * @param grantResults grant results
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                new FetchingAndLoading().execute();
+            }
         }
     }
 
     private class FetchingAndLoading extends AsyncTask<String, Void, String> {
-
-
         @Override
         protected String doInBackground(String... params) {
 
@@ -137,6 +153,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+            // pass data to main activity
+            intent.putExtra("dataList", dataList);
             startActivity(intent);
             // close this activity
             finish();

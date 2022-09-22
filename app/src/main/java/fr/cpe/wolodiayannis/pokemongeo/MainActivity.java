@@ -61,11 +61,6 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
  * Main activity of the app.
  */
 public class MainActivity extends AppCompatActivity {
-
-    /**
-     * Request code for permission request.
-     */
-    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     /**
      * Actual location.
      */
@@ -76,10 +71,6 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
 
     /**
-     * Pokemon list.
-     */
-    static List<Pokemon> pokemons;
-    /**
      * Location handler.
      */
     private Handler locationHandler;
@@ -87,15 +78,6 @@ public class MainActivity extends AppCompatActivity {
      * All data list.
      */
     private static DataList dataList;
-
-    /**
-     * Get pokemon list
-     *
-     * @return pokemon list
-     */
-    public static List<Pokemon> getPokemonList() {
-        return pokemons;
-    }
 
     public static DataList getDataList() {
         return dataList;
@@ -111,7 +93,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        // Get data from intent putExtra
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            dataList = (DataList) extras.getSerializable("dataList");
+        }
 
         // init fusedLocationClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -125,18 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
         showNav(binding);
 
-        try {
-            this.LoadFromCache();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
         // show base fragment
         showMap();
     }
 
     /**
      * Show navigation
+     *
      * @param binding ActivityMainBinding
      */
     private void showNav(ActivityMainBinding binding) {
@@ -186,17 +167,6 @@ public class MainActivity extends AppCompatActivity {
         // set listener to the bottom nav
         binding.bottomNavigation.setOnItemSelectedListener(listener);
     }
-
-    private void LoadFromCache() throws IOException, ClassNotFoundException {
-        List<Ability> abilityList = (List<Ability>) InternalStorage.readObject(this, "data_abilities");
-        List<Item> itemList = (List<Item>) InternalStorage.readObject(this, "data_items");
-        List<Pokemon> pokemonList = (List<Pokemon>) InternalStorage.readObject(this, "data_pokemons");
-        List<Type> typeList = (List<Type>) InternalStorage.readObject(this, "data_types");
-        List<Stat> statList = (List<Stat>) InternalStorage.readObject(this, "data_stats");
-
-        dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
-    }
-
 
     /**
      * Show map fragment.
@@ -292,45 +262,34 @@ public class MainActivity extends AppCompatActivity {
      * Start fetching location.
      */
     public void fetchLocation() {
-        // check if location is enabled
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        // get location with task
-        Task<Location> locationTask = this.fusedLocationClient.getLastLocation();
-        // add listener to task to send location to fragment
-        locationTask.addOnSuccessListener(location -> {
-            if (location != null) {
-                currentLocation = location;
-                //Toast.makeText(this, "Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-                MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                try {
-                    assert mapFragment != null;
-                    mapFragment.getMapAsync(this);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (isLocationEnabled()) {
+            // get location with task
+            @SuppressLint("MissingPermission")
+            Task<Location> locationTask = this.fusedLocationClient.getLastLocation();
+            // add listener to task to send location to fragment
+            locationTask.addOnSuccessListener(location -> {
+                if (location != null) {
+                    currentLocation = location;
+                    //Toast.makeText(this, "Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+                    MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    try {
+                        assert mapFragment != null;
+                        mapFragment.getMapAsync(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
-    /**
-     * On permission result, fetch location.
-     *
-     * @param requestCode  request code
-     * @param permissions  permissions
-     * @param grantResults grant results
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                fetchLocation();
-            }
+    public boolean isLocationEnabled() {
+        // check if location is enabled
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.err.println("[ERROR] Location not enabled");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -392,13 +351,15 @@ public class MainActivity extends AppCompatActivity {
      * Start location handler to update location.
      */
     private void startFetchingLocation() {
-        this.locationHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fetchLocation();
-                locationHandler.postDelayed(this, 100);
-            }
-        }, 100);
+        if (isLocationEnabled()) {
+            this.locationHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchLocation();
+                    locationHandler.postDelayed(this, 100);
+                }
+            }, 100);
+        }
     }
 
     /**

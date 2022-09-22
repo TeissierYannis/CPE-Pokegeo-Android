@@ -115,7 +115,7 @@ public class PokemonViewModel extends BaseObservable {
         // convert abilities to string
         StringBuilder abilities = new StringBuilder();
         pokemon.getAbilities().getAbilityList().forEach(ability -> abilities.append(ability.getName()).append(", "));
-        abilities.deleteCharAt(abilities.length() - 1);
+
 
         return abilities.toString().replaceAll("_", " ");
     }
