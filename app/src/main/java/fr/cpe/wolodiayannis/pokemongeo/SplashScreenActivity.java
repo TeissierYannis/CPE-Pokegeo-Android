@@ -69,7 +69,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         progressBar.setMax(100);
         progressBar.setScaleY(2f);
-        setProgress(50);
 
         try {
             // Ask for permissions
@@ -113,12 +112,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                new FetchingAndLoading().execute();
+                new FetchingAndLoading(progressBar).execute();
             }
         }
     }
 
     private class FetchingAndLoading extends AsyncTask<String, Void, String> {
+
+        private final ProgressBar progressBar;
+
+        public FetchingAndLoading(ProgressBar progressBar) {
+            super();
+            this.progressBar = progressBar;
+        }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -130,13 +137,17 @@ public class SplashScreenActivity extends AppCompatActivity {
                 System.out.println("[ONLINE] You are online");
 
                 try {
-
+                    progressBar.setProgress(0);
                     List<Pokemon> pokemonList = callAndCachePokemonList();
+                    progressBar.setProgress(20);
                     List<Item> itemList = callAndCacheItemList();
+                    progressBar.setProgress(40);
                     List<Stat> statList = callAndCacheStatList();
+                    progressBar.setProgress(60);
                     List<Type> typeList = callAndCacheTypeList();
+                    progressBar.setProgress(80);
                     List<Ability> abilityList = callAndCacheAbilityList();
-
+                    progressBar.setProgress(100);
                     dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
 
                 } catch (IOException | ClassNotFoundException e) {
@@ -148,6 +159,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         /**
          * change to main after fetching
+         *
          * @param result result of the fetching
          */
         @Override
@@ -161,14 +173,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
 
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
         }
     }
-
 
     /**
      * Check if the player is online.
@@ -193,7 +205,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
     private List<Ability> callAndCacheAbilityList() throws IOException, ClassNotFoundException {
         List<Ability> abilityList = new ArrayList<>();
