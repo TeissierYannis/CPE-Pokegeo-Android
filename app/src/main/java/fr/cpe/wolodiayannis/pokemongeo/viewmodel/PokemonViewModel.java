@@ -25,7 +25,6 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 public class PokemonViewModel extends BaseObservable {
     private Pokemon pokemon = null;
 
-
     /**
      * set pokemon.
      *

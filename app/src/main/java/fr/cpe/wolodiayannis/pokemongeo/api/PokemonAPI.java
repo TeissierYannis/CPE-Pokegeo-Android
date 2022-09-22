@@ -7,6 +7,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -39,8 +40,8 @@ public interface PokemonAPI extends BaseAPI {
     /**
      * Get pokemon types
      */
-    @GET("pokemon/types/{id}")
-    Call<TypeList> getTypes(@Path("id") int id);
+    @GET("pokemon/types/all")
+    Call<PokemonTypeList> getTypes();
 
     /**
      * Get pokemon stats

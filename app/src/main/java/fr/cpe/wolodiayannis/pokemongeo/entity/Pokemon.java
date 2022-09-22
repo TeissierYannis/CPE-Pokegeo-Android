@@ -74,7 +74,7 @@ public class Pokemon implements Serializable {
     /**
      * List of types.
      */
-    private final TypeList typeList;
+    private List<Integer> typeList;
 
     /**
      * List of stats.
@@ -109,7 +109,7 @@ public class Pokemon implements Serializable {
         this.color = BACKGROUND_COLOR.Unknown;
 
         this.abilityList = new ArrayList<>();
-        this.typeList = new TypeList(new ArrayList<>());
+        this.typeList = new ArrayList<>();
         this.statList = new StatList(new ArrayList<>());
     }
 
@@ -197,7 +197,7 @@ public class Pokemon implements Serializable {
      * @return color int.
     */
     public int generateColor() {
-        switch (this.typeList.getTypeList().get(0).getName()) {
+        switch (MainActivity.getDataList().getTypes().get(typeList.get(0)).getName()) {
             case "normal" :
                 return BACKGROUND_COLOR.Normal;
             case "fighting" :
@@ -251,7 +251,7 @@ public class Pokemon implements Serializable {
      * Get types list.
      * @return types list
      */
-    public TypeList getTypes() {
+    public List<Integer> getTypes() {
         return this.typeList;
     }
 
@@ -275,5 +275,14 @@ public class Pokemon implements Serializable {
      */
     public void setAbilities(List<Integer> abilityList) {
         this.abilityList = abilityList;
+    }
+
+    /**
+     * Set types list
+     * @param typeList types list
+     */
+    public void setTypes(List<Integer> typeList) {
+        this.typeList = typeList;
+        generateColor();
     }
 }

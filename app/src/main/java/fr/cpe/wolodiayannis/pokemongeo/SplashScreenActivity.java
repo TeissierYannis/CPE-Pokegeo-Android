@@ -152,11 +152,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                 try {
                     List<Pokemon> pokemonList = callAndCachePokemonList();
                     HashMap<Integer, List<Integer>> abilityListForEachPokemon = callAndCachePokemonAbilitiesList();
-
+                    HashMap<Integer, List<Integer>> typeListForEachPokemon = callAndCachePokemonTypesList();
                     for (Pokemon pokemon : pokemonList) {
-                        int pokemonID = pokemon.getId();
-                        List<Integer> abilities = abilityListForEachPokemon.get(pokemonID);
                         pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
+                        pokemon.setTypes(typeListForEachPokemon.get(pokemon.getId()));
                         // get place of the pokemon in the list
                         int pokemonIndex = pokemonList.indexOf(pokemon);
                         // get the pokemon from the list
@@ -297,6 +296,22 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
         return abilityList;
+    }
+
+    private HashMap<Integer, List<Integer>> callAndCachePokemonTypesList() {
+        HashMap<Integer, List<Integer>> typesList = new HashMap<>();
+        try {
+            typesList = (HashMap<Integer, List<Integer>>) InternalStorage.readObject(this, "data_pokemon_types");
+        } catch (Exception e) {
+            try {
+                typesList = DataFetcher.fetchPokemonTypes();
+                InternalStorage.writeObject(this, "data_pokemon_types", typesList);
+            } catch (Exception exception) {
+                logOnUiThreadError("[CACHE] Pokemon types list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
+            }
+        }
+        return typesList;
     }
 
     private List<Stat> callAndCacheStatList() throws IOException, ClassNotFoundException {

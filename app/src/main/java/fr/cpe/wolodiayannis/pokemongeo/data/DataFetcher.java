@@ -43,8 +43,8 @@ public class DataFetcher {
         return Objects.requireNonNull(PokemonRequest.getPokemonAbilities()).getAbilityList();
     }
 
-    public static TypeList fetchPokemonTypes(int id) {
-        return PokemonRequest.getPokemonType(id);
+    public static HashMap<Integer, List<Integer>> fetchPokemonTypes() {
+        return Objects.requireNonNull(PokemonRequest.getPokemonTypes()).getTypes();
     }
 
     public static PokemonStatList fetchPokemonStats(int id) {

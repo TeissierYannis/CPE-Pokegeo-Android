@@ -13,6 +13,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
 
@@ -87,14 +88,13 @@ public class PokemonRequest extends BaseRequest {
     /**
      * Get pokemonType
      *
-     * @param id Pokemon id.
      * @return PokemonType.
      */
-    public static TypeList getPokemonType(int id) {
-        Call<TypeList> call = getAPI().getTypes(id);
+    public static PokemonTypeList getPokemonTypes() {
+        Call<PokemonTypeList> call = getAPI().getTypes();
 
         try {
-            TypeList typeList = call.execute().body();
+            PokemonTypeList typeList = call.execute().body();
             LogAPI("PokemonType");
             return typeList;
         } catch (IOException e) {
