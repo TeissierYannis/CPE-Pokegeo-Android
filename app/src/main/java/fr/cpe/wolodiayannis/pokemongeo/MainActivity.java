@@ -1,26 +1,22 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
+import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
+import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Location;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.text.format.Formatter;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -37,18 +33,10 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
@@ -56,7 +44,6 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
-import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
 
 /**
  * Main activity of the app.
@@ -290,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean isLocationEnabled() {
         // check if location is enabled
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.err.println("[ERROR] Location not enabled");
+            logOnUiThreadError("[ERROR] Location not enabled");
             return false;
         } else {
             return true;
@@ -347,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateStorageInfo() {
         long cacheSize = updateStoragePreferences(this);
         //cache management ends her
-        System.out.println("[DEBUG] " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
+        logOnUiThread("[DEBUG] " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
                 "Cache size: " + Formatter.formatFileSize(this, cacheSize));
     }
 

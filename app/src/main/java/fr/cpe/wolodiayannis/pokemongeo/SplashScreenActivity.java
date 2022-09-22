@@ -1,6 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo;
 
-import static java.lang.Thread.sleep;
+
+import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
+import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -13,7 +15,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.view.Window;
 import android.widget.ProgressBar;
@@ -138,7 +139,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
 
-                System.out.println("[ONLINE] You are online");
+                logOnUiThread("[ONLINE] You are online");
 
                 try {
                     progressBar.setProgress(0);
@@ -214,14 +215,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         List<Ability> abilityList = new ArrayList<>();
         try {
             abilityList = (List<Ability>) InternalStorage.readObject(this, "data_abilities");
-            System.out.println("[CACHE] Ability list loaded from cache");
+            logOnUiThread("[CACHE] Ability list loaded from cache");
         } catch (Exception e) {
             try {
                 abilityList = DataFetcher.fetchAbilityList().getAbilityList();
                 InternalStorage.writeObject(this, "data_abilities", abilityList);
-                System.out.println("[CACHE] Ability list cached");
+                logOnUiThread("[CACHE] Ability list cached");
             } catch (Exception exception) {
-                System.err.println("[CACHE] Abilities list cannot be cached : " + exception.getMessage());
+                logOnUiThreadError("[CACHE] Abilities list cannot be cached : " + exception.getMessage());
             }
         }
         return abilityList;
@@ -231,14 +232,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         List<Item> itemList = new ArrayList<>();
         try {
             itemList = (List<Item>) InternalStorage.readObject(this, "data_items");
-            System.out.println("[CACHE] Item list loaded from cache");
+            logOnUiThread("[CACHE] Item list loaded from cache");
         } catch (Exception e) {
             try {
                 itemList = DataFetcher.fetchItemList().getItemList();
                 InternalStorage.writeObject(this, "data_items", itemList);
-                System.out.println("[CACHE] Item list cached");
+                logOnUiThread("[CACHE] Item list cached");
             } catch (Exception exception) {
-                System.err.println("[CACHE] Items list cannot be cached : " + exception.getMessage());
+                logOnUiThreadError("[CACHE] Items list cannot be cached : " + exception.getMessage());
             }
         }
         return itemList;
@@ -248,14 +249,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         List<Pokemon> pokemonList = new ArrayList<>();
         try {
             pokemonList = (List<Pokemon>) InternalStorage.readObject(this, "data_pokemons");
-            System.out.println("[CACHE] Pokemon list loaded from cache");
+            logOnUiThread("[CACHE] Pokemon list loaded from cache");
         } catch (Exception e) {
             try {
                 pokemonList = DataFetcher.fetchPokemonList().getPokemonList();
                 InternalStorage.writeObject(this, "data_pokemons", pokemonList);
-                System.out.println("[CACHE] Pokemon list cached");
+                logOnUiThread("[CACHE] Pokemon list cached");
             } catch (Exception exception) {
-                System.err.println("[CACHE] Pokemon list cannot be cached : " + exception.getMessage());
+                logOnUiThreadError("[CACHE] Pokemon list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();
             }
         }
@@ -266,14 +267,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         List<Stat> statList = new ArrayList<>();
         try {
             statList = (List<Stat>) InternalStorage.readObject(this, "data_stats");
-            System.out.println("[CACHE] Stat list loaded from cache");
+            logOnUiThread("[CACHE] Stat list loaded from cache");
         } catch (Exception e) {
             try {
                 statList = DataFetcher.fetchStatList().getStatsList();
                 InternalStorage.writeObject(this, "data_stats", statList);
-                System.out.println("[CACHE] Stat list cached");
+                logOnUiThread("[CACHE] Stat list cached");
             } catch (Exception exception) {
-                System.err.println("[CACHE] Stat list cannot be cached : " + exception.getMessage());
+                logOnUiThreadError("[CACHE] Stat list cannot be cached : " + exception.getMessage());
             }
         }
         return statList;
@@ -283,14 +284,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         List<Type> typeList = new ArrayList<>();
         try {
             typeList = (List<Type>) InternalStorage.readObject(this, "data_types");
-            System.out.println("[CACHE] Type list loaded from cache");
+            logOnUiThread("[CACHE] Type list loaded from cache");
         } catch (Exception e) {
             try {
                 typeList = DataFetcher.fetchTypeList().getTypeList();
                 InternalStorage.writeObject(this, "data_types", typeList);
-                System.out.println("[CACHE] Type list cached");
+                logOnUiThread("[CACHE] Type list cached");
             } catch (Exception exception) {
-                System.err.println("[CACHE] Types list cannot be cached : " + exception.getMessage());
+                logOnUiThreadError("[CACHE] Types list cannot be cached : " + exception.getMessage());
             }
         }
         return typeList;

@@ -83,7 +83,6 @@ public class PokemonViewModel extends BaseObservable {
         return pokemon.getName();
     }
 
-
     /**
      * Get the pokemon height.
      *
@@ -115,7 +114,6 @@ public class PokemonViewModel extends BaseObservable {
         // convert abilities to string
         StringBuilder abilities = new StringBuilder();
         pokemon.getAbilities().getAbilityList().forEach(ability -> abilities.append(ability.getName()).append(", "));
-
 
         return abilities.toString().replaceAll("_", " ");
     }

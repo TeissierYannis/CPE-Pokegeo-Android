@@ -10,29 +10,11 @@ import fr.cpe.wolodiayannis.pokemongeo.api.request.TypeRequest;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 
 public class DataFetcher {
-
-    public static DataList fetchAllData() {
-
-        PokemonList pokemonList = PokemonRequest.getPokemons();
-        ItemList itemList = ItemRequest.getAllItems();
-        StatList statList = StatRequest.getAllStats();
-        TypeList typeList = TypeRequest.getAllTypes();
-        AbilityList abilityList = AbilityRequest.getAllAbilities();
-
-        System.out.println("Pokemon list size : " + pokemonList.getPokemonList().size());
-
-        return new DataList(
-                pokemonList.getPokemonList(),
-                itemList.getItemList(),
-                statList.getStatsList(),
-                typeList.getTypeList(),
-                abilityList.getAbilityList()
-        );
-    }
 
     public static PokemonList fetchPokemonList() {
         return PokemonRequest.getPokemons();
@@ -52,5 +34,17 @@ public class DataFetcher {
 
     public static AbilityList fetchAbilityList() {
         return AbilityRequest.getAllAbilities();
+    }
+
+    public static AbilityList fetchPokemonAbilities(int id) {
+        return PokemonRequest.getPokemonAbility(id);
+    }
+
+    public static TypeList fetchPokemonTypes(int id) {
+        return PokemonRequest.getPokemonType(id);
+    }
+
+    public static PokemonStatList fetchPokemonStats(int id) {
+        return PokemonRequest.getPokemonStat(id);
     }
 }

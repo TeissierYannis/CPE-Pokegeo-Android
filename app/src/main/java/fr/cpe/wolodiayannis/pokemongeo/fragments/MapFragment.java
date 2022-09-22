@@ -96,7 +96,6 @@ public class MapFragment extends Fragment {
      * @param mainActivity main activity
      */
     public void getMapAsync(MainActivity mainActivity) {
-        System.out.println("getMapAsync called : " + mainActivity.getCurrentLocation());
         // Location to geopoint
         GeoPoint startPoint = new GeoPoint(mainActivity.getCurrentLocation().getLatitude(), mainActivity.getCurrentLocation().getLongitude());
         // Center map on current location
