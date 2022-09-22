@@ -13,6 +13,7 @@ import androidx.databinding.Bindable;
 import java.util.List;
 import java.util.Objects;
 
+import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
@@ -108,12 +109,13 @@ public class PokemonViewModel extends BaseObservable {
      *
      * @return String.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Bindable
     public String getAbilities() {
         // convert abilities to string
         StringBuilder abilities = new StringBuilder();
-        pokemon.getAbilities().getAbilityList().forEach(ability -> abilities.append(ability.getName()).append(", "));
+        for (Ability ability : pokemon.getAbilities().getAbilityList()) {
+            abilities.append(ability.getName()).append(", ");
+        }
 
         return abilities.toString().replaceAll("_", " ");
     }

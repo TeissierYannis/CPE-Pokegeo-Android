@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
@@ -68,7 +69,7 @@ public class Pokemon implements Serializable {
     /**
      * List of abilities.
      */
-    private final AbilityList abilityList;
+    private AbilityList abilityList;
 
     /**
      * List of types.
@@ -267,4 +268,12 @@ public class Pokemon implements Serializable {
      * @return abilities list
      */
     public AbilityList getAbility() { return abilityList;}
+
+    /**
+     * Set abilities list.
+     * @param abilityList abilities list
+     */
+    public void setAbilities(List<Ability> abilityList) {
+        this.abilityList = new AbilityList(abilityList);
+    }
 }

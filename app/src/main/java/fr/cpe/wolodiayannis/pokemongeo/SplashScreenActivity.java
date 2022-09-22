@@ -260,7 +260,30 @@ public class SplashScreenActivity extends AppCompatActivity {
                 exception.printStackTrace();
             }
         }
+
+        for(Pokemon pokemon : pokemonList) {
+            List<Ability> abilityList = callAndCachePokemonAbilitiesList(pokemon.getId());
+            pokemon.setAbilities(abilityList);
+            logOnUiThread("[INFO] Pokemon abilities added to pokemon " + pokemon.getName());
+        }
+
         return pokemonList;
+    }
+
+    private List<Ability> callAndCachePokemonAbilitiesList(int pokemonId) {
+        List<Ability> abilityList = new ArrayList<>();
+        try {
+            abilityList = (List<Ability>) InternalStorage.readObject(this, "data_pokemon_" + pokemonId + "_abilities");
+        } catch (Exception e) {
+            try {
+                abilityList = DataFetcher.fetchPokemonAbilities(pokemonId).getAbilityList();
+                InternalStorage.writeObject(this, "data_pokemon_" + pokemonId + "_abilities", abilityList);
+            } catch (Exception exception) {
+                logOnUiThreadError("[CACHE] Pokemon abilities list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
+            }
+        }
+        return abilityList;
     }
 
     private List<Stat> callAndCacheStatList() throws IOException, ClassNotFoundException {

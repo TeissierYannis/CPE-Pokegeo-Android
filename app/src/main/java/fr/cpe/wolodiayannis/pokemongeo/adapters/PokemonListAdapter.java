@@ -106,7 +106,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
      * Filter for the search.
      */
     private final Filter SearchedFilter = new Filter() {
-        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList<Pokemon> filteredList = new ArrayList<>();
@@ -120,13 +119,17 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
                 // If filterPattern contains number filter by id or else filter by name.
                 if (filterPattern.matches("[0-9]+")) {
                     int id = Integer.parseInt(filterPattern);
-                    pokemonList.stream()
-                            .filter(pokemon -> pokemon.getId() == id)
-                            .forEach(filteredList::add);
+                    for (Pokemon pokemon : pokemonList) {
+                        if (pokemon.getId() == id) {
+                            filteredList.add(pokemon);
+                        }
+                    }
                 } else {
-                    pokemonList.stream()
-                            .filter(pokemon -> pokemon.getName().toLowerCase().contains(filterPattern))
-                            .forEach(filteredList::add);
+                    for (Pokemon pokemon : pokemonList) {
+                        if (pokemon.getName().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(pokemon);
+                        }
+                    }
                 }
             }
 
