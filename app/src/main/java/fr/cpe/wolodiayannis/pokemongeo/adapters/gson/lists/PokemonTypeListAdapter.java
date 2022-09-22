@@ -11,10 +11,9 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 
-;
-
-public class PokemonTypeListAdapter extends TypeAdapter<PokemonAbilityList> {
+public class PokemonTypeListAdapter extends TypeAdapter<PokemonTypeList> {
     /**
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
@@ -23,7 +22,7 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonAbilityList> {
      * @param value the Java object to write. May be null.
      */
     @Override
-    public void write(JsonWriter out, PokemonAbilityList value) throws IOException {
+    public void write(JsonWriter out, PokemonTypeList value) throws IOException {
         /*
          * {
          *   "message": "success",
@@ -49,7 +48,7 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonAbilityList> {
      * @return the converted Java object. May be null.
      */
     @Override
-    public PokemonAbilityList read(JsonReader in) throws IOException {
+    public PokemonTypeList read(JsonReader in) throws IOException {
         /**
          * {
          *  "message": "ok",
@@ -88,6 +87,6 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonAbilityList> {
         in.endArray();
         in.endObject();
         System.out.println(in.peek());
-        return new PokemonAbilityList(typeList);
+        return new PokemonTypeList(typeList);
     }
 }

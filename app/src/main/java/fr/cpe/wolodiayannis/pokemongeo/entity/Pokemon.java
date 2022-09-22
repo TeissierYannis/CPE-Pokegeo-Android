@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
@@ -18,6 +19,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 
 /**
  * Pokemon class.
@@ -88,12 +90,13 @@ public class Pokemon implements Serializable {
 
     /**
      * Pokemon constructor.
-     * @param id Pokemon ID.
-     * @param name Pokemon name.
-     * @param height Pokemon height.
-     * @param weight Pokemon weight.
-     * @param description Pokemon description.
-     * @param generationId Pokemon generation ID.
+     *
+     * @param id               Pokemon ID.
+     * @param name             Pokemon name.
+     * @param height           Pokemon height.
+     * @param weight           Pokemon weight.
+     * @param description      Pokemon description.
+     * @param generationId     Pokemon generation ID.
      * @param evolutionChainId Pokemon evolution chain ID.
      */
     public Pokemon(int id, String name, int height, int weight, String description, int generationId, int evolutionChainId) {
@@ -115,12 +118,13 @@ public class Pokemon implements Serializable {
 
     /**
      * Pokemon factory.
-     * @param id Pokemon ID.
-     * @param name Pokemon name.
-     * @param height Pokemon height.
-     * @param weight Pokemon weight.
-     * @param description Pokemon description.
-     * @param generationId Pokemon generation ID.
+     *
+     * @param id               Pokemon ID.
+     * @param name             Pokemon name.
+     * @param height           Pokemon height.
+     * @param weight           Pokemon weight.
+     * @param description      Pokemon description.
+     * @param generationId     Pokemon generation ID.
      * @param evolutionChainId Pokemon evolution chain ID.
      * @return Pokemon instance.
      */
@@ -130,6 +134,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon ID.
+     *
      * @return int Pokemon ID.
      */
     public int getId() {
@@ -138,6 +143,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon name.
+     *
      * @return String Pokemon name.
      */
     public String getName() {
@@ -146,6 +152,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon height.
+     *
      * @return int Pokemon height.
      */
     public int getHeight() {
@@ -154,6 +161,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon weight.
+     *
      * @return int Pokemon weight.
      */
     public int getWeight() {
@@ -162,6 +170,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon description.
+     *
      * @return String Pokemon description.
      */
     public String getDescription() {
@@ -170,6 +179,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon generation ID.
+     *
      * @return int Pokemon generation ID.
      */
     public int getGenerationId() {
@@ -178,6 +188,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon evolution chain ID.
+     *
      * @return int Pokemon evolution chain ID.
      */
     public int getEvolutionChainId() {
@@ -186,6 +197,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get Pokemon background color.
+     *
      * @return int Pokemon background color.
      */
     public int getBackgroundColor() {
@@ -194,19 +206,30 @@ public class Pokemon implements Serializable {
 
     /**
      * Generate bg color in fact of type one.
+     *
      * @return color int.
-    */
+     */
     public int generateColor() {
-        switch (MainActivity.getDataList().getTypes().get(typeList.get(0)).getName()) {
-            case "normal" :
+        String typeOne = null;
+        for (Type type : MainActivity.getDataList().getTypes()) {
+            if (typeList.size() > 1) {
+                if (type.getId() == typeList.get(1)) {
+                    typeOne = type.getName();
+                }
+            } else if (type.getId() == typeList.get(0)) {
+                typeOne = type.getName();
+            }
+        }
+        switch (Objects.requireNonNull(typeOne)) {
+            case "normal":
                 return BACKGROUND_COLOR.Normal;
-            case "fighting" :
+            case "fighting":
                 return BACKGROUND_COLOR.Fighting;
-            case "flying" :
+            case "flying":
                 return BACKGROUND_COLOR.Flying;
-            case "poison" :
+            case "poison":
                 return BACKGROUND_COLOR.Poison;
-            case "ground" :
+            case "ground":
                 return BACKGROUND_COLOR.Ground;
             case "rock":
                 return BACKGROUND_COLOR.Rock;
@@ -241,6 +264,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get abilities.
+     *
      * @return abilities
      */
     public List<Integer> getAbilities() {
@@ -249,6 +273,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get types list.
+     *
      * @return types list
      */
     public List<Integer> getTypes() {
@@ -257,6 +282,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Get stats list.
+     *
      * @return stats list
      */
     public StatList getStats() {
@@ -265,12 +291,16 @@ public class Pokemon implements Serializable {
 
     /**
      * Get abilities list.
+     *
      * @return abilities list
      */
-    public List<Integer>  getAbility() { return abilityList;}
+    public List<Integer> getAbility() {
+        return abilityList;
+    }
 
     /**
      * Set abilities list.
+     *
      * @param abilityList abilities list
      */
     public void setAbilities(List<Integer> abilityList) {
@@ -279,10 +309,11 @@ public class Pokemon implements Serializable {
 
     /**
      * Set types list
+     *
      * @param typeList types list
      */
     public void setTypes(List<Integer> typeList) {
         this.typeList = typeList;
-        generateColor();
+        color = generateColor();
     }
 }

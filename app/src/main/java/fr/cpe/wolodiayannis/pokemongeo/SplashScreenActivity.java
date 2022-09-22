@@ -155,6 +155,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     HashMap<Integer, List<Integer>> typeListForEachPokemon = callAndCachePokemonTypesList();
                     for (Pokemon pokemon : pokemonList) {
                         pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
+                        System.out.println("Pokemon id : " + pokemon.getId());
                         pokemon.setTypes(typeListForEachPokemon.get(pokemon.getId()));
                         // get place of the pokemon in the list
                         int pokemonIndex = pokemonList.indexOf(pokemon);
