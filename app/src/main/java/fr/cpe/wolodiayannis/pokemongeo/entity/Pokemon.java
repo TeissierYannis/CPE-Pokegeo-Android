@@ -201,6 +201,10 @@ public class Pokemon implements Serializable {
      * @return int Pokemon background color.
      */
     public int getBackgroundColor() {
+        if (this.color != BACKGROUND_COLOR.Unknown) {
+            return this.color;
+        }
+        color = generateColor();
         return color;
     }
 
@@ -314,6 +318,5 @@ public class Pokemon implements Serializable {
      */
     public void setTypes(List<Integer> typeList) {
         this.typeList = typeList;
-        color = generateColor();
     }
 }
