@@ -66,14 +66,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        progressBar = findViewById(R.id.progressBar);
-        progressBarText = findViewById(R.id.progress_bar_text);
-
         Window window = getWindow();
         window.setStatusBarColor(getColor(R.color.pikaColor));
 
-        progressBar.setMax(100);
-        progressBar.setScaleY(2f);
 
         try {
             // Ask for permissions
@@ -117,18 +112,26 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                new FetchingAndLoading(progressBar).execute();
+                new FetchingAndLoading().execute();
             }
         }
     }
 
     private class FetchingAndLoading extends AsyncTask<String, Void, String> {
 
-        private final ProgressBar progressBar;
+        private final ProgressBar progressBar = findViewById(R.id.progressBar);
+        private final TextView progressBarText = findViewById(R.id.progress_bar_text);
 
-        public FetchingAndLoading(ProgressBar progressBar) {
+
+        private final int TASKS_NB = 5;
+        private final int prcPerTask = 100 / TASKS_NB;
+
+        public FetchingAndLoading() {
             super();
-            this.progressBar = progressBar;
+        }
+
+        private void setProgress() {
+            progressBar.setProgress(progressBar.getProgress() + prcPerTask);
         }
 
         @Override
@@ -141,18 +144,21 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 logOnUiThread("[ONLINE] You are online");
 
+                progressBar.setMax(100);
+                progressBar.setScaleY(2f);
+                progressBar.setProgress(0);
+
                 try {
-                    progressBar.setProgress(0);
                     List<Pokemon> pokemonList = callAndCachePokemonList();
-                    progressBar.setProgress(20);
+                    setProgress();
                     List<Item> itemList = callAndCacheItemList();
-                    progressBar.setProgress(40);
+                    setProgress();
                     List<Stat> statList = callAndCacheStatList();
-                    progressBar.setProgress(60);
+                    setProgress();
                     List<Type> typeList = callAndCacheTypeList();
-                    progressBar.setProgress(80);
+                    setProgress();
                     List<Ability> abilityList = callAndCacheAbilityList();
-                    progressBar.setProgress(100);
+                    setProgress();
                     dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
 
                 } catch (IOException | ClassNotFoundException e) {
