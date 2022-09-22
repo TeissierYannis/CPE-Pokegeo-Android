@@ -1,8 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import java.util.HashMap;
+import java.util.List;
+
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
@@ -31,8 +33,8 @@ public interface PokemonAPI extends BaseAPI {
     /**
      * Get pokemon abilities
      */
-    @GET("pokemon/abilities/{id}")
-    Call<AbilityList> getAbilities(@Path("id") int id);
+    @GET("pokemon/abilities/all")
+    Call<PokemonAbilityList> getAbilities();
 
     /**
      * Get pokemon types

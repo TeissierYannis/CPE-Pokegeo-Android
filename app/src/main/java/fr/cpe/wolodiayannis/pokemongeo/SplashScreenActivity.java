@@ -31,6 +31,7 @@ import org.osmdroid.config.Configuration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
@@ -150,6 +151,18 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 try {
                     List<Pokemon> pokemonList = callAndCachePokemonList();
+                    HashMap<Integer, List<Integer>> abilityListForEachPokemon = callAndCachePokemonAbilitiesList();
+
+                    for (Pokemon pokemon : pokemonList) {
+                        int pokemonID = pokemon.getId();
+                        List<Integer> abilities = abilityListForEachPokemon.get(pokemonID);
+                        pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
+                        // get place of the pokemon in the list
+                        int pokemonIndex = pokemonList.indexOf(pokemon);
+                        // get the pokemon from the list
+                        pokemonList.set(pokemonIndex, pokemon);
+                        logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
+                    }
                     setProgress();
                     List<Item> itemList = callAndCacheItemList();
                     setProgress();
@@ -267,23 +280,17 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
 
-        for(Pokemon pokemon : pokemonList) {
-            List<Ability> abilityList = callAndCachePokemonAbilitiesList(pokemon.getId());
-            pokemon.setAbilities(abilityList);
-            logOnUiThread("[INFO] Pokemon abilities added to pokemon " + pokemon.getName());
-        }
-
         return pokemonList;
     }
 
-    private List<Ability> callAndCachePokemonAbilitiesList(int pokemonId) {
-        List<Ability> abilityList = new ArrayList<>();
+    private HashMap<Integer, List<Integer>> callAndCachePokemonAbilitiesList() {
+        HashMap<Integer, List<Integer>> abilityList = new HashMap<>();
         try {
-            abilityList = (List<Ability>) InternalStorage.readObject(this, "data_pokemon_" + pokemonId + "_abilities");
+            abilityList = (HashMap<Integer, List<Integer>>) InternalStorage.readObject(this, "data_pokemon_abilities");
         } catch (Exception e) {
             try {
-                abilityList = DataFetcher.fetchPokemonAbilities(pokemonId).getAbilityList();
-                InternalStorage.writeObject(this, "data_pokemon_" + pokemonId + "_abilities", abilityList);
+                abilityList = DataFetcher.fetchPokemonAbilities();
+                InternalStorage.writeObject(this, "data_pokemon_abilities", abilityList);
             } catch (Exception exception) {
                 logOnUiThreadError("[CACHE] Pokemon abilities list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();

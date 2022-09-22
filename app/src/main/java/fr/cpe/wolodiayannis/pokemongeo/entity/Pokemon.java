@@ -69,7 +69,7 @@ public class Pokemon implements Serializable {
     /**
      * List of abilities.
      */
-    private AbilityList abilityList;
+    private List<Integer> abilityList;
 
     /**
      * List of types.
@@ -108,7 +108,7 @@ public class Pokemon implements Serializable {
         // TODO to redefined
         this.color = BACKGROUND_COLOR.Unknown;
 
-        this.abilityList = new AbilityList(new ArrayList<>());
+        this.abilityList = new ArrayList<>();
         this.typeList = new TypeList(new ArrayList<>());
         this.statList = new StatList(new ArrayList<>());
     }
@@ -243,7 +243,7 @@ public class Pokemon implements Serializable {
      * Get abilities.
      * @return abilities
      */
-    public AbilityList getAbilities() {
+    public List<Integer> getAbilities() {
         return this.abilityList;
     }
 
@@ -267,13 +267,13 @@ public class Pokemon implements Serializable {
      * Get abilities list.
      * @return abilities list
      */
-    public AbilityList getAbility() { return abilityList;}
+    public List<Integer>  getAbility() { return abilityList;}
 
     /**
      * Set abilities list.
      * @param abilityList abilities list
      */
-    public void setAbilities(List<Ability> abilityList) {
-        this.abilityList = new AbilityList(abilityList);
+    public void setAbilities(List<Integer> abilityList) {
+        this.abilityList = abilityList;
     }
 }

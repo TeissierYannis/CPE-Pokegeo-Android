@@ -1,6 +1,9 @@
 package fr.cpe.wolodiayannis.pokemongeo.data;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.request.AbilityRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.ItemRequest;
@@ -36,8 +39,8 @@ public class DataFetcher {
         return AbilityRequest.getAllAbilities();
     }
 
-    public static AbilityList fetchPokemonAbilities(int id) {
-        return PokemonRequest.getPokemonAbility(id);
+    public static HashMap<Integer, List<Integer>> fetchPokemonAbilities() {
+        return Objects.requireNonNull(PokemonRequest.getPokemonAbilities()).getAbilityList();
     }
 
     public static TypeList fetchPokemonTypes(int id) {

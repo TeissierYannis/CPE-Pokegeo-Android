@@ -6,15 +6,11 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;;import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
-
-public class AbilityListAdapter extends TypeAdapter<AbilityList> {
-
+public class PokemonAbilityListAdapter extends TypeAdapter<PokemonAbilityList> {
     /**
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
@@ -23,7 +19,7 @@ public class AbilityListAdapter extends TypeAdapter<AbilityList> {
      * @param value the Java object to write. May be null.
      */
     @Override
-    public void write(JsonWriter out, AbilityList value) throws IOException {
+    public void write(JsonWriter out, PokemonAbilityList value) throws IOException {
         /*
          * {
          *   "message": "success",
@@ -39,18 +35,6 @@ public class AbilityListAdapter extends TypeAdapter<AbilityList> {
          *   ]
          * }
          */
-        out.beginObject();
-        out.name("message").value("success");
-        out.name("data");
-        out.beginArray();
-        for (int i = 0; i < value.getAbilityList().size(); i++) {
-            out.beginObject();
-            out.name("id").value(value.getAbilityList().get(i).getId());
-            out.name("name").value(value.getAbilityList().get(i).getName());
-            out.endObject();
-        }
-        out.endArray();
-        out.endObject();
     }
 
     /**
@@ -61,7 +45,7 @@ public class AbilityListAdapter extends TypeAdapter<AbilityList> {
      * @return the converted Java object. May be null.
      */
     @Override
-    public AbilityList read(JsonReader in) throws IOException {
+    public PokemonAbilityList read(JsonReader in) throws IOException {
         /**
          * {
          *  "message": "ok",
@@ -77,24 +61,29 @@ public class AbilityListAdapter extends TypeAdapter<AbilityList> {
          *    ]
          *    }
          */
-        List<Ability> abilityList = new ArrayList<>();
+        HashMap<Integer, List<Integer>> abilityList = new HashMap<>();
         in.beginObject();
         in.nextName();
         in.nextString();
         in.nextName();
         in.beginArray();
         while (in.hasNext()) {
+            // If we have the same pokemon id, we add the ability id to the list
+            // If we have a new pokemon id, we create a new list and add the ability id to the list
             in.beginObject();
             in.nextName();
-            int id = in.nextInt();
+            int pokemonID = in.nextInt();
             in.nextName();
-            String name = in.nextString();
+            int abilityID = in.nextInt();
             in.endObject();
-            abilityList.add(new Ability(id, name));
+            if (!abilityList.containsKey(pokemonID)) {
+                abilityList.put(pokemonID, new ArrayList<>());
+            }
+            Objects.requireNonNull(abilityList.get(pokemonID)).add(abilityID);
         }
         in.endArray();
         in.endObject();
         System.out.println(in.peek());
-        return new AbilityList(abilityList);
+        return new PokemonAbilityList(abilityList);
     }
 }

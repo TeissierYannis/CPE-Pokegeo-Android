@@ -1,12 +1,16 @@
 package fr.cpe.wolodiayannis.pokemongeo.api.request;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.ItemInventoryAPI;
 import fr.cpe.wolodiayannis.pokemongeo.api.PokemonAPI;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
@@ -16,6 +20,7 @@ public class PokemonRequest extends BaseRequest {
 
     /**
      * Get ItemInventoryAPI.
+     *
      * @return ItemInventoryAPI.
      */
     protected static PokemonAPI getAPI() {
@@ -24,6 +29,7 @@ public class PokemonRequest extends BaseRequest {
 
     /**
      * Get all items.
+     *
      * @return List of items.
      */
     public static PokemonList getPokemons() {
@@ -42,6 +48,7 @@ public class PokemonRequest extends BaseRequest {
 
     /**
      * Get one item.
+     *
      * @param id Pokemon id.
      * @return Pokemon.
      */
@@ -61,14 +68,14 @@ public class PokemonRequest extends BaseRequest {
 
     /**
      * Get pokemonAbility
-     * @param id Pokemon id.
-     *           @return PokemonAbility.
+     *
+     * @return PokemonAbility.
      */
-    public static AbilityList getPokemonAbility(int id) {
-        Call<AbilityList> call = getAPI().getAbilities(id);
+    public static PokemonAbilityList getPokemonAbilities() {
+        Call<PokemonAbilityList> call = getAPI().getAbilities();
 
         try {
-            AbilityList abilityList = call.execute().body();
+            PokemonAbilityList abilityList = call.execute().body();
             LogAPI("PokemonAbility");
             return abilityList;
         } catch (IOException e) {
@@ -79,6 +86,7 @@ public class PokemonRequest extends BaseRequest {
 
     /**
      * Get pokemonType
+     *
      * @param id Pokemon id.
      * @return PokemonType.
      */
@@ -97,6 +105,7 @@ public class PokemonRequest extends BaseRequest {
 
     /**
      * Get pokemonStat
+     *
      * @param id Pokemon id.
      * @return PokemonStat.
      */

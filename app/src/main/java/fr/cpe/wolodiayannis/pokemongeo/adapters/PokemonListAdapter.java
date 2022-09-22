@@ -151,8 +151,6 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
             notifyDataSetChanged();
         }
     };
-    
-    
 
     /**
      * ViewHolder for the Pokemon.
