@@ -183,6 +183,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         pokemon.setStats(statsListForEachPokemon.get(pokemon.getId()));
                         logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
 
+
                         pokemon.setImageID(
 
                                 getResources()
@@ -192,6 +193,18 @@ public class SplashScreenActivity extends AppCompatActivity {
                                                 getPackageName()
                                         )
                         );
+
+
+                        List<Integer> typesDrawables = new ArrayList<>();
+                        for (int i = 0; i < pokemon.getTypes().size(); i++) {
+                            typesDrawables.add(
+                                    getResources().getIdentifier(
+                                        "t" + String.format("%02d", pokemon.getTypes().get(i)),
+                                        "drawable",
+                                        getPackageName()
+                            ));
+                        }
+                        pokemon.setImageTypeID(typesDrawables);
 
                         // get place of the pokemon in the list
                         int pokemonIndex = pokemonList.indexOf(pokemon);

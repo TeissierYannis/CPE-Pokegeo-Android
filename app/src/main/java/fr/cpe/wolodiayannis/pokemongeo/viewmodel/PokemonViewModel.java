@@ -18,6 +18,7 @@ import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 
 /**
@@ -230,4 +231,29 @@ public class PokemonViewModel extends BaseObservable {
     public int getTotalStat() {
         return pokemon.getTotalStat();
     }
+
+    /**
+     * Get the pokemon type image.
+     */
+    public Drawable getTypeImage(Context context, int res) {
+        if (res != -1)
+            try {
+                return ResourcesCompat.getDrawable(context.getResources(), res, null);
+            } catch (Exception e) {
+                return null;
+            }
+        else
+            return null;
+    }
+
+    /**
+     * Get the pokemon Type 1 id.
+     */
+    public int getTypeID(int id) {
+        if (pokemon.getImageTypeID() != null && pokemon.getImageTypeID().size() > id)
+            return pokemon.getImageTypeID().get(id);
+        else
+            return -1;
+    }
+
 }
