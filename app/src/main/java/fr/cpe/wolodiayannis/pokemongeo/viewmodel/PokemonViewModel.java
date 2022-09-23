@@ -46,18 +46,7 @@ public class PokemonViewModel extends BaseObservable {
     public Drawable getImage(Context context, int res) {
         if (res != -1)
             try {
-                // return drawable ID
-                @SuppressLint("DefaultLocale")
-                int drawableID =
-                        context
-                                .getResources()
-                                .getIdentifier(
-                                        "p" + String.format("%03d", this.pokemon.getId()),
-                                        "drawable",
-                                        context.getPackageName()
-                                );
-
-                return ResourcesCompat.getDrawable(context.getResources(), drawableID, null);
+                return ResourcesCompat.getDrawable(context.getResources(), res, null);
             } catch (Exception e) {
                 return null;
             }
@@ -176,5 +165,13 @@ public class PokemonViewModel extends BaseObservable {
     @Bindable
     public int getColor() {
         return pokemon.getBackgroundColor();
+    }
+
+    /**
+     * Get image ID
+     */
+    @Bindable
+    public int getImageID() {
+        return pokemon.getImageID();
     }
 }

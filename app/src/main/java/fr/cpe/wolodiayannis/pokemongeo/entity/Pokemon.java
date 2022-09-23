@@ -87,6 +87,10 @@ public class Pokemon implements Serializable {
      * Pokemon bg color.
      */
     private int color;
+    /**
+     * Pokemon image id.
+     */
+    private int imageID;
 
     /**
      * Pokemon constructor.
@@ -327,5 +331,21 @@ public class Pokemon implements Serializable {
      */
     public void setStats(List<PokemonStat> statList) {
         this.statList = statList;
+    }
+
+    /**
+     * Set image id.
+     * @return int image ID.
+     */
+    public int getImageID() {
+        return this.imageID;
+    }
+
+    /**
+     * Set image ID.
+     * @param drawable
+     */
+    public void setImageID(int drawable) {
+        this.imageID = drawable;
     }
 }
