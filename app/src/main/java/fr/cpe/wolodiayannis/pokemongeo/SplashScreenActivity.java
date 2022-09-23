@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -51,6 +53,8 @@ public class SplashScreenActivity extends AppCompatActivity {
      */
     private static DataList dataList;
 
+    boolean animationAlreadyFetch = false;
+
     private ProgressBar progressBar;
 
     private TextView progressBarText;
@@ -69,7 +73,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         Window window = getWindow();
         window.setStatusBarColor(getColor(R.color.pikaColor));
-
 
         try {
             // Ask for permissions
@@ -113,6 +116,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Use AVD for animations
+                ImageView imageView = findViewById(R.id.pika_face);
+
+                // add event listener on click on image
+                imageView.setOnClickListener(v -> {
+                    if (!this.animationAlreadyFetch) {
+                        // start animation
+                        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_pika_launcher_rounded);
+                        imageView.setImageDrawable(avd);
+                        avd.start();
+                        this.animationAlreadyFetch = true;
+                    }
+                });
+
                 new FetchingAndLoading().execute();
             }
         }
