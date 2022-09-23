@@ -182,6 +182,17 @@ public class SplashScreenActivity extends AppCompatActivity {
                         logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
                         pokemon.setStats(statsListForEachPokemon.get(pokemon.getId()));
                         logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
+
+                        pokemon.setImageID(
+
+                                getResources()
+                                        .getIdentifier(
+                                                "p" + String.format("%03d", pokemon.getId()),
+                                                "drawable",
+                                                getPackageName()
+                                        )
+                        );
+
                         // get place of the pokemon in the list
                         int pokemonIndex = pokemonList.indexOf(pokemon);
                         // get the pokemon from the list

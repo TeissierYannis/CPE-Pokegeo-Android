@@ -69,7 +69,8 @@
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/pokemon_image_desc"
                     android:padding="50dp"
-                    android:src="@{pokemonViewModel.getImage(context, 0)}" />
+                    android:src="@{pokemonViewModel.getImage(context, pokemonViewModel.getImageID)}"
+                    />
             </RelativeLayout>
 
             <TextView
