@@ -27,6 +27,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
@@ -45,6 +47,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
+import fr.cpe.wolodiayannis.pokemongeo.viewmodel.SplashScreenViewModel;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -56,9 +59,16 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     boolean animationAlreadyFetch = false;
 
-    private ProgressBar progressBar;
+    private String LoadingText = "Loading...";
 
-    private TextView progressBarText;
+    @Bindable
+    public String getLoadingText() {
+        return LoadingText;
+    }
+
+    public void setLoadingText(String loadingText) {
+        LoadingText = loadingText;
+    }
 
     /**
      * Request code for permission request.
@@ -74,6 +84,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         Window window = getWindow();
         window.setStatusBarColor(getColor(R.color.pikaColor));
+
+        // Set the context
+
 
         try {
             // Ask for permissions
