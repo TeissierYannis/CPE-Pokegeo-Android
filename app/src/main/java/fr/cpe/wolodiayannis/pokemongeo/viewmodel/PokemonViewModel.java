@@ -133,7 +133,7 @@ public class PokemonViewModel extends BaseObservable {
      * @return List of Stats.
      */
     @Bindable
-    public StatList getStats() {
+    public List<PokemonStat> getStats() {
         return pokemon.getStats();
     }
 

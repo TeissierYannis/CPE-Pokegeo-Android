@@ -81,7 +81,7 @@ public class Pokemon implements Serializable {
     /**
      * List of stats.
      */
-    private final StatList statList;
+    private List<PokemonStat> statList;
 
     /**
      * Pokemon bg color.
@@ -113,7 +113,7 @@ public class Pokemon implements Serializable {
 
         this.abilityList = new ArrayList<>();
         this.typeList = new ArrayList<>();
-        this.statList = new StatList(new ArrayList<>());
+        this.statList = new ArrayList<>();
     }
 
     /**
@@ -289,7 +289,7 @@ public class Pokemon implements Serializable {
      *
      * @return stats list
      */
-    public StatList getStats() {
+    public List<PokemonStat> getStats() {
         return this.statList;
     }
 
@@ -318,5 +318,14 @@ public class Pokemon implements Serializable {
      */
     public void setTypes(List<Integer> typeList) {
         this.typeList = typeList;
+    }
+
+    /**
+     * Set stats list
+     *
+     * @param statList stats list
+     */
+    public void setStats(List<PokemonStat> statList) {
+        this.statList = statList;
     }
 }

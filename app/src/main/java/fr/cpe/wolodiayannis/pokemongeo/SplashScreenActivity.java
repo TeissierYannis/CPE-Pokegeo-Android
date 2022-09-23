@@ -41,6 +41,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
@@ -141,7 +142,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         private final TextView progressBarText = findViewById(R.id.progress_bar_text);
 
 
-        private final int TASKS_NB = 5;
+        private final int TASKS_NB = 6;
         private final int prcPerTask = 100 / TASKS_NB;
 
         public FetchingAndLoading() {
@@ -170,15 +171,18 @@ public class SplashScreenActivity extends AppCompatActivity {
                     List<Pokemon> pokemonList = callAndCachePokemonList();
                     HashMap<Integer, List<Integer>> abilityListForEachPokemon = callAndCachePokemonAbilitiesList();
                     HashMap<Integer, List<Integer>> typeListForEachPokemon = callAndCachePokemonTypesList();
+                    HashMap<Integer, List<PokemonStat>> statsListForEachPokemon = callAndCachePokemonStatList();
                     for (Pokemon pokemon : pokemonList) {
                         pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
                         System.out.println("Pokemon id : " + pokemon.getId());
                         pokemon.setTypes(typeListForEachPokemon.get(pokemon.getId()));
+                        logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
+                        pokemon.setStats(statsListForEachPokemon.get(pokemon.getId()));
+                        logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
                         // get place of the pokemon in the list
                         int pokemonIndex = pokemonList.indexOf(pokemon);
                         // get the pokemon from the list
                         pokemonList.set(pokemonIndex, pokemon);
-                        logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
                     }
                     setProgress();
                     List<Item> itemList = callAndCacheItemList();
@@ -189,6 +193,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     setProgress();
                     List<Ability> abilityList = callAndCacheAbilityList();
                     setProgress();
+
                     dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
 
                 } catch (IOException | ClassNotFoundException e) {
@@ -314,6 +319,22 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
         return abilityList;
+    }
+
+    private HashMap<Integer, List<PokemonStat>> callAndCachePokemonStatList() {
+        HashMap<Integer, List<PokemonStat>> statList = new HashMap<>();
+        try {
+            statList = (HashMap<Integer, List<PokemonStat>>) InternalStorage.readObject(this, "data_pokemon_stats");
+        } catch (Exception e) {
+            try {
+                statList = DataFetcher.fetchPokemonStats();
+                InternalStorage.writeObject(this, "data_pokemon_stats", statList);
+            } catch (Exception exception) {
+                logOnUiThreadError("[CACHE] Pokemon stats list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
+            }
+        }
+        return statList;
     }
 
     private HashMap<Integer, List<Integer>> callAndCachePokemonTypesList() {

@@ -8,11 +8,13 @@ import fr.cpe.wolodiayannis.pokemongeo.api.ItemInventoryAPI;
 import fr.cpe.wolodiayannis.pokemongeo.api.PokemonAPI;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatMappingList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
@@ -106,14 +108,13 @@ public class PokemonRequest extends BaseRequest {
     /**
      * Get pokemonStat
      *
-     * @param id Pokemon id.
      * @return PokemonStat.
      */
-    public static PokemonStatList getPokemonStat(int id) {
-        Call<PokemonStatList> call = getAPI().getStats(id);
+    public static PokemonStatMappingList getPokemonStat() {
+        Call<PokemonStatMappingList> call = getAPI().getStats();
 
         try {
-            PokemonStatList pokemonStatList = call.execute().body();
+            PokemonStatMappingList pokemonStatList = call.execute().body();
             LogAPI("PokemonStat");
             return pokemonStatList;
         } catch (IOException e) {

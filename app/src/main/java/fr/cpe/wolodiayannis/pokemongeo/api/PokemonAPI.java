@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatMappingList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
@@ -46,6 +48,6 @@ public interface PokemonAPI extends BaseAPI {
     /**
      * Get pokemon stats
      */
-    @GET("pokemon/stats/{id}")
-    Call<PokemonStatList> getStats(@Path("id") int id);
+    @GET("pokemon/stats/all")
+    Call<PokemonStatMappingList> getStats();
 }
