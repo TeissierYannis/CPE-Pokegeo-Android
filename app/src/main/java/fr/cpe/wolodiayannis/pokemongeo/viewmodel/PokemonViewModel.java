@@ -154,8 +154,8 @@ public class PokemonViewModel extends BaseObservable {
      * @return int.
      */
     @Bindable
-    public int getGenerationId() {
-        return pokemon.getGenerationId();
+    public String getGenerationId() {
+        return String.valueOf(pokemon.getGenerationId());
     }
 
     /**

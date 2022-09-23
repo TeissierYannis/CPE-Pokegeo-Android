@@ -30,7 +30,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="15dp"
             android:text="@string/pokedex_subtitle"
-            android:textColor="?colorOnSecondary"
+            android:textColor="?colorOnPrimary"
             android:textSize="20sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
