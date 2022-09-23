@@ -215,7 +215,7 @@
                 android:textStyle="normal" />
 
             <!-- TODO: Add stats, move in Pokemon ListStat by List or something else of PokemonStat -->
-           <!-- <ProgressBar
+           <ProgressBar
                 android:id="@+id/pokemon_hp_value"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
@@ -225,7 +225,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="255"
-                android:progress="@{pokemonViewModel.stats}" />
+                android:progress="@{pokemonViewModel.hp}" />
 
             <TextView
                 android:id="@+id/pokemon_attack_label"
@@ -250,7 +250,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="210"
-                android:progress="@{pokemonViewModel.stats.attack}" />
+                android:progress="@{pokemonViewModel.attack}" />
 
             <TextView
                 android:id="@+id/pokemon_defense_label"
@@ -275,7 +275,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="250"
-                android:progress="@{pokemonViewModel.stats.defense}" />
+                android:progress="@{pokemonViewModel.defense}" />
 
             <TextView
                 android:id="@+id/pokemon_spattack_label"
@@ -300,7 +300,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="194"
-                android:progress="@{pokemonViewModel.stats.specialAttack}" />
+                android:progress="@{pokemonViewModel.specialAttack}" />
 
             <TextView
                 android:id="@+id/pokemon_spdefense_label"
@@ -325,7 +325,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="250"
-                android:progress="@{pokemonViewModel.stats.specialDefense}" />
+                android:progress="@{pokemonViewModel.specialDefense}" />
 
             <TextView
                 android:id="@+id/pokemon_speed_label"
@@ -350,7 +350,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="200"
-                android:progress="@{pokemonViewModel.stats.speed}" />
+                android:progress="@{pokemonViewModel.speed}" />
 
             <TextView
                 android:id="@+id/pokemon_total_label"
@@ -376,10 +376,8 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:max="780"
-                android:progress="@{pokemonViewModel.stats.total}"
-                />
+                android:progress="@{pokemonViewModel.totalStat}" />
 
-                -->
         </RelativeLayout>
     </ScrollView>
 </layout>

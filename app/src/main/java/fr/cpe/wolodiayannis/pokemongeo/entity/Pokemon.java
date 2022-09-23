@@ -328,4 +328,51 @@ public class Pokemon implements Serializable {
     public void setStats(List<PokemonStat> statList) {
         this.statList = statList;
     }
+
+    /**
+     * Get hp stat of the pokemon
+     */
+    public int getHp() {
+        return statList.get(0).getBaseStat();
+    }
+
+    /**
+     * Get attack stat of the pokemon
+     */
+    public int getAttack() {
+        return statList.get(1).getBaseStat();
+    }
+
+    /**
+     * Get defense stat of the pokemon
+     */
+    public int getDefense() {
+        return statList.get(2).getBaseStat();
+    }
+
+    /**
+     * Get special attack stat of the pokemon
+     */
+    public int getSpecialAttack() {
+        return statList.get(3).getBaseStat();
+    }
+
+    /**
+     * Get special defense stat of the pokemon
+     */
+    public int getSpecialDefense() {
+        return statList.get(4).getBaseStat();
+    }
+
+    /**
+     * Get speed stat of the pokemon
+     */
+    public int getSpeed() {
+        return statList.get(5).getBaseStat();
+    }
+
+    public int getTotalStat () {
+        return (getHp() + getAttack() + getDefense() + getSpecialAttack() + getSpecialDefense() + getSpeed());
+    }
+
 }

@@ -177,4 +177,60 @@ public class PokemonViewModel extends BaseObservable {
     public int getColor() {
         return pokemon.getBackgroundColor();
     }
+
+    /**
+     * Get the pokemon hp stat.
+     */
+    @Bindable
+    public int getHp() {
+        return pokemon.getHp();
+    }
+
+    /**
+     * Get the pokemon attack stat.
+     */
+    @Bindable
+    public int getAttack() {
+        return pokemon.getAttack();
+    }
+
+    /**
+     * Get the pokemon defense stat.
+     */
+    @Bindable
+    public int getDefense() {
+        return pokemon.getDefense();
+    }
+
+    /**
+     * Get the pokemon special attack stat.
+     */
+    @Bindable
+    public int getSpecialAttack() {
+        return pokemon.getSpecialAttack();
+    }
+
+    /**
+     * Get the pokemon special defense stat.
+     */
+    @Bindable
+    public int getSpecialDefense() {
+        return pokemon.getSpecialDefense();
+    }
+
+    /**
+     * Get the pokemon speed stat.
+     */
+    @Bindable
+    public int getSpeed() {
+        return pokemon.getSpeed();
+    }
+
+    /**
+     * Get the pokemon total stat.
+     */
+    @Bindable
+    public int getTotalStat() {
+        return pokemon.getTotalStat();
+    }
 }
