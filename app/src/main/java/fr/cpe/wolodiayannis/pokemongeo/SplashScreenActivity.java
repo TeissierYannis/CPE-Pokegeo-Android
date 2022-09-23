@@ -170,8 +170,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 try {
                     List<Pokemon> pokemonList = callAndCachePokemonList();
                     HashMap<Integer, List<Integer>> abilityListForEachPokemon = callAndCachePokemonAbilitiesList();
+                    setProgress();
                     HashMap<Integer, List<Integer>> typeListForEachPokemon = callAndCachePokemonTypesList();
+                    setProgress();
                     HashMap<Integer, List<PokemonStat>> statsListForEachPokemon = callAndCachePokemonStatList();
+                    setProgress();
                     for (Pokemon pokemon : pokemonList) {
                         pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
                         System.out.println("Pokemon id : " + pokemon.getId());
