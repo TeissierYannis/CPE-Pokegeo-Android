@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,7 +82,8 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getName() {
-        return pokemon.getName();
+        // Capitalize first letter and remove all after -
+        return (pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1).split("-")[0]);
     }
 
     /**
@@ -114,7 +116,6 @@ public class PokemonViewModel extends BaseObservable {
         // convert abilities to string
         StringBuilder abilities = new StringBuilder();
         // TODO Rework that
-
         if (pokemon.getAbilities() != null) {
             List<Ability> ability = MainActivity.getDataList().getAbilities();
             for (Integer abilityID : pokemon.getAbilities()) {
