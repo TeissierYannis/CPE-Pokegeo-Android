@@ -80,7 +80,7 @@
                 android:layout_below="@id/pokemon_bg"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Description"
+                android:text="@string/description"
                 android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -94,7 +94,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@{pokemonViewModel.description}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -106,7 +106,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/pokemon_details_about"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -132,7 +132,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.height}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -158,7 +158,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.weight}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -184,7 +184,7 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="5dp"
                 android:text="@{pokemonViewModel.abilities}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -215,8 +215,7 @@
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
-            <!-- TODO: Add stats, move in Pokemon ListStat by List or something else of PokemonStat -->
-           <ProgressBar
+            <ProgressBar
                 android:id="@+id/pokemon_hp_value"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
@@ -226,7 +225,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="255"
-                android:progress="@{pokemonViewModel.hp}" />
+                android:progress="@{pokemonViewModel.hp}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_attack_label"
@@ -251,7 +252,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="210"
-                android:progress="@{pokemonViewModel.attack}" />
+                android:progress="@{pokemonViewModel.attack}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_defense_label"
@@ -276,7 +279,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="250"
-                android:progress="@{pokemonViewModel.defense}" />
+                android:progress="@{pokemonViewModel.defense}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_spattack_label"
@@ -301,7 +306,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="194"
-                android:progress="@{pokemonViewModel.specialAttack}" />
+                android:progress="@{pokemonViewModel.specialAttack}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_spdefense_label"
@@ -326,7 +333,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="250"
-                android:progress="@{pokemonViewModel.specialDefense}" />
+                android:progress="@{pokemonViewModel.specialDefense}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_speed_label"
@@ -351,7 +360,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:max="200"
-                android:progress="@{pokemonViewModel.speed}" />
+                android:progress="@{pokemonViewModel.speed}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_total_label"
@@ -377,7 +388,9 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:max="780"
-                android:progress="@{pokemonViewModel.totalStat}" />
+                android:progress="@{pokemonViewModel.totalStat}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
         </RelativeLayout>
     </ScrollView>
