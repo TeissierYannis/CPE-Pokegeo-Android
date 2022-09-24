@@ -83,7 +83,8 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getHeight() {
-        return (pokemon.getHeight() + " m");
+        float height = pokemon.getHeight();
+        return (height / 10 + " m");
     }
 
     /**
@@ -93,7 +94,8 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getWeight() {
-        return (pokemon.getWeight() + " kg");
+        float weight = pokemon.getWeight();
+        return (weight / 10 + " kg");
     }
 
     /**
