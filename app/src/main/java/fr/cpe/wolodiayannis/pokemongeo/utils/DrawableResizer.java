@@ -17,7 +17,6 @@ public class DrawableResizer {
      */
     public static Drawable resize(Drawable drawable, int width, int height) {
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        Drawable result = new BitmapDrawable(Resources.getSystem(), Bitmap.createScaledBitmap(bitmap, width, height, true));
-        return result;
+        return new BitmapDrawable(Resources.getSystem(), Bitmap.createScaledBitmap(bitmap, width, height, true));
     }
 }
