@@ -17,12 +17,12 @@
         <TextView
             android:id="@+id/textview_email_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/id"
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/editText_TextEmailAddress"
+            android:id="@+id/emailEditText_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textview_email_label"
@@ -31,12 +31,13 @@
             android:layout_marginStart="80dp"
             android:autofillHints="example@pokegeo.com"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="#373737"/>
 
         <TextView
             android:id="@+id/textview_password_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/textview_email_label"
             android:layout_alignStart="@+id/textview_email_label"
             android:layout_marginTop="20dp"
@@ -44,38 +45,40 @@
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/editText_password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/editText_TextEmailAddress"
+            android:layout_alignStart="@+id/emailEditText_signup"
             android:layout_alignTop="@+id/textview_password_label"
-            android:layout_alignEnd="@+id/editText_TextEmailAddress"
+            android:layout_alignEnd="@+id/emailEditText_signup"
             android:layout_alignBottom="@+id/textview_password_label"
             android:ems="10"
             android:inputType="textPassword"
-            android:autofillHints="password"/>
+            android:autofillHints="password"
+            android:textColor="#373737"/>
 
         <Button
-            android:id="@+id/button_log_in"
+            android:id="@+id/button_login_login"
             style=""
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_alignTop="@+id/button_sign_up"
-            android:layout_alignBottom="@+id/button_sign_up"
+            android:layout_alignTop="@+id/signupButton_signup"
+            android:layout_alignBottom="@+id/signupButton_signup"
             android:layout_marginRight="10dp"
-            android:layout_toStartOf="@+id/button_sign_up"
+            android:layout_toStartOf="@+id/signupButton_signup"
             android:backgroundTint="#F4F4F4"
             android:text="@string/log_in"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:textColor="#373737" />
 
         <Button
-            android:id="@+id/button_sign_up"
+            android:id="@+id/signupButton_signup"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_below="@+id/editTextTextPassword"
-            android:layout_alignEnd="@+id/editTextTextPassword"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/editText_password_login"
+            android:layout_alignEnd="@+id/editText_password_login"
+
             android:backgroundTint="#8BC34A"
             android:text="@string/sign_up"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"

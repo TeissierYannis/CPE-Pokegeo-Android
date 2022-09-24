@@ -20,7 +20,7 @@
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/editText_TextEmailAddress"
+            android:id="@+id/emailEditText_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textview_email_label"
@@ -42,10 +42,10 @@
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/pseudoEditText_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/editText_TextEmailAddress"
+            android:layout_alignStart="@+id/emailEditText_signup"
             android:layout_alignTop="@+id/textview_pseudo_label"
             android:layout_alignBottom="@+id/textview_pseudo_label"
             android:ems="10"
@@ -62,10 +62,10 @@
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/edittext_password"
+            android:id="@+id/passwordEditText_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/editTextTextPersonName"
+            android:layout_alignStart="@+id/pseudoEditText_signup"
             android:layout_alignTop="@+id/textview_password_label"
             android:layout_alignBottom="@+id/textview_password_label"
             android:ems="10"
@@ -83,10 +83,10 @@
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/edittext_confirm_password"
+            android:id="@+id/passwordConfirmEditText_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edittext_password"
+            android:layout_alignStart="@+id/passwordEditText_signup"
             android:layout_alignTop="@+id/textview_confirm_password_label"
             android:layout_alignBottom="@+id/textview_confirm_password_label"
             android:ems="10"
@@ -105,14 +105,14 @@
             android:id="@+id/checkbox_recaptcha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edittext_confirm_password"
-            android:layout_alignEnd="@+id/edittext_confirm_password"
+            android:layout_below="@+id/passwordConfirmEditText_signup"
+            android:layout_alignEnd="@+id/passwordConfirmEditText_signup"
             android:layout_marginTop="20dp"
             android:text="@string/i_m_not_a_robot"
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/button_sign_up"
+            android:id="@+id/signupButton_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkbox_recaptcha"

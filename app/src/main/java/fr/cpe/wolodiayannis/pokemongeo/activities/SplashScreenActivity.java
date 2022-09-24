@@ -17,7 +17,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,6 +60,25 @@ public class SplashScreenActivity extends AppCompatActivity {
      */
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
+    private Datastore datastore;
+
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+
+    // Log in pop up window
+    private EditText idEditText_login;
+    private EditText passwordEditText_login;
+    private Button loginButton_login;
+    private Button signupButton_login;
+
+    // Sign up pop up window
+    private EditText emailEditText_signup;
+    private EditText pseudoEditText_signup;
+    private EditText passwordEditText_signup;
+    private EditText passwordConfirmEditText_signup;
+    private Button signupButton_signup;
+
+    private boolean isLogin = false;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -91,9 +113,51 @@ public class SplashScreenActivity extends AppCompatActivity {
             // init preference manager
             Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
             Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+
+            this.datastore = Datastore.getInstance();
+            if (this.datastore.getUser() == null) {
+                createLoginDialog();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Create the login dialog.
+     */
+    public void createLoginDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View loginPopupView = getLayoutInflater().inflate(R.layout.login_popup, null);
+
+        idEditText_login = (EditText) findViewById(R.id.emailEditText_signup);
+        passwordEditText_login = (EditText) findViewById(R.id.editText_password_login);
+        loginButton_login = (Button) findViewById(R.id.button_login_login);
+        signupButton_login = (Button) findViewById(R.id.signupButton_signup);
+
+        dialogBuilder.setView(loginPopupView);
+        dialog = dialogBuilder.create();
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    /**
+     * Create the sign up dialog.
+     */
+    public void createSignupDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View signupPopupView = getLayoutInflater().inflate(R.layout.signup_popup, null);
+
+        emailEditText_signup = (EditText) findViewById(R.id.emailEditText_signup);
+        pseudoEditText_signup = (EditText) findViewById(R.id.pseudoEditText_signup);
+        passwordEditText_signup = (EditText) findViewById(R.id.passwordEditText_signup);
+        passwordConfirmEditText_signup = (EditText) findViewById(R.id.passwordConfirmEditText_signup);
+        signupButton_signup = (Button) findViewById(R.id.signupButton_signup);
+
+        dialogBuilder.setView(signupPopupView);
+        dialog = dialogBuilder.create();
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     /**
@@ -107,7 +171,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE && isLogin) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Use AVD for animations
                 ImageView imageView = findViewById(R.id.pika_face);
