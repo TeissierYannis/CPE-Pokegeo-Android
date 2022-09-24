@@ -130,15 +130,34 @@ public class SplashScreenActivity extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(this);
         final View loginPopupView = getLayoutInflater().inflate(R.layout.login_popup, null);
 
-        idEditText_login = (EditText) findViewById(R.id.emailEditText_signup);
+        idEditText_login = (EditText) findViewById(R.id.idEditText_login);
         passwordEditText_login = (EditText) findViewById(R.id.editText_password_login);
         loginButton_login = (Button) findViewById(R.id.button_login_login);
-        signupButton_login = (Button) findViewById(R.id.signupButton_signup);
+        signupButton_login = (Button) findViewById(R.id.signupButton_login);
 
         dialogBuilder.setView(loginPopupView);
         dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.show();
+
+        loginButton_login.setOnClickListener(v -> {
+            if (idEditText_login.getText().toString().isEmpty() || passwordEditText_login.getText().toString().isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
+                builder.setMessage("Please fill all the fields")
+                        .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                isLogin = true;
+                // TODO check Data to API
+                dialog.cancel();
+            }
+        });
+
+        signupButton_login.setOnClickListener(v -> {
+            dialog.cancel();
+            createSignupDialog();
+        });
     }
 
     /**
@@ -153,11 +172,37 @@ public class SplashScreenActivity extends AppCompatActivity {
         passwordEditText_signup = (EditText) findViewById(R.id.passwordEditText_signup);
         passwordConfirmEditText_signup = (EditText) findViewById(R.id.passwordConfirmEditText_signup);
         signupButton_signup = (Button) findViewById(R.id.signupButton_signup);
+        signupButton_signup.setEnabled(false);
+
 
         dialogBuilder.setView(signupPopupView);
         dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.show();
+
+
+        signupButton_signup.setOnClickListener(v -> {
+            if (emailEditText_signup.getText().toString().isEmpty()
+                    || pseudoEditText_signup.getText().toString().isEmpty()
+                    || passwordEditText_signup.getText().toString().isEmpty()
+                    || passwordConfirmEditText_signup.getText().toString().isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
+                builder.setMessage("Please fill all the fields")
+                        .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            } else if (!passwordEditText_signup.getText().toString().equals(passwordConfirmEditText_signup.getText().toString())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
+                builder.setMessage("Passwords are not the same")
+                        .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                // TODO POST Data to API
+                dialog.cancel();
+            }
+        });
     }
 
     /**

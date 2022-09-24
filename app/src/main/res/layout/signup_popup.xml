@@ -13,9 +13,9 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/textview_email_label"
+            android:id="@+id/textview_email_label_signup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/email"
             android:textColor="#373737" />
 
@@ -23,8 +23,8 @@
             android:id="@+id/emailEditText_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/textview_email_label"
-            android:layout_alignBottom="@+id/textview_email_label"
+            android:layout_alignTop="@+id/textview_email_label_signup"
+            android:layout_alignBottom="@+id/textview_email_label_signup"
             android:layout_alignParentStart="true"
             android:layout_marginStart="80dp"
             android:autofillHints="example@pokegeo.com"
@@ -32,11 +32,11 @@
             android:inputType="textEmailAddress" />
 
         <TextView
-            android:id="@+id/textview_pseudo_label"
+            android:id="@+id/textview_pseudo_label_signup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_email_label"
-            android:layout_alignStart="@+id/textview_email_label"
+            android:layout_height="40dp"
+            android:layout_below="@+id/textview_email_label_signup"
+            android:layout_alignStart="@+id/textview_email_label_signup"
             android:layout_marginTop="10dp"
             android:text="@string/pseudo"
             android:textColor="#373737" />
@@ -46,17 +46,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/emailEditText_signup"
-            android:layout_alignTop="@+id/textview_pseudo_label"
-            android:layout_alignBottom="@+id/textview_pseudo_label"
+            android:layout_alignTop="@+id/textview_pseudo_label_signup"
+            android:layout_alignBottom="@+id/textview_pseudo_label_signup"
             android:ems="10"
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textview_password_label"
+            android:id="@+id/textview_password_label_signup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_pseudo_label"
-            android:layout_alignStart="@+id/textview_pseudo_label"
+            android:layout_height="40dp"
+            android:layout_below="@+id/textview_pseudo_label_signup"
+            android:layout_alignStart="@+id/textview_pseudo_label_signup"
             android:layout_marginTop="10dp"
             android:text="@string/password"
             android:textColor="#373737" />
@@ -66,18 +66,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/pseudoEditText_signup"
-            android:layout_alignTop="@+id/textview_password_label"
-            android:layout_alignBottom="@+id/textview_password_label"
+            android:layout_alignTop="@+id/textview_password_label_signup"
+            android:layout_alignBottom="@+id/textview_password_label_signup"
             android:ems="10"
             android:inputType="textPassword"
             android:autofillHints="Password" />
 
         <TextView
-            android:id="@+id/textview_confirm_password_label"
+            android:id="@+id/textview_confirm_password_label_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_password_label"
-            android:layout_alignStart="@+id/textview_password_label"
+            android:layout_below="@+id/textview_password_label_signup"
+            android:layout_alignStart="@+id/textview_password_label_signup"
             android:layout_marginTop="10dp"
             android:text="@string/confirm_password"
             android:textColor="#373737" />
@@ -87,38 +87,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/passwordEditText_signup"
-            android:layout_alignTop="@+id/textview_confirm_password_label"
-            android:layout_alignBottom="@+id/textview_confirm_password_label"
+            android:layout_alignTop="@+id/textview_confirm_password_label_signup"
+            android:layout_alignBottom="@+id/textview_confirm_password_label_signup"
             android:ems="10"
             android:inputType="textPassword" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@+id/checkbox_recaptcha"
-            android:layout_alignBottom="@+id/checkbox_recaptcha"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/checkbox_recaptcha"
-            android:src="@drawable/recaptcha_icon" />
-
-        <CheckBox
-            android:id="@+id/checkbox_recaptcha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/passwordConfirmEditText_signup"
-            android:layout_alignEnd="@+id/passwordConfirmEditText_signup"
-            android:layout_marginTop="20dp"
-            android:text="@string/i_m_not_a_robot"
-            android:textSize="15sp" />
 
         <Button
             android:id="@+id/signupButton_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/checkbox_recaptcha"
-            android:layout_alignStart="@+id/checkbox_recaptcha"
-            android:layout_alignEnd="@+id/checkbox_recaptcha"
-            android:layout_marginTop="20dp"
+            android:layout_below="@+id/passwordConfirmEditText_signup"
+            android:layout_alignStart="@+id/passwordConfirmEditText_signup"
+            android:layout_alignEnd="@+id/passwordConfirmEditText_signup"
             android:backgroundTint="#8BC34A"
             android:text="@string/sign_up"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"

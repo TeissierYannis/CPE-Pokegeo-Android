@@ -15,18 +15,18 @@
 
 
         <TextView
-            android:id="@+id/textview_email_label"
+            android:id="@+id/textview_email_label_login"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/id"
             android:textColor="#373737" />
 
         <EditText
-            android:id="@+id/emailEditText_signup"
+            android:id="@+id/idEditText_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/textview_email_label"
-            android:layout_alignBottom="@+id/textview_email_label"
+            android:layout_alignTop="@+id/textview_email_label_login"
+            android:layout_alignBottom="@+id/textview_email_label_login"
             android:layout_alignParentStart="true"
             android:layout_marginStart="80dp"
             android:autofillHints="example@pokegeo.com"
@@ -35,11 +35,11 @@
             android:textColor="#373737"/>
 
         <TextView
-            android:id="@+id/textview_password_label"
+            android:id="@+id/textview_password_label_login"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_below="@+id/textview_email_label"
-            android:layout_alignStart="@+id/textview_email_label"
+            android:layout_below="@+id/textview_email_label_login"
+            android:layout_alignStart="@+id/textview_email_label_login"
             android:layout_marginTop="20dp"
             android:text="@string/password"
             android:textColor="#373737" />
@@ -48,10 +48,10 @@
             android:id="@+id/editText_password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/emailEditText_signup"
-            android:layout_alignTop="@+id/textview_password_label"
-            android:layout_alignEnd="@+id/emailEditText_signup"
-            android:layout_alignBottom="@+id/textview_password_label"
+            android:layout_alignStart="@+id/idEditText_login"
+            android:layout_alignTop="@+id/textview_password_label_login"
+            android:layout_alignEnd="@+id/idEditText_login"
+            android:layout_alignBottom="@+id/textview_password_label_login"
             android:ems="10"
             android:inputType="textPassword"
             android:autofillHints="password"
@@ -62,10 +62,10 @@
             style=""
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_alignTop="@+id/signupButton_signup"
-            android:layout_alignBottom="@+id/signupButton_signup"
+            android:layout_alignTop="@+id/signupButton_login"
+            android:layout_alignBottom="@+id/signupButton_login"
             android:layout_marginRight="10dp"
-            android:layout_toStartOf="@+id/signupButton_signup"
+            android:layout_toStartOf="@+id/signupButton_login"
             android:backgroundTint="#F4F4F4"
             android:text="@string/log_in"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -73,7 +73,7 @@
             android:textColor="#373737" />
 
         <Button
-            android:id="@+id/signupButton_signup"
+            android:id="@+id/signupButton_login"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_below="@+id/editText_password_login"
