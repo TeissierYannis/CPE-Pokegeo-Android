@@ -26,6 +26,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Date;
+import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -137,13 +138,14 @@ public class MapFragment extends Fragment {
             // random between 3 and 10
             int nbPokemon = (int) (Math.random() * 7) + 3;
             // list of nb pokemon
-            int totalPokemon = MainActivity.getDataList().getPokemons().size();
+            List<Pokemon> pokemonList = this.datastore.getPokemons();
+            int totalPokemon = pokemonList.size();
             // clear all old markers
             // Generate nb pokemon
             for (int i = 0; i < nbPokemon; i++) {
                 // random pokemon
                 int randomPokemon = (int) (Math.random() * totalPokemon);
-                Pokemon pokemon = MainActivity.getDataList().getPokemons().get(randomPokemon);
+                Pokemon pokemon = pokemonList.get(randomPokemon);
                 // random position in a 100m radius
                 double randomLat = (Math.random() * 0.0009) + 0.0001;
                 double randomLon = (Math.random() * 0.0009) + 0.0001;

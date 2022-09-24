@@ -29,7 +29,6 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
 
-import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -39,7 +38,6 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.OnLocationChangeListener;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.observers.LocationObserver;
 
@@ -68,15 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private Datastore datastore;
 
     /**
-     * All data list.
-     */
-    private static DataList dataList;
-
-    public static DataList getDataList() {
-        return dataList;
-    }
-
-    /**
      * onCreate Activity.
      *
      * @param savedInstanceState Bundle
@@ -89,11 +78,6 @@ public class MainActivity extends AppCompatActivity {
         Window window = getWindow();
         window.setStatusBarColor(getColor(R.color.colorPrimaryDark));
 
-        // Get data from intent putExtra
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            dataList = (DataList) extras.getSerializable("dataList");
-        }
         this.datastore = Datastore.getInstance();
 
         // bind the activity

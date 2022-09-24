@@ -20,7 +20,6 @@ import android.os.StrictMode;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -37,7 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
@@ -50,12 +48,7 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
 
-    /**
-     * All data list.
-     */
-    private static DataList dataList;
-
-    boolean animationAlreadyFetch = false;
+    boolean animationAlreadyFetched = false;
 
     /**
      * Request code for permission request.
@@ -119,12 +112,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 // add event listener on click on image
                 imageView.setOnClickListener(v -> {
-                    if (!this.animationAlreadyFetch) {
+                    if (!this.animationAlreadyFetched) {
                         // start animation
                         AnimatedVectorDrawable avd = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_pika_launcher_rounded);
                         imageView.setImageDrawable(avd);
                         avd.start();
-                        this.animationAlreadyFetch = true;
+                        this.animationAlreadyFetched = true;
                     }
                 });
 
@@ -230,8 +223,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-            // pass data to main activity
-            intent.putExtra("dataList", dataList);
             startActivity(intent);
             // close this activity
             finish();
