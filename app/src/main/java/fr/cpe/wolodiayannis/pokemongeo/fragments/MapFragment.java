@@ -124,10 +124,10 @@ public class MapFragment extends Fragment {
      * - a random pokemon
      * - a timer (5minutes)
      */
-    public void generatePokemonOnMap() {
+    public void generatePokemonOnMap(Location location) {
         // LOG CALl
         // if the last update is more than 5 minutes
-        if (this.lastUpdate == null || (new Date().getTime() - this.lastUpdate.getTime()) > 3000 && this.datastore.getLastLocation() != null) {
+        if (this.lastUpdate == null || (new Date().getTime() - this.lastUpdate.getTime()) > 3000 && location != null) {
             Logger.log("generatePokemonOnMap called : Location : " + this.datastore.getLastLocation());
 
             this.lastUpdate = new Date();
@@ -147,7 +147,9 @@ public class MapFragment extends Fragment {
 
             // Get generateRandomPointsWithCovariance
             // TODO : Don't work
-            List<GeoPoint> geoPoints = Arrays.asList(Coordinates.generateRandomPointsWithCovariance(new GeoPoint(this.datastore.getLastLocation()), 0.0001, nbPokemon));
+            System.out.println("Location : " + location);
+            GeoPoint actualGeoPoint = new GeoPoint(location);
+            List<GeoPoint> geoPoints = Arrays.asList(Coordinates.generateRandomPointsWithCovariance(actualGeoPoint, 10, nbPokemon));
 
             // for each geoPoint generate a pokemon
             for (int i = 0; i < nbPokemon; i++) {
@@ -157,7 +159,7 @@ public class MapFragment extends Fragment {
                 // get drawable
                 Drawable drawable = AppCompatResources.getDrawable(requireContext(), pokemon.getImageID());
                 // resize drawable
-                Drawable resizedDrawable = DrawableResizer.resize(drawable, 100, 100);
+                Drawable resizedDrawable = DrawableResizer.resize(drawable, 80, 80);
                 // set marker
                 Marker marker = new Marker(map);
                 try {
@@ -208,6 +210,6 @@ public class MapFragment extends Fragment {
         } else {
             mapController.animateTo(this.actualPosition);
         }
-        generatePokemonOnMap();
+        generatePokemonOnMap(location);
     }
 }

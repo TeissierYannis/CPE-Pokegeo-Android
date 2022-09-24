@@ -61,30 +61,43 @@ public class Coordinates {
 
     /**
      * Find covariance matrix of a set of points.
+     * @param points new Empty geo points.
      */
     public static double[][] covarianceMatrix(GeoPoint[] points) {
         double[][] matrix = new double[2][2];
-        double sumLat = 0;
-        double sumLon = 0;
+        double sumX = 0;
+        double sumY = 0;
+        double sumX2 = 0;
+        double sumY2 = 0;
+        double sumXY = 0;
         for (GeoPoint point : points) {
-            sumLat += point.getLatitude();
-            sumLon += point.getLongitude();
+            sumX += point.getLatitude();
+            sumY += point.getLongitude();
+            sumX2 += point.getLatitude() * point.getLatitude();
+            sumY2 += point.getLongitude() * point.getLongitude();
+            sumXY += point.getLatitude() * point.getLongitude();
         }
-        double meanLat = sumLat / points.length;
-        double meanLon = sumLon / points.length;
-        double sumLatLat = 0;
-        double sumLonLon = 0;
-        double sumLatLon = 0;
-        for (GeoPoint point : points) {
-            sumLatLat += Math.pow(point.getLatitude() - meanLat, 2);
-            sumLonLon += Math.pow(point.getLongitude() - meanLon, 2);
-            sumLatLon += (point.getLatitude() - meanLat) * (point.getLongitude() - meanLon);
-        }
-        matrix[0][0] = sumLatLat / points.length;
-        matrix[0][1] = sumLatLon / points.length;
-        matrix[1][0] = sumLatLon / points.length;
-        matrix[1][1] = sumLonLon / points.length;
+        matrix[0][0] = sumX2 - (sumX * sumX) / points.length;
+        matrix[0][1] = sumXY - (sumX * sumY) / points.length;
+        matrix[1][0] = sumXY - (sumX * sumY) / points.length;
+        matrix[1][1] = sumY2 - (sumY * sumY) / points.length;
         return matrix;
+    }
+
+    /**
+     * This method generate X random points in a matrix of X meters around a location.
+     */
+    public static GeoPoint[] generateRandomPoints(GeoPoint currentLocation, double radius, int nbPoints) {
+        System.out.println("Generating " + nbPoints + " points in a matrix of " + radius + " meters around " + currentLocation);
+        GeoPoint[] points = new GeoPoint[nbPoints];
+        // fill geo points
+        double[][] matrix = getMatrix(currentLocation, radius);
+        for (int i = 0; i < nbPoints; i++) {
+            double lat = matrix[0][0] + Math.random() * (matrix[1][0] - matrix[0][0]);
+            double lon = matrix[0][1] + Math.random() * (matrix[1][1] - matrix[0][1]);
+            points[i] = new GeoPoint(lat, lon);
+        }
+        return points;
     }
 
     /**
@@ -97,7 +110,8 @@ public class Coordinates {
      *
      */
     public static GeoPoint[] generateRandomPointsWithCovariance(GeoPoint currentLocation, double radius, int nbPoints) {
-        GeoPoint[] points = new GeoPoint[nbPoints];
+        System.out.println("Generating " + nbPoints + " points in a matrix of " + radius + " meters around " + currentLocation);
+        GeoPoint[] points = generateRandomPoints(currentLocation, radius, nbPoints);
         double[][] matrix = getMatrix(currentLocation, radius);
         double[][] covarianceMatrix = covarianceMatrix(points);
         double meanLat = (matrix[0][0] + matrix[1][0]) / 2;
