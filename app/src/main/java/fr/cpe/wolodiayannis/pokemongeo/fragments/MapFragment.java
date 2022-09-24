@@ -1,7 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,9 +25,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -97,29 +96,16 @@ public class MapFragment extends Fragment {
                 requireContext()
         ), map);
         mLocationOverlay.enableMyLocation();
+        mLocationOverlay.enableFollowLocation();
         map.getOverlays().add(mLocationOverlay);
-
+        // set custom marker as location marker (bitmal needed)
+        //Drawable marker = AppCompatResources.getDrawable(requireContext(), R.drawable.dragon);
+        //mLocationOverlay.setPersonIcon(marker);
         // Set startPoint
         GeoPoint startPoint = new GeoPoint(41.856614, 6.3522219);
         mapController.setCenter(startPoint);
 
         return binding.getRoot();
-    }
-
-    /**
-     * Update geo point.
-     *
-     * @param mainActivity main activity
-     */
-    public void getMapAsync(MainActivity mainActivity) {
-        // Location to geopoint
-        this.actualPosition = new GeoPoint(mainActivity.getCurrentLocation());
-        // Center map on current location
-        map.getController().setCenter(this.actualPosition);
-        // Ask for recenter the screen
-        map.invalidate();
-
-        generatePokemonOnMap();
     }
 
     /**
@@ -129,15 +115,22 @@ public class MapFragment extends Fragment {
      * - a timer (5minutes)
      */
     public void generatePokemonOnMap() {
-
         // if the last update is more than 5 minutes
-        if (this.lastUpdate == null || (new Date().getTime() - this.lastUpdate.getTime()) > 300000) {
+        if (this.lastUpdate == null || (new Date().getTime() - this.lastUpdate.getTime()) > 3000) {
             this.lastUpdate = new Date();
+
+            // get last five overlay and remove them
+            for (int i = 0; i < 5; i++) {
+                if (map.getOverlays().size() > 1) {
+                    map.getOverlays().remove(map.getOverlays().size() - 1);
+                }
+            }
 
             // random between 3 and 10
             int nbPokemon = (int) (Math.random() * 7) + 3;
             // list of nb pokemon
             int totalPokemon = MainActivity.getDataList().getPokemons().size();
+            // clear all old markers
             // Generate nb pokemon
             for (int i = 0; i < nbPokemon; i++) {
                 // random pokemon
@@ -187,5 +180,26 @@ public class MapFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        map.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        map.onPause();
+    }
+
+    /**
+     * Set actual position.
+     * @param location location
+     */
+    public void updateLocation(Location location) {
+        this.actualPosition = new GeoPoint(location);
+        // Follow location
+        mapController.animateTo(this.actualPosition);
+        generatePokemonOnMap();
+    }
 }

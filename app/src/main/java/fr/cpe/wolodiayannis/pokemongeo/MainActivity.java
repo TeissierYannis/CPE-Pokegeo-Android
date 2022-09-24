@@ -4,18 +4,16 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.format.Formatter;
-import android.view.MenuItem;
 import android.view.Window;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,9 +22,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.osmdroid.config.Configuration;
@@ -43,25 +38,30 @@ import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokedexFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.PokemonDetailsFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.OnLocationChangeListener;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.observers.LocationObserver;
 
 /**
  * Main activity of the app.
  */
 public class MainActivity extends AppCompatActivity {
+
     /**
-     * Actual location.
+     * Location observer.
      */
-    private Location currentLocation;
-    /**
-     * FusedLocationProviderClient.
-     */
-    private FusedLocationProviderClient fusedLocationClient;
+    private LocationObserver locationObserver;
 
     /**
      * Location handler.
      */
-    private Handler locationHandler;
+    private LocationListener locationListener;
+
+    /**
+     * Location manager.
+     */
+    private LocationManager locationManager;
+
     /**
      * All data list.
      */
@@ -90,18 +90,24 @@ public class MainActivity extends AppCompatActivity {
             dataList = (DataList) extras.getSerializable("dataList");
         }
 
-        // init fusedLocationClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        // fetch location
-        fetchLocation();
-        // init location handler
-        this.locationHandler = new Handler();
-
         // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        showNav(binding);
+        this.locationObserver = new LocationObserver();
+        // Set the location observer
+        this.locationObserver.setListener(location -> {
+            MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            try {
+                assert mapFragment != null;
+                mapFragment.updateLocation(location);
+            } catch (Exception e) {
+                logOnUiThreadError("[LOCATION] " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
 
+        showNav(binding);
+        setupLocation();
         // show base fragment
         showMap();
     }
@@ -115,45 +121,42 @@ public class MainActivity extends AppCompatActivity {
         // set color of bottom nav icons
         binding.bottomNavigation.setItemIconTintList(null);
         // init listener of the bottom bar to change fragment
-        NavigationBarView.OnItemSelectedListener listener = new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.map:
-                        // if already on map, do nothing
-                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof MapFragment) {
-                            return true;
-                        }
-                        showMap();
-                        break;
-                    case R.id.pokedex:
-                        // if already on pokedex, do nothing
-                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PokedexFragment) {
-                            return true;
-                        }
-                        stopFetchingLocation();
-                        showPokedex();
-                        break;
-                    case R.id.itemsInventory:
-                        // if already on inventory, do nothing
-                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof InventoryFragment) {
-                            return true;
-                        }
-                        stopFetchingLocation();
-                        showInventory();
-                        break;
-                    case R.id.caught:
-                        // if already on caught, do nothing
-                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof CaughtFragment) {
-                            return true;
-                        }
-                        stopFetchingLocation();
-                        showCaught();
-                        break;
-                }
-                return true;
+        NavigationBarView.OnItemSelectedListener listener = item -> {
+            switch (item.getItemId()) {
+                case R.id.map:
+                    // if already on map, do nothing
+                    if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof MapFragment) {
+                        return true;
+                    }
+                    setupLocation();
+                    showMap();
+                    break;
+                case R.id.pokedex:
+                    // if already on pokedex, do nothing
+                    if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PokedexFragment) {
+                        return true;
+                    }
+                    stopLocation();
+                    showPokedex();
+                    break;
+                case R.id.itemsInventory:
+                    // if already on inventory, do nothing
+                    if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof InventoryFragment) {
+                        return true;
+                    }
+                    stopLocation();
+                    showInventory();
+                    break;
+                case R.id.caught:
+                    // if already on caught, do nothing
+                    if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof CaughtFragment) {
+                        return true;
+                    }
+                    stopLocation();
+                    showCaught();
+                    break;
             }
+            return true;
         };
         // set listener to the bottom nav
         binding.bottomNavigation.setOnItemSelectedListener(listener);
@@ -166,8 +169,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         MapFragment fragment = new MapFragment();
-
-        startFetchingLocation();
 
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
@@ -250,48 +251,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Start fetching location.
+     * setup location listener.
      */
-    public void fetchLocation() {
-        if (isLocationEnabled()) {
-            // get location with task
-            @SuppressLint("MissingPermission")
-            Task<Location> locationTask = this.fusedLocationClient.getLastLocation();
-            // add listener to task to send location to fragment
-            locationTask.addOnSuccessListener(location -> {
-                if (location != null) {
-                    currentLocation = location;
-                    //Toast.makeText(this, "Location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-                    MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                    try {
-                        assert mapFragment != null;
-                        mapFragment.getMapAsync(this);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-    }
+    public void setupLocation() {
 
-    public boolean isLocationEnabled() {
-        // check if location is enabled
+        this.locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location newLocation) {
+                locationObserver.set(newLocation);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int
+                    status, Bundle extras) {
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                stopLocation();
+            }
+        };
+        this.locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            logOnUiThreadError("[ERROR] Location not enabled");
-            return false;
-        } else {
-            return true;
+            logOnUiThreadError("[LOCATION] Permission not granted");
+            return;
         }
+
+        this.locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 100, 10, this.locationListener);
     }
 
     /**
-     * Get current location.
-     *
-     * @return current location
+     * Stop geo location.
      */
-    public Location getCurrentLocation() {
-        return currentLocation;
+    public void stopLocation() {
+        this.locationManager.removeUpdates(this.locationListener);
     }
+
 
     /**
      * On resume app, update storage and check crash log.
@@ -337,27 +338,4 @@ public class MainActivity extends AppCompatActivity {
         logOnUiThread("[DEBUG] " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
                 "Cache size: " + Formatter.formatFileSize(this, cacheSize));
     }
-
-    /**
-     * Start location handler to update location.
-     */
-    private void startFetchingLocation() {
-        if (isLocationEnabled()) {
-            this.locationHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    fetchLocation();
-                    locationHandler.postDelayed(this, 100);
-                }
-            }, 100);
-        }
-    }
-
-    /**
-     * Stop location handler.
-     */
-    private void stopFetchingLocation() {
-        this.locationHandler.removeCallbacksAndMessages(null);
-    }
-
 }
