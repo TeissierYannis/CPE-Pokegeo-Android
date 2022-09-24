@@ -10,7 +10,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,8 +70,8 @@
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/pokemon_image_desc"
                     android:padding="50dp"
-                    android:src="@{pokemonViewModel.getImage(context, pokemonViewModel.getImageID)}"
-                    />
+                    android:src="@{pokemonViewModel.getImage(context, pokemonViewModel.getImageID)}" />
+
             </RelativeLayout>
 
             <TextView
@@ -80,7 +81,7 @@
                 android:layout_below="@id/pokemon_bg"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Description"
+                android:text="@string/description"
                 android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -94,7 +95,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@{pokemonViewModel.description}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -106,9 +107,78 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/pokemon_details_about"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/pokemon_Type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pokemon_about"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:text="@string/type"
+                android:textColor="?colorOnPrimary"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+
+            <ImageView
+                android:id="@+id/pokemon_type1_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignTop="@+id/pokemon_Type_label"
+                android:layout_alignBottom="@+id/pokemon_Type_label"
+                android:layout_marginStart="100dp"
+                android:src="@{pokemonViewModel.getTypeImage(context, pokemonViewModel.getTypeID(0))}" />
+            <ImageView
+                android:id="@+id/pokemon_type2_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignTop="@+id/pokemon_Type_label"
+                android:layout_alignBottom="@+id/pokemon_Type_label"
+                android:layout_marginStart="130dp"
+                android:src="@{pokemonViewModel.getTypeImage(context, pokemonViewModel.getTypeID(1))}" />
+
+            <ImageView
+                android:id="@+id/pokemon_type3_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignTop="@+id/pokemon_Type_label"
+                android:layout_alignBottom="@+id/pokemon_Type_label"
+                android:layout_marginStart="160dp"
+                android:src="@{pokemonViewModel.getTypeImage(context, pokemonViewModel.getTypeID(2))}" />
+
+
+            <TextView
+                android:id="@+id/pokemon_generation_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pokemon_about"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="31dp"
+                android:text="@string/generation"
+                android:textColor="?colorOnPrimary"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/pokemon_generation_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/pokemon_generation_label"
+                android:layout_alignBottom="@+id/pokemon_generation_label"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="-2dp"
+                android:text="@{pokemonViewModel.generationId}"
+                android:textColor="?colorOnPrimary"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/pokemon_height_label"
@@ -117,7 +187,7 @@
                 android:layout_below="@id/pokemon_about"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="54dp"
                 android:text="@string/pokemon_details_height"
                 android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
@@ -127,12 +197,13 @@
                 android:id="@+id/pokemon_height_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_about"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/pokemon_height_label"
+                android:layout_alignBottom="@+id/pokemon_height_label"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="2dp"
                 android:text="@{pokemonViewModel.height}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -153,12 +224,13 @@
                 android:id="@+id/pokemon_weight_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_height_value"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/pokemon_weight_label"
+                android:layout_alignBottom="@+id/pokemon_weight_label"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
                 android:text="@{pokemonViewModel.weight}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -179,12 +251,13 @@
                 android:id="@+id/pokemon_abilities_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pokemon_weight_value"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/pokemon_abilities_label"
+                android:layout_alignBottom="@+id/pokemon_abilities_label"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
                 android:text="@{pokemonViewModel.abilities}"
-                android:textColor="?colorOnSecondary"
+                android:textColor="?colorOnPrimary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -215,18 +288,21 @@
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
-            <!-- TODO: Add stats, move in Pokemon ListStat by List or something else of PokemonStat -->
-           <ProgressBar
+            <ProgressBar
                 android:id="@+id/pokemon_hp_value"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_stats"
+                android:layout_alignTop="@+id/pokemon_hp_label"
+                android:layout_alignBottom="@+id/pokemon_hp_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="1dp"
                 android:max="255"
-                android:progress="@{pokemonViewModel.hp}" />
+                android:progress="@{pokemonViewModel.hp}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_attack_label"
@@ -246,12 +322,16 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_hp_label"
+                android:layout_alignTop="@+id/pokemon_attack_label"
+                android:layout_alignBottom="@+id/pokemon_attack_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="2dp"
                 android:max="210"
-                android:progress="@{pokemonViewModel.attack}" />
+                android:progress="@{pokemonViewModel.attack}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_defense_label"
@@ -271,12 +351,16 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_attack_label"
+                android:layout_alignTop="@+id/pokemon_defense_label"
+                android:layout_alignBottom="@+id/pokemon_defense_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="2dp"
                 android:max="250"
-                android:progress="@{pokemonViewModel.defense}" />
+                android:progress="@{pokemonViewModel.defense}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_spattack_label"
@@ -296,12 +380,16 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_defense_label"
+                android:layout_alignTop="@+id/pokemon_spattack_label"
+                android:layout_alignBottom="@+id/pokemon_spattack_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="3dp"
                 android:max="194"
-                android:progress="@{pokemonViewModel.specialAttack}" />
+                android:progress="@{pokemonViewModel.specialAttack}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_spdefense_label"
@@ -321,12 +409,16 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_spattack_label"
+                android:layout_alignTop="@+id/pokemon_spdefense_label"
+                android:layout_alignBottom="@+id/pokemon_spdefense_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="2dp"
                 android:max="250"
-                android:progress="@{pokemonViewModel.specialDefense}" />
+                android:progress="@{pokemonViewModel.specialDefense}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_speed_label"
@@ -346,12 +438,16 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_spdefense_label"
+                android:layout_alignTop="@+id/pokemon_speed_label"
+                android:layout_alignBottom="@+id/pokemon_speed_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="2dp"
                 android:max="200"
-                android:progress="@{pokemonViewModel.speed}" />
+                android:progress="@{pokemonViewModel.speed}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
             <TextView
                 android:id="@+id/pokemon_total_label"
@@ -371,13 +467,16 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_below="@id/pokemon_speed_label"
+                android:layout_alignTop="@+id/pokemon_total_label"
+                android:layout_alignBottom="@+id/pokemon_total_label"
                 android:layout_marginStart="80dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="3dp"
                 android:max="780"
-                android:progress="@{pokemonViewModel.totalStat}" />
+                android:progress="@{pokemonViewModel.totalStat}"
+                android:progressBackgroundTint="#DADADA"
+                android:progressTint="@{pokemonViewModel.color}" />
 
         </RelativeLayout>
     </ScrollView>

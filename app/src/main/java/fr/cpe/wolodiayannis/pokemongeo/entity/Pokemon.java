@@ -83,6 +83,11 @@ public class Pokemon implements Serializable {
     private int imageID;
 
     /**
+     * List of types id.
+     */
+    private List<Integer> typeIDList;
+
+    /**
      * Pokemon constructor.
      *
      * @param id               Pokemon ID.
@@ -344,4 +349,11 @@ public class Pokemon implements Serializable {
         return (getHp() + getAttack() + getDefense() + getSpecialAttack() + getSpecialDefense() + getSpeed());
     }
 
+    public void setImageTypeID(List<Integer> drawable) {
+        this.typeIDList = drawable;
+    }
+
+    public List<Integer> getImageTypeID() {
+        return this.typeIDList;
+    }
 }

@@ -27,4 +27,7 @@
     <string name="app_icon_description">App icon</string>
     <string name="pika_github_icon_desc">Github with pikachu\'s tail</string>
     <string name="loading">Loading ...</string>
+    <string name="description">Description</string>
+    <string name="type">Type</string>
+    <string name="generation">Generation</string>
 </resources>

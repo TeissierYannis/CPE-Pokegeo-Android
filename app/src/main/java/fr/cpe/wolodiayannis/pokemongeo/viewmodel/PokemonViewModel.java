@@ -14,6 +14,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 
+
 /**
  * Pokemon View Model.
  */
@@ -79,7 +80,8 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getHeight() {
-        return (pokemon.getHeight() + " m");
+        float height = pokemon.getHeight();
+        return (height / 10 + " m");
     }
 
     /**
@@ -89,7 +91,8 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getWeight() {
-        return (pokemon.getWeight() + " kg");
+        float weight = pokemon.getWeight();
+        return (weight / 10 + " kg");
     }
 
     /**
@@ -150,8 +153,8 @@ public class PokemonViewModel extends BaseObservable {
      * @return int.
      */
     @Bindable
-    public int getGenerationId() {
-        return pokemon.getGenerationId();
+    public String getGenerationId() {
+        return String.valueOf(pokemon.getGenerationId());
     }
 
     /**
@@ -227,4 +230,29 @@ public class PokemonViewModel extends BaseObservable {
     public int getTotalStat() {
         return pokemon.getTotalStat();
     }
+
+    /**
+     * Get the pokemon type image.
+     */
+    public Drawable getTypeImage(Context context, int res) {
+        if (res != -1)
+            try {
+                return ResourcesCompat.getDrawable(context.getResources(), res, null);
+            } catch (Exception e) {
+                return null;
+            }
+        else
+            return null;
+    }
+
+    /**
+     * Get the pokemon Type 1 id.
+     */
+    public int getTypeID(int id) {
+        if (pokemon.getImageTypeID() != null && pokemon.getImageTypeID().size() > id)
+            return pokemon.getImageTypeID().get(id);
+        else
+            return -1;
+    }
+
 }
