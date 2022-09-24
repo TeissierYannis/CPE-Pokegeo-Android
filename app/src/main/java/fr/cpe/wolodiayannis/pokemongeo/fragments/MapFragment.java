@@ -24,6 +24,8 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +33,7 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Coordinates;
 import fr.cpe.wolodiayannis.pokemongeo.utils.DrawableResizer;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 
@@ -122,8 +125,11 @@ public class MapFragment extends Fragment {
      * - a timer (5minutes)
      */
     public void generatePokemonOnMap() {
+        // LOG CALl
         // if the last update is more than 5 minutes
-        if (this.lastUpdate == null || (new Date().getTime() - this.lastUpdate.getTime()) > 3000) {
+        if (this.lastUpdate == null || (new Date().getTime() - this.lastUpdate.getTime()) > 3000 && this.datastore.getLastLocation() != null) {
+            Logger.log("generatePokemonOnMap called : Location : " + this.datastore.getLastLocation());
+
             this.lastUpdate = new Date();
 
             // get last five overlay and remove them
@@ -138,51 +144,39 @@ public class MapFragment extends Fragment {
             // list of nb pokemon
             List<Pokemon> pokemonList = this.datastore.getPokemons();
             int totalPokemon = pokemonList.size();
-            // clear all old markers
-            // Generate nb pokemon
+
+            // Get generateRandomPointsWithCovariance
+            // TODO : Don't work
+            List<GeoPoint> geoPoints = Arrays.asList(Coordinates.generateRandomPointsWithCovariance(new GeoPoint(this.datastore.getLastLocation()), 0.0001, nbPokemon));
+
+            // for each geoPoint generate a pokemon
             for (int i = 0; i < nbPokemon; i++) {
-                // random pokemon
-                int randomPokemon = (int) (Math.random() * totalPokemon);
-                Pokemon pokemon = pokemonList.get(randomPokemon);
-                // random position in a 100m radius
-                double randomLat = (Math.random() * 0.0009) + 0.0001;
-                double randomLon = (Math.random() * 0.0009) + 0.0001;
-                // random position
-                double lat = this.actualPosition.getLatitude() + randomLat;
-                double lon = this.actualPosition.getLongitude() + randomLon;
+                // get random pokemon
+                Pokemon pokemon = pokemonList.get((int) (Math.random() * totalPokemon));
 
-                // Create marker with pokemon
+                // get drawable
+                Drawable drawable = AppCompatResources.getDrawable(requireContext(), pokemon.getImageID());
+                // resize drawable
+                Drawable resizedDrawable = DrawableResizer.resize(drawable, 100, 100);
+                // set marker
                 Marker marker = new Marker(map);
-                marker.setPosition(new GeoPoint(lat, lon));
-                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                // From image ID get drawable with compat
-
-                Drawable img = AppCompatResources.getDrawable(
-                        requireContext(),
-                        pokemon.getImageID()
-                );
-                // set drawable size
-                //assert img != null;
-                //img.setBounds(0, 0, 100, 100);
-
                 try {
-                    marker.setIcon(
-                            DrawableResizer.resize(img, 80, 80)
-                    );
+
+                    marker.setPosition(geoPoints.get(i));
+                    marker.setIcon(resizedDrawable);
+                    marker.setTitle(pokemon.getName());
+                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    // add marker to map
                     map.getOverlays().add(marker);
-                    // set size of icon
-                    marker.setInfoWindow(null);
-                    marker.setRelatedObject(pokemon);
+
+                    // set on click listener
                     marker.setOnMarkerClickListener((marker1, mapView) -> {
-                        Pokemon pokemon1 = (Pokemon) marker1.getRelatedObject();
-                        Logger.log("Pokemon clicked : " + pokemon1.getName());
+                        Logger.log("Marker clicked");
                         return false;
                     });
-
                 } catch (Exception e) {
-                    Logger.logOnUiThreadError("[DRAWABLE] id = " + pokemon.getImageID(), e);
+                    Logger.log(e.getMessage());
                 }
-
 
             }
         }
