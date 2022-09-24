@@ -38,6 +38,7 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -55,10 +56,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static DataList dataList;
 
     boolean animationAlreadyFetch = false;
-
-    private ProgressBar progressBar;
-
-    private TextView progressBarText;
 
     /**
      * Request code for permission request.
@@ -138,9 +135,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private class FetchingAndLoading extends AsyncTask<String, Void, String> {
 
-        private final ProgressBar progressBar = findViewById(R.id.progressBar);
-        private final TextView progressBarText = findViewById(R.id.progress_bar_text);
+        /**
+         * Datastore instance.
+         */
+        private Datastore datastore;
 
+        private final ProgressBar progressBar = findViewById(R.id.progressBar);
 
         private final int TASKS_NB = 6;
         private final int prcPerTask = 100 / TASKS_NB;
@@ -208,7 +208,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                     List<Ability> abilityList = callAndCacheAbilityList();
                     setProgress();
 
-                    dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
+                    this.datastore = Datastore.getInstance();
+                    this.datastore.setPokemons(pokemonList)
+                            .setItems(itemList)
+                            .setStats(statList)
+                            .setTypes(typeList)
+                            .setAbilities(abilityList);
 
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

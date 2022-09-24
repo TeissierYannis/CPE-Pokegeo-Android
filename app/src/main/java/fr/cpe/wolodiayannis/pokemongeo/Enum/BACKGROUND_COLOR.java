@@ -1,5 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.Enum;
 
+import java.lang.reflect.Field;
+
 public class BACKGROUND_COLOR {
     public static final int Normal = 0xFFA8A878;
     public static final int Fire = 0xFFF08030;
@@ -20,4 +22,15 @@ public class BACKGROUND_COLOR {
     public static final int Steel = 0xFFB8B8D0;
     public static final int Fairy = 0xFFEE99AC;
     public static final int Unknown = 0xFF000000;
+
+    public static int valueOf(String name) {
+        Field field;
+        try {
+            field = BACKGROUND_COLOR.class.getField(name);
+            return field.getInt(null);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return Unknown;
+    }
 }

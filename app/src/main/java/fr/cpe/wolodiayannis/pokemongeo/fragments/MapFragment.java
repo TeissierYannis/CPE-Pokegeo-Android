@@ -29,6 +29,7 @@ import java.util.Date;
 
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
@@ -51,6 +52,11 @@ public class MapFragment extends Fragment {
      */
     MapFragmentBinding binding;
 
+    /**
+     * Datastore.
+     */
+    Datastore datastore;
+
     GeoPoint actualPosition;
 
     Date lastUpdate;
@@ -71,6 +77,8 @@ public class MapFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         // Bind layout
         this.binding = DataBindingUtil.inflate(inflater, R.layout.map_fragment, container, false);
+
+        this.datastore = Datastore.getInstance();
 
         // Get map
         map = binding.map;
@@ -102,7 +110,7 @@ public class MapFragment extends Fragment {
         //Drawable marker = AppCompatResources.getDrawable(requireContext(), R.drawable.dragon);
         //mLocationOverlay.setPersonIcon(marker);
         // Set startPoint
-        GeoPoint startPoint = new GeoPoint(41.856614, 6.3522219);
+        GeoPoint startPoint = new GeoPoint(this.datastore.getLastLocation() != null ? this.datastore.getLastLocation() : new Location("default"));
         mapController.setCenter(startPoint);
 
         return binding.getRoot();
@@ -194,6 +202,7 @@ public class MapFragment extends Fragment {
 
     /**
      * Set actual position.
+     *
      * @param location location
      */
     public void updateLocation(Location location) {

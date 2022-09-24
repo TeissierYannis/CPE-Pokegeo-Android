@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
@@ -27,6 +28,11 @@ public class PokedexFragment extends Fragment {
      * On click on pokemon listener.
      */
     private PokedexListenerInterface listener;
+
+    /**
+     * Datastore instance.
+     */
+    private Datastore datastore;
 
     /**
      * onCreateView.
@@ -44,8 +50,12 @@ public class PokedexFragment extends Fragment {
         PokedexFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.pokedex_fragment, container, false);
         // Set the layout
         binding.pokemonList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+
+        // Get the datastore instance
+        this.datastore = Datastore.getInstance();
+
         // new adapter
-        PokemonListAdapter adapter = new PokemonListAdapter(MainActivity.getDataList().getPokemons(), listener);
+        PokemonListAdapter adapter = new PokemonListAdapter(this.datastore.getPokemons(), listener);
         // set the adapter
         binding.pokemonList.setAdapter(adapter);
 

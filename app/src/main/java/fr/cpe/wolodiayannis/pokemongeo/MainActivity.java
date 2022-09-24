@@ -30,6 +30,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import java.io.File;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataList;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
@@ -61,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
      * Location manager.
      */
     private LocationManager locationManager;
+    /**
+     * Datastore instance.
+     */
+    private Datastore datastore;
 
     /**
      * All data list.
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         if (extras != null) {
             dataList = (DataList) extras.getSerializable("dataList");
         }
+        this.datastore = Datastore.getInstance();
 
         // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -259,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location newLocation) {
                 locationObserver.set(newLocation);
+                datastore.setLastLocation(newLocation);
             }
 
             @Override

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
@@ -26,12 +27,15 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 public class PokemonViewModel extends BaseObservable {
     private Pokemon pokemon = null;
 
+    private Datastore datastore;
+
     /**
      * set pokemon.
      *
      * @param pokemon pokemon
      */
     public void setPokemon(Pokemon pokemon) {
+        this.datastore = Datastore.getInstance();
         this.pokemon = pokemon;
         notifyChange();
     }
@@ -106,7 +110,7 @@ public class PokemonViewModel extends BaseObservable {
         StringBuilder abilities = new StringBuilder();
         // TODO Rework that
         if (pokemon.getAbilities() != null) {
-            List<Ability> ability = MainActivity.getDataList().getAbilities();
+            List<Ability> ability = this.datastore.getAbilities();
             for (Integer abilityID : pokemon.getAbilities()) {
                 abilities.append(ability.get(abilityID).getName()).append(", ");
             }

@@ -1,7 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;

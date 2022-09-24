@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.TypeAdapter;
 
 /**
@@ -25,6 +26,11 @@ public class Type implements Serializable {
     private final String name;
 
     /**
+     * Color.
+     */
+    private final int color;
+
+    /**
      * Type constructor.
      * @param id Type id.
      * @param name Type name.
@@ -32,6 +38,8 @@ public class Type implements Serializable {
     public Type(int id, String name) {
         this.id = id;
         this.name = name;
+        // Name with first letter in uppercase.
+        this.color = BACKGROUND_COLOR.valueOf(name.substring(0, 1).toUpperCase() + name.substring(1));
     }
 
     /**
@@ -48,5 +56,13 @@ public class Type implements Serializable {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Get type color.
+     * @return Type color.
+     */
+    public int getColor() {
+        return color;
     }
 }

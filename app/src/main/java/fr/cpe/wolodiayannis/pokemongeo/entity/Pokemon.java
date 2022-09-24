@@ -1,25 +1,17 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
-import android.annotation.SuppressLint;
-import android.content.res.Resources;
-
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
-import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.PokemonAdapter;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
-import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 
 /**
  * Pokemon class.
@@ -208,66 +200,23 @@ public class Pokemon implements Serializable {
         if (this.color != BACKGROUND_COLOR.Unknown) {
             return this.color;
         }
-        color = generateColor();
-        return color;
-    }
+        int typeID;
+        // ???? TODO to redefined
+        Datastore datastore = Datastore.getInstance();
 
-    /**
-     * Generate bg color in fact of type one.
-     *
-     * @return color int.
-     */
-    public int generateColor() {
-        String typeOne = null;
-        for (Type type : MainActivity.getDataList().getTypes()) {
-            if (typeList.size() > 1) {
-                if (type.getId() == typeList.get(1)) {
-                    typeOne = type.getName();
-                }
-            } else if (type.getId() == typeList.get(0)) {
-                typeOne = type.getName();
+        if (typeList.size() > 1) {
+            typeID = this.typeList.get(typeList.size() - 1);
+        } else {
+            typeID = this.typeList.get(0);
+        }
+        // compare ID
+        for (int i = 0; i < datastore.getTypes().size(); i++) {
+            if (datastore.getTypes().get(i).getId() == typeID) {
+                this.color = datastore.getTypes().get(i).getColor();
+                break;
             }
         }
-        switch (Objects.requireNonNull(typeOne)) {
-            case "normal":
-                return BACKGROUND_COLOR.Normal;
-            case "fighting":
-                return BACKGROUND_COLOR.Fighting;
-            case "flying":
-                return BACKGROUND_COLOR.Flying;
-            case "poison":
-                return BACKGROUND_COLOR.Poison;
-            case "ground":
-                return BACKGROUND_COLOR.Ground;
-            case "rock":
-                return BACKGROUND_COLOR.Rock;
-            case "bug":
-                return BACKGROUND_COLOR.Bug;
-            case "ghost":
-                return BACKGROUND_COLOR.Ghost;
-            case "steel":
-                return BACKGROUND_COLOR.Steel;
-            case "fire":
-                return BACKGROUND_COLOR.Fire;
-            case "water":
-                return BACKGROUND_COLOR.Water;
-            case "grass":
-                return BACKGROUND_COLOR.Grass;
-            case "electric":
-                return BACKGROUND_COLOR.Electric;
-            case "psychic":
-                return BACKGROUND_COLOR.Psychic;
-            case "ice":
-                return BACKGROUND_COLOR.Ice;
-            case "dragon":
-                return BACKGROUND_COLOR.Dragon;
-            case "dark":
-                return BACKGROUND_COLOR.Dark;
-            case "fairy":
-                return BACKGROUND_COLOR.Fairy;
-            default:
-                return BACKGROUND_COLOR.Unknown;
-        }
+        return color;
     }
 
     /**
@@ -335,6 +284,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Set image id.
+     *
      * @return int image ID.
      */
     public int getImageID() {
@@ -343,6 +293,7 @@ public class Pokemon implements Serializable {
 
     /**
      * Set image ID.
+     *
      * @param drawable
      */
     public void setImageID(int drawable) {
@@ -391,7 +342,7 @@ public class Pokemon implements Serializable {
         return statList.get(5).getBaseStat();
     }
 
-    public int getTotalStat () {
+    public int getTotalStat() {
         return (getHp() + getAttack() + getDefense() + getSpecialAttack() + getSpecialDefense() + getSpeed());
     }
 
