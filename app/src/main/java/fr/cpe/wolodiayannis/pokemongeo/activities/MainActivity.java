@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo;
+package fr.cpe.wolodiayannis.pokemongeo.activities;
 
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
@@ -29,6 +29,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
 
+import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;

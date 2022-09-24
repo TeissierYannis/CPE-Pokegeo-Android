@@ -1,25 +1,18 @@
 package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 
 /**
  * Pokemon View Model.

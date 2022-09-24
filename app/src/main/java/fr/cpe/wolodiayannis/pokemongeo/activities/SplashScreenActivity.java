@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo;
+package fr.cpe.wolodiayannis.pokemongeo.activities;
 
 
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
+import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;

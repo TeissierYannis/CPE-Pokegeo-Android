@@ -2,7 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,11 +27,11 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.Date;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.utils.DrawableResizer;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 
 /**
@@ -105,7 +104,6 @@ public class MapFragment extends Fragment {
                 requireContext()
         ), map);
         mLocationOverlay.enableMyLocation();
-        mLocationOverlay.enableFollowLocation();
         map.getOverlays().add(mLocationOverlay);
         // set custom marker as location marker (bitmal needed)
         //Drawable marker = AppCompatResources.getDrawable(requireContext(), R.drawable.dragon);
@@ -169,7 +167,7 @@ public class MapFragment extends Fragment {
 
                 try {
                     marker.setIcon(
-                            img
+                            DrawableResizer.resize(img, 80, 80)
                     );
                     map.getOverlays().add(marker);
                     // set size of icon
@@ -210,7 +208,12 @@ public class MapFragment extends Fragment {
     public void updateLocation(Location location) {
         this.actualPosition = new GeoPoint(location);
         // Follow location
-        mapController.animateTo(this.actualPosition);
+        // if the location is to far from the center
+        if (this.actualPosition.distanceToAsDouble(map.getMapCenter()) > 100) {
+            mapController.setCenter(this.actualPosition);
+        } else {
+            mapController.animateTo(this.actualPosition);
+        }
         generatePokemonOnMap();
     }
 }
