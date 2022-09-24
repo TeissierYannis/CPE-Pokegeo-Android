@@ -27,8 +27,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
 import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
@@ -47,7 +45,6 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
-import fr.cpe.wolodiayannis.pokemongeo.viewmodel.SplashScreenViewModel;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -58,17 +55,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static DataList dataList;
 
     boolean animationAlreadyFetch = false;
-
-    private String LoadingText = "Loading...";
-
-    @Bindable
-    public String getLoadingText() {
-        return LoadingText;
-    }
-
-    public void setLoadingText(String loadingText) {
-        LoadingText = loadingText;
-    }
 
     /**
      * Request code for permission request.
@@ -154,8 +140,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         private final ProgressBar progressBar = findViewById(R.id.progressBar);
         private final TextView progressBarText = findViewById(R.id.progress_bar_text);
 
-
-        private final int TASKS_NB = 6;
+        private final int TASKS_NB = 9;
         private final int prcPerTask = 100 / TASKS_NB;
 
         public FetchingAndLoading() {
@@ -164,6 +149,10 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         private void setProgress() {
             progressBar.setProgress(progressBar.getProgress() + prcPerTask);
+        }
+
+        private void changeLoadingText(String text) {
+            runOnUiThread(() -> progressBarText.setText(text + " " + progressBar.getProgress() + "%"));
         }
 
         @Override
@@ -181,24 +170,48 @@ public class SplashScreenActivity extends AppCompatActivity {
                 progressBar.setProgress(0);
 
                 try {
+                    changeLoadingText("Fetching Pokémon...");
                     List<Pokemon> pokemonList = callAndCachePokemonList();
+                    setProgress();
+
+                    changeLoadingText("Creation of statistics...");
+                    List<Stat> statList = callAndCacheStatList();
+                    setProgress();
+
+                    changeLoadingText("Creation of types...");
+                    List<Type> typeList = callAndCacheTypeList();
+                    setProgress();
+
+                    changeLoadingText("Creation of abilities...");
+                    List<Ability> abilityList = callAndCacheAbilityList();
+                    setProgress();
+
+                    changeLoadingText("Manufacturing of items...");
+                    List<Item> itemList = callAndCacheItemList();
+                    setProgress();
+
+                    changeLoadingText("Pokémon's abilities training...");
                     HashMap<Integer, List<Integer>> abilityListForEachPokemon = callAndCachePokemonAbilitiesList();
                     setProgress();
+
+                    changeLoadingText("Definition of Pokémon's types...");
                     HashMap<Integer, List<Integer>> typeListForEachPokemon = callAndCachePokemonTypesList();
                     setProgress();
+
+                    changeLoadingText("Definition of Pokémon's stats...");
                     HashMap<Integer, List<PokemonStat>> statsListForEachPokemon = callAndCachePokemonStatList();
                     setProgress();
+
+                    changeLoadingText("Identification of the Pokémons...");
                     for (Pokemon pokemon : pokemonList) {
-                        pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
                         System.out.println("Pokemon id : " + pokemon.getId());
                         pokemon.setTypes(typeListForEachPokemon.get(pokemon.getId()));
-                        logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
+                        logOnUiThread("[INFO] Add types to pokemon " + pokemon.getName());
                         pokemon.setStats(statsListForEachPokemon.get(pokemon.getId()));
                         logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
-
-
+                        pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
+                        logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
                         pokemon.setImageID(
-
                                 getResources()
                                         .getIdentifier(
                                                 "p" + String.format("%03d", pokemon.getId()),
@@ -206,8 +219,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                                                 getPackageName()
                                         )
                         );
-
-
                         List<Integer> typesDrawables = new ArrayList<>();
                         for (int i = 0; i < pokemon.getTypes().size(); i++) {
                             typesDrawables.add(
@@ -218,20 +229,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                             ));
                         }
                         pokemon.setImageTypeID(typesDrawables);
-
                         // get place of the pokemon in the list
                         int pokemonIndex = pokemonList.indexOf(pokemon);
                         // get the pokemon from the list
                         pokemonList.set(pokemonIndex, pokemon);
                     }
-                    setProgress();
-                    List<Item> itemList = callAndCacheItemList();
-                    setProgress();
-                    List<Stat> statList = callAndCacheStatList();
-                    setProgress();
-                    List<Type> typeList = callAndCacheTypeList();
-                    setProgress();
-                    List<Ability> abilityList = callAndCacheAbilityList();
                     setProgress();
 
                     dataList = new DataList(pokemonList, itemList, statList, typeList, abilityList);
