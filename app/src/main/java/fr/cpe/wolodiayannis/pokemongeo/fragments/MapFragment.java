@@ -212,4 +212,16 @@ public class MapFragment extends Fragment {
         }
         generatePokemonOnMap(location);
     }
+
+    /**
+     * Marker on click listener.
+     */
+    private class MarkerOnClickListener implements Marker.OnMarkerClickListener {
+        @Override
+        public boolean onMarkerClick(Marker marker, MapView mapView) {
+            // TODO faire le combat
+            Logger.log("Marker" + marker.getId()+ " clicked");
+            return false;
+        }
+    }
 }
