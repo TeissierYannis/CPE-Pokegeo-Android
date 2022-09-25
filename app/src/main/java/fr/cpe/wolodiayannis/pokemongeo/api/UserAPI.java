@@ -9,10 +9,11 @@ import retrofit2.http.Path;
 public interface UserAPI extends BaseAPI {
     /**
      * Get one user.
-     * @param id User id.
+     * @param email User email.
+     * @param password User password.
      */
-    @GET("user/{id}")
-    Call<User> getUser(@Path("id") int id);
+    @GET("user/{email}/{password}")
+    Call<User> getUser(@Path("email") String email, @Path("password") String password);
 
     @POST("user")
     Call<User> createUser(@Path("user") User user);

@@ -18,11 +18,12 @@ public class UserRequest extends BaseRequest {
 
     /**
      * Get the user.
-     * @param id User id.
+     * @param email User email.
+     * @param password User password.
      * @return User.
      */
-    public static User getUserFromID(int id) {
-        Call<User> call = getAPI().getUser(id);
+    public static User checkUser(String email, String password) {
+        Call<User> call = getAPI().getUser(email, password);
         try {
             User user = call.execute().body();
             LogAPI("User");
