@@ -51,6 +51,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.BackArrowListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
 
 @SuppressLint("CustomSplashScreen")
@@ -79,6 +80,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private EditText passwordEditText_signup;
     private EditText passwordConfirmEditText_signup;
     private Button signupButton_signup;
+    private ImageView backArrow_signup;
 
     private boolean isLogin = false;
 
@@ -177,11 +179,17 @@ public class SplashScreenActivity extends AppCompatActivity {
         passwordEditText_signup = signupPopupView.findViewById(R.id.passwordEditText_signup);
         passwordConfirmEditText_signup = signupPopupView.findViewById(R.id.passwordConfirmEditText_signup);
         signupButton_signup = signupPopupView.findViewById(R.id.signupButton_signup);
+        backArrow_signup = signupPopupView.findViewById(R.id.backArrow_signup);
 
         dialogBuilder.setView(signupPopupView);
         dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.show();
+
+        backArrow_signup.setOnClickListener(v -> {
+            dialog.cancel();
+            createLoginDialog();
+        });
 
         signupButton_signup.setOnClickListener(v -> {
             if (emailEditText_signup.getText().toString().isEmpty()

@@ -42,4 +42,5 @@
     <string name="pseudo_example">pseudo</string>
     <string name="password_example">password</string>
     <string name="same_password_example">same password</string>
+    <string name="return_text">Return</string>
 </resources>

@@ -12,10 +12,21 @@
         android:backgroundTint="#FFFFFF"
         android:padding="20dp">
 
+        <ImageView
+            android:id="@+id/backArrow_signup"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:src="@drawable/ic_baseline_chevron_left_24"
+            android:contentDescription="@string/go_back_icon"
+            android:layout_marginBottom="30dp"/>
+
+
         <TextView
             android:id="@+id/textview_email_label_signup"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
+            android:layout_below="@+id/backArrow_signup"
+            android:layout_alignStart="@+id/backArrow_signup"
             android:text="@string/email"
             android:textColor="@color/popUpTextColor" />
 
@@ -110,7 +121,7 @@
             android:layout_alignEnd="@+id/passwordConfirmEditText_signup"
             android:backgroundTint="#8BC34A"
             android:text="@string/sign_up"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="11sp" />
 

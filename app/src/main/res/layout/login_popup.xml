@@ -57,7 +57,6 @@
 
         <Button
             android:id="@+id/button_login_login"
-            style=""
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignTop="@+id/signupButton_login"
@@ -66,9 +65,9 @@
             android:layout_toStartOf="@+id/signupButton_login"
             android:backgroundTint="#F4F4F4"
             android:text="@string/log_in"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="11sp"
-            android:textColor="@color/popUpTextColor" />
+            android:textAllCaps="false"
+            android:textColor="@color/popUpTextColor"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/signupButton_login"
@@ -78,9 +77,9 @@
             android:layout_alignEnd="@+id/editText_password_login"
             android:backgroundTint="#8BC34A"
             android:text="@string/sign_up"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="11sp"/>
+            android:textSize="11sp" />
 
     </RelativeLayout>
 </layout>
