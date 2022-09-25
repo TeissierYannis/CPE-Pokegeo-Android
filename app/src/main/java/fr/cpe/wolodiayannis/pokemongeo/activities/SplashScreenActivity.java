@@ -35,6 +35,8 @@ import androidx.preference.PreferenceManager;
 import org.osmdroid.config.Configuration;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
+import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
 
 @SuppressLint("CustomSplashScreen")
@@ -118,6 +121,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             if (this.datastore.getUser() == null) {
                 createLoginDialog();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,13 +133,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void createLoginDialog() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View loginPopupView = getLayoutInflater().inflate(R.layout.login_popup, null);
-
-        idEditText_login = (EditText) findViewById(R.id.idEditText_login);
-        passwordEditText_login = (EditText) findViewById(R.id.editText_password_login);
-        loginButton_login = (Button) findViewById(R.id.button_login_login);
-        signupButton_login = (Button) findViewById(R.id.signupButton_login);
-
         dialogBuilder.setView(loginPopupView);
+
+        idEditText_login = (EditText) loginPopupView.findViewById(R.id.idEditText_login);
+        passwordEditText_login = (EditText) loginPopupView.findViewById(R.id.editText_password_login);
+        loginButton_login = (Button) loginPopupView.findViewById(R.id.button_login_login);
+        signupButton_login = (Button) loginPopupView.findViewById(R.id.signupButton_login);
+
         dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.show();
@@ -167,19 +171,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(this);
         final View signupPopupView = getLayoutInflater().inflate(R.layout.signup_popup, null);
 
-        emailEditText_signup = (EditText) findViewById(R.id.emailEditText_signup);
-        pseudoEditText_signup = (EditText) findViewById(R.id.pseudoEditText_signup);
-        passwordEditText_signup = (EditText) findViewById(R.id.passwordEditText_signup);
-        passwordConfirmEditText_signup = (EditText) findViewById(R.id.passwordConfirmEditText_signup);
-        signupButton_signup = (Button) findViewById(R.id.signupButton_signup);
-        signupButton_signup.setEnabled(false);
-
+        emailEditText_signup = (EditText) signupPopupView.findViewById(R.id.emailEditText_signup);
+        pseudoEditText_signup = (EditText) signupPopupView.findViewById(R.id.pseudoEditText_signup);
+        passwordEditText_signup = (EditText) signupPopupView.findViewById(R.id.passwordEditText_signup);
+        passwordConfirmEditText_signup = (EditText) signupPopupView.findViewById(R.id.passwordConfirmEditText_signup);
+        signupButton_signup = (Button) signupPopupView.findViewById(R.id.signupButton_signup);
 
         dialogBuilder.setView(signupPopupView);
         dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.show();
-
 
         signupButton_signup.setOnClickListener(v -> {
             if (emailEditText_signup.getText().toString().isEmpty()
@@ -198,8 +199,41 @@ public class SplashScreenActivity extends AppCompatActivity {
                         .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
                 AlertDialog alert = builder.create();
                 alert.show();
+
             } else {
-                // TODO POST Data to API
+                String email = emailEditText_signup.getText().toString();
+                String pseudo = pseudoEditText_signup.getText().toString();
+
+                // TODO add to class ?
+                String password = passwordEditText_signup.getText().toString();
+
+                // TODO to remove ?
+                String name = "name";
+
+                // TODO get ID from API
+                int id = 1;
+
+                int experience = 0;
+                boolean isInit = false;
+
+                // get actual timestamp
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+                try {
+                    postAndCacheNewUser(new User(
+                            id,
+                            name,
+                            pseudo,
+                            email,
+                            experience,
+                            isInit,
+                            timestamp
+                    ));
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                isLogin = true;
                 dialog.cancel();
             }
         });
@@ -537,5 +571,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
         return typeList;
+    }
+
+    private void postAndCacheNewUser(User user) throws IOException, ClassNotFoundException {
+        try {
+            // TODO POST NEW USER
+            InternalStorage.writeObject(this, "data_user", user);
+            logOnUiThread("[CACHE] User cached");
+        } catch (Exception e) {
+            logOnUiThreadError("[CACHE] User cannot be cached : " + e.getMessage());
+        }
     }
 }

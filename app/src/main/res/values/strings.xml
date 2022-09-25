@@ -38,4 +38,8 @@
     <string name="pseudo">Pseudo :</string>
     <string name="confirm_password">Confirm\npassword :</string>
     <string name="i_m_not_a_robot">I\'m not a robot</string>
+    <string name="example_email">example@pokegeo.com</string>
+    <string name="pseudo_example">pseudo</string>
+    <string name="password_example">password</string>
+    <string name="same_password_example">same password</string>
 </resources>
