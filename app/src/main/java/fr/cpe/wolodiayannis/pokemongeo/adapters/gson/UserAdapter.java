@@ -20,12 +20,12 @@ public class UserAdapter extends TypeAdapter<User>{
         out.beginObject();
         out.name("id");
         out.value(value.getId());
-        out.name("name");
-        out.value(value.getName());
         out.name("pseudo");
         out.value(value.getPseudo());
         out.name("email");
         out.value(value.getEmail());
+        out.name("password");
+        out.value(value.getPassword());
         out.name("experience");
         out.value(value.getExperience());
         out.name("is_init");
@@ -51,9 +51,9 @@ public class UserAdapter extends TypeAdapter<User>{
          *   "message": "success",
          *   "data": {
          *     "id": 1,
-         *     "name": "default"
          *     "pseudo": "default"
          *     "email": "default@pokegeo.com"
+         *     "password": "password"
          *     "experience": 0
          *     "is_init": 0
          *     "created_at": "2022-01-01 00:00:00"
@@ -69,11 +69,11 @@ public class UserAdapter extends TypeAdapter<User>{
         in.nextName();
         int id = in.nextInt();
         in.nextName();
-        String name = in.nextString();
-        in.nextName();
         String pseudo = in.nextString();
         in.nextName();
         String email = in.nextString();
+        in.nextName();
+        String password = in.nextString();
         in.nextName();
         int experience = in.nextInt();
         in.nextName();
@@ -86,6 +86,6 @@ public class UserAdapter extends TypeAdapter<User>{
         // String to Timestamp
         Timestamp createdAt = Timestamp.valueOf(sCreatedAt);
 
-        return new User(id, name, pseudo, email, experience, isInit, createdAt);
+        return new User(id, pseudo, email, password, experience, isInit, createdAt);
     }
 }

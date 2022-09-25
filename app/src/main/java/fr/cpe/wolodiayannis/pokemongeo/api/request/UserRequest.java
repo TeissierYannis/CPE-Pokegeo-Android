@@ -32,4 +32,19 @@ public class UserRequest extends BaseRequest {
         }
         return null;
     }
+
+    /**
+     * Create the user.
+     * @param user User.
+     */
+    public static void createUser(User user) {
+        Call<User> call = getAPI().createUser(user);
+        try {
+            // TODO post ?
+            LogAPI("Post User");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

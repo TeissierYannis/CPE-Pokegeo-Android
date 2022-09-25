@@ -2,7 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.j256.ormlite.field.types.DateTimeType;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -22,8 +21,8 @@ public class User implements Serializable  {
     /**
      * User name.
      */
-    @SerializedName("name")
-    private final String name;
+    @SerializedName("password")
+    private final String password;
 
     /**
      * User pseudo.
@@ -59,18 +58,18 @@ public class User implements Serializable  {
     /**
      * User constructor.
      * @param id User id.
-     * @param name User name.
+     * @param password User name.
      * @param pseudo User pseudo.
      * @param email User email.
      * @param experience User experience.
      * @param isInit User is init.
      * @param createdAt Timestamp when the user was created.
      */
-    public User(int id, String name, String pseudo, String email, int experience, boolean isInit, Timestamp createdAt) {
+    public User(int id, String pseudo, String email, String password, int experience, boolean isInit, Timestamp createdAt) {
         this.id = id;
-        this.name = name;
         this.pseudo = pseudo;
         this.email = email;
+        this.password = password;
         this.experience = experience;
         this.isInit = isInit;
         this.createdAt = createdAt;
@@ -88,8 +87,8 @@ public class User implements Serializable  {
      * Get user name.
      * @return User name.
      */
-    public String getName() {
-        return name;
+    public String getPassword() {
+        return password;
     }
 
     /**
