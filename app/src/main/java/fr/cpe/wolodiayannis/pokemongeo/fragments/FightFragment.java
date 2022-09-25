@@ -10,12 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import fr.cpe.wolodiayannis.pokemongeo.databinding.FightFragmentBinding;
+
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 
 public class FightFragment extends Fragment {
 
-    private PokemonFightPopupBinding binding;
+    private FightFragmentBinding binding;
 
     @Nullable
     @Override
