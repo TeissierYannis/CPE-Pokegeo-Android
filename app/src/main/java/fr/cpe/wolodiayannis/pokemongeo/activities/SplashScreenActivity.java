@@ -117,10 +117,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
             Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
-            this.datastore = Datastore.getInstance();
-            if (this.datastore.getUser() == null) {
-                createLoginDialog();
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,6 +151,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 isLogin = true;
                 // TODO check Data to API
                 dialog.cancel();
+                animateAndinitFetching();
             }
         });
 
@@ -235,12 +232,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 isLogin = true;
                 dialog.cancel();
+                animateAndinitFetching();
             }
         });
     }
 
     /**
-     * On permission result, fetch location.
+     * On permission result.
      *
      * @param requestCode  request code
      * @param permissions  permissions
@@ -250,24 +248,37 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE && isLogin) {
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Use AVD for animations
-                ImageView imageView = findViewById(R.id.pika_face);
 
-                // add event listener on click on image
-                imageView.setOnClickListener(v -> {
-                    if (!this.animationAlreadyFetched) {
-                        // start animation
-                        AnimatedVectorDrawable avd = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_pika_launcher_rounded);
-                        imageView.setImageDrawable(avd);
-                        avd.start();
-                        this.animationAlreadyFetched = true;
-                    }
-                });
-
-                new FetchingAndLoading().execute();
+                this.datastore = Datastore.getInstance();
+                if (this.datastore.getUser() == null) {
+                    createLoginDialog();
+                }
             }
+        }
+    }
+
+    /**
+     * Animation and init fetching
+     */
+    public void animateAndinitFetching() {
+
+        if (isLogin) {
+            // Use AVD for animations
+            ImageView imageView = findViewById(R.id.pika_face);
+
+            // add event listener on click on image
+            imageView.setOnClickListener(v -> {
+                if (!this.animationAlreadyFetched) {
+                    // start animation
+                    AnimatedVectorDrawable avd = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_pika_launcher_rounded);
+                    imageView.setImageDrawable(avd);
+                    avd.start();
+                    this.animationAlreadyFetched = true;
+                }
+            });
+            new FetchingAndLoading().execute();
         }
     }
 
