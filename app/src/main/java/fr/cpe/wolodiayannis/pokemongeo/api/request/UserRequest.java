@@ -25,13 +25,16 @@ public class UserRequest extends BaseRequest {
      *
      * @param email    User email.
      * @param password User password.
-     * @return User.
      */
     public static User checkUser(String email, String password) {
-        Call<User> call = getAPI().getUser(email, password);
+        Call<User> call = getAPI().getUser(new UserDto(email, password));
         try {
             User user = call.execute().body();
+            if (user != null) {
+                Datastore.getInstance().setUser(user);
+            }
             LogAPI("User");
+
             return user;
         } catch (IOException e) {
             e.printStackTrace();

@@ -54,8 +54,8 @@ public class DataFetcher {
         return Objects.requireNonNull(PokemonRequest.getPokemonStat()).getPokemonStatMappingList();
     }
 
-    public static void checkUser(String email, String password) {
-        UserRequest.checkUser(email, password);
+    public static User checkUser(String email, String password) {
+        return UserRequest.checkUser(email, password);
     }
 
     public static void createUser(User user, String password) {

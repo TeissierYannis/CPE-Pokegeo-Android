@@ -5,6 +5,12 @@ public class UserDto {
     final String email;
     final String password;
 
+    public UserDto(String pseudo, String password) {
+        this.pseudo = pseudo;
+        this.password = password;
+        this.email = null;
+    }
+
     public UserDto(String pseudo, String email, String password) {
         this.pseudo = pseudo;
         this.email = email;

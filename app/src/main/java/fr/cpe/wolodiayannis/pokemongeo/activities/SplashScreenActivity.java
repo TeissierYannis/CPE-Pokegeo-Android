@@ -149,15 +149,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
             } else {
-
-                try {
-                    checkLoginAndCacheUser(); // TODO check Data from the API and cache
-                    isLogin = true;
-                    dialog.cancel();
-                    animateAndinitFetching();
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                // TODO
+                // Launch the login task (API)
+                // Wait for result (listener)
+                // If success, go to main activity
+                // Else, display error message and stay on login screen
             }
         });
 
@@ -208,46 +204,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                         .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
                 AlertDialog alert = builder.create();
                 alert.show();
-
             } else {
                 String email = emailEditText_signup.getText().toString();
                 String pseudo = pseudoEditText_signup.getText().toString();
                 String password = passwordEditText_signup.getText().toString();
 
-                // TODO get ID from API
-                int id = 0;
-
-                int experience = 0;
-                boolean isInit = false;
-
-                // get actual timestamp
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-                try {
-                    // create a new task in other thread to call the API method postAndCacheNewUser
-                    new Thread(() -> {
-                        try {
-                            postAndCacheNewUser(new User(
-                                    id,
-                                    pseudo,
-                                    email,
-                                    experience,
-                                    isInit,
-                                    timestamp,
-                                    null
-                            ), password);
-                        } catch (IOException | ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                isLogin = true;
-                dialog.cancel();
-                animateAndinitFetching();
+                // TODO
+                // Launch the sign up task (API)
+                // Wait for result (listener)
+                // If success, go to main activity
+                // Else, display error message and stay on sign up screen
             }
         });
     }
@@ -267,9 +233,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 this.datastore = Datastore.getInstance();
-                if (this.datastore.getUser() == null) {
-                    createLoginDialog();
-                }
+                // TODO
+                // If user is store in cache, get JWT token and fetch API to verify it
+                // If user is not store in cache and JWT token is expired, display login screen
             }
         }
     }
@@ -427,20 +393,10 @@ public class SplashScreenActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(String result) {
-
-            // log result
-            logOnUiThread("[INFO] Fetching done");
-            logOnUiThread("[POST] " + result);
-
-            Intent intent;
-            if(!datastore.getUser().getIsInit()) {
-                intent = new Intent(getApplicationContext(), InitActivity.class);
-            } else {
-                intent = new Intent(getApplicationContext(), MainActivity.class);
+            if (isOnline()) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
-            startActivity(intent);
-            // close this activity
-            finish();
         }
 
         @Override
@@ -610,7 +566,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void postAndCacheNewUser(User user, String password) throws IOException, ClassNotFoundException {
         try {
-            DataFetcher.createUser(user, password); // TODO POST NEW USER
+            DataFetcher.createUser(user, password);
             InternalStorage.writeObject(this, "data_user", user);
             logOnUiThread("[CACHE] User cached");
         } catch (Exception e) {
@@ -618,23 +574,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void checkLoginAndCacheUser() throws IOException, ClassNotFoundException {
-
-        User user = new User(
-                1,
-                "test",
-                "test",
-                0,
-                true,
-                new Timestamp(System.currentTimeMillis()),
-                null
-        );
-
+    private void checkLoginAndCacheUser(String pseudo, String password) throws IOException, ClassNotFoundException {
         try {
-            //DataFetcher.checkUser(user.getEmail(), user.getPassword()); // TODO CHECK LOGIN
+            User user = DataFetcher.checkUser(pseudo, password);
             InternalStorage.writeObject(this, "data_user", user);
-            logOnUiThread("[CACHE] User cached");
-            this.datastore.setUser(user);
+            if (user != null) {
+                logOnUiThread("[CACHE] User cached");
+                this.datastore.setUser(user);
+            } else {
+                logOnUiThread("[CACHE] User not cached");
+            }
         } catch (Exception e) {
             logOnUiThreadError("[CACHE] User cannot be cached : " + e.getMessage());
         }

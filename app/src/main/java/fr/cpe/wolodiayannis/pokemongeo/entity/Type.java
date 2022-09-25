@@ -39,7 +39,12 @@ public class Type implements Serializable {
         this.id = id;
         this.name = name;
         // Name with first letter in uppercase.
-        this.color = BACKGROUND_COLOR.valueOf(name.substring(0, 1).toUpperCase() + name.substring(1));
+        int col = BACKGROUND_COLOR.Unknown;
+        try {
+            col = BACKGROUND_COLOR.valueOf(name.substring(0, 1).toUpperCase() + name.substring(1));
+        } catch (IllegalArgumentException ignored) {
+        }
+        this.color = col;
     }
 
     /**

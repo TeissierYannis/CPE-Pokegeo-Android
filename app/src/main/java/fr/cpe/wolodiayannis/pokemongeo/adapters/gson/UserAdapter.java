@@ -67,34 +67,40 @@ public class UserAdapter extends TypeAdapter<User> {
 
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String pseudo = in.nextString();
-        in.nextName();
-        String email = in.nextString();
-        in.nextName();
-        int experience = in.nextInt();
-        in.nextName();
-        int isInit = in.nextInt();
-        in.nextName();
-        String createdAtString =in.nextString();
-        in.endObject();
-        in.nextName();
-        String token = in.nextString();
-        in.endObject();
-        in.endObject();
-        // String to Timestamp
-        boolean isInitBool = isInit == 1;
+        String message = in.nextString();
 
-        // from 2022-09-25T12:13:06.000Z to timestamp
-        Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
+        if (message.equals("success")) {
 
-        return new User(id, pseudo, email, experience, isInitBool, createdAt, token);
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String pseudo = in.nextString();
+            in.nextName();
+            String email = in.nextString();
+            in.nextName();
+            int experience = in.nextInt();
+            in.nextName();
+            int isInit = in.nextInt();
+            in.nextName();
+            String createdAtString = in.nextString();
+            in.endObject();
+            in.nextName();
+            String token = in.nextString();
+            in.endObject();
+            in.endObject();
+            // String to Timestamp
+            boolean isInitBool = isInit == 1;
+
+            // from 2022-09-25T12:13:06.000Z to timestamp
+            Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
+
+            return new User(id, pseudo, email, experience, isInitBool, createdAt, token);
+        } else {
+            throw new IOException("SQL Error");
+        }
     }
 }
