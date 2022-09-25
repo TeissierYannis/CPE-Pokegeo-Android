@@ -215,7 +215,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String password = passwordEditText_signup.getText().toString();
 
                 // TODO get ID from API
-                int id = 1;
+                int id = 0;
 
                 int experience = 0;
                 boolean isInit = false;
@@ -224,16 +224,24 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
                 try {
-                    postAndCacheNewUser(new User(
-                            id,
-                            pseudo,
-                            email,
-                            password,
-                            experience,
-                            isInit,
-                            timestamp
-                    ));
-                } catch (IOException | ClassNotFoundException e) {
+                    // create a new task in other thread to call the API method postAndCacheNewUser
+                    new Thread(() -> {
+                        try {
+                            postAndCacheNewUser(new User(
+                                    id,
+                                    pseudo,
+                                    email,
+                                    experience,
+                                    isInit,
+                                    timestamp,
+                                    null
+                            ), password);
+                        } catch (IOException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -290,7 +298,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
     private class FetchingAndLoading extends AsyncTask<String, Void, String> {
 
         /**
@@ -420,6 +427,10 @@ public class SplashScreenActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(String result) {
+
+            // log result
+            logOnUiThread("[INFO] Fetching done");
+            logOnUiThread("[POST] " + result);
 
             Intent intent;
             if(!datastore.getUser().getIsInit()) {
@@ -597,12 +608,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         return typeList;
     }
 
-    private void postAndCacheNewUser(User user) throws IOException, ClassNotFoundException {
+    private void postAndCacheNewUser(User user, String password) throws IOException, ClassNotFoundException {
         try {
-            // DataFetcher.createUser(user); // TODO POST NEW USER
+            DataFetcher.createUser(user, password); // TODO POST NEW USER
             InternalStorage.writeObject(this, "data_user", user);
             logOnUiThread("[CACHE] User cached");
-            this.datastore.setUser(user);
         } catch (Exception e) {
             logOnUiThreadError("[CACHE] User cannot be cached : " + e.getMessage());
         }
@@ -614,10 +624,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                 1,
                 "test",
                 "test",
-                "test",
                 0,
                 true,
-                new Timestamp(System.currentTimeMillis())
+                new Timestamp(System.currentTimeMillis()),
+                null
         );
 
         try {

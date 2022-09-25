@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 
-public class UserAdapter extends TypeAdapter<User>{
+public class UserAdapter extends TypeAdapter<User> {
 
     @Override
     public void write(JsonWriter out, User value) throws IOException {
@@ -24,14 +24,14 @@ public class UserAdapter extends TypeAdapter<User>{
         out.value(value.getPseudo());
         out.name("email");
         out.value(value.getEmail());
-        out.name("password");
-        out.value(value.getPassword());
         out.name("experience");
         out.value(value.getExperience());
         out.name("is_init");
         out.value(value.getIsInit());
         out.name("created_at");
         out.value(value.getCreatedAt().toString());
+        out.name("token");
+        out.value(value.getJwt());
         out.endObject();
         out.endArray();
         out.endObject();
@@ -48,22 +48,28 @@ public class UserAdapter extends TypeAdapter<User>{
     public User read(JsonReader in) throws IOException {
         /*
          * {
-         *   "message": "success",
-         *   "data": {
-         *     "id": 1,
-         *     "pseudo": "default"
-         *     "email": "default@pokegeo.com"
-         *     "password": "password"
-         *     "experience": 0
-         *     "is_init": 0
-         *     "created_at": "2022-01-01 00:00:00"
-         *   }
-         * }
+    "message": "success",
+    "data": {
+        "user": {
+            "id": 1,
+            "pseudo": "yannis",
+            "email": "yannis@cpe.fr",
+            "experience": 0,
+            "is_init": 0,
+            "created_at": "2022-09-25T12:13:06.000Z"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHNldWRvIjoieWFubmlzIiwiaWF0IjoxNjY0MTA3OTg2LCJleHAiOjE2OTU2NDM5ODZ9.Y9haAoSYRpxXF-KIU5W5ebijvGVsUZq3ygT-v_WbBvs"
+    }
+}
          */
+
+        System.out.println(in.peek());
 
         in.beginObject();
         in.nextName();
         in.nextString();
+        in.nextName();
+        in.beginObject();
         in.nextName();
         in.beginObject();
         in.nextName();
@@ -73,19 +79,22 @@ public class UserAdapter extends TypeAdapter<User>{
         in.nextName();
         String email = in.nextString();
         in.nextName();
-        String password = in.nextString();
-        in.nextName();
         int experience = in.nextInt();
         in.nextName();
-        boolean isInit = in.nextBoolean();
+        int isInit = in.nextInt();
         in.nextName();
-        String sCreatedAt = in.nextString();
+        String createdAtString =in.nextString();
+        in.endObject();
+        in.nextName();
+        String token = in.nextString();
         in.endObject();
         in.endObject();
-
         // String to Timestamp
-        Timestamp createdAt = Timestamp.valueOf(sCreatedAt);
+        boolean isInitBool = isInit == 1;
 
-        return new User(id, pseudo, email, password, experience, isInit, createdAt);
+        // from 2022-09-25T12:13:06.000Z to timestamp
+        Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
+
+        return new User(id, pseudo, email, experience, isInitBool, createdAt, token);
     }
 }

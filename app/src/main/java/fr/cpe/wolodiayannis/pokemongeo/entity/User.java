@@ -19,12 +19,6 @@ public class User implements Serializable  {
     @SerializedName("id")
     private final int id;
     /**
-     * User name.
-     */
-    @SerializedName("password")
-    private final String password;
-
-    /**
      * User pseudo.
      */
     @SerializedName("pseudo")
@@ -56,23 +50,28 @@ public class User implements Serializable  {
     private final Timestamp createdAt;
 
     /**
+     * User JWT.
+     */
+    @SerializedName("token")
+    private String jwt;
+
+    /**
      * User constructor.
      * @param id User id.
-     * @param password User name.
      * @param pseudo User pseudo.
      * @param email User email.
      * @param experience User experience.
      * @param isInit User is init.
      * @param createdAt Timestamp when the user was created.
      */
-    public User(int id, String pseudo, String email, String password, int experience, boolean isInit, Timestamp createdAt) {
+    public User(int id, String pseudo, String email, int experience, boolean isInit, Timestamp createdAt, String jwt) {
         this.id = id;
         this.pseudo = pseudo;
         this.email = email;
-        this.password = password;
         this.experience = experience;
         this.isInit = isInit;
         this.createdAt = createdAt;
+        this.jwt = jwt;
     }
 
     /**
@@ -81,14 +80,6 @@ public class User implements Serializable  {
      */
     public int getId() {
         return id;
-    }
-
-    /**
-     * Get user name.
-     * @return User name.
-     */
-    public String getPassword() {
-        return password;
     }
 
     /**
@@ -129,5 +120,13 @@ public class User implements Serializable  {
      */
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+
+    /**
+     * Get user JWT.
+     * @return User JWT.
+     */
+    public String getJwt() {
+        return jwt;
     }
 }

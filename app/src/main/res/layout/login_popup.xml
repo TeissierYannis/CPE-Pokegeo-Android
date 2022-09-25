@@ -16,7 +16,7 @@
             android:id="@+id/textview_email_label_login"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="@string/id"
+            android:text="@string/pseudo"
             android:textColor="@color/popUpTextColor" />
 
         <EditText
