@@ -139,18 +139,15 @@ public class MapFragment extends Fragment {
             map.getOverlays().add(marker);
             // set on click listener
             marker.setOnMarkerClickListener((marker1, mapView) -> {
-
                 // show popup
                 PopupWindow popup = new PopupWindow(requireContext());
-
-                // Set
+                popup.setContentView(
+                        LayoutInflater.from(requireContext()).inflate(R.layout.fight_popup, null)
+                );
 
                 // set full screen
                 popup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                 popup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-
-                // use view model
-                // bind view model
 
                 // Display the popup at the specified location, + offsets.
                 popup.showAtLocation(map, 0, 0, 0);
