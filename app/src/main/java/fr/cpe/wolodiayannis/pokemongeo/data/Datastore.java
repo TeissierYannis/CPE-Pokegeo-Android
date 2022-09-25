@@ -2,7 +2,11 @@ package fr.cpe.wolodiayannis.pokemongeo.data;
 
 import android.location.Location;
 
+import org.osmdroid.util.GeoPoint;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
@@ -30,6 +34,15 @@ public class Datastore implements Comparable<Object>, Serializable {
      * The datastore instance.
      */
     private static Datastore instance = null;
+    /**
+     * The last Date pokemon spawned on the map.
+     */
+    private Date spawnedPokemonExpirationDate = null;
+
+    /**
+     * The list of spawned Pokemon's and their locations.
+     */
+    private HashMap<Pokemon, GeoPoint> spawnedPokemons = new HashMap<>();
 
     /**
      * The datastore constructor.
@@ -190,6 +203,40 @@ public class Datastore implements Comparable<Object>, Serializable {
      */
     public Datastore setLastLocation(Location lastLocation) {
         this.lastLocation = lastLocation;
+        return this;
+    }
+
+    /**
+     * Returns the last Date pokemon spawned on the map.
+     * @return the last Date pokemon spawned on the map.
+     */
+    public Date getSpawnedPokemonExpiration() {
+        return spawnedPokemonExpirationDate;
+    }
+
+    /**
+     * Returns the last Date pokemon spawned on the map.
+     * @param lastPokemonSpawned the last Date pokemon spawned on the map.
+     */
+    public Datastore setSpawnedPokemonExpiration(Date lastPokemonSpawned) {
+        this.spawnedPokemonExpirationDate = lastPokemonSpawned;
+        return this;
+    }
+
+    /**
+     * Returns the list of spawned Pokemon's and their locations.
+     * @return the list of spawned Pokemon's and their locations.
+     */
+    public HashMap<Pokemon, GeoPoint> getSpawnedPokemons() {
+        return spawnedPokemons;
+    }
+
+    /**
+     * Sets the list of spawned Pokemon's and their locations.
+     * @param spawnedPokemons the list of spawned Pokemon's and their locations.
+     */
+    public Datastore setSpawnedPokemons(HashMap<Pokemon, GeoPoint> spawnedPokemons) {
+        this.spawnedPokemons = spawnedPokemons;
         return this;
     }
 

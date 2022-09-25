@@ -168,15 +168,15 @@ public class SplashScreenActivity extends AppCompatActivity {
                 progressBar.setProgress(0);
 
                 try {
-                    changeLoadingText("Fetching Pokémon...");
+                    changeLoadingText("The team catches Pokémons...");
                     List<Pokemon> pokemonList = callAndCachePokemonList();
                     setProgress();
 
-                    changeLoadingText("Creation of statistics...");
+                    changeLoadingText("Discovering of statistics...");
                     List<Stat> statList = callAndCacheStatList();
                     setProgress();
 
-                    changeLoadingText("Creation of types...");
+                    changeLoadingText("Determination of every type...");
                     List<Type> typeList = callAndCacheTypeList();
                     setProgress();
 
@@ -184,7 +184,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     List<Ability> abilityList = callAndCacheAbilityList();
                     setProgress();
 
-                    changeLoadingText("Manufacturing of items...");
+                    changeLoadingText("Manufacturing of the items...");
                     List<Item> itemList = callAndCacheItemList();
                     setProgress();
 

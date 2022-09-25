@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
             try {
                 assert mapFragment != null;
+                assert location != null;
+                this.datastore.setLastLocation(location);
                 mapFragment.updateLocation(location);
             } catch (Exception e) {
                 logOnUiThreadError("[LOCATION] " + e.getMessage());
@@ -275,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 100, 10, this.locationListener);
+                LocationManager.GPS_PROVIDER, 0, 0, this.locationListener);
     }
 
     /**
