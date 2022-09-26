@@ -1,6 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.data;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +15,6 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 
