@@ -329,8 +329,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     } else {
                         createLoginDialog();
                     }
-                } catch (CacheException e) {
-                    e.printStackTrace();
+                } catch (CacheException ignored) {
+                    createLoginDialog();
                 }
             }
         }
