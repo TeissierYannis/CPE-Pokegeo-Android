@@ -96,21 +96,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-<<<<<<< HEAD
             android:layout_width="190dp"
             android:layout_height="200dp"
             android:layout_below="@+id/pokemonfight_image_wildPokemon"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="-70dp"
             android:src="@drawable/floating_island" />
-=======
-            android:layout_width="180dp"
-            android:layout_height="60dp"
-            android:layout_below="@+id/pokemonfight_image_wildPokemon"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="-50dp"
-            android:src="@drawable/basic_grass" />
->>>>>>> 0956de7 (add ground for pokemon fights)
 
         <ImageView
             android:id="@+id/pokemonfight_image_wildPokemon"
