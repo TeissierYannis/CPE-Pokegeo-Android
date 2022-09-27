@@ -2,18 +2,15 @@ package fr.cpe.wolodiayannis.pokemongeo.activities;
 
 
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -34,14 +31,19 @@ import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
@@ -49,8 +51,14 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
-import fr.cpe.wolodiayannis.pokemongeo.utils.InternalStorage;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemsFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonAbilitiesFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonStatsFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonTypesFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonsFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.StatsFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -80,6 +88,14 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Button signupButton_signup;
     private ImageView backArrow_signup;
 
+
+    private ProgressBar progressBar;
+    private TextView progressBarText;
+
+    private final int TASKS_NB = 9;
+    private final int prcPerTask = 100 / TASKS_NB;
+
+
     private boolean isLogin = false;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -90,6 +106,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         Window window = getWindow();
         window.setStatusBarColor(getColor(R.color.pikaColor));
+
+        this.progressBar = findViewById(R.id.progressBar);
+        this.progressBarText = findViewById(R.id.progress_bar_text);
 
         try {
             // Ask for permissions
@@ -115,7 +134,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             // init preference manager
             Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
             Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,6 +227,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 // TODO
                 // Launch the sign up task (API)
+
+
+
                 // Wait for result (listener)
                 // If success, go to main activity
                 // Else, display error message and stay on sign up screen
@@ -228,178 +249,185 @@ public class SplashScreenActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+            if ((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // Permission granted.
                 this.datastore = Datastore.getInstance();
-                // TODO
-                // If user is store in cache, get JWT token and fetch API to verify it
-                // If user is not store in cache and JWT token is expired, display login screen
+
+                createLoginDialog();
+
+                animateAndInitFetching();
             }
         }
+    }
+
+    private void setProgress() {
+        progressBar.setProgress(this.progressBar.getProgress() + this.prcPerTask);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void changeLoadingText(String text) {
+        runOnUiThread(() -> progressBarText.setText(text + " " + progressBar.getProgress() + "%"));
     }
 
     /**
      * Animation and init fetching
      */
-    public void animateAndinitFetching() {
+    public void animateAndInitFetching() {
 
-        if (isLogin) {
-            // Use AVD for animations
-            ImageView imageView = findViewById(R.id.pika_face);
+        // Use AVD for animations
+        ImageView imageView = findViewById(R.id.pika_face);
 
-            // add event listener on click on image
-            imageView.setOnClickListener(v -> {
-                if (!this.animationAlreadyFetched) {
-                    // start animation
-                    @SuppressLint("UseCompatLoadingForDrawables")
-                    AnimatedVectorDrawable avd = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_pika_launcher_rounded);
-                    imageView.setImageDrawable(avd);
-                    avd.start();
-                    this.animationAlreadyFetched = true;
-                }
+        // add event listener on click on image
+        imageView.setOnClickListener(v -> {
+            if (!this.animationAlreadyFetched) {
+                // start animation
+                @SuppressLint("UseCompatLoadingForDrawables")
+                AnimatedVectorDrawable avd = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_anim_pika_launcher_rounded);
+                imageView.setImageDrawable(avd);
+                avd.start();
+                this.animationAlreadyFetched = true;
+            }
+        });
+
+        // Fetch data
+        if (isOnline()) {
+            logOnUiThread("[ONLINE] You are online");
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            progressBar.setMax(100);
+            progressBar.setScaleY(2f);
+            progressBar.setProgress(0);
+
+            // is DataLoaded
+            AtomicBoolean isDataLoaded = new AtomicBoolean(false);
+
+            // Launch multiple tasks in parallel
+            ExecutorService executor = Executors.newFixedThreadPool(8);
+            List<Callable<Void>> tasks = new ArrayList<>();
+
+            AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
+            AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
+            AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
+            AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
+            List<Stat> statsList = new ArrayList<>();
+            List<Type> typesList = new ArrayList<>();
+            List<Item> itemsList = new ArrayList<>();
+            List<Ability> abilitiesList = new ArrayList<>();
+
+            // Fetching tasks
+            tasks.add(() -> {
+                changeLoadingText("Fetching Pokémon...");
+                pokemonList.set((new PokemonsFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
             });
-            new FetchingAndLoading().execute();
-        }
-    }
 
-    private class FetchingAndLoading extends AsyncTask<String, Void, String> {
+            tasks.add(() -> {
+                changeLoadingText("Pokémon's abilities training...");
+                pokemonAbilities.set((new PokemonAbilitiesFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        /**
-         * Datastore instance.
-         */
-        private Datastore datastore;
+            tasks.add(() -> {
+                changeLoadingText("Definition of Pokémon's types...");
+                pokemonTypes.set((new PokemonTypesFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        private final ProgressBar progressBar = findViewById(R.id.progressBar);
-        private final TextView progressBarText = findViewById(R.id.progress_bar_text);
+            tasks.add(() -> {
+                changeLoadingText("Definition of Pokémon's stats...");
+                pokemonStats.set((new PokemonStatsFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        private final int TASKS_NB = 9;
-        private final int prcPerTask = 100 / TASKS_NB;
+            tasks.add(() -> {
+                changeLoadingText("Creation of statistics...");
+                statsList.addAll((new StatsFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        public FetchingAndLoading() {
-            super();
-        }
+            tasks.add(() -> {
+                changeLoadingText("Creation of types...");
+                typesList.addAll((new TypesFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        private void setProgress() {
-            progressBar.setProgress(progressBar.getProgress() + prcPerTask);
-        }
+            tasks.add(() -> {
+                changeLoadingText("Manufacturing of items...");
+                itemsList.addAll((new ItemsFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        @SuppressLint("SetTextI18n")
-        private void changeLoadingText(String text) {
-            runOnUiThread(() -> progressBarText.setText(text + " " + progressBar.getProgress() + "%"));
-        }
+            tasks.add(() -> {
+                changeLoadingText("Creation of abilities...");
+                abilitiesList.addAll((new AbilitiesFetcher(this)).fetchAndCache());
+                setProgress();
+                return null;
+            });
 
-        @Override
-        @SuppressLint("DefaultLocale")
-        protected String doInBackground(String... params) {
+            // Wait for all tasks to be done without blocking the UI thread
+            // TODO : The UI thread is blocked for now :(
+            try {
+                for (Future<Void> future : executor.invokeAll(tasks)) {
+                    future.get();
+                }
+                isDataLoaded.set(true);
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
 
-            if (isOnline()) {
-
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-
-                logOnUiThread("[ONLINE] You are online");
-
-                progressBar.setMax(100);
-                progressBar.setScaleY(2f);
-                progressBar.setProgress(0);
-
-                try {
-                    changeLoadingText("Fetching Pokémon...");
-                    List<Pokemon> pokemonList = callAndCachePokemonList();
-                    setProgress();
-
-                    changeLoadingText("Creation of statistics...");
-                    List<Stat> statList = callAndCacheStatList();
-                    setProgress();
-
-                    changeLoadingText("Creation of types...");
-                    List<Type> typeList = callAndCacheTypeList();
-                    setProgress();
-
-                    changeLoadingText("Creation of abilities...");
-                    List<Ability> abilityList = callAndCacheAbilityList();
-                    setProgress();
-
-                    changeLoadingText("Manufacturing of items...");
-                    List<Item> itemList = callAndCacheItemList();
-                    setProgress();
-
-                    changeLoadingText("Pokémon's abilities training...");
-                    HashMap<Integer, List<Integer>> abilityListForEachPokemon = callAndCachePokemonAbilitiesList();
-                    setProgress();
-
-                    changeLoadingText("Definition of Pokémon's types...");
-                    HashMap<Integer, List<Integer>> typeListForEachPokemon = callAndCachePokemonTypesList();
-                    setProgress();
-
-                    changeLoadingText("Definition of Pokémon's stats...");
-                    HashMap<Integer, List<PokemonStat>> statsListForEachPokemon = callAndCachePokemonStatList();
-                    setProgress();
-
-                    changeLoadingText("Identification of the Pokémons...");
-                    for (Pokemon pokemon : pokemonList) {
-                        System.out.println("Pokemon id : " + pokemon.getId());
-                        pokemon.setTypes(typeListForEachPokemon.get(pokemon.getId()));
-                        logOnUiThread("[INFO] Add types to pokemon " + pokemon.getName());
-                        pokemon.setStats(statsListForEachPokemon.get(pokemon.getId()));
-                        logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
-                        pokemon.setAbilities(abilityListForEachPokemon.get(pokemon.getId()));
-                        logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
-                        pokemon.setImageID(
-                                getResources()
-                                        .getIdentifier(
-                                                "p" + String.format("%03d", pokemon.getId()),
-                                                "drawable",
-                                                getPackageName()
-                                        )
-                        );
-                        List<Integer> typesDrawables = new ArrayList<>();
-                        for (int i = 0; i < pokemon.getTypes().size(); i++) {
-                            typesDrawables.add(
-                                    getResources().getIdentifier(
-                                        "t" + String.format("%02d", pokemon.getTypes().get(i)),
+            // set type and stats for each pokemon
+            changeLoadingText("Identification of the Pokémons...");
+            for (Pokemon pokemon : pokemonList.get()) {
+                System.out.println("Pokemon id : " + pokemon.getId());
+                pokemon.setTypes(pokemonTypes.get().get(pokemon.getId()));
+                logOnUiThread("[INFO] Add types to pokemon " + pokemon.getName());
+                pokemon.setStats(pokemonStats.get().get(pokemon.getId()));
+                logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
+                pokemon.setAbilities(pokemonAbilities.get().get(pokemon.getId()));
+                logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
+                pokemon.setImageID(
+                        getResources()
+                                .getIdentifier(
+                                        "p" + String.format("%03d", pokemon.getId()),
                                         "drawable",
                                         getPackageName()
+                                )
+                );
+                List<Integer> typesDrawables = new ArrayList<>();
+                for (int i = 0; i < pokemon.getTypes().size(); i++) {
+                    typesDrawables.add(
+                            getResources().getIdentifier(
+                                    "t" + String.format("%02d", pokemon.getTypes().get(i)),
+                                    "drawable",
+                                    getPackageName()
                             ));
-                        }
-                        pokemon.setImageTypeID(typesDrawables);
-                        // get place of the pokemon in the list
-                        int pokemonIndex = pokemonList.indexOf(pokemon);
-                        // get the pokemon from the list
-                        pokemonList.set(pokemonIndex, pokemon);
-                    }
-                    setProgress();
-
-                    this.datastore = Datastore.getInstance();
-                    this.datastore.setPokemons(pokemonList)
-                            .setItems(itemList)
-                            .setStats(statList)
-                            .setTypes(typeList)
-                            .setAbilities(abilityList);
-
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
                 }
+                pokemon.setImageTypeID(typesDrawables);
+                // get place of the pokemon in the list
+                int pokemonIndex = pokemonList.get().indexOf(pokemon);
+                // get the pokemon from the list
+                pokemonList.get().set(pokemonIndex, pokemon);
             }
-            return "Executed";
-        }
+            setProgress();
 
-        /**
-         * change to main after fetching
-         *
-         * @param result result of the fetching
-         */
-        @Override
-        protected void onPostExecute(String result) {
-            if (isOnline()) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        }
+            this.datastore = Datastore.getInstance();
+            this.datastore.setPokemons(pokemonList.get())
+                    .setItems(itemsList)
+                    .setStats(statsList)
+                    .setTypes(typesList)
+                    .setAbilities(abilitiesList);
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
+            // Close executor
+            executor.shutdown();
         }
     }
 
@@ -427,163 +455,4 @@ public class SplashScreenActivity extends AppCompatActivity {
         return true;
     }
 
-    private List<Ability> callAndCacheAbilityList() throws IOException, ClassNotFoundException {
-        List<Ability> abilityList = new ArrayList<>();
-        try {
-            abilityList = (List<Ability>) InternalStorage.readObject(this, "data_abilities");
-            logOnUiThread("[CACHE] Ability list loaded from cache");
-        } catch (Exception e) {
-            try {
-                abilityList = DataFetcher.fetchAbilityList().getAbilityList();
-                InternalStorage.writeObject(this, "data_abilities", abilityList);
-                logOnUiThread("[CACHE] Ability list cached");
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Abilities list cannot be cached : " + exception.getMessage());
-            }
-        }
-        return abilityList;
-    }
-
-    private List<Item> callAndCacheItemList() throws IOException, ClassNotFoundException {
-        List<Item> itemList = new ArrayList<>();
-        try {
-            itemList = (List<Item>) InternalStorage.readObject(this, "data_items");
-            logOnUiThread("[CACHE] Item list loaded from cache");
-        } catch (Exception e) {
-            try {
-                itemList = DataFetcher.fetchItemList().getItemList();
-                InternalStorage.writeObject(this, "data_items", itemList);
-                logOnUiThread("[CACHE] Item list cached");
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Items list cannot be cached : " + exception.getMessage());
-            }
-        }
-        return itemList;
-    }
-
-    private List<Pokemon> callAndCachePokemonList() throws IOException, ClassNotFoundException {
-        List<Pokemon> pokemonList = new ArrayList<>();
-        try {
-            pokemonList = (List<Pokemon>) InternalStorage.readObject(this, "data_pokemons");
-            logOnUiThread("[CACHE] Pokemon list loaded from cache");
-        } catch (Exception e) {
-            try {
-                pokemonList = DataFetcher.fetchPokemonList().getPokemonList();
-                InternalStorage.writeObject(this, "data_pokemons", pokemonList);
-                logOnUiThread("[CACHE] Pokemon list cached");
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon list cannot be cached : " + exception.getMessage());
-                exception.printStackTrace();
-            }
-        }
-
-        return pokemonList;
-    }
-
-    private HashMap<Integer, List<Integer>> callAndCachePokemonAbilitiesList() {
-        HashMap<Integer, List<Integer>> abilityList = new HashMap<>();
-        try {
-            abilityList = (HashMap<Integer, List<Integer>>) InternalStorage.readObject(this, "data_pokemon_abilities");
-        } catch (Exception e) {
-            try {
-                abilityList = DataFetcher.fetchPokemonAbilities();
-                InternalStorage.writeObject(this, "data_pokemon_abilities", abilityList);
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon abilities list cannot be cached : " + exception.getMessage());
-                exception.printStackTrace();
-            }
-        }
-        return abilityList;
-    }
-
-    private HashMap<Integer, List<PokemonStat>> callAndCachePokemonStatList() {
-        HashMap<Integer, List<PokemonStat>> statList = new HashMap<>();
-        try {
-            statList = (HashMap<Integer, List<PokemonStat>>) InternalStorage.readObject(this, "data_pokemon_stats");
-        } catch (Exception e) {
-            try {
-                statList = DataFetcher.fetchPokemonStats();
-                InternalStorage.writeObject(this, "data_pokemon_stats", statList);
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon stats list cannot be cached : " + exception.getMessage());
-                exception.printStackTrace();
-            }
-        }
-        return statList;
-    }
-
-    private HashMap<Integer, List<Integer>> callAndCachePokemonTypesList() {
-        HashMap<Integer, List<Integer>> typesList = new HashMap<>();
-        try {
-            typesList = (HashMap<Integer, List<Integer>>) InternalStorage.readObject(this, "data_pokemon_types");
-        } catch (Exception e) {
-            try {
-                typesList = DataFetcher.fetchPokemonTypes();
-                InternalStorage.writeObject(this, "data_pokemon_types", typesList);
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon types list cannot be cached : " + exception.getMessage());
-                exception.printStackTrace();
-            }
-        }
-        return typesList;
-    }
-
-    private List<Stat> callAndCacheStatList() throws IOException, ClassNotFoundException {
-        List<Stat> statList = new ArrayList<>();
-        try {
-            statList = (List<Stat>) InternalStorage.readObject(this, "data_stats");
-            logOnUiThread("[CACHE] Stat list loaded from cache");
-        } catch (Exception e) {
-            try {
-                statList = DataFetcher.fetchStatList().getStatsList();
-                InternalStorage.writeObject(this, "data_stats", statList);
-                logOnUiThread("[CACHE] Stat list cached");
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Stat list cannot be cached : " + exception.getMessage());
-            }
-        }
-        return statList;
-    }
-
-    private List<Type> callAndCacheTypeList() throws IOException, ClassNotFoundException {
-        List<Type> typeList = new ArrayList<>();
-        try {
-            typeList = (List<Type>) InternalStorage.readObject(this, "data_types");
-            logOnUiThread("[CACHE] Type list loaded from cache");
-        } catch (Exception e) {
-            try {
-                typeList = DataFetcher.fetchTypeList().getTypeList();
-                InternalStorage.writeObject(this, "data_types", typeList);
-                logOnUiThread("[CACHE] Type list cached");
-            } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Types list cannot be cached : " + exception.getMessage());
-            }
-        }
-        return typeList;
-    }
-
-    private void postAndCacheNewUser(User user, String password) throws IOException, ClassNotFoundException {
-        try {
-            DataFetcher.createUser(user, password);
-            InternalStorage.writeObject(this, "data_user", user);
-            logOnUiThread("[CACHE] User cached");
-        } catch (Exception e) {
-            logOnUiThreadError("[CACHE] User cannot be cached : " + e.getMessage());
-        }
-    }
-
-    private void checkLoginAndCacheUser(String pseudo, String password) throws IOException, ClassNotFoundException {
-        try {
-            User user = DataFetcher.checkUser(pseudo, password);
-            InternalStorage.writeObject(this, "data_user", user);
-            if (user != null) {
-                logOnUiThread("[CACHE] User cached");
-                this.datastore.setUser(user);
-            } else {
-                logOnUiThread("[CACHE] User not cached");
-            }
-        } catch (Exception e) {
-            logOnUiThreadError("[CACHE] User cannot be cached : " + e.getMessage());
-        }
-    }
 }

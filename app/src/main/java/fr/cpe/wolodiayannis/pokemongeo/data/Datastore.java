@@ -35,8 +35,7 @@ public class Datastore implements Comparable<Object>, Serializable {
     /**
      * The datastore constructor.
      */
-    private Datastore() {
-    }
+    private Datastore() {}
 
     /**
      * Returns the datastore instance.
@@ -49,6 +48,7 @@ public class Datastore implements Comparable<Object>, Serializable {
         }
         return instance;
     }
+
     /**
      * The user.
      */
@@ -87,6 +87,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Get the user.
+     *
      * @return User.
      */
     public User getUser() {
@@ -95,6 +96,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Set the user.
+     *
      * @param user User.
      */
     public void setUser(User user) {
@@ -215,6 +217,7 @@ public class Datastore implements Comparable<Object>, Serializable {
         this.lastLocation = lastLocation;
         return this;
     }
+
 
     /**
      * ===============================================
