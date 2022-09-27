@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/attack_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/fightpopup_button_fight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:text="@string/button_fight"
+                android:textAllCaps="true"
+                android:backgroundTint="#FD6C3E"
+                android:textColor="@color/white"
+                app:strokeColor="#FF1100"
+                app:strokeWidth="2dp"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/fightpopup_button_pokemon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:text="@string/button_pokemon"
+                android:textAllCaps="true"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@color/white"
+                app:strokeColor="#037A08"
+                app:strokeWidth="2dp"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/fightpopup_button_bag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:text="@string/button_bag"
+                android:textAllCaps="true"
+                app:strokeWidth="2dp"
+                android:backgroundTint="#FAB54F"
+                android:textColor="@color/white"
+                app:strokeColor="#FF8C00"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fightpopup_button_run"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/button_run"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:backgroundTint="#63BAFF"
+                android:textColor="@color/white"
+                app:strokeColor="#008DFF"
+                app:strokeWidth="2dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
