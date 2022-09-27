@@ -23,8 +23,10 @@ public class UserRegisterFetcher {
 
     public void fetchAndCache(User user, String password) {
         try {
-            DataFetcher.createUser(user, password);
-            Cache.writeCache(this.ctx, "data_user", user);
+            User userFromDB = DataFetcher.createUser(user, password);
+            if (null != userFromDB) {
+                Cache.writeCache(this.ctx, "data_user", user);
+            }
             logOnUiThread("[CACHE] User cached");
         } catch (Exception e) {
             logOnUiThreadError("[CACHE] User cannot be cached : " + e.getMessage());

@@ -47,16 +47,20 @@ public class UserRequest extends BaseRequest {
      *
      * @param user User.
      */
-    public static void createUser(User user, String password) {
+    public static User createUser(User user, String password) {
         Call<User> call = getAPI().createUser(new UserDto(user.getPseudo(), user.getEmail(), password));
+        User userFromDB = null;
         try {
-            User userFromDB = call.execute().body();
-            Datastore.getInstance().setUser(userFromDB);
+            userFromDB = call.execute().body();
+            if (userFromDB != null) {
+                Datastore.getInstance().setUser(userFromDB);
+            }
             LogAPI("Post User");
         } catch (Exception e) {
             Logger.logOnUiThreadError(e.getMessage());
             e.printStackTrace();
             Datastore.getInstance().setUser(null);
         }
+        return userFromDB;
     }
 }

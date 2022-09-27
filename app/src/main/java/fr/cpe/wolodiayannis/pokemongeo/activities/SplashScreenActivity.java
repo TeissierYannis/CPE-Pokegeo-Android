@@ -103,11 +103,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressBarText;
 
-    private final int TASKS_NB = 9;
+    private final int TASKS_NB = 8;
     private final int prcPerTask = 100 / TASKS_NB;
-
-
-    private boolean isLogin = false;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -204,7 +201,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     animateAndInitFetching();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
-                    builder.setMessage("An error occurred")
+                    builder.setMessage("Incorrect pseudo or password")
                             .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
                     AlertDialog alert = builder.create();
                     alert.show();
@@ -278,12 +275,18 @@ public class SplashScreenActivity extends AppCompatActivity {
                     (new UserRegisterFetcher(this)).fetchAndCache(user, password);
                     return null;
                 });
+                ProgressBar spinner = findViewById(R.id.progressBar);
                 // invoke
                 try {
+                    // add loading screen
+                    spinner.setVisibility(View.VISIBLE);
+
                     executor.invokeAll(tasks);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                spinner.setVisibility(View.GONE);
 
                 // if datastore get user is not null, go to main activity
 
@@ -294,7 +297,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     animateAndInitFetching();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
-                    builder.setMessage("An error occurred")
+                    builder.setMessage("User is already registered")
                             .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
                     AlertDialog alert = builder.create();
                     alert.show();

@@ -56,7 +56,7 @@ public class DataFetcher {
         return UserRequest.checkUser(email, password);
     }
 
-    public static void createUser(User user, String password) {
-        UserRequest.createUser(user, password);
+    public static User createUser(User user, String password) {
+        return UserRequest.createUser(user, password);
     }
 }
