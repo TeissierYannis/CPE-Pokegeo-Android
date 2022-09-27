@@ -7,6 +7,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.ConnectivityManager;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -31,7 +33,10 @@ import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -45,12 +50,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
+import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonAbilitiesFetcher;
@@ -59,6 +67,9 @@ import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonTypesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.StatsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLoginFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserRegisterFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -165,11 +176,39 @@ public class SplashScreenActivity extends AppCompatActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
             } else {
-                // TODO
-                // Launch the login task (API)
-                // Wait for result (listener)
-                // If success, go to main activity
-                // Else, display error message and stay on login screen
+
+                // get pseudo and password
+                String pseudo = idEditText_login.getText().toString();
+                String password = passwordEditText_login.getText().toString();
+
+                ExecutorService executor = Executors.newFixedThreadPool(8);
+                List<Callable<Void>> tasks = new ArrayList<>();
+
+                tasks.add(() -> {
+                    (new UserLoginFetcher(this)).fetchAndCache(pseudo, password);
+                    return null;
+                });
+                // invoke
+                try {
+                    executor.invokeAll(tasks);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // if datastore get user is not null, go to main activity
+
+                if (this.datastore.getUser() != null) {
+                    dialog.cancel();
+                    // add toast
+                    Toast.makeText(this, "Log In successful", Toast.LENGTH_SHORT).show();
+                    animateAndInitFetching();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
+                    builder.setMessage("An error occurred")
+                            .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
 
@@ -225,14 +264,41 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String pseudo = pseudoEditText_signup.getText().toString();
                 String password = passwordEditText_signup.getText().toString();
 
-                // TODO
-                // Launch the sign up task (API)
+                ExecutorService executor = Executors.newFixedThreadPool(8);
+                List<Callable<Void>> tasks = new ArrayList<>();
 
+                // New timestamp
+                Date date = new Date();
+                Timestamp timestamp = new Timestamp(date.getTime());
 
+                // user is pseudo, email, 0, 0, Timestamp now, null)
+                User user = new User(0, pseudo, email, 0, false, timestamp, null);
 
-                // Wait for result (listener)
-                // If success, go to main activity
-                // Else, display error message and stay on sign up screen
+                tasks.add(() -> {
+                    (new UserRegisterFetcher(this)).fetchAndCache(user, password);
+                    return null;
+                });
+                // invoke
+                try {
+                    executor.invokeAll(tasks);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // if datastore get user is not null, go to main activity
+
+                if (this.datastore.getUser() != null) {
+                    dialog.cancel();
+                    // add toast
+                    Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                    animateAndInitFetching();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
+                    builder.setMessage("An error occurred")
+                            .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
     }
@@ -253,9 +319,19 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // Permission granted.
                 this.datastore = Datastore.getInstance();
 
-                createLoginDialog();
-
-                animateAndInitFetching();
+                // Check if user is already logged in
+                // get user in cache and check if it's not null
+                try {
+                    User user = (User) Cache.readCache(this, "data_user");
+                    if (user != null) {
+                        this.datastore.setUser(user);
+                        animateAndInitFetching();
+                    } else {
+                        createLoginDialog();
+                    }
+                } catch (CacheException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -299,10 +375,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             progressBar.setMax(100);
             progressBar.setScaleY(2f);
             progressBar.setProgress(0);
-
-            // is DataLoaded
-            AtomicBoolean isDataLoaded = new AtomicBoolean(false);
-
             // Launch multiple tasks in parallel
             ExecutorService executor = Executors.newFixedThreadPool(8);
             List<Callable<Void>> tasks = new ArrayList<>();
@@ -379,7 +451,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 for (Future<Void> future : executor.invokeAll(tasks)) {
                     future.get();
                 }
-                isDataLoaded.set(true);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
@@ -428,6 +499,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             // Close executor
             executor.shutdown();
+
+            // Start MainActivity
+            changeLoadingText("Pokémon are ready to fight!");
+            setProgress();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

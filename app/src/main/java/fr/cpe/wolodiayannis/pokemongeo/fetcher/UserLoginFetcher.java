@@ -6,6 +6,7 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 import android.content.Context;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
@@ -18,14 +19,19 @@ public class UserLoginFetcher {
     }
 
     public void fetchAndCache(String pseudo, String password) {
+
+        Datastore datastore = Datastore.getInstance();
+
         // Check if user is already cached
         try {
             User user = (User) Cache.readCache(this.ctx, "data_user");
+            datastore.setUser(user);
             logOnUiThread("[CACHE] User loaded from cache");
         } catch (Exception e) {
             // If not, fetch it from the server
             try {
                 User user = DataFetcher.checkUser(pseudo, password);
+                datastore.setUser(user);
                 Cache.writeCache(this.ctx, "data_user", user);
                 logOnUiThread("[CACHE] User cached");
             } catch (Exception exception) {
