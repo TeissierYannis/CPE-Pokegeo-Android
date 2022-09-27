@@ -8,7 +8,7 @@
         android:id="@+id/pokemonfight_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#AFAC70">
+        android:background="@drawable/fight_background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pokemonfight_constraintLayout_header"
@@ -96,12 +96,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:layout_width="180dp"
-            android:layout_height="60dp"
+            android:layout_width="190dp"
+            android:layout_height="200dp"
             android:layout_below="@+id/pokemonfight_image_wildPokemon"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="-50dp"
-            android:src="@drawable/basic_grass" />
+            android:layout_marginTop="-70dp"
+            android:src="@drawable/floating_island" />
 
         <ImageView
             android:id="@+id/pokemonfight_image_wildPokemon"
