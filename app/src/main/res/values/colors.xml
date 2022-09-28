@@ -10,6 +10,7 @@
     <!-- Dark Theme Colors -->
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorTextDark">#F0F2F6</color>
+    <color name="popUpTextColor">#373737</color>
 
     <!-- Common Colors -->
     <color name="lightGray">#CFD1D6</color>

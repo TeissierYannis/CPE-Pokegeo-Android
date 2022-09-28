@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:style="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/pokemon_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_rect_shape"
+        android:backgroundTint="#FFFFFF"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/textview_email_label_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/pseudo"
+            android:textColor="@color/popUpTextColor" />
+
+        <EditText
+            android:id="@+id/idEditText_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textview_email_label_login"
+            android:layout_alignBottom="@+id/textview_email_label_login"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="80dp"
+            android:hint="@string/example_email"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/popUpTextColor" />
+
+        <TextView
+            android:id="@+id/textview_password_label_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/textview_email_label_login"
+            android:layout_alignStart="@+id/textview_email_label_login"
+            android:layout_marginTop="20dp"
+            android:text="@string/password"
+            android:textColor="@color/popUpTextColor" />
+
+        <EditText
+            android:id="@+id/editText_password_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/idEditText_login"
+            android:layout_alignTop="@+id/textview_password_label_login"
+            android:layout_alignEnd="@+id/idEditText_login"
+            android:layout_alignBottom="@+id/textview_password_label_login"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="@string/password_example"
+            android:textColor="@color/popUpTextColor" />
+
+        <Button
+            android:id="@+id/button_login_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/signupButton_login"
+            android:layout_alignBottom="@+id/signupButton_login"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/signupButton_login"
+            android:backgroundTint="#F4F4F4"
+            android:text="@string/log_in"
+            android:textAllCaps="false"
+            android:textColor="@color/popUpTextColor"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/signupButton_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/editText_password_login"
+            android:layout_alignEnd="@+id/editText_password_login"
+            android:backgroundTint="#8BC34A"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+</layout>

@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 
-public class UserAdapter extends TypeAdapter<User>{
+public class UserAdapter extends TypeAdapter<User> {
 
     @Override
     public void write(JsonWriter out, User value) throws IOException {
@@ -20,8 +20,6 @@ public class UserAdapter extends TypeAdapter<User>{
         out.beginObject();
         out.name("id");
         out.value(value.getId());
-        out.name("name");
-        out.value(value.getName());
         out.name("pseudo");
         out.value(value.getPseudo());
         out.name("email");
@@ -32,6 +30,8 @@ public class UserAdapter extends TypeAdapter<User>{
         out.value(value.getIsInit());
         out.name("created_at");
         out.value(value.getCreatedAt().toString());
+        out.name("token");
+        out.value(value.getJwt());
         out.endObject();
         out.endArray();
         out.endObject();
@@ -48,44 +48,57 @@ public class UserAdapter extends TypeAdapter<User>{
     public User read(JsonReader in) throws IOException {
         /*
          * {
-         *   "message": "success",
-         *   "data": {
-         *     "id": 1,
-         *     "name": "default"
-         *     "pseudo": "default"
-         *     "email": "default@pokegeo.com"
-         *     "experience": 0
-         *     "is_init": 0
-         *     "created_at": "2022-01-01 00:00:00"
-         *   }
-         * }
+    "message": "success",
+    "data": {
+        "user": {
+            "id": 1,
+            "pseudo": "yannis",
+            "email": "yannis@cpe.fr",
+            "experience": 0,
+            "is_init": 0,
+            "created_at": "2022-09-25T12:13:06.000Z"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHNldWRvIjoieWFubmlzIiwiaWF0IjoxNjY0MTA3OTg2LCJleHAiOjE2OTU2NDM5ODZ9.Y9haAoSYRpxXF-KIU5W5ebijvGVsUZq3ygT-v_WbBvs"
+    }
+}
          */
 
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.nextName();
-        String pseudo = in.nextString();
-        in.nextName();
-        String email = in.nextString();
-        in.nextName();
-        int experience = in.nextInt();
-        in.nextName();
-        boolean isInit = in.nextBoolean();
-        in.nextName();
-        String sCreatedAt = in.nextString();
-        in.endObject();
-        in.endObject();
+        String message = in.nextString();
 
-        // String to Timestamp
-        Timestamp createdAt = Timestamp.valueOf(sCreatedAt);
+        if (message.equals("success")) {
 
-        return new User(id, name, pseudo, email, experience, isInit, createdAt);
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String pseudo = in.nextString();
+            in.nextName();
+            String email = in.nextString();
+            in.nextName();
+            int experience = in.nextInt();
+            in.nextName();
+            int isInit = in.nextInt();
+            in.nextName();
+            String createdAtString = in.nextString();
+            in.endObject();
+            in.nextName();
+            String token = in.nextString();
+            in.endObject();
+            in.endObject();
+            // String to Timestamp
+            boolean isInitBool = isInit == 1;
+
+            // from 2022-09-25T12:13:06.000Z to timestamp
+            Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
+
+            return new User(id, pseudo, email, experience, isInitBool, createdAt, token);
+        } else {
+            throw new IOException("SQL Error");
+        }
     }
 }

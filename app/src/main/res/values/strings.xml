@@ -30,7 +30,6 @@
     <string name="description">Description</string>
     <string name="type">Type</string>
     <string name="generation">Generation</string>
-    <string name="id">Id :</string>
     <string name="password">Password :</string>
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign up</string>
@@ -38,4 +37,9 @@
     <string name="pseudo">Pseudo :</string>
     <string name="confirm_password">Confirm\npassword :</string>
     <string name="i_m_not_a_robot">I\'m not a robot</string>
+    <string name="example_email">example@pokegeo.com</string>
+    <string name="pseudo_example">pseudo</string>
+    <string name="password_example">password</string>
+    <string name="same_password_example">same password</string>
+    <string name="return_text">Return</string>
 </resources>
