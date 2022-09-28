@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.request.AbilityRequest;
+import fr.cpe.wolodiayannis.pokemongeo.api.request.CaughtInventoryRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.ItemRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.PokemonRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.StatRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.TypeRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.UserRequest;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
@@ -62,14 +64,11 @@ public class DataFetcher {
         return UserRequest.createUser(user, password);
     }
 
-    public static HashMap<Pokemon, CaughtPokemon> fetchCaughtPokemons(int userId) {
-        // TODO
-        // return UserRequest.getCaughtPokemons(userId);
-        return null;
+    public static CaughtInventory fetchCaughtPokemonList(int userId) {
+        return CaughtInventoryRequest.getCaughtInventory(userId);
     }
 
     public static void addCaughtPokemon(CaughtPokemon caughtPokemon) {
         // TODO
-        // UserRequest.addCaughtPokemon(caughtPokemon);
     }
 }

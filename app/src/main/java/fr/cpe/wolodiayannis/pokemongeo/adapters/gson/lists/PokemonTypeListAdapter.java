@@ -18,7 +18,7 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonTypeList> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out
+     * @param out  the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -44,12 +44,12 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonTypeList> {
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
      *
-     * @param in
+     * @param in the stream to read from
      * @return the converted Java object. May be null.
      */
     @Override
     public PokemonTypeList read(JsonReader in) throws IOException {
-        /**
+        /*
          * {
          *  "message": "ok",
          *  "data": [

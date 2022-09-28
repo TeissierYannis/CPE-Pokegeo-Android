@@ -1,19 +1,14 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
@@ -25,7 +20,7 @@ import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
 /**
  * Adapter for the list of Pokemon.
  */
-public class PokemonCaughtListAdapter extends RecyclerView.Adapter<PokemonCaughtListAdapter.ViewHolder> {
+public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemonListAdapter.ViewHolder> {
     /**
      * Listener for the click on a Pokemon.
      */
@@ -34,21 +29,16 @@ public class PokemonCaughtListAdapter extends RecyclerView.Adapter<PokemonCaught
      * List of Pokemon.
      */
     private final CaughtInventory caughtInventory;
-    /**
-     * List of Pokemon use for the search.
-     */
-    private final HashMap<Pokemon, Integer> dataset;
+
 
     /**
      * Constructor.
      * @param caughtInventory List of Pokemon.
      * @param listener Listener for the click on a Pokemon.
      */
-    public PokemonCaughtListAdapter(CaughtInventory caughtInventory, PokedexListenerInterface listener) {
+    public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokedexListenerInterface listener) {
         this.caughtInventory = caughtInventory;
         this.listener = listener;
-        this.dataset = new HashMap<Pokemon, Integer>();
-        this.dataset.putAll(caughtInventory.getCaughtInventoryList());
     }
 
     /**
@@ -74,7 +64,7 @@ public class PokemonCaughtListAdapter extends RecyclerView.Adapter<PokemonCaught
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int pokemonID = caughtInventory.getCaughtInventoryList().get(position);
+        int pokemonID = Objects.requireNonNull(caughtInventory.getcaughtInventoryList().get(position)).getPokemon_id();
 
         if (pokemonID == 0) {
             return;
@@ -98,9 +88,9 @@ public class PokemonCaughtListAdapter extends RecyclerView.Adapter<PokemonCaught
      */
     @Override
     public int getItemCount() {
-        return dataset.size();
+        return caughtInventory.getcaughtInventoryList().size();
     }
-    
+
 
     /**
      * ViewHolder for the Pokemon.

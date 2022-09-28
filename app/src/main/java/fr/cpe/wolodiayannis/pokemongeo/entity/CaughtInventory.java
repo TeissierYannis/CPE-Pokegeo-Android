@@ -39,7 +39,7 @@ public class CaughtInventory implements Serializable {
      * Get the caught inventory list.
      * @return The caught inventory list.
      */
-    public HashMap<Pokemon, CaughtPokemon> getCaughtInventoryList() {
+    public HashMap<Pokemon, CaughtPokemon> getcaughtInventoryList() {
         return caughtInventoryList;
     }
 

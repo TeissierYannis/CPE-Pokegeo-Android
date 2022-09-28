@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.security.Timestamp;
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.CaughtPokemonListAdapter;
 
 @JsonAdapter(CaughtPokemonListAdapter.class)
 public class CaughtPokemon {
@@ -14,7 +14,8 @@ public class CaughtPokemon {
     @SerializedName("user_id")
     private final int user_id;
 
-    private final Pokemon pokemon;
+    @SerializedName("pokemon_id")
+    private final int pokemon_id;
 
     @SerializedName("caught_time")
     private final Timestamp caught_time;
@@ -25,9 +26,16 @@ public class CaughtPokemon {
     @SerializedName("current_life_state")
     private int current_life_state;
 
-    public CaughtPokemon(int user_id, Pokemon pokemon, Timestamp caught_time, int pokemon_experience, int current_life_state) {
-        this.user_id = user_id;
-        this.pokemon = pokemon;
+    /**
+     * Constructor.
+     * @param user_id User ID
+     * @param caught_time Caught time
+     * @param pokemon_experience Pokemon experience
+     * @param current_life_state Current life state
+     */
+    public CaughtPokemon(int user_id, int pokemon_id, Timestamp caught_time, int pokemon_experience, int current_life_state) {
+        this.user_id = user_id;;
+        this.pokemon_id = pokemon_id;
         this.caught_time = caught_time;
         this.pokemon_experience = pokemon_experience;
         this.current_life_state = current_life_state;
@@ -42,11 +50,11 @@ public class CaughtPokemon {
     }
 
     /**
-     * Get the pokemon.
-     * @return The pokemon.
+     * Get the pokemon id.
+     * @return The pokemon id.
      */
-    public Pokemon getPokemon() {
-        return pokemon;
+    public int getPokemon_id() {
+        return pokemon_id;
     }
 
     /**
@@ -99,7 +107,7 @@ public class CaughtPokemon {
         if (this == o) return true;
         if (!(o instanceof CaughtPokemon)) return false;
         CaughtPokemon that = (CaughtPokemon) o;
-        return getUser_id() == that.getUser_id() && getPokemon_experience() == that.getPokemon_experience() && getCurrent_life_state() == that.getCurrent_life_state() && Objects.equals(getPokemon(), that.getPokemon()) && Objects.equals(getCaught_time(), that.getCaught_time());
+        return getUser_id() == that.getUser_id() && getPokemon_experience() == that.getPokemon_experience() && getCurrent_life_state() == that.getCurrent_life_state() && Objects.equals(getCaught_time(), that.getCaught_time());
     }
 
     /**
@@ -108,6 +116,6 @@ public class CaughtPokemon {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getUser_id(), getPokemon(), getCaught_time(), getPokemon_experience(), getCurrent_life_state());
+        return Objects.hash(getUser_id(), getCaught_time(), getPokemon_experience(), getCurrent_life_state());
     }
 }

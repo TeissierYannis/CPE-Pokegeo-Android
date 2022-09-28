@@ -57,7 +57,7 @@ public class StatListAdapter extends TypeAdapter<StatList> {
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
      *
-     * @param in
+     * @param in the stream to read from.
      * @return the converted Java object. May be null.
      */
     @Override

@@ -10,6 +10,13 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.ItemInventory;
 
 public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
 
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out   the stream to write to
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(com.google.gson.stream.JsonWriter out, ItemInventory value) throws java.io.IOException {
 

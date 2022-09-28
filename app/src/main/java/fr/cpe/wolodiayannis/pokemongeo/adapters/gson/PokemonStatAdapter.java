@@ -10,21 +10,26 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 
 public class PokemonStatAdapter extends TypeAdapter<PokemonStat> {
     /**
-     * {
-     *     "message": "success",
-     *     "data":
-     *          {
-     *              "stat_id": 1,
-     *              "name": "name",
-     *              "base_stat": 49
-     *          }
-     * }
-     * @param out
-     * @param value
-     * @throws IOException
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out the stream to write to
+     * @param value the Java object to write. May be null.
      */
     @Override
     public void write(com.google.gson.stream.JsonWriter out, PokemonStat value) throws IOException {
+        /*
+         * {
+         *     "message": "success",
+         *     "data":
+         *          {
+         *              "stat_id": 1,
+         *              "name": "name",
+         *              "base_stat": 49
+         *          }
+         * }
+         */
+
         out.beginObject();
         out.name("data");
         out.beginObject();
