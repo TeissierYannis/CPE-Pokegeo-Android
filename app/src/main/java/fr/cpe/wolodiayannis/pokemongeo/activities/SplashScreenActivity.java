@@ -178,7 +178,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String pseudo = idEditText_login.getText().toString();
                 String password = passwordEditText_login.getText().toString();
 
-                ExecutorService executor = Executors.newFixedThreadPool(8);
+                ExecutorService executor = Executors.newFixedThreadPool(1);
                 List<Callable<Void>> tasks = new ArrayList<>();
 
                 tasks.add(() -> {
@@ -192,12 +192,15 @@ public class SplashScreenActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // if datastore get user is not null, go to main activity
+                // Close executor
+                executor.shutdown();
 
+                // if datastore get user is not null, go to main activity
                 if (this.datastore.getUser() != null) {
                     dialog.cancel();
                     // add toast
                     Toast.makeText(this, "Log In successful", Toast.LENGTH_SHORT).show();
+
                     animateAndInitFetching();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
@@ -261,7 +264,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String pseudo = pseudoEditText_signup.getText().toString();
                 String password = passwordEditText_signup.getText().toString();
 
-                ExecutorService executor = Executors.newFixedThreadPool(8);
+                ExecutorService executor = Executors.newFixedThreadPool(1);
                 List<Callable<Void>> tasks = new ArrayList<>();
 
                 // New timestamp
@@ -275,21 +278,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                     (new UserRegisterFetcher(this)).fetchAndCache(user, password);
                     return null;
                 });
-                ProgressBar spinner = findViewById(R.id.progressBar);
                 // invoke
                 try {
-                    // add loading screen
-                    spinner.setVisibility(View.VISIBLE);
-
                     executor.invokeAll(tasks);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                spinner.setVisibility(View.GONE);
+                // Close executor
+                executor.shutdown();
 
                 // if datastore get user is not null, go to main activity
-
                 if (this.datastore.getUser() != null) {
                     dialog.cancel();
                     // add toast

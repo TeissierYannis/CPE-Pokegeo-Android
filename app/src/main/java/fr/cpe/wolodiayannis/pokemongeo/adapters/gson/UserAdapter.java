@@ -63,8 +63,6 @@ public class UserAdapter extends TypeAdapter<User> {
 }
          */
 
-        System.out.println(in.peek());
-
         in.beginObject();
         in.nextName();
         String message = in.nextString();
