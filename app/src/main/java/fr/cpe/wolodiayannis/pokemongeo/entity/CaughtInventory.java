@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemsInventoryAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
 
 /**
  * Items inventory class.
  */
-@JsonAdapter(ItemsInventoryAdapter.class)
+@JsonAdapter(CaughtPokemonListAdapter.class)
 public class CaughtInventory implements Serializable {
 
     @SerializedName("data")

@@ -111,6 +111,7 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
         }
         in.endArray();
         in.endObject();
+        System.out.println(caughtPokemonList);
         return new CaughtInventory(caughtPokemonList);
     }
 }

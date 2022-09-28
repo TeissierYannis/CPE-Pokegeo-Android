@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
@@ -96,6 +97,11 @@ public class Datastore implements Comparable<Object>, Serializable {
      * Last location.
      */
     private Location lastLocation;
+
+    /**
+     * User caught inventory
+     */
+    private CaughtInventory caughtInventory;
 
 
     /**
@@ -231,6 +237,24 @@ public class Datastore implements Comparable<Object>, Serializable {
         return this;
     }
 
+    /**
+     * Returns the caught inventory.
+     *
+     * @return the caught inventory.
+     */
+    public CaughtInventory getCaughtInventory() {
+        return caughtInventory;
+    }
+
+    /**
+     * Sets the caught inventory.
+     *
+     * @param caughtInventory the caught inventory.
+     */
+    public Datastore setCaughtInventory(CaughtInventory caughtInventory) {
+        this.caughtInventory = caughtInventory;
+        return this;
+    }
 
     /**
      * Returns the last Date pokemon spawned on the map.

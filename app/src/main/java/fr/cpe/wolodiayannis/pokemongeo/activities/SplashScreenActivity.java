@@ -1,6 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.activities;
 
-
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 
 import android.Manifest;
@@ -33,7 +32,6 @@ import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,14 +42,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
-import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
@@ -60,6 +57,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonAbilitiesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonStatsFetcher;
@@ -103,7 +101,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressBarText;
 
-    private final int TASKS_NB = 8;
+    private final int TASKS_NB = 10;
     private final int prcPerTask = 100 / TASKS_NB;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -377,13 +375,14 @@ public class SplashScreenActivity extends AppCompatActivity {
             progressBar.setScaleY(2f);
             progressBar.setProgress(0);
             // Launch multiple tasks in parallel
-            ExecutorService executor = Executors.newFixedThreadPool(8);
+            ExecutorService executor = Executors.newFixedThreadPool(9);
             List<Callable<Void>> tasks = new ArrayList<>();
 
             AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
             AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
             AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
             AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
+            AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());;
             List<Stat> statsList = new ArrayList<>();
             List<Type> typesList = new ArrayList<>();
             List<Item> itemsList = new ArrayList<>();
@@ -444,6 +443,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                 setProgress();
                 return null;
             });
+            tasks.add(() -> {
+                changeLoadingText("Creation of caught inventory...");
+                caughtInventory.set((new CaughtInventoryFetcher(this)).fetchAndCache(this.datastore.getUser().getId()));
+                setProgress();
+                return null;
+            });
+
             // Wait for all tasks to be done without blocking the UI thread
             // TODO : The UI thread is blocked for now :(
             try {
@@ -494,7 +500,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     .setItems(itemsList)
                     .setStats(statsList)
                     .setTypes(typesList)
-                    .setAbilities(abilitiesList);
+                    .setAbilities(abilitiesList)
+                    .setCaughtInventory(caughtInventory.get());
 
             // Close executor
             executor.shutdown();
