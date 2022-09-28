@@ -5,11 +5,8 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 

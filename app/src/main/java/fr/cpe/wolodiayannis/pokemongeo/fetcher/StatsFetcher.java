@@ -6,7 +6,6 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;

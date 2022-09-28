@@ -5,8 +5,13 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 
 public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
@@ -15,7 +20,7 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out the stream to write to.
+     * @param out   the stream to write to.
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -78,8 +83,34 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
          * }
          */
 
-        // TODO
+        Datastore datastore = Datastore.getInstance();
+        HashMap<Pokemon, CaughtPokemon> caughtPokemonList = new HashMap<>();
 
-        return null;
+        in.beginObject();
+        in.nextName();
+        in.nextString();
+        in.nextName();
+        in.beginArray();
+
+        while (in.hasNext()) {
+            in.beginObject();
+            in.nextName();
+            int userId = in.nextInt();
+            in.nextName();
+            int pokemonId = in.nextInt();
+            in.nextName();
+            int pokemonExperience = in.nextInt();
+            in.nextName();
+            int currentLifeState = in.nextInt();
+            in.nextName();
+            Timestamp caughtTime = new Timestamp(in.nextLong());
+            in.endObject();
+
+            Pokemon poke = datastore.getPokemons().get(pokemonId);
+            caughtPokemonList.put(poke, new CaughtPokemon(userId, pokemonId, pokemonExperience, currentLifeState, caughtTime));
+        }
+        in.endArray();
+        in.endObject();
+        return new CaughtInventory(caughtPokemonList);
     }
 }

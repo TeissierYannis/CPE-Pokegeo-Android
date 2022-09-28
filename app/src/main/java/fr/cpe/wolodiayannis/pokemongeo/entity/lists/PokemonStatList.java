@@ -1,7 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity.lists;
 
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.HashMap;

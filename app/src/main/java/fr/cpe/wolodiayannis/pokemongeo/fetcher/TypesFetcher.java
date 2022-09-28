@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 

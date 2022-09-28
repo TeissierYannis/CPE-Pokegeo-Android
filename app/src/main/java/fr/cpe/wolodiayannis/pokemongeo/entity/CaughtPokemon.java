@@ -3,7 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.CaughtPokemonListAdapter;
@@ -33,7 +33,7 @@ public class CaughtPokemon {
      * @param pokemon_experience Pokemon experience
      * @param current_life_state Current life state
      */
-    public CaughtPokemon(int user_id, int pokemon_id, Timestamp caught_time, int pokemon_experience, int current_life_state) {
+    public CaughtPokemon(int user_id, int pokemon_id, int pokemon_experience, int current_life_state, Timestamp caught_time) {
         this.user_id = user_id;;
         this.pokemon_id = pokemon_id;
         this.caught_time = caught_time;

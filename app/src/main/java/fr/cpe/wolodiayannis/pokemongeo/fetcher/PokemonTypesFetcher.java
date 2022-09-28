@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class PokemonTypesFetcher {
