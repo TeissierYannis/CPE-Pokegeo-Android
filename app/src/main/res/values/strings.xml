@@ -23,6 +23,7 @@
     <string name="caught_title">Caught</string>
     <string name="caught_subtitle">Your crazy collection !</string>
     <string name="caught_pokemon_img_desc">Caught Pokémon</string>
+    <!-- Spash -->
     <string name="wolodia_yannis"><![CDATA[Wolodia & Yannis]]></string>
     <string name="app_icon_description">App icon</string>
     <string name="pika_github_icon_desc">Github with pikachu\'s tail</string>
@@ -30,6 +31,7 @@
     <string name="description">Description</string>
     <string name="type">Type</string>
     <string name="generation">Generation</string>
+    <!-- Login/register -->
     <string name="password">Password :</string>
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign up</string>
@@ -42,4 +44,8 @@
     <string name="password_example">password</string>
     <string name="same_password_example">same password</string>
     <string name="return_text">Return</string>
+    <!-- Init texts -->
+    <string name="init_text_01">Hey ! Welcome to PokeGéo ! I am the professor. My name is Sycamore ! </string>
+    <string name="init_text_02">Let me introduce you, the pokemon you can choose !</string>
+    <string name="init_text_03">Pokemon Name 1, Pokemon name 2 or Pokemon name 3 ?</string>
 </resources>

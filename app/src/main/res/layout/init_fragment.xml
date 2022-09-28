@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <!-- Background image -->
+        <ImageView
+            android:id="@+id/init_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="Pokecenter background"
+            android:scaleType="fitXY"
+            android:src="@drawable/pokecenter_background" />
+
+        <!-- Place 3 pillar and 3 pokemons at the bottom of the pillar -->
+        <RelativeLayout
+            android:id="@+id/starter_pillar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/chatBox"
+            android:visibility="visible"
+            >
+
+            <ImageView
+                android:id="@+id/pillar_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="400dp"
+                android:minHeight="200dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginBottom="10dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="Pillar 1"
+                android:scaleType="fitXY"
+                android:src="@drawable/pillar_pokecenter" />
+
+            <ImageView
+                android:id="@+id/pillar_2"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:maxHeight="400dp"
+                android:minHeight="200dp"
+                android:layout_alignBottom="@+id/pillar_1"
+                android:layout_marginStart="-10dp"
+                android:layout_marginBottom="-10dp"
+                android:layout_toEndOf="@+id/pillar_1"
+                android:contentDescription="Pillar 3"
+                android:scaleType="fitXY"
+                android:src="@drawable/pillar_pokecenter" />
+
+
+            <ImageView
+                android:id="@+id/pillar_3"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:maxHeight="400dp"
+                android:minHeight="200dp"
+                android:layout_alignBottom="@+id/pillar_1"
+                android:layout_marginStart="-10dp"
+                android:layout_marginBottom="-10dp"
+                android:layout_toEndOf="@+id/pillar_2"
+                android:contentDescription="Pillar 3"
+                android:scaleType="fitXY"
+                android:src="@drawable/pillar_pokecenter" />
+
+            <ImageView
+                android:id="@+id/init_pokemon_1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignStart="@+id/pillar_1"
+                android:layout_alignEnd="@+id/pillar_1"
+                android:layout_alignBottom="@+id/pillar_1"
+                android:layout_toStartOf="@+id/pillar_2"
+                android:adjustViewBounds="true"
+                android:contentDescription="Starter 1"
+                android:src="@drawable/p001" />
+
+            <ImageView
+                android:id="@+id/init_pokemon_2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignStart="@+id/pillar_2"
+                android:layout_alignEnd="@+id/pillar_2"
+                android:layout_alignBottom="@+id/pillar_2"
+                android:layout_toStartOf="@+id/pillar_3"
+                android:adjustViewBounds="true"
+                android:contentDescription="Starter 2"
+                android:src="@drawable/p004" />
+
+            <ImageView
+                android:id="@+id/init_pokemon_3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignStart="@+id/pillar_3"
+                android:layout_alignEnd="@+id/pillar_3"
+                android:layout_alignBottom="@+id/pillar_3"
+                android:adjustViewBounds="true"
+                android:contentDescription="Starter 3"
+                android:src="@drawable/p007" />
+        </RelativeLayout>
+
+        <!-- professor image linked to textbox -->
+        <ImageView
+            android:id="@+id/professor_image"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:maxHeight="600dp"
+            android:minHeight="200dp"
+            android:src="@drawable/professor_sycamore"
+            android:visibility="invisible" />
+
+
+
+
+        <!-- TextBox to display chat on the bottom of the screen -->
+
+        <TextView
+            android:id="@+id/chatBox"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_rect_shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/lightGray"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="@string/init_text_01" />
+
+    </RelativeLayout>
+</layout>
