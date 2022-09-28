@@ -16,7 +16,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemsInventoryAdapter;
 public class CaughtInventory implements Serializable {
 
     @SerializedName("data")
-    private HashMap<Pokemon, Integer> caughtInventoryList;
+    private HashMap<Pokemon, CaughtPokemon> caughtInventoryList;
 
     /**
      * Constructor.
@@ -31,7 +31,7 @@ public class CaughtInventory implements Serializable {
      * set the caught inventory HashMap.
      * @param caughtInventoryList The caught inventory list
      */
-    public CaughtInventory(HashMap<Pokemon, Integer> caughtInventoryList) {
+    public CaughtInventory(HashMap<Pokemon, CaughtPokemon> caughtInventoryList) {
         this.caughtInventoryList = caughtInventoryList;
     }
 
@@ -39,7 +39,7 @@ public class CaughtInventory implements Serializable {
      * Get the caught inventory list.
      * @return The caught inventory list.
      */
-    public HashMap<Pokemon, Integer> getCaughtInventoryList() {
+    public HashMap<Pokemon, CaughtPokemon> getCaughtInventoryList() {
         return caughtInventoryList;
     }
 

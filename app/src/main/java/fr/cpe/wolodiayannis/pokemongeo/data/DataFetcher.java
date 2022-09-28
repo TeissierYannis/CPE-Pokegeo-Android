@@ -10,6 +10,8 @@ import fr.cpe.wolodiayannis.pokemongeo.api.request.PokemonRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.StatRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.TypeRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.UserRequest;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
@@ -58,5 +60,16 @@ public class DataFetcher {
 
     public static User createUser(User user, String password) {
         return UserRequest.createUser(user, password);
+    }
+
+    public static HashMap<Pokemon, CaughtPokemon> fetchCaughtPokemons(int userId) {
+        // TODO
+        // return UserRequest.getCaughtPokemons(userId);
+        return null;
+    }
+
+    public static void addCaughtPokemon(CaughtPokemon caughtPokemon) {
+        // TODO
+        // UserRequest.addCaughtPokemon(caughtPokemon);
     }
 }
