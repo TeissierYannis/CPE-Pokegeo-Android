@@ -141,9 +141,8 @@ public class MapFragment extends Fragment {
             marker.setOnMarkerClickListener((marker1, mapView) -> {
                 // show popup
                 PopupWindow popup = new PopupWindow(requireContext());
-
                 // Set
-
+                popup.setContentView(LayoutInflater.from(requireContext()).inflate(R.layout.pokemon_fight_popup, null));
                 // set full screen
                 popup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                 popup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
