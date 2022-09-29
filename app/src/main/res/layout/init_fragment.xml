@@ -8,24 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/pokecenter_background" >
-
-        <!-- Background image -->
-        <ImageView
-            android:id="@+id/init_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/pokecenter_background_desc"
-            android:scaleType="fitXY"
-            android:src="@drawable/pokecenter_background" />
-
-        <!-- Place 3 pillar and 3 pokemons at the bottom of the pillar -->
-
-        <!-- professor image linked to textbox -->
+        android:background="@drawable/pokecenter_background">
 
         <ImageView
+            android:id="@+id/initFragment_ImageView_professor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/professor_sycamore"
@@ -37,11 +23,13 @@
         <!-- TextBox to display chat on the bottom of the screen -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/starter_pillar"
+            android:id="@+id/initFragment_constraintLayout_starterBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/chatBox"
-            app:layout_constraintBottom_toTopOf="@+id/chatBox">
+            android:layout_above="@+id/initFragment_textView_dialog"
+            app:layout_constraintBottom_toTopOf="@+id/initFragment_textView_dialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +52,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
-                    android:id="@+id/init_pokemon_1"
+                    android:id="@+id/initFragment_ImageView_Bulbasaur"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:adjustViewBounds="true"
@@ -96,7 +84,7 @@
                     />
 
                 <ImageView
-                    android:id="@+id/init_pokemon_2"
+                    android:id="@+id/initFragment_ImageView_Charmander"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:adjustViewBounds="true"
@@ -129,7 +117,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
-                    android:id="@+id/init_pokemon_3"
+                    android:id="@+id/initFragment_ImageView_Squirtle"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:adjustViewBounds="true"
@@ -143,7 +131,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/chatBox"
+            android:id="@+id/initFragment_textView_dialog"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
@@ -158,6 +146,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteX="16dp"
             tools:text="@string/init_text_01" />
+
+        <Button
+            android:id="@+id/initFragment_button_YESSS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="YESSS !"
+            android:textColor="@color/popUpTextColor"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toTopOf="@+id/initFragment_ImageView_professor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/typeFighting"
+            app:strokeWidth="5dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

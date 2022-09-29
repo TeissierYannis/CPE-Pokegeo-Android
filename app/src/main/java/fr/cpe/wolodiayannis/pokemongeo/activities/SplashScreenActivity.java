@@ -513,8 +513,15 @@ public class SplashScreenActivity extends AppCompatActivity {
             // Start MainActivity
             changeLoadingText("Pokémon are ready to fight!");
             setProgress();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+
+            if (this.datastore.getUser().isInit()) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, InitActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

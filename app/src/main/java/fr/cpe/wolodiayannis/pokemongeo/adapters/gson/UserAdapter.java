@@ -34,7 +34,7 @@ public class UserAdapter extends TypeAdapter<User> {
         out.name("experience");
         out.value(value.getExperience());
         out.name("is_init");
-        out.value(value.getIsInit());
+        out.value(value.isInit());
         out.name("created_at");
         out.value(value.getCreatedAt().toString());
         out.name("token");

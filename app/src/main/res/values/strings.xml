@@ -47,7 +47,11 @@
     <!-- Init texts -->
     <string name="init_text_01">Hey ! Welcome to PokeGéo ! I am the professor. My name is Sycamore ! </string>
     <string name="init_text_02">Let me introduce you, the pokemon you can choose !</string>
-    <string name="init_text_03">Pokemon Name 1, Pokemon name 2 or Pokemon name 3 ?</string>
+    <string name="init_text_03">Choose the one you want !</string>
+    <string name="init_text_04">Super Choice ! Have a good day :3 </string>
+    <string name="init_text_bulbasaur_choice">Bulbasaur ? Is that the one you want ?</string>
+    <string name="init_text_charmander_choice">Charmander ? Is that the one you want ?</string>
+    <string name="init_text_squirtle_choice">Squirtle ? Is that the one you want ?</string>
     <string name="pokecenter_background_desc">Pokecenter background</string>
     <string name="pillar_1_desc">Pillar 1</string>
     <string name="starter_1_desc">Starter 1</string>
