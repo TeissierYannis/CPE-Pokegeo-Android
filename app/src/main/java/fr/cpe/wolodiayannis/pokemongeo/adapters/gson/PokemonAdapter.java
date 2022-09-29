@@ -65,26 +65,31 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
         System.out.println("[DEBUG] " + in);
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.nextName();
-        int height = in.nextInt();
-        in.nextName();
-        int weight = in.nextInt();
-        in.nextName();
-        String description = in.nextString();
-        in.nextName();
-        int generationID = in.nextInt();
-        in.nextName();
-        int evolutionChainID = in.nextInt();
-        in.endObject();
-        in.endObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
 
-        return new Pokemon(id, name, height, weight, description, generationID, evolutionChainID);
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.nextName();
+            int height = in.nextInt();
+            in.nextName();
+            int weight = in.nextInt();
+            in.nextName();
+            String description = in.nextString();
+            in.nextName();
+            int generationID = in.nextInt();
+            in.nextName();
+            int evolutionChainID = in.nextInt();
+            in.endObject();
+            in.endObject();
+
+            return new Pokemon(id, name, height, weight, description, generationID, evolutionChainID);
+        } else {
+            throw new IOException("Error while reading Pokemon");
+        }
     }
 }

@@ -19,7 +19,7 @@ public class PokemonListAdapter extends TypeAdapter<PokemonList> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out  the stream to write to
+     * @param out   the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -105,44 +105,49 @@ public class PokemonListAdapter extends TypeAdapter<PokemonList> {
         List<Pokemon> pokemonList = new ArrayList<>();
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginArray();
-        int evolutionChainID = 0;
-        while (in.hasNext()) {
-            in.beginObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
+
             in.nextName();
-            int id = in.nextInt();
-            in.nextName();
-            String name = in.nextString();
-            in.nextName();
-            int height = in.nextInt();
-            in.nextName();
-            int weight = in.nextInt();
-            in.nextName();
-            String description = in.nextString();
-            in.nextName();
-            int generationID = in.nextInt();
-            in.nextName();
-            try {
-                evolutionChainID = in.nextInt();
-            } catch (IllegalStateException e) {
-                evolutionChainID = 0;
-                in.nextNull();
+            in.beginArray();
+            int evolutionChainID = 0;
+            while (in.hasNext()) {
+                in.beginObject();
+                in.nextName();
+                int id = in.nextInt();
+                in.nextName();
+                String name = in.nextString();
+                in.nextName();
+                int height = in.nextInt();
+                in.nextName();
+                int weight = in.nextInt();
+                in.nextName();
+                String description = in.nextString();
+                in.nextName();
+                int generationID = in.nextInt();
+                in.nextName();
+                try {
+                    evolutionChainID = in.nextInt();
+                } catch (IllegalStateException e) {
+                    evolutionChainID = 0;
+                    in.nextNull();
+                }
+                in.endObject();
+                pokemonList.add(new Pokemon(
+                        id,
+                        name,
+                        height,
+                        weight,
+                        description,
+                        generationID,
+                        evolutionChainID
+                ));
             }
+            in.endArray();
             in.endObject();
-            pokemonList.add(new Pokemon(
-                    id,
-                    name,
-                    height,
-                    weight,
-                    description,
-                    generationID,
-                    evolutionChainID
-            ));
+            return new PokemonList(pokemonList);
+        } else {
+            throw new IOException("Cannot fetch pokemon list");
         }
-        in.endArray();
-        in.endObject();
-        return new PokemonList(pokemonList);
     }
 }

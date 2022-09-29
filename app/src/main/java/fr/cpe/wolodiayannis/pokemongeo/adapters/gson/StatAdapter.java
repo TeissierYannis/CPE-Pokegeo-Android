@@ -51,11 +51,11 @@ public class StatAdapter extends TypeAdapter<Stat> {
          *   }
          * }
          */
-        System.out.println("StatAdapter.read");
-        System.out.println(in.toString());
         in.beginObject();
         in.nextName();
-        in.nextString();
+        String message = in.nextString();
+        if (message.equals("success")) {
+
         in.nextName();
         in.beginObject();
         in.nextName();
@@ -66,5 +66,8 @@ public class StatAdapter extends TypeAdapter<Stat> {
         in.endObject();
 
         return new Stat(id, name);
+        } else {
+            throw new IOException("Error while reading Stat");
+        }
     }
 }

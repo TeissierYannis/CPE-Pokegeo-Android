@@ -64,19 +64,24 @@ public class PokemonStatAdapter extends TypeAdapter<PokemonStat> {
 
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.nextName();
-        int baseStat = in.nextInt();
-        in.endObject();
-        in.endObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
 
-        Stat stat = new Stat(id, name);
-        return new PokemonStat(stat, baseStat);
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.nextName();
+            int baseStat = in.nextInt();
+            in.endObject();
+            in.endObject();
+
+            Stat stat = new Stat(id, name);
+            return new PokemonStat(stat, baseStat);
+        } else {
+            throw new IOException("Error while reading PokemonStat");
+        }
     }
 }

@@ -2,6 +2,7 @@ package fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists;
 
 import com.google.gson.TypeAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,31 +77,36 @@ public class PokemonStatMappingListAdapter extends TypeAdapter<PokemonStatMappin
         HashMap<Integer, List<PokemonStat>> statsList = new HashMap<>();
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginArray();
-        while (in.hasNext()) {
-            // If we have the same pokemon id, we add the ability id to the list
-            // If we have a new pokemon id, we create a new list and add the ability id to the list
-            in.beginObject();
-            in.nextName();
-            int pokemonID = in.nextInt();
-            in.nextName();
-            int statID = in.nextInt();
-            in.nextName();
-            String statName = in.nextString();
-            in.nextName();
-            int base_stat = in.nextInt();
-            in.endObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
 
-            if (!statsList.containsKey(pokemonID)) {
-                statsList.put(pokemonID, new ArrayList<>());
+            in.nextName();
+            in.beginArray();
+            while (in.hasNext()) {
+                // If we have the same pokemon id, we add the ability id to the list
+                // If we have a new pokemon id, we create a new list and add the ability id to the list
+                in.beginObject();
+                in.nextName();
+                int pokemonID = in.nextInt();
+                in.nextName();
+                int statID = in.nextInt();
+                in.nextName();
+                String statName = in.nextString();
+                in.nextName();
+                int base_stat = in.nextInt();
+                in.endObject();
+
+                if (!statsList.containsKey(pokemonID)) {
+                    statsList.put(pokemonID, new ArrayList<>());
+                }
+                Objects.requireNonNull(statsList.get(pokemonID)).add(new PokemonStat(new Stat(statID, statName), base_stat));
             }
-            Objects.requireNonNull(statsList.get(pokemonID)).add(new PokemonStat(new Stat(statID, statName), base_stat));
+            in.endArray();
+            in.endObject();
+            System.out.println(in.peek());
+            return new PokemonStatMappingList(statsList);
+        } else {
+            throw new IOException("Cannot fetch Pokemon stat list");
         }
-        in.endArray();
-        in.endObject();
-        System.out.println(in.peek());
-        return new PokemonStatMappingList(statsList);
     }
 }

@@ -58,15 +58,20 @@ public class ItemAdapter extends TypeAdapter<Item> {
          */
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.endObject();
-        in.endObject();
-        return new Item(id, name);
+        String message = in.nextString();
+        if (message.equals("success")) {
+
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.endObject();
+            in.endObject();
+            return new Item(id, name);
+        } else {
+            throw new IOException("Error while reading Item");
+        }
     }
 }

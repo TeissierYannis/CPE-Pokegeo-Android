@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.adapters.gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonToken;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
@@ -60,7 +61,9 @@ public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
 
         in.beginObject();
         in.nextName();
-        in.nextString();
+        String message = in.nextString();
+        if (message.equals("success")) {
+
         in.nextName();
 
         // for each object
@@ -80,5 +83,8 @@ public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
         in.endObject();
 
         return new ItemInventory(items);
+        } else {
+            throw new IOException("Error while reading the JSON");
+        }
     }
 }

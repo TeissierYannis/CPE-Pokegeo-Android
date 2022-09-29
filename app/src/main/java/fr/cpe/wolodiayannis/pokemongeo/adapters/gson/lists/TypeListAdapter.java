@@ -80,20 +80,25 @@ public class TypeListAdapter extends TypeAdapter<TypeList> {
         List<Type> typeList = new ArrayList<>();
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginArray();
-        while (in.hasNext()) {
-            in.beginObject();
+        String message = in.nextString();
+        if(message.equals("success")) {
+
             in.nextName();
-            int id = in.nextInt();
-            in.nextName();
-            String name = in.nextString();
+            in.beginArray();
+            while (in.hasNext()) {
+                in.beginObject();
+                in.nextName();
+                int id = in.nextInt();
+                in.nextName();
+                String name = in.nextString();
+                in.endObject();
+                typeList.add(new Type(id, name));
+            }
+            in.endArray();
             in.endObject();
-            typeList.add(new Type(id, name));
+            return new TypeList(typeList);
+        } else {
+            throw new IOException("Error while reading TypeList");
         }
-        in.endArray();
-        in.endObject();
-        return new TypeList(typeList);
     }
 }
