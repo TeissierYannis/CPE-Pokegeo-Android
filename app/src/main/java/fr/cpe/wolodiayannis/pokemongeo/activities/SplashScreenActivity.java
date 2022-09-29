@@ -34,6 +34,7 @@ import androidx.preference.PreferenceManager;
 import org.osmdroid.config.Configuration;
 
 import java.sql.Timestamp;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -69,6 +70,7 @@ import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLoginFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserRegisterFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
+import fr.cpe.wolodiayannis.pokemongeo.threading.FetchThread;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 @SuppressLint("CustomSplashScreen")
@@ -106,8 +108,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     private final int TASKS_NB = 10;
     private final int prcPerTask = 100 / TASKS_NB;
 
-    private ArrayList<Integer> tasksDone = new ArrayList<>();
-    private int tasksToDo = 9;
+    /**
+     * The executor service.
+     */
+    FetchThread fetchThread;
+
+    private AbstractCollection<Integer> tasksDone;
+    private Integer tasksToDo;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -133,7 +140,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                             Manifest.permission.ACCESS_WIFI_STATE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_PHONE_STATE,
                     },
                     REQUEST_PERMISSIONS_REQUEST_CODE
             );
@@ -353,12 +361,18 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void updatePokemonAndSwitchActivity() {
+
+        List<Pokemon> pokemonList = this.fetchThread.getPokemonList().get();
+        HashMap<Integer, List<Integer>> pokemonTypes = this.fetchThread.getPokemonTypes().get();
+        HashMap<Integer, List<Integer>> pokemonAbilities = this.fetchThread.getPokemonAbilities().get();
+        HashMap<Integer, List<PokemonStat>> pokemonStats = this.fetchThread.getPokemonStats().get();
+
         // set type and stats for each pokemon
         changeLoadingText("Identification of the Pokémons...");
-        for (Pokemon pokemon : this.pokemonList.get()) {
-            pokemon.setTypes(this.pokemonTypes.get().get(pokemon.getId()));
-            pokemon.setStats(this.pokemonStats.get().get(pokemon.getId()));
-            pokemon.setAbilities(this.pokemonAbilities.get().get(pokemon.getId()));
+        for (Pokemon pokemon : pokemonList) {
+            pokemon.setTypes(pokemonTypes.get(pokemon.getId()));
+            pokemon.setStats(pokemonStats.get(pokemon.getId()));
+            pokemon.setAbilities(pokemonAbilities.get(pokemon.getId()));
             pokemon.setImageID(
                     getResources()
                             .getIdentifier(
@@ -378,19 +392,18 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
             pokemon.setImageTypeID(typesDrawables);
             // get place of the pokemon in the list
-            int pokemonIndex = this.pokemonList.get().indexOf(pokemon);
+            int pokemonIndex = pokemonList.indexOf(pokemon);
             // get the pokemon from the list
-            this.pokemonList.get().set(pokemonIndex, pokemon);
+            pokemonList.set(pokemonIndex, pokemon);
         }
         setProgress();
 
-        this.datastore = Datastore.getInstance();
-        this.datastore.setPokemons(this.pokemonList.get())
-                .setItems(this.itemsList)
-                .setStats(this.statsList)
-                .setTypes(this.typesList)
-                .setAbilities(this.abilitiesList)
-                .setCaughtInventory(this.caughtInventory.get());
+        Datastore.getInstance().setPokemons(pokemonList)
+                .setItems(this.fetchThread.getItemsList())
+                .setStats(this.fetchThread.getStatsList())
+                .setTypes(this.fetchThread.getTypesList())
+                .setAbilities(this.fetchThread.getAbilitiesList())
+                .setCaughtInventory(this.fetchThread.getCaughtInventory().get());
 
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");
@@ -408,27 +421,14 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void taskEnd(Integer taskID) {
         setProgress();
-
-        // Add task to the list of finished tasks
         this.tasksDone.add(taskID);
-        // Check if all tasks are done
+
         if (this.tasksDone.size() == this.tasksToDo) {
-            this.executor.shutdown();
-            // Update pokemon and switch activity
             updatePokemonAndSwitchActivity();
+            this.fetchThread.shutdown();
         }
     }
 
-    private ExecutorService executor;
-    private AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
-    private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
-    private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
-    private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
-    private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
-    private List<Stat> statsList = new ArrayList<>();
-    private List<Type> typesList = new ArrayList<>();
-    private List<Item> itemsList = new ArrayList<>();
-    private List<Ability> abilitiesList = new ArrayList<>();
 
     /**
      * Animation and init fetching
@@ -456,78 +456,25 @@ public class SplashScreenActivity extends AppCompatActivity {
             progressBar.setMax(100);
             progressBar.setScaleY(2f);
             progressBar.setProgress(0);
-            // Launch multiple tasks in parallel
-            this.executor = Executors.newFixedThreadPool(9);
-            List<Callable<Void>> tasks = new ArrayList<>();
-            // Set a listener on the executor
-            ExecutorListener executorListener = this::taskEnd;
-            // Fetching tasks
-            tasks.add(() -> {
-                changeLoadingText("Fetching Pokémon...");
-                pokemonList.set((new PokemonsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
-                return null;
-            });
 
-            tasks.add(() -> {
-                changeLoadingText("Pokémon's abilities training...");
-                pokemonAbilities.set((new PokemonAbilitiesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(2);
-                return null;
-            });
+            ExecutorListener executorListener = new ExecutorListener() {
+                @Override
+                public void onEnd(Integer taskID) {
+                    taskEnd(taskID);
+                }
 
-            tasks.add(() -> {
-                changeLoadingText("Definition of Pokémon's types...");
-                pokemonTypes.set((new PokemonTypesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(3);
-                return null;
-            });
+                @Override
+                public void onLoadingTextChange(String s) {
+                    changeLoadingText(s);
+                }
+            };
 
-            tasks.add(() -> {
-                changeLoadingText("Definition of Pokémon's stats...");
-                pokemonStats.set((new PokemonStatsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(4);
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Creation of statistics...");
-                statsList.addAll((new StatsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(5);
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Creation of types...");
-                typesList.addAll((new TypesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(6);
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Manufacturing of items...");
-                itemsList.addAll((new ItemsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(7);
-                return null;
-            });
-            tasks.add(() -> {
-                changeLoadingText("Creation of abilities...");
-                abilitiesList.addAll((new AbilitiesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(8);
-                return null;
-            });
-            tasks.add(() -> {
-                changeLoadingText("Creation of caught inventory...");
-                caughtInventory.set((new CaughtInventoryFetcher(this)).fetchAndCache(this.datastore.getUser().getId()));
-                executorListener.onEnd(9);
-                return null;
-            });
-
-            try {
-                executor.invokeAll(tasks);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // Create executor
+            this.fetchThread = new FetchThread();
+            this.fetchThread.setExecutorListener(executorListener)
+                    .setupExecutor()
+                    .setupTasks(this)
+                    .execute();
         }
     }
 
