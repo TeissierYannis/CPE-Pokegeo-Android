@@ -48,4 +48,12 @@
     <string name="init_text_01">Hey ! Welcome to PokeGéo ! I am the professor. My name is Sycamore ! </string>
     <string name="init_text_02">Let me introduce you, the pokemon you can choose !</string>
     <string name="init_text_03">Pokemon Name 1, Pokemon name 2 or Pokemon name 3 ?</string>
+    <string name="pokecenter_background_desc">Pokecenter background</string>
+    <string name="pillar_1_desc">Pillar 1</string>
+    <string name="starter_1_desc">Starter 1</string>
+    <string name="pillar_3_desc">Pillar 3</string>
+    <string name="starter_2_desc">Starter 2</string>
+    <string name="pillar_2_desc">Pillar 2</string>
+    <string name="starter_3_desc">Starter 3</string>
+    <string name="professor_sycanore_desc">Professor sycanore</string>
 </resources>
