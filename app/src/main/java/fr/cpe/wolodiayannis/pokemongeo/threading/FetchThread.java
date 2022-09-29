@@ -56,73 +56,66 @@ public class FetchThread {
         tasks.add(() -> {
             changeLoadingText("Fetching Pokémon...");
             pokemonList.set((new PokemonsFetcher(context)).fetchAndCache());
-            onEnd(1);
+            this.onEnd(1);
             return null;
         });
 
         tasks.add(() -> {
             changeLoadingText("Pokémon's abilities training...");
             pokemonAbilities.set((new PokemonAbilitiesFetcher(context)).fetchAndCache());
-            onEnd(2);
+            this.onEnd(2);
             return null;
         });
 
         tasks.add(() -> {
             changeLoadingText("Definition of Pokémon's types...");
             pokemonTypes.set((new PokemonTypesFetcher(context)).fetchAndCache());
-            onEnd(3);
+            this.onEnd(3);
             return null;
         });
 
         tasks.add(() -> {
             changeLoadingText("Definition of Pokémon's stats...");
             pokemonStats.set((new PokemonStatsFetcher(context)).fetchAndCache());
-            onEnd(4);
+            this.onEnd(4);
             return null;
         });
 
         tasks.add(() -> {
             changeLoadingText("Creation of statistics...");
             statsList.addAll((new StatsFetcher(context)).fetchAndCache());
-            onEnd(5);
+            this.onEnd(5);
             return null;
         });
 
         tasks.add(() -> {
             changeLoadingText("Creation of types...");
             typesList.addAll((new TypesFetcher(context)).fetchAndCache());
-            onEnd(6);
+            this.onEnd(6);
             return null;
         });
 
         tasks.add(() -> {
             changeLoadingText("Manufacturing of items...");
             itemsList.addAll((new ItemsFetcher(context)).fetchAndCache());
-            onEnd(7);
+            this.onEnd(7);
             return null;
         });
         tasks.add(() -> {
             changeLoadingText("Creation of abilities...");
             abilitiesList.addAll((new AbilitiesFetcher(context)).fetchAndCache());
-            onEnd(8);
+            this.onEnd(8);
             return null;
         });
         tasks.add(() -> {
             changeLoadingText("Creation of caught inventory...");
             caughtInventory.set((new CaughtInventoryFetcher(context)).fetchAndCache(Datastore.getInstance().getUser().getId()));
-            onEnd(9);
+            this.onEnd(9);
             return null;
         });
         return this;
     }
 
-    private void onEnd(int i) {
-        executorListener.onEnd(i);
-    }
-
-    private void changeLoadingText(String s) {
-        executorListener.onLoadingTextChange(s);
-    }
 
     public FetchThread execute() {
         try {
@@ -142,6 +135,15 @@ public class FetchThread {
         this.executorListener = executorListener;
         return this;
     }
+
+    private void onEnd(int i) {
+        executorListener.onEnd(i);
+    }
+
+    private void changeLoadingText(String s) {
+        executorListener.onLoadingTextChange(s);
+    }
+
 
     public AtomicReference<List<Pokemon>> getPokemonList() {
         return pokemonList;

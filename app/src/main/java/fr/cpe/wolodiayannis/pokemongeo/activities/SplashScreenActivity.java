@@ -113,8 +113,7 @@ public class SplashScreenActivity extends AppCompatActivity {
      */
     FetchThread fetchThread;
 
-    private AbstractCollection<Integer> tasksDone;
-    private Integer tasksToDo;
+    private final List<Integer> tasksDone = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -419,11 +418,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         finish();
     }
 
-    private void taskEnd(Integer taskID) {
+    private void taskEnd(int taskID) {
         setProgress();
         this.tasksDone.add(taskID);
 
-        if (this.tasksDone.size() == this.tasksToDo) {
+        int tasksToDo = 8;
+        if (this.tasksDone.size() == tasksToDo) {
             updatePokemonAndSwitchActivity();
             this.fetchThread.shutdown();
         }
