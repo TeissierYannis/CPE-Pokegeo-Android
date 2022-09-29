@@ -106,8 +106,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private final int TASKS_NB = 10;
     private final int prcPerTask = 100 / TASKS_NB;
 
-    private int tasksDone = 0;
-    private int tasksToDo = 0;
+    private ArrayList<Integer> tasksDone = new ArrayList<>();
+    private int tasksToDo = 9;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -398,18 +398,25 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");
         setProgress();
-        Intent intent = new Intent(this, MainActivity.class);
+
+        Intent intent;
+        if (!this.datastore.getUser().isInit()) {
+            intent = new Intent(this, InitActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
         startActivity(intent);
     }
 
-    private void taskEnd(Integer value) {
+    private void taskEnd(Integer taskID) {
         setProgress();
-        this.tasksDone += value;
-        if (this.tasksDone == this.tasksToDo) {
+
+        // Add task to the list of finished tasks
+        this.tasksDone.add(taskID);
+        // Check if all tasks are done
+        if (this.tasksDone.size() == this.tasksToDo) {
+            // Update pokemon and switch activity
             updatePokemonAndSwitchActivity();
-            setProgress();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
         }
     }
 
@@ -418,7 +425,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
-    private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());;
+    private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
+    ;
     private List<Stat> statsList = new ArrayList<>();
     private List<Type> typesList = new ArrayList<>();
     private List<Item> itemsList = new ArrayList<>();
@@ -466,54 +474,54 @@ public class SplashScreenActivity extends AppCompatActivity {
             tasks.add(() -> {
                 changeLoadingText("Pokémon's abilities training...");
                 pokemonAbilities.set((new PokemonAbilitiesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(2);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Definition of Pokémon's types...");
                 pokemonTypes.set((new PokemonTypesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(3);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Definition of Pokémon's stats...");
                 pokemonStats.set((new PokemonStatsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(4);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Creation of statistics...");
                 statsList.addAll((new StatsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(5);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Creation of types...");
                 typesList.addAll((new TypesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(6);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Manufacturing of items...");
                 itemsList.addAll((new ItemsFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(7);
                 return null;
             });
             tasks.add(() -> {
                 changeLoadingText("Creation of abilities...");
                 abilitiesList.addAll((new AbilitiesFetcher(this)).fetchAndCache());
-                executorListener.onEnd(1);
+                executorListener.onEnd(8);
                 return null;
             });
             tasks.add(() -> {
                 changeLoadingText("Creation of caught inventory...");
                 caughtInventory.set((new CaughtInventoryFetcher(this)).fetchAndCache(this.datastore.getUser().getId()));
-                executorListener.onEnd(1);
+                executorListener.onEnd(9);
                 return null;
             });
 
