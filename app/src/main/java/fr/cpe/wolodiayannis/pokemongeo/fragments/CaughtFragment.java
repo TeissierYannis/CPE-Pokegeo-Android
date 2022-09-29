@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.CaughtPokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.CaughtFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
@@ -29,6 +30,11 @@ public class CaughtFragment extends Fragment {
     private PokedexListenerInterface listener;
 
     /**
+     * Datastore instance.
+     */
+    private Datastore datastore;
+
+    /**
      * onCreateView.
      * @param inflater inflater
      * @param container container
@@ -41,14 +47,14 @@ public class CaughtFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        // Get datastore instance
+        this.datastore = Datastore.getInstance();
         // Bind layout
         CaughtFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.caught_fragment, container, false);
         // set grid layout
         binding.caughtList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-        // New caught inventory
-        CaughtInventory caughtInventory = new CaughtInventory();
         // new adapter
-        CaughtPokemonListAdapter adapter = new CaughtPokemonListAdapter(caughtInventory, listener);
+        CaughtPokemonListAdapter adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), listener);
         // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);
 

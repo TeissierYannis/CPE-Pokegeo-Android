@@ -115,6 +115,8 @@ public class InitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 button_YESSS.setVisibility(View.INVISIBLE);
+                starterBox_Layout.setVisibility(View.INVISIBLE);
+                imageView_Professor.setVisibility(View.VISIBLE);
                 textView_Dialog.setText(R.string.init_text_04);
                 datastore.getUser().setInit(true);
                 addStarterToInventory();

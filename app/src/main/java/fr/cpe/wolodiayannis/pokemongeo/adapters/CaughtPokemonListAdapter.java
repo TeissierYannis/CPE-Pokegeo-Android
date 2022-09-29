@@ -13,6 +13,7 @@ import java.util.Objects;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
@@ -64,13 +65,10 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int pokemonID = Objects.requireNonNull(caughtInventory.getcaughtInventoryList().get(position)).getPokemon_id();
 
-        if (pokemonID == 0) {
-            return;
-        }
+        HashMap<Pokemon, CaughtPokemon> caughtPokemon = caughtInventory.getcaughtInventoryList();
+        Pokemon pokemon = (Pokemon) caughtPokemon.keySet().toArray()[position];
 
-        Pokemon pokemon = caughtInventory.getPokemonById(pokemonID);
         holder.viewModel.setPokemon(pokemon);
 
         // Set the listener for the click on the Pokemon.
@@ -90,7 +88,6 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
     public int getItemCount() {
         return caughtInventory.getcaughtInventoryList().size();
     }
-
 
     /**
      * ViewHolder for the Pokemon.
