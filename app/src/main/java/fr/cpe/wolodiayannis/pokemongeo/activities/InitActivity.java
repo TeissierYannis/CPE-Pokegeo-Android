@@ -68,9 +68,7 @@ public class InitActivity extends AppCompatActivity {
         button_YESSS = findViewById(R.id.initFragment_button_YESSS);
 
         // INIT
-        starterBox_Bulbasaur.setVisibility(View.INVISIBLE);
-        starterBox_Charmander.setVisibility(View.INVISIBLE);
-        starterBox_Squirtle.setVisibility(View.INVISIBLE);
+        starterBox_Layout.setVisibility(View.INVISIBLE);
         button_YESSS.setVisibility(View.INVISIBLE);
         textView_Dialog.setText(R.string.init_text_01);
 
@@ -135,10 +133,7 @@ public class InitActivity extends AppCompatActivity {
                 textView_Dialog.getText().toString(),
                 getResources().getString(R.string.init_text_02))) {
             textView_Dialog.setText(R.string.init_text_03);
-
-            starterBox_Bulbasaur.setVisibility(View.VISIBLE);
-            starterBox_Charmander.setVisibility(View.VISIBLE);
-            starterBox_Squirtle.setVisibility(View.VISIBLE);
+            starterBox_Layout.setVisibility(View.VISIBLE);
             imageView_Professor.setVisibility(View.INVISIBLE);
             imageView_Bulbasaur.setVisibility(View.INVISIBLE);
             imageView_Charmander.setVisibility(View.INVISIBLE);
