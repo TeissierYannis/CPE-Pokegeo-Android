@@ -26,10 +26,9 @@ public class CaughtInventoryRequest extends BaseRequest {
             CaughtInventory caughtInventory = call.execute().body();
             LogAPI("Inventory of user ID : " + userID);
             return caughtInventory;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

@@ -51,15 +51,21 @@ public class TypeAdapter extends com.google.gson.TypeAdapter<Type> {
          */
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.endObject();
-        in.endObject();
-        return new Type(id, name);
+        String message = in.nextString();
+
+        if (message.equals("success")) {
+
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.endObject();
+            in.endObject();
+            return new Type(id, name);
+        } else {
+            throw new IOException("Error while reading Type");
+        }
     }
 }

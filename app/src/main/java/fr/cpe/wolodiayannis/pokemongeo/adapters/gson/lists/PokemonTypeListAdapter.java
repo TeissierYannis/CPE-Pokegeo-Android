@@ -18,7 +18,7 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonTypeList> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out  the stream to write to
+     * @param out   the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -67,26 +67,31 @@ public class PokemonTypeListAdapter extends TypeAdapter<PokemonTypeList> {
         HashMap<Integer, List<Integer>> typeList = new HashMap<>();
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginArray();
-        while (in.hasNext()) {
-            // If we have the same pokemon id, we add the ability id to the list
-            // If we have a new pokemon id, we create a new list and add the ability id to the list
-            in.beginObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
+
             in.nextName();
-            int pokemonID = in.nextInt();
-            in.nextName();
-            int typeID = in.nextInt();
-            in.endObject();
-            if (!typeList.containsKey(pokemonID)) {
-                typeList.put(pokemonID, new ArrayList<>());
+            in.beginArray();
+            while (in.hasNext()) {
+                // If we have the same pokemon id, we add the ability id to the list
+                // If we have a new pokemon id, we create a new list and add the ability id to the list
+                in.beginObject();
+                in.nextName();
+                int pokemonID = in.nextInt();
+                in.nextName();
+                int typeID = in.nextInt();
+                in.endObject();
+                if (!typeList.containsKey(pokemonID)) {
+                    typeList.put(pokemonID, new ArrayList<>());
+                }
+                Objects.requireNonNull(typeList.get(pokemonID)).add(typeID);
             }
-            Objects.requireNonNull(typeList.get(pokemonID)).add(typeID);
+            in.endArray();
+            in.endObject();
+            System.out.println(in.peek());
+            return new PokemonTypeList(typeList);
+        } else {
+            throw new IOException("Pokemon type list cannot be fetched");
         }
-        in.endArray();
-        in.endObject();
-        System.out.println(in.peek());
-        return new PokemonTypeList(typeList);
     }
 }

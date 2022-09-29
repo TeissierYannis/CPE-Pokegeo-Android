@@ -202,7 +202,8 @@ public class MainActivity extends AppCompatActivity {
     private void showPokemonDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        PokemonDetailsFragment fragment = new PokemonDetailsFragment(pokemon);
+        PokemonDetailsFragment fragment = new PokemonDetailsFragment();
+        fragment.setPokemon(pokemon);
 
         BackArrowListenerInterface backArrowListener = this::showPokedex;
         fragment.setBackArrowListenerInterface(backArrowListener);
@@ -219,7 +220,8 @@ public class MainActivity extends AppCompatActivity {
     private void showPokemonCaughtDetails(Pokemon pokemon) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        PokemonDetailsFragment fragment = new PokemonDetailsFragment(pokemon);
+        PokemonDetailsFragment fragment = new PokemonDetailsFragment();
+        fragment.setPokemon(pokemon);
 
         BackArrowListenerInterface backArrowListener = this::showCaught;
         fragment.setBackArrowListenerInterface(backArrowListener);

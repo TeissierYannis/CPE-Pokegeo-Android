@@ -88,7 +88,10 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
 
         in.beginObject();
         in.nextName();
-        in.nextString();
+        String message = in.nextString();
+
+        if (message.equals("success")) {
+
         in.nextName();
         in.beginArray();
 
@@ -111,7 +114,14 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
         }
         in.endArray();
         in.endObject();
-        System.out.println(caughtPokemonList);
-        return new CaughtInventory(caughtPokemonList);
+        if (caughtPokemonList.size() > 0) {
+            return new CaughtInventory(caughtPokemonList);
+        } else {
+            // empty inventory
+            return new CaughtInventory();
+        }
+        } else {
+            throw new IOException("Failed to fetch caught pokemon list");
+        }
     }
 }
