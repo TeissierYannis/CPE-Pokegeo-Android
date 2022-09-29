@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -189,6 +190,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                // close the keyboard
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(passwordEditText_login.getWindowToken(), 0);
 
                 // Close executor
                 executor.shutdown();
@@ -511,7 +515,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             setProgress();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            finish();
         }
     }
 
