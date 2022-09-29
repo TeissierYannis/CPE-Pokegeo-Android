@@ -53,6 +53,7 @@ public class PokemonDetailsFragment extends Fragment {
         binding.getPokemonViewModel().setPokemon(pokemon);
         // Set event listener on the back arrow
         binding.backArrow.setOnClickListener(v -> listener.onBackArrowClicked());
+
         // Define the bg color's
         binding.pokemonBg.getBackground().setTint(
                 pokemon.getBackgroundColor()

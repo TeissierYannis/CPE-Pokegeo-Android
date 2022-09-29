@@ -28,7 +28,6 @@ public class PokemonStatsFetcher {
                 statList = DataFetcher.fetchPokemonStats();
                 Cache.writeCache(this.ctx, "data_pokemon_stats", statList);
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon stats list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();
             }
         }

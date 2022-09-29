@@ -24,14 +24,11 @@ public class PokemonsFetcher {
         List<Pokemon> pokemonList = new ArrayList<>();
         try {
             pokemonList = (List<Pokemon>) Cache.readCache(this.ctx, "data_pokemons");
-            logOnUiThread("[CACHE] Pokemon list loaded from cache");
         } catch (Exception e) {
             try {
                 pokemonList = DataFetcher.fetchPokemonList().getPokemonList();
                 Cache.writeCache(this.ctx, "data_pokemons", pokemonList);
-                logOnUiThread("[CACHE] Pokemon list cached");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();
             }
         }

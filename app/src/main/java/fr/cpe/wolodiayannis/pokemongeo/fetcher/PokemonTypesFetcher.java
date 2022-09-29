@@ -27,7 +27,6 @@ public class PokemonTypesFetcher {
                 typesList = DataFetcher.fetchPokemonTypes();
                 Cache.writeCache(this.ctx, "data_pokemon_types", typesList);
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon types list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();
             }
         }

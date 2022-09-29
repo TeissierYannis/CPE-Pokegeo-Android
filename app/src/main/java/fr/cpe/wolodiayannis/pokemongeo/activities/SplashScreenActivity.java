@@ -68,6 +68,7 @@ import fr.cpe.wolodiayannis.pokemongeo.fetcher.StatsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLoginFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserRegisterFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 @SuppressLint("CustomSplashScreen")
@@ -104,6 +105,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private final int TASKS_NB = 10;
     private final int prcPerTask = 100 / TASKS_NB;
+
+    private int tasksDone = 0;
+    private int tasksToDo = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -348,11 +352,82 @@ public class SplashScreenActivity extends AppCompatActivity {
         runOnUiThread(() -> progressBarText.setText(text + " " + progressBar.getProgress() + "%"));
     }
 
+    private void updatePokemonAndSwitchActivity() {
+        // set type and stats for each pokemon
+        changeLoadingText("Identification of the Pokémons...");
+        for (Pokemon pokemon : this.pokemonList.get()) {
+            pokemon.setTypes(this.pokemonTypes.get().get(pokemon.getId()));
+            pokemon.setStats(this.pokemonStats.get().get(pokemon.getId()));
+            pokemon.setAbilities(this.pokemonAbilities.get().get(pokemon.getId()));
+            pokemon.setImageID(
+                    getResources()
+                            .getIdentifier(
+                                    "p" + String.format("%03d", pokemon.getId()),
+                                    "drawable",
+                                    getPackageName()
+                            )
+            );
+            List<Integer> typesDrawables = new ArrayList<>();
+            for (int i = 0; i < pokemon.getTypes().size(); i++) {
+                typesDrawables.add(
+                        getResources().getIdentifier(
+                                "t" + String.format("%02d", pokemon.getTypes().get(i)),
+                                "drawable",
+                                getPackageName()
+                        ));
+            }
+            pokemon.setImageTypeID(typesDrawables);
+            // get place of the pokemon in the list
+            int pokemonIndex = this.pokemonList.get().indexOf(pokemon);
+            // get the pokemon from the list
+            this.pokemonList.get().set(pokemonIndex, pokemon);
+        }
+        setProgress();
+
+        this.datastore = Datastore.getInstance();
+        this.datastore.setPokemons(this.pokemonList.get())
+                .setItems(this.itemsList)
+                .setStats(this.statsList)
+                .setTypes(this.typesList)
+                .setAbilities(this.abilitiesList)
+                .setCaughtInventory(this.caughtInventory.get());
+
+        // Close executor
+        this.executor.shutdown();
+
+        // Start MainActivity
+        changeLoadingText("Pokémon are ready to fight!");
+        setProgress();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void taskEnd(Integer value) {
+        setProgress();
+        this.tasksDone += value;
+        if (this.tasksDone == this.tasksToDo) {
+            updatePokemonAndSwitchActivity();
+            setProgress();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private ExecutorService executor = Executors.newFixedThreadPool(9);
+    private AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
+    private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
+    private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
+    private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
+    private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());;
+    private List<Stat> statsList = new ArrayList<>();
+    private List<Type> typesList = new ArrayList<>();
+    private List<Item> itemsList = new ArrayList<>();
+    private List<Ability> abilitiesList = new ArrayList<>();
+
     /**
      * Animation and init fetching
      */
-    public void animateAndInitFetching() {
-
+    private void animateAndInitFetching() {
         // Use AVD for animations
         ImageView imageView = findViewById(R.id.pika_face);
 
@@ -372,155 +447,84 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (isOnline()) {
             logOnUiThread("[ONLINE] You are online");
 
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
             progressBar.setMax(100);
             progressBar.setScaleY(2f);
             progressBar.setProgress(0);
             // Launch multiple tasks in parallel
-            ExecutorService executor = Executors.newFixedThreadPool(9);
             List<Callable<Void>> tasks = new ArrayList<>();
-
-            AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
-            AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
-            AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
-            AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
-            AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());;
-            List<Stat> statsList = new ArrayList<>();
-            List<Type> typesList = new ArrayList<>();
-            List<Item> itemsList = new ArrayList<>();
-            List<Ability> abilitiesList = new ArrayList<>();
+            // Set a listener on the executor
+            ExecutorListener executorListener = this::taskEnd;
 
             // Fetching tasks
             tasks.add(() -> {
                 changeLoadingText("Fetching Pokémon...");
                 pokemonList.set((new PokemonsFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Pokémon's abilities training...");
                 pokemonAbilities.set((new PokemonAbilitiesFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Definition of Pokémon's types...");
                 pokemonTypes.set((new PokemonTypesFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Definition of Pokémon's stats...");
                 pokemonStats.set((new PokemonStatsFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Creation of statistics...");
                 statsList.addAll((new StatsFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Creation of types...");
                 typesList.addAll((new TypesFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
 
             tasks.add(() -> {
                 changeLoadingText("Manufacturing of items...");
                 itemsList.addAll((new ItemsFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
             tasks.add(() -> {
                 changeLoadingText("Creation of abilities...");
                 abilitiesList.addAll((new AbilitiesFetcher(this)).fetchAndCache());
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
             tasks.add(() -> {
                 changeLoadingText("Creation of caught inventory...");
                 caughtInventory.set((new CaughtInventoryFetcher(this)).fetchAndCache(this.datastore.getUser().getId()));
-                setProgress();
+                executorListener.onEnd(1);
                 return null;
             });
+
+            // Execute tasks in background
 
             // Wait for all tasks to be done without blocking the UI thread
             // TODO : The UI thread is blocked for now :(
             try {
-                for (Future<Void> future : executor.invokeAll(tasks)) {
-                    future.get();
-                }
-            } catch (InterruptedException | ExecutionException e) {
+                executor.invokeAll(tasks);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-
-            // set type and stats for each pokemon
-            changeLoadingText("Identification of the Pokémons...");
-            for (Pokemon pokemon : pokemonList.get()) {
-                System.out.println("Pokemon id : " + pokemon.getId());
-                pokemon.setTypes(pokemonTypes.get().get(pokemon.getId()));
-                logOnUiThread("[INFO] Add types to pokemon " + pokemon.getName());
-                pokemon.setStats(pokemonStats.get().get(pokemon.getId()));
-                logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
-                pokemon.setAbilities(pokemonAbilities.get().get(pokemon.getId()));
-                logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
-                pokemon.setImageID(
-                        getResources()
-                                .getIdentifier(
-                                        "p" + String.format("%03d", pokemon.getId()),
-                                        "drawable",
-                                        getPackageName()
-                                )
-                );
-                List<Integer> typesDrawables = new ArrayList<>();
-                for (int i = 0; i < pokemon.getTypes().size(); i++) {
-                    typesDrawables.add(
-                            getResources().getIdentifier(
-                                    "t" + String.format("%02d", pokemon.getTypes().get(i)),
-                                    "drawable",
-                                    getPackageName()
-                            ));
-                }
-                pokemon.setImageTypeID(typesDrawables);
-                // get place of the pokemon in the list
-                int pokemonIndex = pokemonList.get().indexOf(pokemon);
-                // get the pokemon from the list
-                pokemonList.get().set(pokemonIndex, pokemon);
-            }
-            setProgress();
-
-            this.datastore = Datastore.getInstance();
-            this.datastore.setPokemons(pokemonList.get())
-                    .setItems(itemsList)
-                    .setStats(statsList)
-                    .setTypes(typesList)
-                    .setAbilities(abilitiesList)
-                    .setCaughtInventory(caughtInventory.get());
-
-            // Close executor
-            executor.shutdown();
-
-            // Start MainActivity
-            changeLoadingText("Pokémon are ready to fight!");
-            setProgress();
-
-            if (this.datastore.getUser().isInit()) {
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(this, InitActivity.class);
-                startActivity(intent);
-                finish();
             }
         }
     }

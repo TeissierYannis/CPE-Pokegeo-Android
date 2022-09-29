@@ -29,9 +29,8 @@ public class StatsFetcher {
             try {
                 statList = DataFetcher.fetchStatList().getStatsList();
                 Cache.writeCache(this.ctx, "data_stats", statList);
-                logOnUiThread("[CACHE] Stat list cached");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Stat list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
         return statList;

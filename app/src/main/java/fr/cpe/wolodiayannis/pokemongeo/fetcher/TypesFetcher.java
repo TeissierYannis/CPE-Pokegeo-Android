@@ -31,7 +31,7 @@ public class TypesFetcher {
                 Cache.writeCache(this.ctx, "data_types", typeList);
                 logOnUiThread("[CACHE] Type list cached");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Types list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
         return typeList;

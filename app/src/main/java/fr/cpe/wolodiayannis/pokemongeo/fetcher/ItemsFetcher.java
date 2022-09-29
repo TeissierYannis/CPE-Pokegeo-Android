@@ -31,7 +31,7 @@ public class ItemsFetcher {
                 Cache.writeCache(this.ctx, "data_items", itemList);
                 logOnUiThread("[CACHE] Item list cached");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Items list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
         return itemList;

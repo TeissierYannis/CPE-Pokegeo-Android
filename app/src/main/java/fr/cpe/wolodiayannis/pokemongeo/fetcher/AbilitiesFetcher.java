@@ -31,7 +31,7 @@ public class AbilitiesFetcher {
                 Cache.writeCache(this.ctx, "data_abilities", abilityList);
                 logOnUiThread("[CACHE] Ability list cached");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Abilities list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
         return abilityList;

@@ -25,17 +25,15 @@ public class CaughtInventoryFetcher {
             if (caughtPokemonList == null || caughtPokemonList.getcaughtInventoryList().size() == 0) {
                 throw new Exception("CaughtInventory is null or empty");
             }
-            logOnUiThread("[CACHE] Caught pokemon list loaded from cache");
         } catch (Exception e) {
             try {
                 caughtPokemonList = DataFetcher.fetchCaughtPokemonList(userID);
                 if (caughtPokemonList != null) {
                     Cache.writeCache(this.ctx, "data_caught_pokemon", caughtPokemonList);
-                    logOnUiThread("[CACHE] Caught pokemon list saved to cache");
                 }
                 throw new Exception("CaughtInventory is null or empty");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Caught pokemon list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
         return caughtPokemonList;

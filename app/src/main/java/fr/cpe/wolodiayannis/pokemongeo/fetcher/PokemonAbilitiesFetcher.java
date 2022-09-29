@@ -27,7 +27,6 @@ public class PokemonAbilitiesFetcher {
                 abilityList = DataFetcher.fetchPokemonAbilities();
                 Cache.writeCache(this.ctx, "data_pokemon_abilities", abilityList);
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon abilities list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();
             }
         }
