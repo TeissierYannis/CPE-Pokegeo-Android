@@ -392,9 +392,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .setAbilities(this.abilitiesList)
                 .setCaughtInventory(this.caughtInventory.get());
 
-        // Close executor
-        this.executor.shutdown();
-
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");
         setProgress();
@@ -406,6 +403,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             intent = new Intent(this, MainActivity.class);
         }
         startActivity(intent);
+        finish();
     }
 
     private void taskEnd(Integer taskID) {
@@ -415,18 +413,18 @@ public class SplashScreenActivity extends AppCompatActivity {
         this.tasksDone.add(taskID);
         // Check if all tasks are done
         if (this.tasksDone.size() == this.tasksToDo) {
+            this.executor.shutdown();
             // Update pokemon and switch activity
             updatePokemonAndSwitchActivity();
         }
     }
 
-    private ExecutorService executor = Executors.newFixedThreadPool(9);
+    private ExecutorService executor;
     private AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
     private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
-    ;
     private List<Stat> statsList = new ArrayList<>();
     private List<Type> typesList = new ArrayList<>();
     private List<Item> itemsList = new ArrayList<>();
@@ -459,10 +457,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             progressBar.setScaleY(2f);
             progressBar.setProgress(0);
             // Launch multiple tasks in parallel
+            this.executor = Executors.newFixedThreadPool(9);
             List<Callable<Void>> tasks = new ArrayList<>();
             // Set a listener on the executor
             ExecutorListener executorListener = this::taskEnd;
-
             // Fetching tasks
             tasks.add(() -> {
                 changeLoadingText("Fetching Pokémon...");
@@ -525,10 +523,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 return null;
             });
 
-            // Execute tasks in background
-
-            // Wait for all tasks to be done without blocking the UI thread
-            // TODO : The UI thread is blocked for now :(
             try {
                 executor.invokeAll(tasks);
             } catch (InterruptedException e) {
