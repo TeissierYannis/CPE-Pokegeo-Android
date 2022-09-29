@@ -4,6 +4,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -41,6 +42,34 @@ public class CaughtInventory implements Serializable {
      */
     public HashMap<Pokemon, CaughtPokemon> getcaughtInventoryList() {
         return caughtInventoryList;
+    }
+
+
+    /**
+     * Add a pokemon to the caught inventory list.
+     * @param pokemon The pokemon to add.
+     * @param caughtPokemon The caught pokemon to add.
+     */
+    public void addPokemon(Pokemon pokemon, CaughtPokemon caughtPokemon) {
+        this.caughtInventoryList.put(pokemon, caughtPokemon);
+    }
+
+    /**
+     * Add a pokemon to the caught inventory list.
+     * @param pokemon The pokemon to add.
+     */
+    public void addPokemon(Pokemon pokemon, int user_id) {
+        this.caughtInventoryList.put(
+                pokemon,
+                new CaughtPokemon(
+
+                        user_id,
+                        pokemon.getId(),
+                        0,
+                        pokemon.getHp(),
+                        new Timestamp(System.currentTimeMillis())
+                )
+        );
     }
 
     /**

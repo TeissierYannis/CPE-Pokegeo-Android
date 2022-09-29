@@ -38,9 +38,11 @@ public class InitActivity extends AppCompatActivity {
     private TextView textView_Dialog;
     private Button button_YESSS;
 
-    private final int BULBASAUR_CLICK = 1;
-    private final int CHARMANDER_CLICK = 2;
-    private final int SQUIRTLE_CLICK = 3;
+    private final int BULBASAUR = 1;
+    private final int CHARMANDER = 4;
+    private final int SQUIRTLE = 7;
+
+    private int starterChoice = -1;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -90,7 +92,7 @@ public class InitActivity extends AppCompatActivity {
         starterBox_Bulbasaur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setViewOnCLick(BULBASAUR_CLICK);
+                setViewOnCLick(BULBASAUR);
             }
         });
 
@@ -98,7 +100,7 @@ public class InitActivity extends AppCompatActivity {
         starterBox_Charmander.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setViewOnCLick(CHARMANDER_CLICK);
+                setViewOnCLick(CHARMANDER);
             }
         });
 
@@ -106,7 +108,7 @@ public class InitActivity extends AppCompatActivity {
         starterBox_Squirtle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setViewOnCLick(SQUIRTLE_CLICK);
+                setViewOnCLick(SQUIRTLE);
             }
         });
 
@@ -156,19 +158,22 @@ public class InitActivity extends AppCompatActivity {
 
         switch (STARTER_CLICK) {
 
-            case BULBASAUR_CLICK:
+            case BULBASAUR:
                 imageView_Bulbasaur.setVisibility(View.VISIBLE);
                 textView_Dialog.setText(R.string.init_text_bulbasaur_choice);
+                starterChoice = BULBASAUR;
                 break;
 
-            case CHARMANDER_CLICK:
+            case CHARMANDER:
                 imageView_Charmander.setVisibility(View.VISIBLE);
                 textView_Dialog.setText(R.string.init_text_charmander_choice);
+                starterChoice = CHARMANDER;
                 break;
 
-            case SQUIRTLE_CLICK:
+            case SQUIRTLE:
                 imageView_Squirtle.setVisibility(View.VISIBLE);
                 textView_Dialog.setText(R.string.init_text_squirtle_choice);
+                starterChoice = SQUIRTLE;
                 break;
 
             default:
@@ -178,6 +183,6 @@ public class InitActivity extends AppCompatActivity {
     }
 
     private void addStarterToInventory() {
-        // TODO add the starter to the inventory
+        datastore.getCaughtInventory().addPokemon(datastore.getPokemons().get(starterChoice), datastore.getUser().getId());
     }
 }
