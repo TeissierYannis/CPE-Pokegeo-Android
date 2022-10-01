@@ -22,7 +22,7 @@ public class CaughtInventoryFetcher {
         try {
             caughtPokemonList = (CaughtInventory) Cache.readCache(this.ctx, "data_caught_pokemon");
             // if list is null, fetch it
-            if (caughtPokemonList == null || caughtPokemonList.getcaughtInventoryList().size() == 0) {
+            if (caughtPokemonList == null) {
                 throw new Exception("CaughtInventory is null or empty");
             }
         } catch (Exception e) {
@@ -31,7 +31,6 @@ public class CaughtInventoryFetcher {
                 if (caughtPokemonList != null) {
                     Cache.writeCache(this.ctx, "data_caught_pokemon", caughtPokemonList);
                 }
-                throw new Exception("CaughtInventory is null or empty");
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

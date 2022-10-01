@@ -24,7 +24,6 @@ public class StatsFetcher {
         List<Stat> statList = new ArrayList<>();
         try {
             statList = (List<Stat>) Cache.readCache(this.ctx, "data_stats");
-            logOnUiThread("[CACHE] Stat list loaded from cache");
         } catch (Exception e) {
             try {
                 statList = DataFetcher.fetchStatList().getStatsList();

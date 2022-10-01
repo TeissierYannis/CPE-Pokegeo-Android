@@ -24,12 +24,10 @@ public class AbilitiesFetcher {
         List<Ability> abilityList = new ArrayList<>();
         try {
             abilityList = (List<Ability>) Cache.readCache(this.ctx, "data_abilities");
-            logOnUiThread("[CACHE] Ability list loaded from cache");
         } catch (Exception e) {
             try {
                 abilityList = DataFetcher.fetchAbilityList().getAbilityList();
                 Cache.writeCache(this.ctx, "data_abilities", abilityList);
-                logOnUiThread("[CACHE] Ability list cached");
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

@@ -35,7 +35,6 @@ public class UserLoginFetcher {
                 User user = DataFetcher.checkUser(pseudo, password);
                 datastore.setUser(user);
                 Cache.writeCache(this.ctx, "data_user", user);
-                logOnUiThread("[CACHE] User cached");
             } catch (Exception exception) {
                 logOnUiThreadError("[CACHE] User cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();

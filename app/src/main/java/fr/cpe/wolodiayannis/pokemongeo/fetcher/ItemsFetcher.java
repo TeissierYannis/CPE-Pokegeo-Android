@@ -24,12 +24,10 @@ public class ItemsFetcher {
         List<Item> itemList = new ArrayList<>();
         try {
             itemList = (List<Item>) Cache.readCache(this.ctx, "data_items");
-            logOnUiThread("[CACHE] Item list loaded from cache");
         } catch (Exception e) {
             try {
                 itemList = DataFetcher.fetchItemList().getItemList();
                 Cache.writeCache(this.ctx, "data_items", itemList);
-                logOnUiThread("[CACHE] Item list cached");
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

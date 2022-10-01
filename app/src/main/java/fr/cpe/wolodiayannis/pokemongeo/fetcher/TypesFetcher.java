@@ -24,12 +24,10 @@ public class TypesFetcher {
         List<Type> typeList = new ArrayList<>();
         try {
             typeList = (List<Type>) Cache.readCache(this.ctx, "data_types");
-            logOnUiThread("[CACHE] Type list loaded from cache");
         } catch (Exception e) {
             try {
                 typeList = DataFetcher.fetchTypeList().getTypeList();
                 Cache.writeCache(this.ctx, "data_types", typeList);
-                logOnUiThread("[CACHE] Type list cached");
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

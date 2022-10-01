@@ -5,9 +5,6 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
@@ -27,11 +24,9 @@ import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonTypesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.StatsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
 
-public class FetchThread {
+public class FetchThreading extends Threading {
 
-    private ExecutorService executor;
     private AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
@@ -41,17 +36,11 @@ public class FetchThread {
     private List<Type> typesList = new ArrayList<>();
     private List<Item> itemsList = new ArrayList<>();
     private List<Ability> abilitiesList = new ArrayList<>();
-    List<Callable<Void>> tasks = new ArrayList<>();
-    private ExecutorListener executorListener;
 
-    public FetchThread() {}
+    public FetchThreading() {}
 
-    public FetchThread setupExecutor() {
-        this.executor = Executors.newFixedThreadPool(9);
-        return this;
-    }
-
-    public FetchThread setupTasks(Context context) {
+    @Override
+    public FetchThreading setupTasks(Context context) {
         // Fetching tasks
         tasks.add(() -> {
             changeLoadingText("Fetching Pokémon...");
@@ -113,26 +102,6 @@ public class FetchThread {
             this.onEnd(9);
             return null;
         });
-        return this;
-    }
-
-
-    public FetchThread execute() {
-        try {
-            executor.invokeAll(tasks);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
-    public FetchThread shutdown() {
-        executor.shutdown();
-        return this;
-    }
-
-    public FetchThread setExecutorListener(ExecutorListener executorListener) {
-        this.executorListener = executorListener;
         return this;
     }
 
