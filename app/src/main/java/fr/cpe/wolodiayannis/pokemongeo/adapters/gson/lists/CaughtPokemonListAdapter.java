@@ -7,6 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
@@ -34,21 +35,48 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
          *       "pokemon_id": 1
          *       "pokemon_experience": 0
          *       "current_life_state": 0
-         *       "caught_time": 1664355450
          *     },
          *     {
          *       "user_id": 1,
          *       "pokemon_id": 2
          *       "pokemon_experience": 0
          *       "current_life_state": 0
-         *       "caught_time": 1664355450
          *     }
          *     ...
          *   ]
          * }
          */
 
-        // TODO
+        out.beginObject();
+        out.name("message").value("success");
+        out.name("data");
+        out.beginArray();
+
+        for (int i = 0; i < value.getcaughtInventoryList().size(); i++) {
+            out.beginObject();
+
+            Pokemon pokemon = (Pokemon) value.getcaughtInventoryList().keySet().toArray()[i];
+
+            out.name("user_id").value(Objects.requireNonNull(
+                    value.getcaughtInventoryList().get(pokemon))
+                    .getUser_id());
+
+            out.name("pokemon_id").value(Objects.requireNonNull(
+                    value.getcaughtInventoryList().get(pokemon))
+                    .getPokemon_id());
+
+            out.name("pokemon_experience").value(Objects.requireNonNull(
+                    value.getcaughtInventoryList().get(pokemon))
+                    .getPokemon_experience());
+
+            out.name("current_life_state").value(Objects.requireNonNull(
+                    value.getcaughtInventoryList().get(pokemon))
+                    .getCurrent_life_state());
+
+            out.endObject();
+        }
+        out.endArray();
+        out.endObject();
     }
 
     /**

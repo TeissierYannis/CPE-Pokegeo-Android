@@ -68,7 +68,7 @@ public class DataFetcher {
         return CaughtInventoryRequest.getCaughtInventory(userId);
     }
 
-    public static void addCaughtPokemon(CaughtPokemon caughtPokemon) {
-        // TODO
+    public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
+        return CaughtInventoryRequest.addCaughtPokemon(caughtPokemon);
     }
 }

@@ -73,54 +73,33 @@ public class InitActivity extends AppCompatActivity {
         textView_Dialog.setText(R.string.init_text_01);
 
         // changement du dialog lors du click sur la view
-        mother_Layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDialog_toNext();
+        mother_Layout.setOnClickListener(v -> {
+            setDialog_toNext();
 
-                if (datastore.getUser().isInit()) {
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+            if (datastore.getUser().isInit()) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
         // changement du dialog lors du click la box de bulbasaur
-        starterBox_Bulbasaur.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewOnCLick(BULBASAUR);
-            }
-        });
+        starterBox_Bulbasaur.setOnClickListener(v -> setViewOnCLick(BULBASAUR));
 
         // changement du dialog lors du click la box de charmander
-        starterBox_Charmander.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewOnCLick(CHARMANDER);
-            }
-        });
+        starterBox_Charmander.setOnClickListener(v -> setViewOnCLick(CHARMANDER));
 
         // changement du dialog lors du click la box de squirtle
-        starterBox_Squirtle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewOnCLick(SQUIRTLE);
-            }
-        });
+        starterBox_Squirtle.setOnClickListener(v -> setViewOnCLick(SQUIRTLE));
 
         // changement du dialog lors du click sur le bouton YESSS
-        button_YESSS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button_YESSS.setVisibility(View.INVISIBLE);
-                starterBox_Layout.setVisibility(View.INVISIBLE);
-                imageView_Professor.setVisibility(View.VISIBLE);
-                textView_Dialog.setText(R.string.init_text_04);
-                datastore.getUser().setInit(true);
-                addStarterToInventory();
-            }
+        button_YESSS.setOnClickListener(v -> {
+            button_YESSS.setVisibility(View.INVISIBLE);
+            starterBox_Layout.setVisibility(View.INVISIBLE);
+            imageView_Professor.setVisibility(View.VISIBLE);
+            textView_Dialog.setText(R.string.init_text_04);
+            datastore.getUser().setInit(true);
+            addStarterToInventory();
         });
     }
 

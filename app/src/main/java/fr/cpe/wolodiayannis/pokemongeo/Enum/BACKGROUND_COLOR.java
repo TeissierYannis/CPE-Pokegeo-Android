@@ -21,6 +21,7 @@ public class BACKGROUND_COLOR {
     public static final int Dark = 0xFF705848;
     public static final int Steel = 0xFFB8B8D0;
     public static final int Fairy = 0xFFEE99AC;
+    public static final int Shadow = 0x00000000;
     public static final int Unknown = 0xFF000000;
 
     public static int valueOf(String name) {

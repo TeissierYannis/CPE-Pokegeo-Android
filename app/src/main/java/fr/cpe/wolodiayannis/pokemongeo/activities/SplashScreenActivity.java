@@ -491,11 +491,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
                     .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    });
+                    .setPositiveButton("OK", (dialog, id) -> finish());
             AlertDialog alert = builder.create();
             alert.show();
             return false;
