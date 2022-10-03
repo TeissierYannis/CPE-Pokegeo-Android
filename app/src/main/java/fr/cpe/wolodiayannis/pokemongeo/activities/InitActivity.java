@@ -16,7 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 
 public class InitActivity extends AppCompatActivity {
@@ -159,6 +161,8 @@ public class InitActivity extends AppCompatActivity {
     }
 
     private void addStarterToInventory() {
-        datastore.getCaughtInventory().addPokemon(datastore.getPokemons().get(starterChoice), datastore.getUser().getId());
+        CaughtPokemon cp = datastore.getCaughtInventory().addPokemon(datastore.getPokemons().get(starterChoice), datastore.getUser().getId());
+        // Avoid NetworkOnMainThreadException and call Datafetcher
+        new Thread(() -> DataFetcher.addCaughtPokemon(cp)).start();
     }
 }

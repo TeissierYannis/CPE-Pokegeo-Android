@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
@@ -31,6 +34,7 @@ public class CaughtInventory implements Serializable {
     /**
      * Constructor.
      * set the caught inventory HashMap.
+     *
      * @param caughtInventoryList The caught inventory list
      */
     public CaughtInventory(HashMap<Pokemon, CaughtPokemon> caughtInventoryList) {
@@ -39,6 +43,7 @@ public class CaughtInventory implements Serializable {
 
     /**
      * Get the caught inventory list.
+     *
      * @return The caught inventory list.
      */
     public HashMap<Pokemon, CaughtPokemon> getcaughtInventoryList() {
@@ -48,7 +53,8 @@ public class CaughtInventory implements Serializable {
 
     /**
      * Add a pokemon to the caught inventory list.
-     * @param pokemon The pokemon to add.
+     *
+     * @param pokemon       The pokemon to add.
      * @param caughtPokemon The caught pokemon to add.
      */
     public void addPokemon(Pokemon pokemon, CaughtPokemon caughtPokemon) {
@@ -57,9 +63,10 @@ public class CaughtInventory implements Serializable {
 
     /**
      * Add a pokemon to the caught inventory list.
+     *
      * @param pokemon The pokemon to add.
      */
-    public void addPokemon(Pokemon pokemon, int user_id) {
+    public CaughtPokemon addPokemon(Pokemon pokemon, int user_id) {
 
         CaughtPokemon caughtPokemon = new CaughtPokemon(
                 user_id,
@@ -73,15 +80,13 @@ public class CaughtInventory implements Serializable {
                 pokemon,
                 caughtPokemon
         );
-        try {
-            new Thread(() -> DataFetcher.addCaughtPokemon(caughtPokemon));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        return caughtPokemon;
     }
 
     /**
      * Check if two items are equals.
+     *
      * @param o Item to compare.
      * @return True if equals, false otherwise.
      */

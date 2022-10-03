@@ -36,11 +36,9 @@ public class CaughtInventoryRequest extends BaseRequest {
     public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
         boolean res = false;
 
+
         Call<Boolean> call = getAPI().addCaughtPokemon(
-                caughtPokemon.getUser_id(),
-                caughtPokemon.getPokemon_id(),
-                caughtPokemon.getPokemon_experience(),
-                caughtPokemon.getCurrent_life_state()
+                caughtPokemon
         );
         try {
             res = Boolean.TRUE.equals(call.execute().body());
