@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 
 /**
  * Items inventory class.
@@ -59,17 +60,24 @@ public class CaughtInventory implements Serializable {
      * @param pokemon The pokemon to add.
      */
     public void addPokemon(Pokemon pokemon, int user_id) {
+
+        CaughtPokemon caughtPokemon = new CaughtPokemon(
+                user_id,
+                pokemon.getId(),
+                0,
+                pokemon.getHp(),
+                new Timestamp(System.currentTimeMillis())
+        );
+
         this.caughtInventoryList.put(
                 pokemon,
-                new CaughtPokemon(
-
-                        user_id,
-                        pokemon.getId(),
-                        0,
-                        pokemon.getHp(),
-                        new Timestamp(System.currentTimeMillis())
-                )
+                caughtPokemon
         );
+        try {
+            new Thread(() -> DataFetcher.addCaughtPokemon(caughtPokemon));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
