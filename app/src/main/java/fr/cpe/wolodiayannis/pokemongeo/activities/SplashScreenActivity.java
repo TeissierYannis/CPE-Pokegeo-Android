@@ -188,6 +188,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                         } else {
                             // Run toast in UI thread
                             runOnUiThread(() -> {
+                                idEditText_login.setEnabled(true);
+                                passwordEditText_login.setEnabled(true);
+                                loginButton_login.setEnabled(true);
+                                signupButton_login.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "Incorrect pseudo or password", Toast.LENGTH_SHORT).show();
                             });
                         }
@@ -207,7 +211,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                             .execute();
                 }).start();
 
-                // TODO : Lock fields and show loading
+                // TODO : Add a spinner
+                idEditText_login.setEnabled(false);
+                passwordEditText_login.setEnabled(false);
+                loginButton_login.setEnabled(false);
+                signupButton_login.setEnabled(false);
 
                 // close the keyboard
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -288,6 +296,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                             });
                         } else {
                             runOnUiThread(() -> {
+                                emailEditText_signup.setEnabled(true);
+                                pseudoEditText_signup.setEnabled(true);
+                                passwordEditText_signup.setEnabled(true);
+                                passwordConfirmEditText_signup.setEnabled(true);
+                                signupButton_signup.setEnabled(true);
+                                backArrow_signup.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "User already exist", Toast.LENGTH_SHORT).show();
                             });
                         }
@@ -307,7 +321,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                             .setupTasks(this)
                             .execute();
                 }).start();
-                // TODO : Lock fields and show loading
+                // TODO : Add a spinner
+                emailEditText_signup.setEnabled(false);
+                pseudoEditText_signup.setEnabled(false);
+                passwordEditText_signup.setEnabled(false);
+                passwordConfirmEditText_signup.setEnabled(false);
+                signupButton_signup.setEnabled(false);
+                backArrow_signup.setEnabled(false);
 
                 // close the keyboard
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -468,14 +488,16 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void taskEnd(int taskID) {
-        setProgress();
-        this.tasksDone.add(taskID);
+        runOnUiThread(() -> {
+            setProgress();
+            this.tasksDone.add(taskID);
 
-        int tasksToDo = 9;
-        if (this.tasksDone.size() == tasksToDo) {
-            this.fetchThreading.shutdown();
-            updatePokemonAndSwitchActivity();
-        }
+            int tasksToDo = 9;
+            if (this.tasksDone.size() == tasksToDo) {
+                this.fetchThreading.shutdown();
+                updatePokemonAndSwitchActivity();
+            }
+        });
     }
 
 
