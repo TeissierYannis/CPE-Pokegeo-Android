@@ -5,6 +5,7 @@ import fr.cpe.wolodiayannis.pokemongeo.api.CaughtInventoryAPI;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class CaughtInventoryRequest extends BaseRequest {
 
@@ -34,18 +35,17 @@ public class CaughtInventoryRequest extends BaseRequest {
     }
 
     public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
-        boolean res = false;
 
-
-        Call<Boolean> call = getAPI().addCaughtPokemon(
+        Call<?> call = getAPI().addCaughtPokemon(
                 caughtPokemon
         );
         try {
-            res = Boolean.TRUE.equals(call.execute().body());
+            call.execute();
             LogAPI("Add pokemon " + caughtPokemon.getPokemon_id() + " of user ID : " + caughtPokemon.getUser_id());
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return res;
+        return true;
     }
 }

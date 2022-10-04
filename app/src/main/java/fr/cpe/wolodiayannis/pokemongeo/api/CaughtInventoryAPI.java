@@ -25,6 +25,6 @@ public interface CaughtInventoryAPI extends BaseAPI {
      * add a pokemon to the caught inventory.
      */
     @POST("inventory/caught")
-    Call<Boolean> addCaughtPokemon(@Body CaughtPokemon body);
+    Call<?> addCaughtPokemon(@Body CaughtPokemon body);
 }
 

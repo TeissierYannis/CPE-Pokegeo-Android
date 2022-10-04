@@ -6,9 +6,10 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.CaughtPokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.CaughtPokemonAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
 
-@JsonAdapter(CaughtPokemonListAdapter.class)
+@JsonAdapter(CaughtPokemonAdapter.class)
 public class CaughtPokemon {
 
     @SerializedName("user_id")
