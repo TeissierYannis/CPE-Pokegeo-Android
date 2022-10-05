@@ -290,8 +290,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                         if (Datastore.getInstance().getUser() != null) {
                             runOnUiThread(() -> {
                                 dialog.cancel();
-                                Toast.makeText(getApplicationContext(), "Log In successful", Toast.LENGTH_SHORT).show();
-                                loginThreading.shutdown();
+                                Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                                registerThreading.shutdown();
                                 animateAndInitFetching();
                             });
                         } else {
