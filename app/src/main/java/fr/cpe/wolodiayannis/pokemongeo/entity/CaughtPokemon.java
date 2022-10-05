@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.CaughtPokemonAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
 
 @JsonAdapter(CaughtPokemonAdapter.class)
-public class CaughtPokemon {
+public class CaughtPokemon implements Serializable {
 
     @SerializedName("user_id")
     private final int user_id;
