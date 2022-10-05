@@ -22,7 +22,7 @@ public class UserRegisterFetcher {
         try {
             User userFromDB = DataFetcher.createUser(user, password);
             if (null != userFromDB) {
-                Cache.writeCache(this.ctx, "data_user", user);
+                Cache.writeCache(this.ctx, "data_user", userFromDB);
             }
             logOnUiThread("[CACHE] User cached");
         } catch (Exception e) {

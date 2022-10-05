@@ -6,6 +6,7 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 import android.content.Context;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
@@ -39,17 +40,15 @@ public class CaughtInventoryFetcher {
         return caughtPokemonList;
     }
 
-    public boolean updateAndCache(CaughtPokemon caughtPokemon) {
-        boolean res = false;
+    public void updateAndCache(CaughtPokemon caughtPokemon) {
         try {
             if (caughtPokemon != null) {
-                res = DataFetcher.addCaughtPokemon(caughtPokemon);
-                Cache.writeCache(this.ctx, "data_caught_pokemon", caughtPokemon);
+                DataFetcher.addCaughtPokemon(caughtPokemon);
+                Cache.writeCache(this.ctx, "data_caught_pokemon", Datastore.getInstance().getCaughtInventory());
             }
             logOnUiThread("[CACHE] CaughtInventory cached");
         } catch (Exception e) {
             logOnUiThreadError("[CACHE] CaughtInventory cannot be cached : " + e.getMessage());
         }
-        return res;
     }
 }

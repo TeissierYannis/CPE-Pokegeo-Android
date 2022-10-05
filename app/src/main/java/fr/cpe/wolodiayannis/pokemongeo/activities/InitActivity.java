@@ -13,12 +13,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserUpdateFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 
 public class InitActivity extends AppCompatActivity {
@@ -161,8 +165,21 @@ public class InitActivity extends AppCompatActivity {
     }
 
     private void addStarterToInventory() {
+
+        if (datastore.getCaughtInventory() == null) {
+            datastore.setCaughtInventory(new CaughtInventory());
+        }
+
         CaughtPokemon cp = datastore.getCaughtInventory().addPokemon(datastore.getPokemons().get(starterChoice), datastore.getUser().getId());
         // Avoid NetworkOnMainThreadException and call Datafetcher
-        new Thread(() -> DataFetcher.addCaughtPokemon(cp)).start();
+        new Thread(() ->
+        {
+            (new CaughtInventoryFetcher(this)).updateAndCache(cp);
+            try {
+                (new UserUpdateFetcher(this)).fetchAndCache(datastore.getUser(), true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

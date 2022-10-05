@@ -24,7 +24,7 @@ public class UserLoginFetcher {
         // Check if user is already cached
         try {
             User user = (User) Cache.readCache(this.ctx, "data_user");
-            if (user == null) {
+            if (user == null || user.getId() == 0) {
                 throw new CacheException("User not found in cache");
             }
             datastore.setUser(user);

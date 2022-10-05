@@ -2,6 +2,7 @@ package fr.cpe.wolodiayannis.pokemongeo.api.request;
 
 import java.io.IOException;
 import fr.cpe.wolodiayannis.pokemongeo.api.CaughtInventoryAPI;
+import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import retrofit2.Call;
@@ -36,7 +37,7 @@ public class CaughtInventoryRequest extends BaseRequest {
 
     public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
 
-        Call<?> call = getAPI().addCaughtPokemon(
+        Call<BasicResponse> call = getAPI().addCaughtPokemon(
                 caughtPokemon
         );
         try {

@@ -71,4 +71,8 @@ public class DataFetcher {
     public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
         return CaughtInventoryRequest.addCaughtPokemon(caughtPokemon);
     }
+
+    public static boolean updateUserIsInit(int userId, boolean isInit) {
+        return UserRequest.updateUserIsInit(userId, isInit);
+    }
 }

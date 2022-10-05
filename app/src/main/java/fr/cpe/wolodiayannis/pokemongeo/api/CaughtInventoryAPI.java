@@ -2,6 +2,7 @@ package fr.cpe.wolodiayannis.pokemongeo.api;
 
 import java.util.HashMap;
 
+import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -25,6 +26,6 @@ public interface CaughtInventoryAPI extends BaseAPI {
      * add a pokemon to the caught inventory.
      */
     @POST("inventory/caught")
-    Call<?> addCaughtPokemon(@Body CaughtPokemon body);
+    Call<BasicResponse> addCaughtPokemon(@Body CaughtPokemon body);
 }
 

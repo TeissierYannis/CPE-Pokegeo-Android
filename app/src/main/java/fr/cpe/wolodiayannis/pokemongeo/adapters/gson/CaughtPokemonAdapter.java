@@ -36,7 +36,6 @@ public class CaughtPokemonAdapter extends TypeAdapter<CaughtPokemon> {
          *    }
          *
          */
-        System.out.println(in.peek());
         in.beginObject();
         in.nextName();
         int user_id = in.nextInt();
