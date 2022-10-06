@@ -46,6 +46,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
 import fr.cpe.wolodiayannis.pokemongeo.threading.FetchThreading;
 import fr.cpe.wolodiayannis.pokemongeo.threading.LoginThreading;
@@ -482,6 +483,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             caughtInventoryList.put(Datastore.getInstance().getPokemons().get(caughtInventory.getPokemonId()), caughtInventory);
         }
         Datastore.getInstance().setCaughtInventory(new CaughtInventory(caughtInventoryList));
+        try {
+            (new CaughtInventoryFetcher(this)).cacheInventory(Datastore.getInstance().getCaughtInventory());
+        } catch (CacheException e) {
+            logOnUiThread("Error while caching inventory");
+            e.printStackTrace();
+        }
 
         Intent intent;
         if (!this.datastore.getUser().isInit()) {
