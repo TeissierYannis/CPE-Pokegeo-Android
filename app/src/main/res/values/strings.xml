@@ -44,7 +44,6 @@
     <string name="password_example">password</string>
     <string name="same_password_example">same password</string>
     <string name="return_text">Return</string>
-<<<<<<< HEAD
     <!-- Init texts -->
     <string name="init_text_01">Hey ! Welcome to PokeGéo ! I am the professor. My name is Sycamore ! </string>
     <string name="init_text_02">Let me introduce you, the pokemon you can choose !</string>
@@ -62,8 +61,6 @@
     <string name="starter_3_desc">Starter 3</string>
     <string name="professor_sycanore_desc">Professor sycanore</string>
     <string name="button_yesss_txt">YESSS !</string>
-=======
->>>>>>> b9cfbe6 (add actions box and pokémons titles on fight fragment)
     <string name="button_fight">Fight</string>
     <string name="button_pokemon">Pokémon</string>
     <string name="button_bag">Bag</string>
