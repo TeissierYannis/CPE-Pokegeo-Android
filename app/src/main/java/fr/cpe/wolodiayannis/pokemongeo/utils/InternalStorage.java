@@ -3,7 +3,6 @@ package fr.cpe.wolodiayannis.pokemongeo.utils;
 import android.content.Context;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;

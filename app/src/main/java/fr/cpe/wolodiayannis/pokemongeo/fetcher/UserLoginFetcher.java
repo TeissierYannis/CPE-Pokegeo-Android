@@ -24,7 +24,7 @@ public class UserLoginFetcher {
         // Check if user is already cached
         try {
             User user = (User) Cache.readCache(this.ctx, "data_user");
-            if (user == null) {
+            if (user == null || user.getId() == 0) {
                 throw new CacheException("User not found in cache");
             }
             datastore.setUser(user);
@@ -35,7 +35,6 @@ public class UserLoginFetcher {
                 User user = DataFetcher.checkUser(pseudo, password);
                 datastore.setUser(user);
                 Cache.writeCache(this.ctx, "data_user", user);
-                logOnUiThread("[CACHE] User cached");
             } catch (Exception exception) {
                 logOnUiThreadError("[CACHE] User cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();

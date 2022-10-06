@@ -3,9 +3,12 @@ package fr.cpe.wolodiayannis.pokemongeo.api.request;
 import java.io.IOException;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.UserAPI;
+import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserIsInit;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 import retrofit2.Call;
 
@@ -62,5 +65,28 @@ public class UserRequest extends BaseRequest {
             Datastore.getInstance().setUser(null);
         }
         return userFromDB;
+    }
+
+    /**
+     * Update the user isInit
+     * @param userId User ID.
+     * @param isInit Is init.
+     * @return Boolean
+     */
+    public static Boolean updateUserIsInit(int userId, boolean isInit) {
+        UserIsInit userIsInit = new UserIsInit(userId, isInit);
+        Call<UserIsInit> call = getAPI().updateUserIsInit(userIsInit);
+        try {
+            call.execute();
+
+            Datastore.getInstance().getUser().setInit(isInit);
+
+            LogAPI("Update User");
+        } catch (Exception e) {
+            Logger.logOnUiThreadError(e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

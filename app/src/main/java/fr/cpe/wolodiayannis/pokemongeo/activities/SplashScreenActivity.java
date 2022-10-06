@@ -1,12 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.activities;
 
-
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -14,9 +12,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,42 +31,26 @@ import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
-import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemsFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonAbilitiesFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonStatsFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonTypesFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonsFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.StatsFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLoginFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserRegisterFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
+import fr.cpe.wolodiayannis.pokemongeo.threading.FetchThreading;
+import fr.cpe.wolodiayannis.pokemongeo.threading.LoginThreading;
+import fr.cpe.wolodiayannis.pokemongeo.threading.RegisterThreading;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 @SuppressLint("CustomSplashScreen")
@@ -103,8 +85,17 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressBarText;
 
-    private final int TASKS_NB = 8;
+    private final int TASKS_NB = 10;
     private final int prcPerTask = 100 / TASKS_NB;
+
+    /**
+     * The executor service.
+     */
+    FetchThreading fetchThreading;
+    LoginThreading loginThreading;
+    RegisterThreading registerThreading;
+
+    private final List<Integer> tasksDone = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -130,7 +121,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                             Manifest.permission.ACCESS_WIFI_STATE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_PHONE_STATE,
                     },
                     REQUEST_PERMISSIONS_REQUEST_CODE
             );
@@ -178,37 +170,60 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String pseudo = idEditText_login.getText().toString();
                 String password = passwordEditText_login.getText().toString();
 
-                ExecutorService executor = Executors.newFixedThreadPool(1);
-                List<Callable<Void>> tasks = new ArrayList<>();
+                ExecutorListener executorListener = new ExecutorListener() {
 
-                tasks.add(() -> {
-                    (new UserLoginFetcher(this)).fetchAndCache(pseudo, password);
-                    return null;
-                });
-                // invoke
-                try {
-                    executor.invokeAll(tasks);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    @Override
+                    public void onEnd(Integer taskID) {
+                        // if datastore get user is not null, go to main activity
+                        if (Datastore.getInstance().getUser() != null) {
+                            // add toast
+                            runOnUiThread(() -> {
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(), "Log In successful", Toast.LENGTH_SHORT).show();
+                                loginThreading.shutdown();
+                                animateAndInitFetching();
+                            });
+                        } else {
+                            // Run toast in UI thread
+                            runOnUiThread(() -> {
+                                idEditText_login.setEnabled(true);
+                                passwordEditText_login.setEnabled(true);
+                                loginButton_login.setEnabled(true);
+                                signupButton_login.setEnabled(true);
+                                Toast.makeText(getApplicationContext(), "Incorrect pseudo or password", Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    }
 
-                // Close executor
-                executor.shutdown();
+                    @Override
+                    public void onLoadingTextChange(String s) {
+                        changeLoadingText(s);
+                    }
 
-                // if datastore get user is not null, go to main activity
-                if (this.datastore.getUser() != null) {
-                    dialog.cancel();
-                    // add toast
-                    Toast.makeText(this, "Log In successful", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onTaskendSetProgress() {
+                        setProgress();
+                    }
+                };
 
-                    animateAndInitFetching();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
-                    builder.setMessage("Incorrect pseudo or password")
-                            .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
+                new Thread(() -> {
+                    this.loginThreading = new LoginThreading(pseudo, password);
+                    this.loginThreading
+                            .setupExecutor(1)
+                            .setExecutorListener(executorListener)
+                            .setupTasks(this)
+                            .execute();
+                }).start();
+
+                // TODO : Add a spinner
+                idEditText_login.setEnabled(false);
+                passwordEditText_login.setEnabled(false);
+                loginButton_login.setEnabled(false);
+                signupButton_login.setEnabled(false);
+
+                // close the keyboard
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(passwordEditText_login.getWindowToken(), 0);
             }
         });
 
@@ -264,9 +279,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 String pseudo = pseudoEditText_signup.getText().toString();
                 String password = passwordEditText_signup.getText().toString();
 
-                ExecutorService executor = Executors.newFixedThreadPool(1);
-                List<Callable<Void>> tasks = new ArrayList<>();
-
                 // New timestamp
                 Date date = new Date();
                 Timestamp timestamp = new Timestamp(date.getTime());
@@ -274,32 +286,61 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // user is pseudo, email, 0, 0, Timestamp now, null)
                 User user = new User(0, pseudo, email, 0, false, timestamp, null);
 
-                tasks.add(() -> {
-                    (new UserRegisterFetcher(this)).fetchAndCache(user, password);
-                    return null;
-                });
-                // invoke
-                try {
-                    executor.invokeAll(tasks);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                // Close executor
-                executor.shutdown();
+                ExecutorListener executorListener = new ExecutorListener() {
 
-                // if datastore get user is not null, go to main activity
-                if (this.datastore.getUser() != null) {
-                    dialog.cancel();
-                    // add toast
-                    Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                    animateAndInitFetching();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreenActivity.this);
-                    builder.setMessage("User is already registered")
-                            .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
+                    @Override
+                    public void onEnd(Integer taskID) {
+                        // if datastore get user is not null, go to main activity
+                        if (Datastore.getInstance().getUser() != null) {
+                            runOnUiThread(() -> {
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                                registerThreading.shutdown();
+                                animateAndInitFetching();
+                            });
+                        } else {
+                            runOnUiThread(() -> {
+                                emailEditText_signup.setEnabled(true);
+                                pseudoEditText_signup.setEnabled(true);
+                                passwordEditText_signup.setEnabled(true);
+                                passwordConfirmEditText_signup.setEnabled(true);
+                                signupButton_signup.setEnabled(true);
+                                backArrow_signup.setEnabled(true);
+                                Toast.makeText(getApplicationContext(), "User already exist", Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingTextChange(String s) {
+                        changeLoadingText(s);
+                    }
+
+                    @Override
+                    public void onTaskendSetProgress() {
+                        setProgress();
+                    }
+                };
+
+                new Thread(() -> {
+                    this.registerThreading = new RegisterThreading(user, password);
+                    this.registerThreading
+                            .setupExecutor(1)
+                            .setExecutorListener(executorListener)
+                            .setupTasks(this)
+                            .execute();
+                }).start();
+                // TODO : Add a spinner
+                emailEditText_signup.setEnabled(false);
+                pseudoEditText_signup.setEnabled(false);
+                passwordEditText_signup.setEnabled(false);
+                passwordConfirmEditText_signup.setEnabled(false);
+                signupButton_signup.setEnabled(false);
+                backArrow_signup.setEnabled(false);
+
+                // close the keyboard
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(passwordEditText_login.getWindowToken(), 0);
             }
         });
     }
@@ -338,7 +379,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void setProgress() {
-        progressBar.setProgress(this.progressBar.getProgress() + this.prcPerTask);
+        runOnUiThread(() -> progressBar.setProgress(this.progressBar.getProgress() + this.prcPerTask));
     }
 
     @SuppressLint("SetTextI18n")
@@ -349,8 +390,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     /**
      * Animation and init fetching
      */
-    public void animateAndInitFetching() {
-
+    private void animateAndInitFetching() {
         // Use AVD for animations
         ImageView imageView = findViewById(R.id.pika_face);
 
@@ -370,143 +410,124 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (isOnline()) {
             logOnUiThread("[ONLINE] You are online");
 
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
             progressBar.setMax(100);
             progressBar.setScaleY(2f);
             progressBar.setProgress(0);
-            // Launch multiple tasks in parallel
-            ExecutorService executor = Executors.newFixedThreadPool(8);
-            List<Callable<Void>> tasks = new ArrayList<>();
 
-            AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
-            AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
-            AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
-            AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
-            List<Stat> statsList = new ArrayList<>();
-            List<Type> typesList = new ArrayList<>();
-            List<Item> itemsList = new ArrayList<>();
-            List<Ability> abilitiesList = new ArrayList<>();
-
-            // Fetching tasks
-            tasks.add(() -> {
-                changeLoadingText("Fetching Pokémon...");
-                pokemonList.set((new PokemonsFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Pokémon's abilities training...");
-                pokemonAbilities.set((new PokemonAbilitiesFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Definition of Pokémon's types...");
-                pokemonTypes.set((new PokemonTypesFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Definition of Pokémon's stats...");
-                pokemonStats.set((new PokemonStatsFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Creation of statistics...");
-                statsList.addAll((new StatsFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Creation of types...");
-                typesList.addAll((new TypesFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-
-            tasks.add(() -> {
-                changeLoadingText("Manufacturing of items...");
-                itemsList.addAll((new ItemsFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-            tasks.add(() -> {
-                changeLoadingText("Creation of abilities...");
-                abilitiesList.addAll((new AbilitiesFetcher(this)).fetchAndCache());
-                setProgress();
-                return null;
-            });
-            // Wait for all tasks to be done without blocking the UI thread
-            // TODO : The UI thread is blocked for now :(
-            try {
-                for (Future<Void> future : executor.invokeAll(tasks)) {
-                    future.get();
+            ExecutorListener executorListener = new ExecutorListener() {
+                @Override
+                public void onEnd(Integer taskID) {
+                    taskEnd(taskID);
                 }
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
 
-            // set type and stats for each pokemon
-            changeLoadingText("Identification of the Pokémons...");
-            for (Pokemon pokemon : pokemonList.get()) {
-                System.out.println("Pokemon id : " + pokemon.getId());
-                pokemon.setTypes(pokemonTypes.get().get(pokemon.getId()));
-                logOnUiThread("[INFO] Add types to pokemon " + pokemon.getName());
-                pokemon.setStats(pokemonStats.get().get(pokemon.getId()));
-                logOnUiThread("[INFO] Add stats to pokemon " + pokemon.getName());
-                pokemon.setAbilities(pokemonAbilities.get().get(pokemon.getId()));
-                logOnUiThread("[INFO] Add abilities to pokemon " + pokemon.getName());
-                pokemon.setImageID(
-                        getResources()
-                                .getIdentifier(
-                                        "p" + String.format("%03d", pokemon.getId()),
-                                        "drawable",
-                                        getPackageName()
-                                )
-                );
-                List<Integer> typesDrawables = new ArrayList<>();
-                for (int i = 0; i < pokemon.getTypes().size(); i++) {
-                    typesDrawables.add(
-                            getResources().getIdentifier(
-                                    "t" + String.format("%02d", pokemon.getTypes().get(i)),
-                                    "drawable",
-                                    getPackageName()
-                            ));
+                @Override
+                public void onLoadingTextChange(String s) {
+                    changeLoadingText(s);
                 }
-                pokemon.setImageTypeID(typesDrawables);
-                // get place of the pokemon in the list
-                int pokemonIndex = pokemonList.get().indexOf(pokemon);
-                // get the pokemon from the list
-                pokemonList.get().set(pokemonIndex, pokemon);
-            }
-            setProgress();
 
-            this.datastore = Datastore.getInstance();
-            this.datastore.setPokemons(pokemonList.get())
-                    .setItems(itemsList)
-                    .setStats(statsList)
-                    .setTypes(typesList)
-                    .setAbilities(abilitiesList);
+                @Override
+                public void onTaskendSetProgress() {
+                    setProgress();
+                }
+            };
 
-            // Close executor
-            executor.shutdown();
-
-            // Start MainActivity
-            changeLoadingText("Pokémon are ready to fight!");
-            setProgress();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            new Thread(() -> {
+                // Create executor
+                this.fetchThreading = new FetchThreading();
+                this.fetchThreading
+                        .setExecutorListener(executorListener)
+                        .setupExecutor(9)
+                        .setupTasks(this)
+                        .execute();
+            }).start();
         }
     }
+
+    private void updatePokemonAndSwitchActivity() {
+        List<Pokemon> pokemonList = this.fetchThreading.getPokemonList().get();
+        HashMap<Integer, List<Integer>> pokemonTypes = this.fetchThreading.getPokemonTypes().get();
+        HashMap<Integer, List<Integer>> pokemonAbilities = this.fetchThreading.getPokemonAbilities().get();
+        HashMap<Integer, List<PokemonStat>> pokemonStats = this.fetchThreading.getPokemonStats().get();
+
+        // set type and stats for each pokemon
+        changeLoadingText("Identification of the Pokémons...");
+        for (Pokemon pokemon : pokemonList) {
+            pokemon.setTypes(pokemonTypes.get(pokemon.getId()));
+            pokemon.setStats(pokemonStats.get(pokemon.getId()));
+            pokemon.setAbilities(pokemonAbilities.get(pokemon.getId()));
+            pokemon.setImageID(
+                    getResources()
+                            .getIdentifier(
+                                    "p" + String.format("%03d", pokemon.getId()),
+                                    "drawable",
+                                    getPackageName()
+                            )
+            );
+            List<Integer> typesDrawables = new ArrayList<>();
+            for (int i = 0; i < pokemon.getTypes().size(); i++) {
+                typesDrawables.add(
+                        getResources().getIdentifier(
+                                "t" + String.format("%02d", pokemon.getTypes().get(i)),
+                                "drawable",
+                                getPackageName()
+                        ));
+            }
+            pokemon.setImageTypeID(typesDrawables);
+            // get place of the pokemon in the list
+            int pokemonIndex = pokemonList.indexOf(pokemon);
+            // get the pokemon from the list
+            pokemonList.set(pokemonIndex, pokemon);
+        }
+        setProgress();
+
+        Datastore.getInstance().setPokemons(pokemonList)
+                .setItems(this.fetchThreading.getItemsList())
+                .setStats(this.fetchThreading.getStatsList())
+                .setTypes(this.fetchThreading.getTypesList())
+                .setAbilities(this.fetchThreading.getAbilitiesList())
+                .setCaughtInventory(this.fetchThreading.getCaughtInventory().get());
+
+        // Start MainActivity
+        changeLoadingText("Pokémon are ready to fight!");
+        setProgress();
+
+        // TODO BEURKg
+        CaughtInventory caughtInventoryStored = Datastore.getInstance().getCaughtInventory();
+        HashMap<Pokemon, CaughtPokemon> caughtInventoryList = new HashMap<>();
+
+        for (CaughtPokemon caughtInventory : caughtInventoryStored.getcaughtInventoryList().values()) {
+            caughtInventoryList.put(Datastore.getInstance().getPokemons().get(caughtInventory.getPokemonId()), caughtInventory);
+        }
+        Datastore.getInstance().setCaughtInventory(new CaughtInventory(caughtInventoryList));
+        try {
+            (new CaughtInventoryFetcher(this)).cacheInventory(Datastore.getInstance().getCaughtInventory());
+        } catch (CacheException e) {
+            logOnUiThread("Error while caching inventory");
+            e.printStackTrace();
+        }
+
+        Intent intent;
+        if (!this.datastore.getUser().isInit()) {
+            intent = new Intent(this, InitActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
+        startActivity(intent);
+        finish();
+    }
+
+    private void taskEnd(int taskID) {
+        runOnUiThread(() -> {
+            this.tasksDone.add(taskID);
+
+            int tasksToDo = 9;
+            if (this.tasksDone.size() == tasksToDo) {
+                this.fetchThreading.shutdown();
+                updatePokemonAndSwitchActivity();
+            }
+        });
+    }
+
 
     /**
      * Check if the player is online.
@@ -520,11 +541,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("You need to be online to play this game. Please go online and restart the app.")
                     .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    });
+                    .setPositiveButton("OK", (dialog, id) -> finish());
             AlertDialog alert = builder.create();
             alert.show();
             return false;

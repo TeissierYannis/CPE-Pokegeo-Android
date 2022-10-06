@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/init_fragment_Mother_constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:background="@drawable/pokecenter_background">
+
+        <ImageView
+            android:id="@+id/initFragment_ImageView_professor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/professor_sycamore"
+            android:contentDescription="@string/professor_sycanore_desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- TextBox to display chat on the bottom of the screen -->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/initFragment_constraintLayout_starterBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/initFragment_textView_dialog"
+            app:layout_constraintBottom_toTopOf="@+id/initFragment_textView_dialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/initfrag_layout_starter_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/pillar_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/pillar_1_desc"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pillar_pokecenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/initFragment_ImageView_Bulbasaur"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/starter_1_desc"
+                    android:src="@drawable/p001"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/pillar_1"
+                    app:layout_constraintStart_toStartOf="@+id/pillar_1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/initfrag_layout_starter_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/initfrag_layout_starter_3"
+                app:layout_constraintStart_toEndOf="@+id/initfrag_layout_starter_1">
+
+                <ImageView
+                    android:id="@+id/pillar_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/pillar_2_desc"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pillar_pokecenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <ImageView
+                    android:id="@+id/initFragment_ImageView_Charmander"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/starter_2_desc"
+                    android:src="@drawable/p004"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/pillar_2"
+                    app:layout_constraintStart_toStartOf="@+id/pillar_2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/initfrag_layout_starter_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/pillar_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/pillar_3_desc"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pillar_pokecenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/initFragment_ImageView_Squirtle"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/starter_3_desc"
+                    android:src="@drawable/p007"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/pillar_3"
+                    app:layout_constraintStart_toStartOf="@+id/pillar_3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/initFragment_textView_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_rect_shape"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/popUpTextColor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="16dp"
+            tools:text="@string/init_text_01" />
+
+        <Button
+            android:id="@+id/initFragment_button_YESSS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/button_yesss_txt"
+            android:textColor="@color/popUpTextColor"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toTopOf="@+id/initFragment_ImageView_professor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/typeFighting"
+            app:strokeWidth="5dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

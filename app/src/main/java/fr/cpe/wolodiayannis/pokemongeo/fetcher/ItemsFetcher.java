@@ -10,7 +10,6 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class ItemsFetcher {
@@ -25,14 +24,12 @@ public class ItemsFetcher {
         List<Item> itemList = new ArrayList<>();
         try {
             itemList = (List<Item>) Cache.readCache(this.ctx, "data_items");
-            logOnUiThread("[CACHE] Item list loaded from cache");
         } catch (Exception e) {
             try {
                 itemList = DataFetcher.fetchItemList().getItemList();
                 Cache.writeCache(this.ctx, "data_items", itemList);
-                logOnUiThread("[CACHE] Item list cached");
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Items list cannot be cached : " + exception.getMessage());
+                exception.printStackTrace();
             }
         }
         return itemList;

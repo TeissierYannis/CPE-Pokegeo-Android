@@ -41,7 +41,7 @@ public class User implements Serializable  {
      * If the user as already played
      */
     @SerializedName("is_init")
-    private final boolean isInit;
+    private boolean isInit;
 
     /**
      * Timestamp when the user was created.
@@ -110,8 +110,16 @@ public class User implements Serializable  {
      * Get user is init.
      * @return User is init.
      */
-    public boolean getIsInit() {
+    public boolean isInit() {
         return isInit;
+    }
+
+    /**
+     * Set the user init.
+     * @param init true if init.
+     */
+    public void setInit(boolean init) {
+        isInit = init;
     }
 
     /**

@@ -11,6 +11,13 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 
 public class UserAdapter extends TypeAdapter<User> {
 
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out  the stream to write to
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(JsonWriter out, User value) throws IOException {
 
@@ -27,7 +34,7 @@ public class UserAdapter extends TypeAdapter<User> {
         out.name("experience");
         out.value(value.getExperience());
         out.name("is_init");
-        out.value(value.getIsInit());
+        out.value(value.isInit());
         out.name("created_at");
         out.value(value.getCreatedAt().toString());
         out.name("token");

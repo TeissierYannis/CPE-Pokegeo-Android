@@ -87,6 +87,22 @@ public class Pokemon implements Serializable {
      */
     private List<Integer> typeIDList;
 
+    public Pokemon() {
+        this.id = 0;
+        this.name = "";
+        this.height = 0;
+        this.weight = 0;
+        this.description = "";
+        this.generationId = 0;
+        this.evolutionChainId = 0;
+        this.abilityList = new ArrayList<>();
+        this.typeList = new ArrayList<>();
+        this.statList = new ArrayList<>();
+        this.color = BACKGROUND_COLOR.Unknown;
+        this.imageID = 0;
+        this.typeIDList = new ArrayList<>();
+    }
+
     /**
      * Pokemon constructor.
      *

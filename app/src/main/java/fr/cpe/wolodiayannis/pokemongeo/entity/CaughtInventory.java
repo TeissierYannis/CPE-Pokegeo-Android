@@ -4,19 +4,24 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemsInventoryAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 
 /**
  * Items inventory class.
  */
-@JsonAdapter(ItemsInventoryAdapter.class)
+@JsonAdapter(CaughtPokemonListAdapter.class)
 public class CaughtInventory implements Serializable {
 
     @SerializedName("data")
-    private HashMap<Pokemon, Integer> caughtInventoryList;
+    private HashMap<Pokemon, CaughtPokemon> caughtInventoryList;
 
     /**
      * Constructor.
@@ -29,22 +34,59 @@ public class CaughtInventory implements Serializable {
     /**
      * Constructor.
      * set the caught inventory HashMap.
+     *
      * @param caughtInventoryList The caught inventory list
      */
-    public CaughtInventory(HashMap<Pokemon, Integer> caughtInventoryList) {
+    public CaughtInventory(HashMap<Pokemon, CaughtPokemon> caughtInventoryList) {
         this.caughtInventoryList = caughtInventoryList;
     }
 
     /**
      * Get the caught inventory list.
+     *
      * @return The caught inventory list.
      */
-    public HashMap<Pokemon, Integer> getCaughtInventoryList() {
+    public HashMap<Pokemon, CaughtPokemon> getcaughtInventoryList() {
         return caughtInventoryList;
+    }
+
+
+    /**
+     * Add a pokemon to the caught inventory list.
+     *
+     * @param pokemon       The pokemon to add.
+     * @param caughtPokemon The caught pokemon to add.
+     */
+    public void addPokemon(Pokemon pokemon, CaughtPokemon caughtPokemon) {
+        this.caughtInventoryList.put(pokemon, caughtPokemon);
+    }
+
+    /**
+     * Add a pokemon to the caught inventory list.
+     *
+     * @param pokemon The pokemon to add.
+     */
+    public CaughtPokemon addPokemon(Pokemon pokemon, int user_id) {
+
+        CaughtPokemon caughtPokemon = new CaughtPokemon(
+                user_id,
+                pokemon.getId(),
+                0,
+                pokemon.getHp(),
+                new Timestamp(System.currentTimeMillis())
+        );
+
+        this.caughtInventoryList.put(
+                pokemon,
+                caughtPokemon
+        );
+
+        return caughtPokemon;
     }
 
     /**
      * Check if two items are equals.
+     *
      * @param o Item to compare.
      * @return True if equals, false otherwise.
      */

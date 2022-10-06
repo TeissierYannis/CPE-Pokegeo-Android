@@ -10,6 +10,14 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 
 public class StatAdapter extends TypeAdapter<Stat> {
+
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out the stream to write to
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(com.google.gson.stream.JsonWriter out, Stat value) throws IOException {
         out.beginObject();
@@ -43,11 +51,11 @@ public class StatAdapter extends TypeAdapter<Stat> {
          *   }
          * }
          */
-        System.out.println("StatAdapter.read");
-        System.out.println(in.toString());
         in.beginObject();
         in.nextName();
-        in.nextString();
+        String message = in.nextString();
+        if (message.equals("success")) {
+
         in.nextName();
         in.beginObject();
         in.nextName();
@@ -58,5 +66,8 @@ public class StatAdapter extends TypeAdapter<Stat> {
         in.endObject();
 
         return new Stat(id, name);
+        } else {
+            throw new IOException("Error while reading Stat");
+        }
     }
 }

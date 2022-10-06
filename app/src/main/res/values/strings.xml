@@ -23,6 +23,7 @@
     <string name="caught_title">Caught</string>
     <string name="caught_subtitle">Your crazy collection !</string>
     <string name="caught_pokemon_img_desc">Caught Pokémon</string>
+    <!-- Spash -->
     <string name="wolodia_yannis"><![CDATA[Wolodia & Yannis]]></string>
     <string name="app_icon_description">App icon</string>
     <string name="pika_github_icon_desc">Github with pikachu\'s tail</string>
@@ -30,6 +31,7 @@
     <string name="description">Description</string>
     <string name="type">Type</string>
     <string name="generation">Generation</string>
+    <!-- Login/register -->
     <string name="password">Password :</string>
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign up</string>
@@ -42,4 +44,21 @@
     <string name="password_example">password</string>
     <string name="same_password_example">same password</string>
     <string name="return_text">Return</string>
+    <!-- Init texts -->
+    <string name="init_text_01">Hey ! Welcome to PokeGéo ! I am the professor. My name is Sycamore ! </string>
+    <string name="init_text_02">Let me introduce you, the pokemon you can choose !</string>
+    <string name="init_text_03">Choose the one you want !</string>
+    <string name="init_text_04">Super Choice ! Have a good day :3 </string>
+    <string name="init_text_bulbasaur_choice">Bulbasaur ? Is that the one you want ?</string>
+    <string name="init_text_charmander_choice">Charmander ? Is that the one you want ?</string>
+    <string name="init_text_squirtle_choice">Squirtle ? Is that the one you want ?</string>
+    <string name="pokecenter_background_desc">Pokecenter background</string>
+    <string name="pillar_1_desc">Pillar 1</string>
+    <string name="starter_1_desc">Starter 1</string>
+    <string name="pillar_3_desc">Pillar 3</string>
+    <string name="starter_2_desc">Starter 2</string>
+    <string name="pillar_2_desc">Pillar 2</string>
+    <string name="starter_3_desc">Starter 3</string>
+    <string name="professor_sycanore_desc">Professor sycanore</string>
+    <string name="button_yesss_txt">YESSS !</string>
 </resources>

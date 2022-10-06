@@ -8,6 +8,14 @@ import java.io.IOException;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 public class PokemonAdapter extends TypeAdapter<Pokemon> {
+
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out  the stream to write to
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(com.google.gson.stream.JsonWriter out, Pokemon value) throws IOException {
         out.beginObject();
@@ -57,26 +65,31 @@ public class PokemonAdapter extends TypeAdapter<Pokemon> {
         System.out.println("[DEBUG] " + in);
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.nextName();
-        int height = in.nextInt();
-        in.nextName();
-        int weight = in.nextInt();
-        in.nextName();
-        String description = in.nextString();
-        in.nextName();
-        int generationID = in.nextInt();
-        in.nextName();
-        int evolutionChainID = in.nextInt();
-        in.endObject();
-        in.endObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
 
-        return new Pokemon(id, name, height, weight, description, generationID, evolutionChainID);
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.nextName();
+            int height = in.nextInt();
+            in.nextName();
+            int weight = in.nextInt();
+            in.nextName();
+            String description = in.nextString();
+            in.nextName();
+            int generationID = in.nextInt();
+            in.nextName();
+            int evolutionChainID = in.nextInt();
+            in.endObject();
+            in.endObject();
+
+            return new Pokemon(id, name, height, weight, description, generationID, evolutionChainID);
+        } else {
+            throw new IOException("Error while reading Pokemon");
+        }
     }
 }

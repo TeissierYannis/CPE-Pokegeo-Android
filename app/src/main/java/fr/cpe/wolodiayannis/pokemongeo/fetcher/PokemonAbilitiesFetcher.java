@@ -1,11 +1,9 @@
 package fr.cpe.wolodiayannis.pokemongeo.fetcher;
 
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class PokemonAbilitiesFetcher {
                 abilityList = DataFetcher.fetchPokemonAbilities();
                 Cache.writeCache(this.ctx, "data_pokemon_abilities", abilityList);
             } catch (Exception exception) {
-                logOnUiThreadError("[CACHE] Pokemon abilities list cannot be cached : " + exception.getMessage());
                 exception.printStackTrace();
             }
         }

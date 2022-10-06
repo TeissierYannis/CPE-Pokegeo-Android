@@ -57,7 +57,7 @@ public class StatListAdapter extends TypeAdapter<StatList> {
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
      *
-     * @param in
+     * @param in the stream to read from.
      * @return the converted Java object. May be null.
      */
     @Override
@@ -81,7 +81,9 @@ public class StatListAdapter extends TypeAdapter<StatList> {
         List<Stat> statList = new ArrayList<>();
         in.beginObject();
         in.nextName();
-        in.nextString();
+        String message = in.nextString();
+        if (message.equals("success")) {
+
         in.nextName();
         in.beginArray();
         while (in.hasNext()) {
@@ -96,5 +98,8 @@ public class StatListAdapter extends TypeAdapter<StatList> {
         in.endArray();
         in.endObject();
         return new StatList(statList);
+        } else {
+           throw new IOException("Error while reading StatList");
+        }
     }
 }

@@ -8,6 +8,14 @@ import java.io.IOException;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 
 public class ItemAdapter extends TypeAdapter<Item> {
+
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out  the stream to write to
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(com.google.gson.stream.JsonWriter out, Item value) throws java.io.IOException {
         /*
@@ -50,15 +58,20 @@ public class ItemAdapter extends TypeAdapter<Item> {
          */
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.endObject();
-        in.endObject();
-        return new Item(id, name);
+        String message = in.nextString();
+        if (message.equals("success")) {
+
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.endObject();
+            in.endObject();
+            return new Item(id, name);
+        } else {
+            throw new IOException("Error while reading Item");
+        }
     }
 }

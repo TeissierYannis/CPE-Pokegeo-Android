@@ -136,13 +136,10 @@ public class MapFragment extends Fragment {
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             // add marker to map
             map.getOverlays().add(marker);
-
             // set on click listener
             marker.setOnMarkerClickListener((marker1, mapView) -> {
                 Logger.log("Marker clicked");
-
                 // TODO : open fight modal
-
                 return false;
             });
         } catch (Exception e) {
@@ -278,6 +275,8 @@ public class MapFragment extends Fragment {
         } else {
             mapController.animateTo(this.actualPosition);
         }
-        generatePokemonOnMap(location);
+
+        // Launch pokemon generation in background
+        new Thread(() -> generatePokemonOnMap(location)).start();
     }
 }

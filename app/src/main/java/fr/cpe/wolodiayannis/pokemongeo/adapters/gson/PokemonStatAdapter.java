@@ -10,21 +10,26 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 
 public class PokemonStatAdapter extends TypeAdapter<PokemonStat> {
     /**
-     * {
-     *     "message": "success",
-     *     "data":
-     *          {
-     *              "stat_id": 1,
-     *              "name": "name",
-     *              "base_stat": 49
-     *          }
-     * }
-     * @param out
-     * @param value
-     * @throws IOException
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out the stream to write to
+     * @param value the Java object to write. May be null.
      */
     @Override
     public void write(com.google.gson.stream.JsonWriter out, PokemonStat value) throws IOException {
+        /*
+         * {
+         *     "message": "success",
+         *     "data":
+         *          {
+         *              "stat_id": 1,
+         *              "name": "name",
+         *              "base_stat": 49
+         *          }
+         * }
+         */
+
         out.beginObject();
         out.name("data");
         out.beginObject();
@@ -59,19 +64,24 @@ public class PokemonStatAdapter extends TypeAdapter<PokemonStat> {
 
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.nextName();
-        int baseStat = in.nextInt();
-        in.endObject();
-        in.endObject();
+        String message = in.nextString();
+        if (message.equals("success")) {
 
-        Stat stat = new Stat(id, name);
-        return new PokemonStat(stat, baseStat);
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.nextName();
+            int baseStat = in.nextInt();
+            in.endObject();
+            in.endObject();
+
+            Stat stat = new Stat(id, name);
+            return new PokemonStat(stat, baseStat);
+        } else {
+            throw new IOException("Error while reading PokemonStat");
+        }
     }
 }

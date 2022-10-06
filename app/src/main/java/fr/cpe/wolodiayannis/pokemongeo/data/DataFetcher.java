@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.request.AbilityRequest;
+import fr.cpe.wolodiayannis.pokemongeo.api.request.CaughtInventoryRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.ItemRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.PokemonRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.StatRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.TypeRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.UserRequest;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
@@ -58,5 +62,17 @@ public class DataFetcher {
 
     public static User createUser(User user, String password) {
         return UserRequest.createUser(user, password);
+    }
+
+    public static CaughtInventory fetchCaughtPokemonList(int userId) {
+        return CaughtInventoryRequest.getCaughtInventory(userId);
+    }
+
+    public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
+        return CaughtInventoryRequest.addCaughtPokemon(caughtPokemon);
+    }
+
+    public static boolean updateUserIsInit(int userId, boolean isInit) {
+        return UserRequest.updateUserIsInit(userId, isInit);
     }
 }

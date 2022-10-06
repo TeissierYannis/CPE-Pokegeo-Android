@@ -10,6 +10,13 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 
 public class TypeAdapter extends com.google.gson.TypeAdapter<Type> {
 
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out  the stream to write to
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(JsonWriter out, Type value) throws IOException {
         out.beginObject();
@@ -44,15 +51,21 @@ public class TypeAdapter extends com.google.gson.TypeAdapter<Type> {
          */
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.endObject();
-        in.endObject();
-        return new Type(id, name);
+        String message = in.nextString();
+
+        if (message.equals("success")) {
+
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.endObject();
+            in.endObject();
+            return new Type(id, name);
+        } else {
+            throw new IOException("Error while reading Type");
+        }
     }
 }

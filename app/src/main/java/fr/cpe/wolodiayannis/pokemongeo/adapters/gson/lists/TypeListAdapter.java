@@ -19,7 +19,7 @@ public class TypeListAdapter extends TypeAdapter<TypeList> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out
+     * @param out  the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -57,12 +57,12 @@ public class TypeListAdapter extends TypeAdapter<TypeList> {
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
      *
-     * @param in
+     * @param in the stream to read from
      * @return the converted Java object. May be null.
      */
     @Override
     public TypeList read(JsonReader in) throws IOException {
-        /**
+        /*
          * {
          *  "message": "ok",
          *  "data": [
@@ -80,20 +80,25 @@ public class TypeListAdapter extends TypeAdapter<TypeList> {
         List<Type> typeList = new ArrayList<>();
         in.beginObject();
         in.nextName();
-        in.nextString();
-        in.nextName();
-        in.beginArray();
-        while (in.hasNext()) {
-            in.beginObject();
+        String message = in.nextString();
+        if(message.equals("success")) {
+
             in.nextName();
-            int id = in.nextInt();
-            in.nextName();
-            String name = in.nextString();
+            in.beginArray();
+            while (in.hasNext()) {
+                in.beginObject();
+                in.nextName();
+                int id = in.nextInt();
+                in.nextName();
+                String name = in.nextString();
+                in.endObject();
+                typeList.add(new Type(id, name));
+            }
+            in.endArray();
             in.endObject();
-            typeList.add(new Type(id, name));
+            return new TypeList(typeList);
+        } else {
+            throw new IOException("Error while reading TypeList");
         }
-        in.endArray();
-        in.endObject();
-        return new TypeList(typeList);
     }
 }

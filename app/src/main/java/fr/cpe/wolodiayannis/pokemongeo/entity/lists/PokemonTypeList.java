@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.PokemonAbilityListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.PokemonTypeListAdapter;
 
 @JsonAdapter(PokemonTypeListAdapter.class)
