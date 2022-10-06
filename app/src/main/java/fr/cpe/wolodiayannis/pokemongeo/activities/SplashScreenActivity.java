@@ -197,6 +197,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void onLoadingTextChange(String s) {
+                        changeLoadingText(s);
+                    }
+
+                    @Override
+                    public void onTaskendSetProgress() {
+                        setProgress();
                     }
                 };
 
@@ -307,7 +313,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void onLoadingTextChange(String s) {
+                        changeLoadingText(s);
+                    }
 
+                    @Override
+                    public void onTaskendSetProgress() {
+                        setProgress();
                     }
                 };
 
@@ -413,6 +424,11 @@ public class SplashScreenActivity extends AppCompatActivity {
                 public void onLoadingTextChange(String s) {
                     changeLoadingText(s);
                 }
+
+                @Override
+                public void onTaskendSetProgress() {
+                    setProgress();
+                }
             };
 
             new Thread(() -> {
@@ -502,7 +518,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void taskEnd(int taskID) {
         runOnUiThread(() -> {
-            setProgress();
             this.tasksDone.add(taskID);
 
             int tasksToDo = 9;

@@ -11,6 +11,13 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 
 public class CaughtPokemonAdapter extends TypeAdapter<CaughtPokemon> {
 
+    /**
+     * Writes one JSON value (an array, object, string, number, boolean or null)
+     * for {@code value}.
+     *
+     * @param out   the stream to write to.
+     * @param value the Java object to write. May be null.
+     */
     @Override
     public void write(JsonWriter out, CaughtPokemon value) throws IOException {
         out.beginObject();
@@ -21,9 +28,16 @@ public class CaughtPokemonAdapter extends TypeAdapter<CaughtPokemon> {
         out.endObject();
     }
 
+    /**
+     * Reads one JSON value (an array, object, string, number, boolean or null)
+     * and converts it to a Java object. Returns the converted object.
+     * @param in the stream to read from.
+     * @return the converted Java object. May be null.
+     * @throws IOException if the next value cannot be read.
+     */
     @Override
     public CaughtPokemon read(JsonReader in) throws IOException {
-        /**
+        /*
          * {
          *  message: "success",
          *  data: {

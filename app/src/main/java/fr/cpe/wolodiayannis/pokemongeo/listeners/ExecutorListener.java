@@ -4,4 +4,6 @@ public interface ExecutorListener {
     void onEnd(Integer taskID);
 
     void onLoadingTextChange(String s);
+
+    void onTaskendSetProgress();
 }

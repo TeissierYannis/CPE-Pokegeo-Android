@@ -43,62 +43,71 @@ public class FetchThreading extends Threading {
     public FetchThreading setupTasks(Context context) {
         // Fetching tasks
         tasks.add(() -> {
-            changeLoadingText("Fetching Pokémon...");
             pokemonList.set((new PokemonsFetcher(context)).fetchAndCache());
+            changeLoadingText("Discovering Pokémon...");
+            setProgress();
             this.onEnd(1);
             return null;
         });
 
         tasks.add(() -> {
-            changeLoadingText("Pokémon's abilities training...");
             pokemonAbilities.set((new PokemonAbilitiesFetcher(context)).fetchAndCache());
+            changeLoadingText("Pokémon's abilities training...");
+            setProgress();
             this.onEnd(2);
             return null;
         });
 
         tasks.add(() -> {
-            changeLoadingText("Definition of Pokémon's types...");
             pokemonTypes.set((new PokemonTypesFetcher(context)).fetchAndCache());
+            changeLoadingText("Definition of Pokémon's types...");
+            setProgress();
             this.onEnd(3);
             return null;
         });
 
         tasks.add(() -> {
-            changeLoadingText("Definition of Pokémon's stats...");
             pokemonStats.set((new PokemonStatsFetcher(context)).fetchAndCache());
+            changeLoadingText("Definition of Pokémon's stats...");
+            setProgress();
             this.onEnd(4);
             return null;
         });
 
         tasks.add(() -> {
-            changeLoadingText("Creation of statistics...");
             statsList.addAll((new StatsFetcher(context)).fetchAndCache());
+            changeLoadingText("Creation of statistics...");
+            setProgress();
             this.onEnd(5);
             return null;
         });
 
         tasks.add(() -> {
-            changeLoadingText("Creation of types...");
             typesList.addAll((new TypesFetcher(context)).fetchAndCache());
+            changeLoadingText("Creation of types...");
+            setProgress();
             this.onEnd(6);
             return null;
         });
 
         tasks.add(() -> {
-            changeLoadingText("Manufacturing of items...");
             itemsList.addAll((new ItemsFetcher(context)).fetchAndCache());
+            changeLoadingText("Manufacturing of items...");
+            setProgress();
             this.onEnd(7);
             return null;
         });
         tasks.add(() -> {
-            changeLoadingText("Creation of abilities...");
             abilitiesList.addAll((new AbilitiesFetcher(context)).fetchAndCache());
+            changeLoadingText("Creation of abilities...");
+            setProgress();
             this.onEnd(8);
             return null;
         });
         tasks.add(() -> {
-            changeLoadingText("Creation of caught inventory...");
             caughtInventory.set((new CaughtInventoryFetcher(context)).fetch(Datastore.getInstance().getUser().getId()));
+            changeLoadingText("Creation of caught inventory...");
+            setProgress();
             this.onEnd(9);
             return null;
         });
@@ -111,6 +120,10 @@ public class FetchThreading extends Threading {
 
     private void changeLoadingText(String s) {
         executorListener.onLoadingTextChange(s);
+    }
+
+    private void setProgress() {
+        executorListener.onTaskendSetProgress();
     }
 
 
