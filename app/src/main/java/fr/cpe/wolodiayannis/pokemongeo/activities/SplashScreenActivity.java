@@ -5,7 +5,6 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -37,18 +36,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
-import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserRegisterFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
 import fr.cpe.wolodiayannis.pokemongeo.threading.FetchThreading;
 import fr.cpe.wolodiayannis.pokemongeo.threading.LoginThreading;
@@ -476,6 +473,15 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");
         setProgress();
+
+        // TODO BEURKg
+        CaughtInventory caughtInventoryStored = Datastore.getInstance().getCaughtInventory();
+        HashMap<Pokemon, CaughtPokemon> caughtInventoryList = new HashMap<>();
+
+        for (CaughtPokemon caughtInventory : caughtInventoryStored.getcaughtInventoryList().values()) {
+            caughtInventoryList.put(Datastore.getInstance().getPokemons().get(caughtInventory.getPokemonId()), caughtInventory);
+        }
+        Datastore.getInstance().setCaughtInventory(new CaughtInventory(caughtInventoryList));
 
         Intent intent;
         if (!this.datastore.getUser().isInit()) {

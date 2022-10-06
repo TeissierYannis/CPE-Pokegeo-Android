@@ -9,6 +9,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
+import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class CaughtInventoryFetcher {
@@ -19,7 +20,7 @@ public class CaughtInventoryFetcher {
         this.ctx = ctx;
     }
 
-    public CaughtInventory fetchAndCache(int userID) {
+    public CaughtInventory fetch(int userID) {
         CaughtInventory caughtPokemonList = null;
         try {
             caughtPokemonList = (CaughtInventory) Cache.readCache(this.ctx, "data_caught_pokemon");
@@ -30,14 +31,24 @@ public class CaughtInventoryFetcher {
         } catch (Exception e) {
             try {
                 caughtPokemonList = DataFetcher.fetchCaughtPokemonList(userID);
-                if (caughtPokemonList != null) {
-                    Cache.writeCache(this.ctx, "data_caught_pokemon", caughtPokemonList);
-                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
+        Datastore.getInstance().setCaughtInventory(caughtPokemonList);
         return caughtPokemonList;
+    }
+
+    /**
+     * Cache the caught pokemon list/
+     * @param inventory the caught pokemon list
+
+     * @throws CacheException
+     */
+    public void cacheInventory(CaughtInventory inventory) throws CacheException {
+        if (inventory != null) {
+            Cache.writeCache(this.ctx, "data_caught_pokemon", inventory);
+        }
     }
 
     public void updateAndCache(CaughtPokemon caughtPokemon) {

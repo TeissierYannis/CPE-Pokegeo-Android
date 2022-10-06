@@ -59,19 +59,19 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
 
             out.name("user_id").value(Objects.requireNonNull(
                     value.getcaughtInventoryList().get(pokemon))
-                    .getUser_id());
+                    .getUserId());
 
             out.name("pokemon_id").value(Objects.requireNonNull(
                     value.getcaughtInventoryList().get(pokemon))
-                    .getPokemon_id());
+                    .getPokemonId());
 
             out.name("pokemon_experience").value(Objects.requireNonNull(
                     value.getcaughtInventoryList().get(pokemon))
-                    .getPokemon_experience());
+                    .getPokemonExperience());
 
             out.name("current_life_state").value(Objects.requireNonNull(
                     value.getcaughtInventoryList().get(pokemon))
-                    .getCurrent_life_state());
+                    .getCurrentLifeState());
 
             out.endObject();
         }
@@ -134,11 +134,17 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
             in.nextName();
             int currentLifeState = in.nextInt();
             in.nextName();
-            Timestamp caughtTime = new Timestamp(in.nextLong());
+            String caughtTime = in.nextString();
             in.endObject();
 
-            Pokemon poke = datastore.getPokemons().get(pokemonId);
-            caughtPokemonList.put(poke, new CaughtPokemon(userId, pokemonId, pokemonExperience, currentLifeState, caughtTime));
+            // format caughtTime to convert it to a Timestamp
+            caughtTime = caughtTime.replace("T", " ");
+            caughtTime = caughtTime.replace("Z", "");
+
+            // create empty Pokemon
+            Pokemon pokemon = new Pokemon();
+            Timestamp timestamp = Timestamp.valueOf(caughtTime);
+            caughtPokemonList.put(pokemon, new CaughtPokemon(userId, pokemonId, pokemonExperience, currentLifeState, timestamp));
         }
         in.endArray();
         in.endObject();

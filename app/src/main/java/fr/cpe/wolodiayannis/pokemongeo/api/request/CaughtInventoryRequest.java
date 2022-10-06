@@ -6,7 +6,6 @@ import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class CaughtInventoryRequest extends BaseRequest {
 
@@ -42,7 +41,7 @@ public class CaughtInventoryRequest extends BaseRequest {
         );
         try {
             call.execute();
-            LogAPI("Add pokemon " + caughtPokemon.getPokemon_id() + " of user ID : " + caughtPokemon.getUser_id());
+            LogAPI("Add pokemon " + caughtPokemon.getPokemonId() + " of user ID : " + caughtPokemon.getUserId());
         } catch (IOException e) {
             e.printStackTrace();
             return false;

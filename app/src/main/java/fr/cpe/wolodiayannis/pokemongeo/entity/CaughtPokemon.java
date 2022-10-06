@@ -8,95 +8,94 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.CaughtPokemonAdapter;
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
 
 @JsonAdapter(CaughtPokemonAdapter.class)
 public class CaughtPokemon implements Serializable {
 
     @SerializedName("user_id")
-    private final int user_id;
+    private final int userId;
 
     @SerializedName("pokemon_id")
-    private final int pokemon_id;
+    private final int pokemonId;
 
     @SerializedName("caught_time")
-    private final Timestamp caught_time;
+    private final Timestamp caughtTime;
 
     @SerializedName("pokemon_experience")
-    private int pokemon_experience;
+    private int pokemonExperience;
 
     @SerializedName("current_life_state")
-    private int current_life_state;
+    private int currentLifeState;
 
     /**
      * Constructor.
-     * @param user_id User ID
-     * @param caught_time Caught time
-     * @param pokemon_experience Pokemon experience
-     * @param current_life_state Current life state
+     * @param userId User ID
+     * @param caughtTime Caught time
+     * @param pokemonExperience Pokemon experience
+     * @param currentLifeState Current life state
      */
-    public CaughtPokemon(int user_id, int pokemon_id, int pokemon_experience, int current_life_state, Timestamp caught_time) {
-        this.user_id = user_id;;
-        this.pokemon_id = pokemon_id;
-        this.caught_time = caught_time;
-        this.pokemon_experience = pokemon_experience;
-        this.current_life_state = current_life_state;
+    public CaughtPokemon(int userId, int pokemonId, int pokemonExperience, int currentLifeState, Timestamp caughtTime) {
+        this.userId = userId;;
+        this.pokemonId = pokemonId;
+        this.caughtTime = caughtTime;
+        this.pokemonExperience = pokemonExperience;
+        this.currentLifeState = currentLifeState;
     }
 
     /**
      * Get the user id.
      * @return The user id.
      */
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
     /**
      * Get the pokemon id.
      * @return The pokemon id.
      */
-    public int getPokemon_id() {
-        return pokemon_id;
+    public int getPokemonId() {
+        return pokemonId;
     }
 
     /**
      * Get the caught time.
      * @return The caught time.
      */
-    public Timestamp getCaught_time() {
-        return caught_time;
+    public Timestamp getCaughtTime() {
+        return caughtTime;
     }
 
     /**
      * Get the pokemon experience.
      * @return The pokemon experience.
      */
-    public int getPokemon_experience() {
-        return pokemon_experience;
+    public int getPokemonExperience() {
+        return pokemonExperience;
     }
 
     /**
      * Set the pokemon experience.
      * @param pokemon_experience The pokemon experience.
      */
-    public void setPokemon_experience(int pokemon_experience) {
-        this.pokemon_experience = pokemon_experience;
+    public void setPokemonExperience(int pokemon_experience) {
+        this.pokemonExperience = pokemon_experience;
     }
 
     /**
      * Get the current life state.
      * @return The current life state.
      */
-    public int getCurrent_life_state() {
-        return current_life_state;
+    public int getCurrentLifeState() {
+        return currentLifeState;
     }
 
     /**
      * Set the current life state.
      * @param current_life_state The current life state.
      */
-    public void setCurrent_life_state(int current_life_state) {
-        this.current_life_state = current_life_state;
+    public void setCurrentLifeState(int current_life_state) {
+        this.currentLifeState = current_life_state;
     }
 
     /**
@@ -109,7 +108,7 @@ public class CaughtPokemon implements Serializable {
         if (this == o) return true;
         if (!(o instanceof CaughtPokemon)) return false;
         CaughtPokemon that = (CaughtPokemon) o;
-        return getUser_id() == that.getUser_id() && getPokemon_experience() == that.getPokemon_experience() && getCurrent_life_state() == that.getCurrent_life_state() && Objects.equals(getCaught_time(), that.getCaught_time());
+        return getUserId() == that.getUserId() && getPokemonExperience() == that.getPokemonExperience() && getCurrentLifeState() == that.getCurrentLifeState() && Objects.equals(getCaughtTime(), that.getCaughtTime());
     }
 
     /**
@@ -118,6 +117,6 @@ public class CaughtPokemon implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getUser_id(), getCaught_time(), getPokemon_experience(), getCurrent_life_state());
+        return Objects.hash(getUserId(), getCaughtTime(), getPokemonExperience(), getCurrentLifeState());
     }
 }

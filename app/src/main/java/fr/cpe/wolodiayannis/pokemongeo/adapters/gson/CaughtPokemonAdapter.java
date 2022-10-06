@@ -14,10 +14,10 @@ public class CaughtPokemonAdapter extends TypeAdapter<CaughtPokemon> {
     @Override
     public void write(JsonWriter out, CaughtPokemon value) throws IOException {
         out.beginObject();
-        out.name("userID").value(value.getUser_id());
-        out.name("pokemonID").value(value.getPokemon_id());
-        out.name("pokemonExperience").value(value.getPokemon_experience());
-        out.name("currentLifeState").value(value.getCurrent_life_state());
+        out.name("userID").value(value.getUserId());
+        out.name("pokemonID").value(value.getPokemonId());
+        out.name("pokemonExperience").value(value.getPokemonExperience());
+        out.name("currentLifeState").value(value.getCurrentLifeState());
         out.endObject();
     }
 

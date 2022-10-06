@@ -98,7 +98,7 @@ public class FetchThreading extends Threading {
         });
         tasks.add(() -> {
             changeLoadingText("Creation of caught inventory...");
-            caughtInventory.set((new CaughtInventoryFetcher(context)).fetchAndCache(Datastore.getInstance().getUser().getId()));
+            caughtInventory.set((new CaughtInventoryFetcher(context)).fetch(Datastore.getInstance().getUser().getId()));
             this.onEnd(9);
             return null;
         });
