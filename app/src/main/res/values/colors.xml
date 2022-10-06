@@ -5,16 +5,18 @@
     <color name="colorText">#222543</color>
     <color name="colorTextLight">#CC222543</color>
 
-    <color name="pikaColor">#FFF100</color>
-    <color name="black">#000000</color>
     <!-- Dark Theme Colors -->
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorTextDark">#F0F2F6</color>
     <color name="popUpTextColor">#373737</color>
 
-    <!-- Common Colors -->
+    <!-- Custom Colors -->
+    <color name="pikaColor">#FFF100</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="lightGray">#CFD1D6</color>
 
+    <!-- Types Colors -->
     <color name="typeNormal">#FFA8A878</color>
     <color name="typeFire">#FFF08030</color>
     <color name="typeWater">#FF6890F0</color>
@@ -33,4 +35,5 @@
     <color name="typeDark">#FF705848</color>
     <color name="typeSteel">#FFB8B8D0</color>
     <color name="typeFairy">#FFF0B6BC</color>
+
 </resources>

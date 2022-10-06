@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -138,9 +139,21 @@ public class MapFragment extends Fragment {
             map.getOverlays().add(marker);
             // set on click listener
             marker.setOnMarkerClickListener((marker1, mapView) -> {
-                Logger.log("Marker clicked");
-                // TODO : open fight modal
-                return false;
+                // show popup
+                PopupWindow popup = new PopupWindow(requireContext());
+                // Set
+                popup.setContentView(LayoutInflater.from(requireContext()).inflate(R.layout.pokemon_fight_popup, null));
+                // set full screen
+                popup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                popup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+
+                // use view model
+                // bind view model
+
+                // Display the popup at the specified location, + offsets.
+                popup.showAtLocation(map, 0, 0, 0);
+
+                return true;
             });
         } catch (Exception e) {
             Logger.logOnUiThreadError(e.getMessage());
