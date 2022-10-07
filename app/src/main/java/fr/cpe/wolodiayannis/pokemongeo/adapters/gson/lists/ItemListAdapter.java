@@ -2,14 +2,13 @@ package fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 
 public class ItemListAdapter extends TypeAdapter<ItemList> {
@@ -68,10 +67,12 @@ public class ItemListAdapter extends TypeAdapter<ItemList> {
          *    {
          *    "id": 1,
          *    "name": "Potion",
+         *    "price": 300
          *    },
          *    {
          *    "id": 2,
          *    "name": "Super Potion",
+         *    "price": 700
          *    }
          *    ]
          *    }
@@ -90,8 +91,11 @@ public class ItemListAdapter extends TypeAdapter<ItemList> {
                 int id = in.nextInt();
                 in.nextName();
                 String name = in.nextString();
+                in.nextName();
+                int price = in.nextInt();
+
                 in.endObject();
-                itemList.add(new Item(id, name));
+                itemList.add(new Item(id, name, price));
             }
             in.endArray();
             in.endObject();

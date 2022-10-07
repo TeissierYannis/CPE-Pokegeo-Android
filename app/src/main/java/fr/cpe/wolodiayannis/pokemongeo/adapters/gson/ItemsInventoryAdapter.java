@@ -6,8 +6,8 @@ import com.google.gson.stream.JsonToken;
 import java.io.IOException;
 import java.util.HashMap;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
-import fr.cpe.wolodiayannis.pokemongeo.entity.ItemInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 
 public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
 
@@ -53,6 +53,7 @@ public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
          *     "id": 1,
          *     "name": "master-ball",
          *     "quantity": 1
+         *     "price": 50000
          *   }
          * }
          */
@@ -75,9 +76,11 @@ public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
             String name = in.nextString();
             in.nextName();
             int quantity = in.nextInt();
+            in.nextName();
+            int price = in.nextInt();
             in.endObject();
             in.nextName();
-            items.put(new Item(id, name), quantity);
+            items.put(new Item(id, name, price), quantity);
         }
 
         in.endObject();

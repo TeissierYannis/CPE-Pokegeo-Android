@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity.item;
 
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;

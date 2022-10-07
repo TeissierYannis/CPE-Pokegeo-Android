@@ -3,7 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.api.request;
 import java.io.IOException;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.ItemAPI;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import retrofit2.Call;
 

@@ -1,4 +1,6 @@
-package fr.cpe.wolodiayannis.pokemongeo.entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity.item;
+
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 public class ItemRevive extends Item {
 

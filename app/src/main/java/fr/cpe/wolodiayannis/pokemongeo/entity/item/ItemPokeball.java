@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity.item;
 
 public class ItemPokeball extends Item {
 

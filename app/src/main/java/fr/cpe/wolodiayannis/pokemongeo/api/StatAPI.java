@@ -1,8 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 import retrofit2.Call;
 import retrofit2.http.GET;

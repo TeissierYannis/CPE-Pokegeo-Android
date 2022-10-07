@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.ItemListAdapter;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 
 @JsonAdapter(ItemListAdapter.class)
 public class ItemList implements Serializable {
@@ -31,11 +31,12 @@ public class ItemList implements Serializable {
         return itemList;
     }
 
-    public void addItem(int id, String name) {
+    public void addItem(int id, String name, int price) {
         try {
             assert id > 0;
             assert name != null;
-            itemList.add(new Item(id, name));
+            assert price >= 0;
+            itemList.add(new Item(id, name, price));
         } catch (AssertionError ignored) {}
     }
 }
