@@ -39,6 +39,8 @@ public class UserAdapter extends TypeAdapter<User> {
         out.value(value.getCreatedAt().toString());
         out.name("token");
         out.value(value.getJwt());
+        out.name("money");
+        out.value(value.getMoney());
         out.endObject();
         out.endArray();
         out.endObject();
@@ -62,6 +64,7 @@ public class UserAdapter extends TypeAdapter<User> {
             "pseudo": "yannis",
             "email": "yannis@cpe.fr",
             "experience": 0,
+            "money": 0,
             "is_init": 0,
             "created_at": "2022-09-25T12:13:06.000Z"
         },
@@ -89,6 +92,8 @@ public class UserAdapter extends TypeAdapter<User> {
             in.nextName();
             int experience = in.nextInt();
             in.nextName();
+            int money = in.nextInt();
+            in.nextName();
             int isInit = in.nextInt();
             in.nextName();
             String createdAtString = in.nextString();
@@ -103,7 +108,7 @@ public class UserAdapter extends TypeAdapter<User> {
             // from 2022-09-25T12:13:06.000Z to timestamp
             Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
 
-            return new User(id, pseudo, email, experience, isInitBool, createdAt, token);
+            return new User(id, pseudo, email, experience, money, isInitBool, createdAt, token );
         } else {
             throw new IOException("SQL Error");
         }

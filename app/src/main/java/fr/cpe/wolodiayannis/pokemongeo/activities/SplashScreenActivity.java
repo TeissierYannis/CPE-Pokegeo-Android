@@ -284,7 +284,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Timestamp timestamp = new Timestamp(date.getTime());
 
                 // user is pseudo, email, 0, 0, Timestamp now, null)
-                User user = new User(0, pseudo, email, 0, false, timestamp, null);
+                User user = new User(0, pseudo, email, 0, 1000, false, timestamp, null);
 
                 ExecutorListener executorListener = new ExecutorListener() {
 
