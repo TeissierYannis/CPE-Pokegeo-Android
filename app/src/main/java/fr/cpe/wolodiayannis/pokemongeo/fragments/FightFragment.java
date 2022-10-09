@@ -1,7 +1,11 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -50,6 +57,10 @@ public class FightFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        System.out.println("FightFragment.onCreateView");
+        // Hide navigation bar
+        requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
+
         this.binding = DataBindingUtil.inflate(inflater, R.layout.pokemon_fight_popup, container, false);
         this.binding.enemyPokemonName.setText(
                 this.opponentPokemon.getName().substring(0, 1).toUpperCase() + this.opponentPokemon.getName().substring(1)
@@ -63,15 +74,19 @@ public class FightFragment extends Fragment {
         this.binding.pokemonfightImageWildPokemon.setImageDrawable(drawableWildPokemon);
         this.binding.pokemonfightImagePlayerPokemon.setImageDrawable(drawableUserPokemon);
 
+        CaughtPokemon userCaughtPokemon = Datastore.getInstance()
+                .getCaughtInventory()
+                .getCaughtPokemonFromPokemonID(this.userPokemon.getId());
+
         if (this.pokemonFight == null) {
-
-            this.pokemonFight = new PokemonFight(this.userPokemon, this.opponentPokemon);
-
-            this.binding.lifeBarRight.setMax(this.pokemonFight.getOpponentLifePoints());
-            this.binding.lifeBarRight.setProgress(this.pokemonFight.getOpponentLifePoints());
+            System.out.println("FightFragment.onCreateView: pokemonFight is null");
+            this.pokemonFight = new PokemonFight(this.userPokemon, this.opponentPokemon, userCaughtPokemon.getCurrentLifeState(), this.opponentPokemon.getHp());
+            this.updateOpponentLifeBar(this.opponentPokemon, this.pokemonFight.getOpponentLifePoints());
+            this.updateUserLifeBar(this.userPokemon, userCaughtPokemon);
+        } else {
+            this.updateLifeBarColor();
+            this.updateLifeBarProgress();
         }
-        this.binding.pokemonfightLifebarPlayer.setMax(this.pokemonFight.getPlayerLifePoints());
-        this.binding.pokemonfightLifebarPlayer.setProgress(this.pokemonFight.getPlayerLifePoints());
 
         // Return to map fragment
         this.binding.pokemonfightActionsBox.fightpopupButtonRun.setOnClickListener(v -> {
@@ -130,19 +145,19 @@ public class FightFragment extends Fragment {
         // On click on pokemon button, open a modal to select a pokemon
         this.binding.pokemonfightActionsBox.fightpopupButtonPokemon.setOnClickListener(v -> {
             this.deactivateAllButtons();
-            // Switch to the pokemon selection fragment
-            CaughtFragment caughtFragment = new CaughtFragment();
 
-            // set listener
-            PokemonSwitchInterface listenerInterface = this::onSwitchPokemon;
+            // Switch fragment without closing the current one
+            CaughtFragment fragment = new CaughtFragment();
+            fragment.setSwitchListener(this::onSwitchPokemon);
 
-            caughtFragment.setSwitchListener(listenerInterface);
-            requireActivity()
-                    .getSupportFragmentManager()
+            requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, caughtFragment)
-                    .addToBackStack(null)
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack("fight")
+                    .setReorderingAllowed(true)
                     .commit();
+
+            this.activeAllButtons();
         });
 
         return binding.getRoot();
@@ -158,6 +173,8 @@ public class FightFragment extends Fragment {
          */
         this.updateUserPokemon();
 
+        // navigation bar
+        requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
@@ -179,6 +196,8 @@ public class FightFragment extends Fragment {
          */
         this.updateUserPokemon();
 
+        // navigation bar
+        requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
@@ -194,6 +213,8 @@ public class FightFragment extends Fragment {
 
         this.updateCaughtPokemon();
 
+        // navigation bar
+        requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
@@ -218,6 +239,8 @@ public class FightFragment extends Fragment {
          */
         this.updateUserPokemon();
 
+        // navigation bar
+        requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
@@ -256,6 +279,7 @@ public class FightFragment extends Fragment {
 
         if (this.pokemonFight.isPlayerPokemonDead()) {
             this.onLoose();
+            this.updateUserPokemon();
             requireActivity().getSupportFragmentManager().popBackStack();
         }
     }
@@ -269,6 +293,7 @@ public class FightFragment extends Fragment {
 
         if (this.pokemonFight.isOpponentPokemonDead()) {
             this.onWin();
+            this.updateUserPokemon();
             requireActivity().getSupportFragmentManager().popBackStack();
         }
     }
@@ -278,13 +303,17 @@ public class FightFragment extends Fragment {
 
         this.userPokemon = pokemon;
         pokemonFight.switchPlayerPokemon(pokemon, caughtPokemon.getCurrentLifeState());
-        System.out.println("PokemonFightFragment.onSwitchPokemon: " + pokemon.getName() + " " + caughtPokemon.getCurrentLifeState() + " " + pokemon.getHp());
-        this.binding.pokemonfightLifebarPlayer.setMax(pokemon.getHp());
-        this.binding.pokemonfightLifebarPlayer.setProgress(caughtPokemon.getCurrentLifeState());
-
-        System.out.println("Pokemon switch to " + pokemon.getName());
-        // go back to this fragment and pass the pokemon to the fight
+        // go back to this fragment and reupdate bar
         requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    private void updateLifeBarProgress() {
+        this.binding.pokemonfightLifebarPlayer.setProgress(this.pokemonFight.getPlayerLifePoints());
+        this.binding.lifeBarRight.setProgress(this.pokemonFight.getOpponentLifePoints());
+        // reset max
+        this.binding.pokemonfightLifebarPlayer.setMax(this.userPokemon.getHp());
+        this.binding.lifeBarRight.setMax(this.opponentPokemon.getHp());
+
     }
 
     /**
@@ -305,6 +334,27 @@ public class FightFragment extends Fragment {
         this.binding.pokemonfightActionsBox.fightpopupButtonPokemon.setEnabled(true);
     }
 
+    private void updateOpponentLifeBar(Pokemon opponentPokemon, int lifePoints) {
+        this.binding.lifeBarRight.setMax(opponentPokemon.getHp());
+        this.binding.lifeBarRight.setProgress(lifePoints);
+    }
+
+    private void updateUserLifeBar(Pokemon userPokemon, CaughtPokemon userCaughtPokemon) {
+        this.binding.pokemonfightLifebarPlayer.setMax(userPokemon.getHp());
+        this.binding.pokemonfightLifebarPlayer.setProgress(userCaughtPokemon.getCurrentLifeState());
+    }
+
+    /**
+     * Update lifebar color according to the life points
+     */
+    private void updateLifeBarColor() {
+        Drawable enemyProgressDrawable = this.binding.lifeBarRight.getProgressDrawable().mutate();
+        enemyProgressDrawable.setTint(ContextCompat.getColor(requireContext(), this.pokemonFight.getEnemyProgressBarColor()));
+
+        Drawable playerProgressDrawable = this.binding.pokemonfightLifebarPlayer.getProgressDrawable().mutate();
+        playerProgressDrawable.setTint(ContextCompat.getColor(requireContext(), this.pokemonFight.getPlayerProgressBarColor()));
+    }
+
     /**
      * Set the user pokemon.
      *
@@ -323,5 +373,14 @@ public class FightFragment extends Fragment {
         this.opponentPokemon = opponentPokemon;
     }
 
+    /**
+     * On Going back to this fragment, update the lifebar
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.updateLifeBarProgress();
+        this.updateLifeBarColor();
+    }
 
 }

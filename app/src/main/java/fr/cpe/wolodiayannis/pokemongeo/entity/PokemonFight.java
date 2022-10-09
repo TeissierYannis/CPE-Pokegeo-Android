@@ -31,6 +31,13 @@ public class PokemonFight {
         this.opponentLifePoints = opponentPokemon.getHp();
     }
 
+    public PokemonFight(Pokemon playerPokemon, Pokemon opponentPokemon, int playerLifePoints, int opponentLifePoints) {
+        this.playerPokemon = playerPokemon;
+        this.opponentPokemon = opponentPokemon;
+        this.playerLifePoints = playerLifePoints;
+        this.opponentLifePoints = opponentLifePoints;
+    }
+
     public void attack(Pokemon attacker, Pokemon defender) {
         double damage = ((this.getDamageMultiplier(attacker, defender) * attacker.getAttack()) / defender.getDefense()) * 3;
 

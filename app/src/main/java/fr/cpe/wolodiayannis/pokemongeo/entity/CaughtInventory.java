@@ -84,6 +84,15 @@ public class CaughtInventory implements Serializable {
         return -1;
     }
 
+    public CaughtPokemon getCaughtPokemonFromPokemonID(int pokemonID) {
+        for (Pokemon pokemon : caughtInventoryList.keySet()) {
+            if (pokemon.getId() == pokemonID) {
+                return caughtInventoryList.get(pokemon);
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Add a pokemon to the caught inventory list.
