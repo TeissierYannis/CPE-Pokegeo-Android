@@ -21,6 +21,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserUpdateFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
@@ -181,5 +182,40 @@ public class InitActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    private void addItemsToInventory() {
+        if (datastore.getItemsInventory() == null) {
+            datastore.setItemsInventory(new ItemInventory());
+        }
+
+        // ajout de 20 pokéballs
+        datastore.getItemsInventory().addItem(
+                datastore.getItemList().getPokeballList().get(1),
+                20
+        );
+        // ajout de 10 potions
+        datastore.getItemsInventory().addItem(
+                datastore.getItemList().getPotionList().get(1),
+                10
+        );
+        // ajout de 3 revive
+        datastore.getItemsInventory().addItem(
+                datastore.getItemList().getReviveList().get(1),
+                3
+        );
+
+        // Avoid NetworkOnMainThreadException and call Datafetcher
+        new Thread(() ->
+        {
+            (new ItemInventoryFetcher(this)).updateAndCache(datastore.getItemsInventory());
+            try {
+                (new ItemInventoryUpdate(this)).fetchAndCache(datastore.getItemsInventory(), true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+         */
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemsInventoryAdapter;
 
@@ -45,7 +46,7 @@ public class ItemInventory implements Serializable {
      */
     public void addItem(Item item, int quantity) {
         if (itemIventoryList.containsKey(item)) {
-            itemIventoryList.put(item, itemIventoryList.get(item) + quantity);
+            itemIventoryList.put(item, Objects.requireNonNull(itemIventoryList.get(item)) + quantity);
         } else {
             itemIventoryList.put(item, quantity);
         }
@@ -58,8 +59,8 @@ public class ItemInventory implements Serializable {
      */
     public void removeItem(Item item, int quantity) {
         if (itemIventoryList.containsKey(item)) {
-            if (itemIventoryList.get(item) - quantity > 0) {
-                itemIventoryList.put(item, itemIventoryList.get(item) - quantity);
+            if (Objects.requireNonNull(itemIventoryList.get(item)) - quantity > 0) {
+                itemIventoryList.put(item, Objects.requireNonNull(itemIventoryList.get(item)) - quantity);
             } else {
                 itemIventoryList.remove(item);
             }
@@ -100,20 +101,7 @@ public class ItemInventory implements Serializable {
      */
     public int getQuantity(Item item) {
         if (itemIventoryList.containsKey(item)) {
-            return itemIventoryList.get(item);
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Get the quantity of an item in the inventory.
-     * @param index the index of the item to check
-     * @return the quantity of the item in the inventory
-     */
-    public int getQuantity(int index) {
-        if (index < itemIventoryList.size()) {
-            return itemIventoryList.get(index);
+            return Objects.requireNonNull(itemIventoryList.get(item));
         } else {
             return 0;
         }

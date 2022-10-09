@@ -14,6 +14,7 @@ import fr.cpe.wolodiayannis.pokemongeo.api.request.UserRequest;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
@@ -85,5 +86,9 @@ public class DataFetcher {
 
     public static ItemReviveList fetchItemReviveList() {
         return ItemRequest.getItemReviveList();
+    }
+
+    public static ItemInventory fetchItemInventory(int userID) {
+        return ItemRequest.getItemInventory(userID);
     }
 }

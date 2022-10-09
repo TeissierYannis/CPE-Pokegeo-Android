@@ -9,9 +9,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
 /**
@@ -20,22 +22,25 @@ import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdapter.ViewHolder> {
 
     /**
-     * The inventory.
+     * Listener for the click on an item.
      */
-    private final ItemInventory itemsInventory;
+    private final InventoryListenerInterface listener;
+
     /**
-     * The context.
+     * List of item inventory.
      */
-    private final Context context;
+    private final ItemInventory itemInventory;
+
+
 
     /**
      * Constructor.
-     * @param itemsInventory the inventory
-     * @param context the context
+     * @param itemInventory List of item inventory.
+     * @param listener Listener for the click on an item.
      */
-    public InventoryListAdapter(ItemInventory itemsInventory, Context context) {
-        this.itemsInventory = itemsInventory;
-        this.context = context;
+    public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterface listener) {
+        this.itemInventory = itemInventory;
+        this.listener = listener;
     }
 
     /**
@@ -63,14 +68,21 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         // Get the item if item do not exist create empty one
-
-        // TODO
         Item itemToAdd = new Item(0, "default", 0);
+        if (Datastore.getInstance().getItemsInventory().getItem(position) != null) {
+            itemToAdd = Datastore.getInstance().getItemsInventory().getItem(position);
+        }
 
         // Set the item to the view model
         holder.viewModel.setItem(
                 itemToAdd
         );
+
+        Item finalItemToAdd = itemToAdd;
+        holder.binding.getRoot().setOnClickListener(v -> listener.onItemSelected(finalItemToAdd));
+
+        // Set the color of the pokemon bg.
+        // TODO
     }
 
     /**
@@ -79,10 +91,8 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      */
     @Override
     public int getItemCount() {
-        // TODO
-        return 1;
+        return itemInventory.size();
     }
-
 
     /**
      * ViewHolder for the inventory list.

@@ -14,6 +14,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 
@@ -102,6 +103,11 @@ public class Datastore implements Comparable<Object>, Serializable {
      * User caught inventory
      */
     private CaughtInventory caughtInventory;
+
+    /**
+     * User items inventory
+     */
+    private ItemInventory itemsInventory;
 
 
     /**
@@ -253,6 +259,23 @@ public class Datastore implements Comparable<Object>, Serializable {
      */
     public Datastore setCaughtInventory(CaughtInventory caughtInventory) {
         this.caughtInventory = caughtInventory;
+        return this;
+    }
+
+    /**
+     * Returns the items inventory.
+     * @return the items inventory.
+     */
+    public ItemInventory getItemsInventory() {
+        return itemsInventory;
+    }
+
+    /**
+     * Sets the items inventory.
+     * @param itemsInventory the items inventory.
+     */
+    public Datastore setItemsInventory(ItemInventory itemsInventory) {
+        this.itemsInventory = itemsInventory;
         return this;
     }
 
