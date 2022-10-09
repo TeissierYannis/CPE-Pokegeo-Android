@@ -3,8 +3,12 @@ package fr.cpe.wolodiayannis.pokemongeo.api.request;
 import java.io.IOException;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.ItemAPI;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemReviveList;
 import retrofit2.Call;
 
 public class ItemRequest extends BaseRequest {
@@ -17,35 +21,49 @@ public class ItemRequest extends BaseRequest {
         return getRetrofit().create(ItemAPI.class);
     }
 
-    /**
-     * Get all items.
-     * @return List of items.
-     */
-    public static ItemList getAllItems() {
-        Call<ItemList> call = getAPI().getItems();
 
+    /**
+     * Get all ball items.
+     * @return List of ball items.
+     */
+    public static ItemBallList getItemBallList() {
+        Call<ItemBallList> call = getAPI().getBallItems();
         try {
-            ItemList itemList = call.execute().body();
-            LogAPI("Items");
-            return itemList;
+            ItemBallList itemBallList = call.execute().body();
+            LogAPI("ItemBallRequest");
+            return itemBallList;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     /**
-     * Get one item.
-     * @param id Item id.
-     * @return Item.
+     * Get all potion items.
+     * @return List of potion items.
      */
-    public static Item getItemFromID(int id) {
-        Call<Item> call = getAPI().getItem(1);
+    public static ItemPotionList getItemPotionList() {
+        Call<ItemPotionList> call = getAPI().getPotionItems();
         try {
-            Item item = call.execute().body();
-            LogAPI("Item");
-            return item;
+            ItemPotionList itemPotionList = call.execute().body();
+            LogAPI("ItemPotionRequest");
+            return itemPotionList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Get all revive items.
+     * @return List of revive items.
+     */
+    public static ItemReviveList getItemReviveList() {
+        Call<ItemReviveList> call = getAPI().getReviveItems();
+        try {
+            ItemReviveList itemReviveList = call.execute().body();
+            LogAPI("ItemReviveRequest");
+            return itemReviveList;
         } catch (IOException e) {
             e.printStackTrace();
         }

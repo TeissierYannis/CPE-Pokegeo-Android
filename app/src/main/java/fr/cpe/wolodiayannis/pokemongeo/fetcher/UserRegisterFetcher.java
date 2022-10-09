@@ -7,7 +7,7 @@ import android.content.Context;
 
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class UserRegisterFetcher {

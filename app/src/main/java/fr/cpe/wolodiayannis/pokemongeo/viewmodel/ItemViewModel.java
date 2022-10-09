@@ -9,7 +9,7 @@ import androidx.databinding.Bindable;
 
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 
 /**
  * Item View Model.

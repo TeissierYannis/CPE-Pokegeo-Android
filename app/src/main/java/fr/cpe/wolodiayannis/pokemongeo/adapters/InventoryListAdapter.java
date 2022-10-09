@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
-import fr.cpe.wolodiayannis.pokemongeo.entity.ItemInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
 /**
@@ -65,7 +65,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         // Get the item if item do not exist create empty one
 
         // TODO
-        Item itemToAdd = new Item(0, "default");
+        Item itemToAdd = new Item(0, "default", 0);
 
         // Set the item to the view model
         holder.viewModel.setItem(

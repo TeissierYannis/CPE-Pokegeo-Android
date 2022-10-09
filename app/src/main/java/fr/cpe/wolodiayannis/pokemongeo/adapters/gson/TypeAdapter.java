@@ -5,7 +5,6 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 
 public class TypeAdapter extends com.google.gson.TypeAdapter<Type> {

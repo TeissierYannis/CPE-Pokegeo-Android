@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 
 public class UserAdapter extends TypeAdapter<User> {
 
@@ -33,6 +33,8 @@ public class UserAdapter extends TypeAdapter<User> {
         out.value(value.getEmail());
         out.name("experience");
         out.value(value.getExperience());
+        out.name("money");
+        out.value(value.getMoney());
         out.name("is_init");
         out.value(value.isInit());
         out.name("created_at");
@@ -62,6 +64,7 @@ public class UserAdapter extends TypeAdapter<User> {
             "pseudo": "yannis",
             "email": "yannis@cpe.fr",
             "experience": 0,
+            "money": 0,
             "is_init": 0,
             "created_at": "2022-09-25T12:13:06.000Z"
         },
@@ -89,6 +92,8 @@ public class UserAdapter extends TypeAdapter<User> {
             in.nextName();
             int experience = in.nextInt();
             in.nextName();
+            int money = in.nextInt();
+            in.nextName();
             int isInit = in.nextInt();
             in.nextName();
             String createdAtString = in.nextString();
@@ -103,7 +108,7 @@ public class UserAdapter extends TypeAdapter<User> {
             // from 2022-09-25T12:13:06.000Z to timestamp
             Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
 
-            return new User(id, pseudo, email, experience, isInitBool, createdAt, token);
+            return new User(id, pseudo, email, experience, money, isInitBool, createdAt, token );
         } else {
             throw new IOException("SQL Error");
         }

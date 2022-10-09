@@ -2,7 +2,7 @@ package fr.cpe.wolodiayannis.pokemongeo.threading;
 
 import android.content.Context;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserRegisterFetcher;
 
 public class RegisterThreading extends Threading {
@@ -18,7 +18,7 @@ public class RegisterThreading extends Threading {
 
     /**
      * Constructor.
-     * @param pseudo The pseudo of the user.
+     * @param user The user.
      * @param password The password of the user.
      */
     public RegisterThreading(User user, String password) {

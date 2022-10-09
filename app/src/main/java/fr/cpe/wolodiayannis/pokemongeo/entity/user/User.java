@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity.user;
 
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -34,7 +34,14 @@ public class User implements Serializable  {
      * User experience.
      */
     @SerializedName("experience")
-    private final int experience;
+    private int experience;
+
+    /**
+     * User money.
+     */
+    @SerializedName("money")
+    private int money;
+
 
     /**
      * User is init
@@ -63,8 +70,9 @@ public class User implements Serializable  {
      * @param experience User experience.
      * @param isInit User is init.
      * @param createdAt Timestamp when the user was created.
+     * @param money User money.
      */
-    public User(int id, String pseudo, String email, int experience, boolean isInit, Timestamp createdAt, String jwt) {
+    public User(int id, String pseudo, String email, int experience,  int money, boolean isInit, Timestamp createdAt, String jwt) {
         this.id = id;
         this.pseudo = pseudo;
         this.email = email;
@@ -72,6 +80,7 @@ public class User implements Serializable  {
         this.isInit = isInit;
         this.createdAt = createdAt;
         this.jwt = jwt;
+        this.money = money;
     }
 
     /**
@@ -136,5 +145,13 @@ public class User implements Serializable  {
      */
     public String getJwt() {
         return jwt;
+    }
+
+    /**
+     * Get user money.
+     * @return User money.
+     */
+    public int getMoney() {
+        return money;
     }
 }

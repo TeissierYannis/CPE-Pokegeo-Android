@@ -11,11 +11,11 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 
 /**
  * Datastore is a singleton class that provides access to the data layer.
@@ -76,7 +76,7 @@ public class Datastore implements Comparable<Object>, Serializable {
     /**
      * The list of items
      */
-    private List<Item> items;
+    private ItemList itemList;
 
     /**
      * The list of stats
@@ -147,17 +147,17 @@ public class Datastore implements Comparable<Object>, Serializable {
      *
      * @return the list of items.
      */
-    public List<Item> getItems() {
-        return items;
+    public ItemList getItemList() {
+        return itemList;
     }
 
     /**
      * Sets the list of items.
      *
-     * @param items the list of items.
+     * @param itemList the list of items.
      */
-    public Datastore setItems(List<Item> items) {
-        this.items = items;
+    public Datastore setItems(ItemList itemList) {
+        this.itemList = itemList;
         return this;
     }
 

@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 
 public class ItemAdapter extends TypeAdapter<Item> {
 
@@ -53,6 +53,7 @@ public class ItemAdapter extends TypeAdapter<Item> {
          *   "data": {
          *     "id": 1,
          *     "name": "master-ball"
+         *     "price": 50000
          *   }
          * }
          */
@@ -67,9 +68,11 @@ public class ItemAdapter extends TypeAdapter<Item> {
             int id = in.nextInt();
             in.nextName();
             String name = in.nextString();
+            in.nextName();
+            int price = in.nextInt();
             in.endObject();
             in.endObject();
-            return new Item(id, name);
+            return new Item(id, name, price);
         } else {
             throw new IOException("Error while reading Item");
         }

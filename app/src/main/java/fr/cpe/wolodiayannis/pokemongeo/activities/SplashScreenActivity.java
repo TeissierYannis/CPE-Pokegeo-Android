@@ -44,7 +44,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
@@ -85,7 +85,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressBarText;
 
-    private final int TASKS_NB = 10;
+    private final int TASKS_NB = 11;
     private final int prcPerTask = 100 / TASKS_NB;
 
     /**
@@ -284,7 +284,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Timestamp timestamp = new Timestamp(date.getTime());
 
                 // user is pseudo, email, 0, 0, Timestamp now, null)
-                User user = new User(0, pseudo, email, 0, false, timestamp, null);
+                User user = new User(0, pseudo, email, 0, 10000, false, timestamp, null);
 
                 ExecutorListener executorListener = new ExecutorListener() {
 
@@ -436,7 +436,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 this.fetchThreading = new FetchThreading();
                 this.fetchThreading
                         .setExecutorListener(executorListener)
-                        .setupExecutor(9)
+                        .setupExecutor(11)
                         .setupTasks(this)
                         .execute();
             }).start();
@@ -487,6 +487,44 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .setAbilities(this.fetchThreading.getAbilitiesList())
                 .setCaughtInventory(this.fetchThreading.getCaughtInventory().get());
 
+        // set drawable for potion items
+        for (int i = 0; i < Datastore.getInstance().getItemList().getPotionList().size(); i++) {
+            Datastore.getInstance().getItemList().getPotionList().get(i).setStat(
+                    Datastore.getInstance().getStats().get(0)
+            );
+            Datastore.getInstance().getItemList().getPotionList().get(i)
+                    .setImageID(
+                            getResources().getIdentifier(
+                                    "ipt" + String.format("%03d", i + 1),
+                                    "drawable",
+                                    getPackageName()
+                            )
+                    );
+        }
+        // set drawable for ball items
+        for (int i = 0; i < Datastore.getInstance().getItemList().getPokeballList().size(); i++) {
+            Datastore.getInstance().getItemList().getPokeballList().get(i)
+                    .setImageID(
+                            getResources().getIdentifier(
+                                    "ipb" + String.format("%03d", i),
+                                    "drawable",
+                                    getPackageName()
+                            )
+                    );
+        }
+
+        // set drawable for revive items
+        for (int i = 0; i < Datastore.getInstance().getItemList().getReviveList().size(); i++) {
+            Datastore.getInstance().getItemList().getReviveList().get(i)
+                    .setImageID(
+                            getResources().getIdentifier(
+                                    "ir" + String.format("%03d", i + 1),
+                                    "drawable",
+                                    getPackageName()
+                            )
+                    );
+        }
+
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");
         setProgress();
@@ -520,7 +558,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             this.tasksDone.add(taskID);
 
-            int tasksToDo = 9;
+            int tasksToDo = 11;
             if (this.tasksDone.size() == tasksToDo) {
                 this.fetchThreading.shutdown();
                 updatePokemonAndSwitchActivity();

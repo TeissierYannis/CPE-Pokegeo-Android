@@ -3,12 +3,10 @@ package fr.cpe.wolodiayannis.pokemongeo.api.request;
 import java.io.IOException;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.UserAPI;
-import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserIsInit;
-import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 import retrofit2.Call;
 

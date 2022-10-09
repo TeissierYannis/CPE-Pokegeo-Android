@@ -1,4 +1,4 @@
-package fr.cpe.wolodiayannis.pokemongeo.entity;
+package fr.cpe.wolodiayannis.pokemongeo.entity.item;
 
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,13 +25,26 @@ public class Item implements Serializable {
     private final String name;
 
     /**
+     * Item price.
+     */
+    @SerializedName("price")
+    private final int price;
+
+    /**
+     * Item Image.
+     */
+    private int imageID;
+
+
+    /**
      * Item constructor.
      * @param id Item id.
      * @param name Item name.
      */
-    public Item(int id, String name) {
+    public Item(int id, String name, int price) {
         this.id = id;
         this.name = name;
+        this.price = price;
     }
 
     /**
@@ -51,6 +64,32 @@ public class Item implements Serializable {
     }
 
     /**
+     * Get item price.
+     * @return Item price.
+     */
+    public int getPrice() {
+        return price;
+    }
+
+    /**
+     * Get image id.
+     *
+     * @return int image ID.
+     */
+    public int getImageID() {
+        return this.imageID;
+    }
+
+    /**
+     * Set image ID.
+     *
+     * @param drawable int image ID.
+     */
+    public void setImageID(int drawable) {
+        this.imageID = drawable;
+    }
+
+    /**
      * Check if two items are equals.
      * @param o Item to compare.
      * @return True if equals, false otherwise.
@@ -60,7 +99,7 @@ public class Item implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        return getId() == item.getId() && getName().equals(item.getName());
+        return getId() == item.getId() && getName().equals(item.getName()) && getPrice() == item.getPrice();
     }
 
     /**
@@ -68,6 +107,6 @@ public class Item implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getId(), getName(), getPrice());
     }
 }
