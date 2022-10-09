@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 
 public class UserAdapter extends TypeAdapter<User> {
 

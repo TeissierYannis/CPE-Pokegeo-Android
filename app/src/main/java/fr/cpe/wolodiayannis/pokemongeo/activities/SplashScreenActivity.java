@@ -44,7 +44,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
@@ -284,7 +284,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Timestamp timestamp = new Timestamp(date.getTime());
 
                 // user is pseudo, email, 0, 0, Timestamp now, null)
-                User user = new User(0, pseudo, email, 0, 1000, false, timestamp, null);
+                User user = new User(0, pseudo, email, 0, 10000, false, timestamp, null);
 
                 ExecutorListener executorListener = new ExecutorListener() {
 

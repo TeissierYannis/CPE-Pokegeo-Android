@@ -1,11 +1,11 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity.item;
 
-public class ItemPokeball extends Item {
+public class ItemBall extends Item {
 
     /**
-     * Pokeball precision.
+     * Pokeball accuracy.
      */
-    private final int precision;
+    private final int accuracy;
 
     /**
      * Item constructor.
@@ -15,16 +15,16 @@ public class ItemPokeball extends Item {
      * @param price Item price.
      * @param precision Pokeball precision.
      */
-    public ItemPokeball(int id, String name, int price, int precision) {
+    public ItemBall(int id, String name, int price, int precision) {
         super(id, name, price);
-        this.precision = precision;
+        this.accuracy = precision;
     }
 
     /**
      * Get pokeball precision.
      * @return Pokeball precision.
      */
-    public int getPrecision() {
-        return precision;
+    public int getAccuracy() {
+        return accuracy;
     }
 }

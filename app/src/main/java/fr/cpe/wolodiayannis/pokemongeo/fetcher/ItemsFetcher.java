@@ -10,6 +10,9 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class ItemsFetcher {
@@ -26,7 +29,15 @@ public class ItemsFetcher {
             itemList = (List<Item>) Cache.readCache(this.ctx, "data_items");
         } catch (Exception e) {
             try {
-                itemList = DataFetcher.fetchItemList().getItemList();
+
+                List<ItemBall> itemBallList = DataFetcher.fetchItemBallList().getItemBallList();
+                List<ItemRevive> itemReviveList = DataFetcher.fetchItemReviveList().getItemReviveList();
+                List<ItemPotion> itemPotionList = DataFetcher.fetchItemPotionList().getItemPotionList();
+
+                itemList.addAll(itemBallList);
+                itemList.addAll(itemReviveList);
+                itemList.addAll(itemPotionList);
+
                 Cache.writeCache(this.ctx, "data_items", itemList);
             } catch (Exception exception) {
                 exception.printStackTrace();

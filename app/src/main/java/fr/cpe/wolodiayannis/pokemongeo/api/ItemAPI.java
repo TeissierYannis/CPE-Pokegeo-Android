@@ -1,7 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemReviveList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -22,17 +25,26 @@ import retrofit2.http.Path;
  * The data is in the data field inside of an array.
  */
 public interface ItemAPI extends BaseAPI {
-        /**
-        * Get all items.
-        * @return List of items.
-        */
-        @GET("item")
-        Call<ItemList> getItems();
 
         /**
-         * Get one item.
-         * @param id Item id.
+        * Get all ball items.
+        * @return List of ball items.
+        */
+        @GET("item/ball")
+        Call<ItemBallList> getBallItems();
+
+        /**
+         * get all potion items.
+         * @return List of potion items.
          */
-        @GET("item/{id}")
-        Call<Item> getItem(@Path("id") int id);
+        @GET("item/potion")
+        Call<ItemPotionList> getPotionItems();
+
+        /**
+         * Get revive items.
+         * @return List of revive items.
+         */
+        @GET("item/revive")
+        Call<ItemReviveList> getReviveItems();
+
 }

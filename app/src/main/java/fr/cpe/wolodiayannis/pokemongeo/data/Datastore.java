@@ -15,7 +15,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 
 /**
  * Datastore is a singleton class that provides access to the data layer.

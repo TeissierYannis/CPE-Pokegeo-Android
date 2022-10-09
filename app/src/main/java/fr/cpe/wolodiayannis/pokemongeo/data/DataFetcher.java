@@ -13,9 +13,12 @@ import fr.cpe.wolodiayannis.pokemongeo.api.request.TypeRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.UserRequest;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.User;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemReviveList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
@@ -26,10 +29,6 @@ public class DataFetcher {
 
     public static PokemonList fetchPokemonList() {
         return PokemonRequest.getPokemons();
-    }
-
-    public static ItemList fetchItemList() {
-        return ItemRequest.getAllItems();
     }
 
     public static StatList fetchStatList() {
@@ -74,5 +73,17 @@ public class DataFetcher {
 
     public static boolean updateUserIsInit(int userId, boolean isInit) {
         return UserRequest.updateUserIsInit(userId, isInit);
+    }
+
+    public static ItemBallList fetchItemBallList() {
+        return ItemRequest.getItemBallList();
+    }
+
+    public static ItemPotionList fetchItemPotionList() {
+        return ItemRequest.getItemPotionList();
+    }
+
+    public static ItemReviveList fetchItemReviveList() {
+        return ItemRequest.getItemReviveList();
     }
 }
