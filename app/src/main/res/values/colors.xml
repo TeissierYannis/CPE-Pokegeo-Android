@@ -15,6 +15,10 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="lightGray">#CFD1D6</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="orange">#FFA500</color>
+    <color name="gray">#A3A3A3</color>
 
     <!-- Types Colors -->
     <color name="typeNormal">#FFA8A878</color>
@@ -43,6 +47,5 @@
 
     <!-- Default Color -->
     <color name="Unknown">#FF000000</color>
-
 
 </resources>

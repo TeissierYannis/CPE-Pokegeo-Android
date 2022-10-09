@@ -1,15 +1,19 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -29,8 +33,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -139,19 +145,33 @@ public class MapFragment extends Fragment {
             map.getOverlays().add(marker);
             // set on click listener
             marker.setOnMarkerClickListener((marker1, mapView) -> {
-                // show popup
-                PopupWindow popup = new PopupWindow(requireContext());
-                // Set
-                popup.setContentView(LayoutInflater.from(requireContext()).inflate(R.layout.pokemon_fight_popup, null));
-                // set full screen
-                popup.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                popup.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
-                // use view model
-                // bind view model
+                // get the first pokemon in the list who is not dead
+                Pokemon userPokemon = null;
+                for (Pokemon p : this.datastore.getCaughtInventory().getCaughtInventoryList().keySet()) {
+                    if (Objects.requireNonNull(this.datastore.getCaughtInventory().getCaughtInventoryList().get(p)).getCurrentLifeState() > 0) {
+                        userPokemon = p;
+                        break;
+                    }
+                }
 
-                // Display the popup at the specified location, + offsets.
-                popup.showAtLocation(map, 0, 0, 0);
+                if (userPokemon == null) {
+                    Toast.makeText(getContext(), "You don't have any pokemon to fight with", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
+                FightFragment fightFragment = new FightFragment();
+                fightFragment.setOpponentPokemon(pokemon);
+                fightFragment.setUserPokemon(userPokemon);
+
+                // Remove locationListener
+                ((MainActivity) requireActivity()).stopLocation();
+
+                // Switch fragment with FightFragment
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fightFragment)
+                        .addToBackStack(null)
+                        .commit();
 
                 return true;
             });
@@ -186,12 +206,12 @@ public class MapFragment extends Fragment {
      * @return boolean
      */
     private boolean isPlayerInRange() {
-        GeoPoint playerPosition = new GeoPoint(this.datastore.getLastLocation());
+        GeoPoint playerPosition = new GeoPoint(this.datastore.getLastLocation() != null ? this.datastore.getLastLocation() : new Location("default"));
         HashMap<Pokemon, GeoPoint> pokemonList = this.datastore.getSpawnedPokemons();
         for (Pokemon pokemon : pokemonList.keySet()) {
             GeoPoint pokemonPosition = pokemonList.get(pokemon);
             assert pokemonPosition != null;
-            if (Coordinates.distance(playerPosition, pokemonPosition) < 100) {
+            if (Coordinates.distance(playerPosition, pokemonPosition) < 1) {
                 return true;
             }
         }
@@ -266,6 +286,9 @@ public class MapFragment extends Fragment {
     public void onResume() {
         super.onResume();
         map.onResume();
+        this.generatePokemonOnMap(
+                this.datastore.getLastLocation() != null ? this.datastore.getLastLocation() : new Location("default")
+        );
     }
 
     @Override

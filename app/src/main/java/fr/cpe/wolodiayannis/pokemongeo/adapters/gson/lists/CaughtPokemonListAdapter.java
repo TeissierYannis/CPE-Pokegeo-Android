@@ -52,25 +52,25 @@ public class CaughtPokemonListAdapter extends TypeAdapter<CaughtInventory> {
         out.name("data");
         out.beginArray();
 
-        for (int i = 0; i < value.getcaughtInventoryList().size(); i++) {
+        for (int i = 0; i < value.getCaughtInventoryList().size(); i++) {
             out.beginObject();
 
-            Pokemon pokemon = (Pokemon) value.getcaughtInventoryList().keySet().toArray()[i];
+            Pokemon pokemon = (Pokemon) value.getCaughtInventoryList().keySet().toArray()[i];
 
             out.name("user_id").value(Objects.requireNonNull(
-                    value.getcaughtInventoryList().get(pokemon))
+                    value.getCaughtInventoryList().get(pokemon))
                     .getUserId());
 
             out.name("pokemon_id").value(Objects.requireNonNull(
-                    value.getcaughtInventoryList().get(pokemon))
+                    value.getCaughtInventoryList().get(pokemon))
                     .getPokemonId());
 
             out.name("pokemon_experience").value(Objects.requireNonNull(
-                    value.getcaughtInventoryList().get(pokemon))
+                    value.getCaughtInventoryList().get(pokemon))
                     .getPokemonExperience());
 
             out.name("current_life_state").value(Objects.requireNonNull(
-                    value.getcaughtInventoryList().get(pokemon))
+                    value.getCaughtInventoryList().get(pokemon))
                     .getCurrentLifeState());
 
             out.endObject();

@@ -564,7 +564,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         CaughtInventory caughtInventoryStored = Datastore.getInstance().getCaughtInventory();
         HashMap<Pokemon, CaughtPokemon> caughtInventoryList = new HashMap<>();
 
-        for (CaughtPokemon caughtInventory : caughtInventoryStored.getcaughtInventoryList().values()) {
+        for (CaughtPokemon caughtInventory : caughtInventoryStored.getCaughtInventoryList().values()) {
             caughtInventoryList.put(Datastore.getInstance().getPokemons().get(caughtInventory.getPokemonId()), caughtInventory);
         }
         Datastore.getInstance().setCaughtInventory(new CaughtInventory(caughtInventoryList));
