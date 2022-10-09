@@ -12,18 +12,27 @@ public class ItemList implements Serializable {
     /**
      * List of pokeball
      */
-    private final List<ItemBall> pokeballList;
+    private List<ItemBall> pokeballList;
 
     /**
      * List of potion
      */
-    private final List<ItemPotion> potionList;
+    private List<ItemPotion> potionList;
 
     /**
      * List of revive
      */
-    private final List<ItemRevive> reviveList;
+    private List<ItemRevive> reviveList;
 
+
+    /**
+     * ItemList constructor by default.
+     */
+    public ItemList() {
+        this.pokeballList = null;
+        this.potionList = null;
+        this.reviveList = null;
+    }
 
     /**
      * ItemList constructor.
@@ -46,11 +55,27 @@ public class ItemList implements Serializable {
     }
 
     /**
+     * Set list of pokeball.
+     * @param pokeballList List of pokeball.
+     */
+    public void setPokeballList(List<ItemBall> pokeballList) {
+        this.pokeballList = pokeballList;
+    }
+
+    /**
      * Get list of potion.
      * @return List of potion.
      */
     public List<ItemPotion> getPotionList() {
         return potionList;
+    }
+
+    /**
+     * Set list of potion.
+     * @param potionList List of potion.
+     */
+    public void setPotionList(List<ItemPotion> potionList) {
+        this.potionList = potionList;
     }
 
     /**
@@ -61,5 +86,11 @@ public class ItemList implements Serializable {
         return reviveList;
     }
 
-
+    /**
+     * Set list of revive.
+     * @param reviveList List of revive.
+     */
+    public void setReviveList(List<ItemRevive> reviveList) {
+        this.reviveList = reviveList;
+    }
 }

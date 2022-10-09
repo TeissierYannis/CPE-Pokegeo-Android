@@ -16,6 +16,9 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
@@ -37,7 +40,10 @@ public class FetchThreading extends Threading {
     private List<Stat> statsList = new ArrayList<>();
     private List<Type> typesList = new ArrayList<>();
     private List<Ability> abilitiesList = new ArrayList<>();
-    private ItemList  itemsList = null;
+    private ItemList itemsList = new ItemList();
+    private List<ItemBall> itemBallList = new ArrayList<>();
+    private List<ItemPotion> itemPotionList = new ArrayList<>();
+    private List<ItemRevive> itemReviveList = new ArrayList<>();
 
     public FetchThreading() {}
 
@@ -93,24 +99,42 @@ public class FetchThreading extends Threading {
         });
 
         tasks.add(() -> {
-            itemsList = (new ItemsFetcher(context)).fetchAndCache();
-            changeLoadingText("Manufacturing of items...");
+            itemBallList = (new ItemsFetcher(context)).fetchBall();
+            itemsList.setPokeballList(itemBallList);
+            changeLoadingText("Manufacturing of balls...");
             setProgress();
             this.onEnd(7);
             return null;
         });
         tasks.add(() -> {
-            abilitiesList.addAll((new AbilitiesFetcher(context)).fetchAndCache());
-            changeLoadingText("Creation of abilities...");
+            itemPotionList = (new ItemsFetcher(context)).fetchPotion();
+            itemsList.setPotionList(itemPotionList);
+            changeLoadingText("Manufacturing of potions...");
             setProgress();
             this.onEnd(8);
             return null;
         });
         tasks.add(() -> {
-            caughtInventory.set((new CaughtInventoryFetcher(context)).fetch(Datastore.getInstance().getUser().getId()));
-            changeLoadingText("Creation of caught inventory...");
+            itemReviveList = (new ItemsFetcher(context)).fetchRevive();
+            itemsList.setReviveList(itemReviveList);
+            changeLoadingText("Manufacturing of revives...");
             setProgress();
             this.onEnd(9);
+            return null;
+        });
+
+        tasks.add(() -> {
+            abilitiesList.addAll((new AbilitiesFetcher(context)).fetchAndCache());
+            changeLoadingText("Creation of abilities...");
+            setProgress();
+            this.onEnd(10);
+            return null;
+        });
+        tasks.add(() -> {
+            caughtInventory.set((new CaughtInventoryFetcher(context)).fetch(Datastore.getInstance().getUser().getId()));
+            changeLoadingText("Gathering of your Pokémon...");
+            setProgress();
+            this.onEnd(11);
             return null;
         });
         return this;

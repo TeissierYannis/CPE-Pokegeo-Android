@@ -85,7 +85,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressBarText;
 
-    private final int TASKS_NB = 10;
+    private final int TASKS_NB = 11;
     private final int prcPerTask = 100 / TASKS_NB;
 
     /**
@@ -436,7 +436,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 this.fetchThreading = new FetchThreading();
                 this.fetchThreading
                         .setExecutorListener(executorListener)
-                        .setupExecutor(9)
+                        .setupExecutor(11)
                         .setupTasks(this)
                         .execute();
             }).start();
@@ -558,7 +558,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             this.tasksDone.add(taskID);
 
-            int tasksToDo = 9;
+            int tasksToDo = 11;
             if (this.tasksDone.size() == tasksToDo) {
                 this.fetchThreading.shutdown();
                 updatePokemonAndSwitchActivity();
