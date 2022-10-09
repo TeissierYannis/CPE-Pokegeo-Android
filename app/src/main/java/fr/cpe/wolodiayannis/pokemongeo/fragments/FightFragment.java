@@ -16,11 +16,13 @@ import androidx.fragment.app.Fragment;
 import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonFight;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 
 public class FightFragment extends Fragment {
 
@@ -71,8 +73,8 @@ public class FightFragment extends Fragment {
             this.updateOpponentLifeBar(this.opponentPokemon, this.pokemonFight.getOpponentLifePoints());
             this.updateUserLifeBar(this.userPokemon, userCaughtPokemon);
         } else {
-            this.updateLifeBarColor();
             this.updateLifeBarProgress();
+            this.updateLifeBarColor();
         }
 
         // Return to map fragment
@@ -175,6 +177,18 @@ public class FightFragment extends Fragment {
                 userPokemon,
                 this.pokemonFight.getPlayerLifePoints()
         );
+
+        CaughtPokemon userCaughtPokemon = Datastore.getInstance()
+                .getCaughtInventory()
+                .getCaughtPokemonFromPokemonID(this.userPokemon.getId());
+
+        if (userCaughtPokemon.getCurrentLifeState() < 0) {
+            userCaughtPokemon.setCurrentLifeState(0);
+        }
+
+        new Thread(() -> {
+            (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(userCaughtPokemon);
+        }).start();
     }
 
     /**
@@ -227,6 +241,10 @@ public class FightFragment extends Fragment {
                 new Timestamp(System.currentTimeMillis())
         );
         Datastore.getInstance().getCaughtInventory().addPokemon(this.opponentPokemon, caughtPokemon);
+
+        new Thread(() -> {
+            (new CaughtInventoryFetcher(getContext())).addPokemonAndCache(caughtPokemon);
+        }).start();
     }
 
     /**

@@ -1,11 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-import java.util.HashMap;
-
 import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -29,7 +26,7 @@ public interface CaughtInventoryAPI extends BaseAPI {
     @POST("inventory/caught")
     Call<BasicResponse> addCaughtPokemon(@Body CaughtPokemon body);
 
-    @PUT("inventory/caught")
-    Call<BasicResponse> updateCaughtPokemon(CaughtPokemon caughtPokemon);
+    @PUT("inventory/caught/life/{userID}/{pokemonID}/{currentLifeState}")
+    Call<BasicResponse> updateCaughtPokemon(@Path("userID") int userID, @Path("pokemonID") int pokemonID, @Path("currentLifeState") int currentLifeState);
 }
 

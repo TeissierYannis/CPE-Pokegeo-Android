@@ -51,11 +51,12 @@ public class CaughtInventoryRequest extends BaseRequest {
 
     public static boolean updateCaughtPokemon(CaughtPokemon caughtPokemon) {
         Call<BasicResponse> call = getAPI().updateCaughtPokemon(
-                caughtPokemon
+                caughtPokemon.getUserId(),
+                caughtPokemon.getPokemonId(),
+                caughtPokemon.getCurrentLifeState()
         );
         try {
             call.execute();
-            LogAPI("Update pokemon " + caughtPokemon.getPokemonId() + " of user ID : " + caughtPokemon.getUserId());
         } catch (IOException e) {
             e.printStackTrace();
             return false;
