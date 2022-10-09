@@ -1,11 +1,14 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
@@ -72,6 +76,24 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pokemon pokemon = dataset.get(position);
         holder.viewModel.setPokemon(pokemon);
+
+        boolean isCaught = false;
+        // If the pokemon isn't caught, we don't display gray image
+        for (Pokemon p : Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().keySet()) {
+            if (p.getId() == pokemon.getId()) {
+                isCaught = true;
+                break;
+            }
+        }
+
+        if (!isCaught) {
+            // Get display image and apply filter
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.setSaturation(0);
+            holder.binding.pokemonImage.setColorFilter(new ColorMatrixColorFilter(matrix));
+            holder.viewModel.setPokemonImage(ResourcesCompat.getDrawable(holder.binding.pokemonImage.getContext().getResources(), R.drawable.not_discovered, null));
+            holder.viewModel.setName(pokemon.getName() + " (not discovered)");
+        }
 
         // Set the listener for the click on the Pokemon.
         holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));

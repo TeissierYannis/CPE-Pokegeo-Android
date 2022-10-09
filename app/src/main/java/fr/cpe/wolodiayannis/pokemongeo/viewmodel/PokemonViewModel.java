@@ -23,6 +23,9 @@ public class PokemonViewModel extends BaseObservable {
 
     private Datastore datastore;
 
+    private Drawable pokemonImage;
+    private String name;
+
     /**
      * set pokemon.
      *
@@ -44,12 +47,19 @@ public class PokemonViewModel extends BaseObservable {
     public Drawable getImage(Context context, int res) {
         if (res != -1)
             try {
-                return ResourcesCompat.getDrawable(context.getResources(), res, null);
+                if (this.pokemonImage == null) {
+                    this.pokemonImage = ResourcesCompat.getDrawable(context.getResources(), res, null);
+                }
+                return this.pokemonImage;
             } catch (Exception e) {
                 return null;
             }
         else
             return null;
+    }
+
+    public void setPokemonImage(Drawable drawable) {
+        this.pokemonImage = drawable;
     }
 
     /**
@@ -69,7 +79,6 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getName() {
-        // Capitalize first letter and remove all after -
         return (pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1).split("-")[0]);
     }
 
@@ -255,4 +264,7 @@ public class PokemonViewModel extends BaseObservable {
             return -1;
     }
 
+    public void setName(String s) {
+        this.name = s;
+    }
 }
