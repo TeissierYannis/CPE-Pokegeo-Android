@@ -1,61 +1,65 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity.lists;
 
-import com.google.gson.annotations.JsonAdapter;
-
 import java.io.Serializable;
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.ItemListAdapter;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 
-@JsonAdapter(ItemListAdapter.class)
 public class ItemList implements Serializable {
-    /**
-     * List of item
-     */
-    private List<Item> itemList;
 
     /**
      * List of pokeball
      */
-    private List<ItemBall> pokeballList;
+    private final List<ItemBall> pokeballList;
 
     /**
      * List of potion
      */
-    private List<ItemPotion> potionList;
+    private final List<ItemPotion> potionList;
 
     /**
      * List of revive
      */
-    private List<ItemRevive> reviveList;
+    private final List<ItemRevive> reviveList;
 
 
     /**
      * ItemList constructor.
-     * @param itemList List of item.
+     * @param pokeballList List of pokeball.
+     * @param potionList List of potion.
+     * @param reviveList List of revive.
      */
-    public ItemList(List<Item> itemList) {
-        this.itemList = itemList;
+    public ItemList(List<ItemBall> pokeballList, List<ItemPotion> potionList, List<ItemRevive> reviveList) {
+        this.pokeballList = pokeballList;
+        this.potionList = potionList;
+        this.reviveList = reviveList;
     }
 
     /**
-     * Get the item list.
-     * @return List of item.
+     * Get list of pokeball.
+     * @return List of pokeball.
      */
-    public List<Item> getItemList() {
-        return itemList;
+    public List<ItemBall> getPokeballList() {
+        return pokeballList;
     }
 
-    public void addItem(int id, String name, int price) {
-        try {
-            assert id > 0;
-            assert name != null;
-            assert price >= 0;
-            itemList.add(new Item(id, name, price));
-        } catch (AssertionError ignored) {}
+    /**
+     * Get list of potion.
+     * @return List of potion.
+     */
+    public List<ItemPotion> getPotionList() {
+        return potionList;
     }
+
+    /**
+     * Get list of revive.
+     * @return List of revive.
+     */
+    public List<ItemRevive> getReviveList() {
+        return reviveList;
+    }
+
+
 }

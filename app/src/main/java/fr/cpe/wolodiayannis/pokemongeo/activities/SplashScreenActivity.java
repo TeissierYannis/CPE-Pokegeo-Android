@@ -481,11 +481,49 @@ public class SplashScreenActivity extends AppCompatActivity {
         setProgress();
 
         Datastore.getInstance().setPokemons(pokemonList)
-                .setItems(this.fetchThreading.getItemsList().get())
+                .setItems(this.fetchThreading.getItemsList())
                 .setStats(this.fetchThreading.getStatsList())
                 .setTypes(this.fetchThreading.getTypesList())
                 .setAbilities(this.fetchThreading.getAbilitiesList())
                 .setCaughtInventory(this.fetchThreading.getCaughtInventory().get());
+
+        // set drawable for potion items
+        for (int i = 0; i < Datastore.getInstance().getItemList().getPotionList().size(); i++) {
+            Datastore.getInstance().getItemList().getPotionList().get(i).setStat(
+                    Datastore.getInstance().getStats().get(0)
+            );
+            Datastore.getInstance().getItemList().getPotionList().get(i)
+                    .setImageID(
+                            getResources().getIdentifier(
+                                    "ipt" + String.format("%03d", i + 1),
+                                    "drawable",
+                                    getPackageName()
+                            )
+                    );
+        }
+        // set drawable for ball items
+        for (int i = 0; i < Datastore.getInstance().getItemList().getPokeballList().size(); i++) {
+            Datastore.getInstance().getItemList().getPokeballList().get(i)
+                    .setImageID(
+                            getResources().getIdentifier(
+                                    "ipb" + String.format("%03d", i),
+                                    "drawable",
+                                    getPackageName()
+                            )
+                    );
+        }
+
+        // set drawable for revive items
+        for (int i = 0; i < Datastore.getInstance().getItemList().getReviveList().size(); i++) {
+            Datastore.getInstance().getItemList().getReviveList().get(i)
+                    .setImageID(
+                            getResources().getIdentifier(
+                                    "ir" + String.format("%03d", i + 1),
+                                    "drawable",
+                                    getPackageName()
+                            )
+                    );
+        }
 
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");

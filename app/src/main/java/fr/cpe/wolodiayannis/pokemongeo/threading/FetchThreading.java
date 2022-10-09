@@ -16,6 +16,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemsFetcher;
@@ -33,12 +34,10 @@ public class FetchThreading extends Threading {
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
     private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
-
-    private AtomicReference<HashMap<String, List<Object>>>  itemsList = new AtomicReference<>(new HashMap<>());
-
     private List<Stat> statsList = new ArrayList<>();
     private List<Type> typesList = new ArrayList<>();
     private List<Ability> abilitiesList = new ArrayList<>();
+    private ItemList  itemsList = null;
 
     public FetchThreading() {}
 
@@ -94,7 +93,7 @@ public class FetchThreading extends Threading {
         });
 
         tasks.add(() -> {
-            itemsList.set((new ItemsFetcher(context)).fetchAndCache());
+            itemsList = (new ItemsFetcher(context)).fetchAndCache();
             changeLoadingText("Manufacturing of items...");
             setProgress();
             this.onEnd(7);
@@ -158,7 +157,7 @@ public class FetchThreading extends Threading {
         return typesList;
     }
 
-    public AtomicReference<HashMap<String, List<Object>>> getItemsList() {
+    public ItemList getItemsList() {
         return itemsList;
     }
 

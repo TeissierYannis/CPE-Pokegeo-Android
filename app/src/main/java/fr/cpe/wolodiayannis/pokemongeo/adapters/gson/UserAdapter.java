@@ -41,8 +41,6 @@ public class UserAdapter extends TypeAdapter<User> {
         out.value(value.getCreatedAt().toString());
         out.name("token");
         out.value(value.getJwt());
-        out.name("money");
-        out.value(value.getMoney());
         out.endObject();
         out.endArray();
         out.endObject();

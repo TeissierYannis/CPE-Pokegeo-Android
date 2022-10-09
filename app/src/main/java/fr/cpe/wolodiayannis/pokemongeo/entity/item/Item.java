@@ -31,6 +31,12 @@ public class Item implements Serializable {
     private final int price;
 
     /**
+     * Item Image.
+     */
+    private int imageID;
+
+
+    /**
      * Item constructor.
      * @param id Item id.
      * @param name Item name.
@@ -63,6 +69,24 @@ public class Item implements Serializable {
      */
     public int getPrice() {
         return price;
+    }
+
+    /**
+     * Get image id.
+     *
+     * @return int image ID.
+     */
+    public int getImageID() {
+        return this.imageID;
+    }
+
+    /**
+     * Set image ID.
+     *
+     * @param drawable int image ID.
+     */
+    public void setImageID(int drawable) {
+        this.imageID = drawable;
     }
 
     /**
