@@ -6,8 +6,10 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.Enum.ITEM_TYPE;
 import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
@@ -23,10 +25,11 @@ public class ItemsFetcher {
         this.ctx = ctx;
     }
 
-    public List<Item> fetchAndCache() {
-        List<Item> itemList = new ArrayList<>();
+    public HashMap<String, List<Object>> fetchAndCache() {
+
+        HashMap<String, List<Object>> itemList = new HashMap<>();
         try {
-            itemList = (List<Item>) Cache.readCache(this.ctx, "data_items");
+            itemList = (HashMap<String, List<Object>>) Cache.readCache(this.ctx, "data_items");
         } catch (Exception e) {
             try {
 
@@ -34,9 +37,9 @@ public class ItemsFetcher {
                 List<ItemRevive> itemReviveList = DataFetcher.fetchItemReviveList().getItemReviveList();
                 List<ItemPotion> itemPotionList = DataFetcher.fetchItemPotionList().getItemPotionList();
 
-                itemList.addAll(itemBallList);
-                itemList.addAll(itemReviveList);
-                itemList.addAll(itemPotionList);
+                itemList.put(ITEM_TYPE.BALL, new ArrayList<>(itemBallList));
+                itemList.put(ITEM_TYPE.REVIVE, new ArrayList<>(itemReviveList));
+                itemList.put(ITEM_TYPE.POTION, new ArrayList<>(itemPotionList));
 
                 Cache.writeCache(this.ctx, "data_items", itemList);
             } catch (Exception exception) {

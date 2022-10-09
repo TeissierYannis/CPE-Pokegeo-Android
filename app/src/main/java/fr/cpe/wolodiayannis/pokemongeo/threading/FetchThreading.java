@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
@@ -32,9 +33,11 @@ public class FetchThreading extends Threading {
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
     private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
     private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
+
+    private AtomicReference<HashMap<String, List<Object>>>  itemsList = new AtomicReference<>(new HashMap<>());
+
     private List<Stat> statsList = new ArrayList<>();
     private List<Type> typesList = new ArrayList<>();
-    private List<Item> itemsList = new ArrayList<>();
     private List<Ability> abilitiesList = new ArrayList<>();
 
     public FetchThreading() {}
@@ -91,7 +94,7 @@ public class FetchThreading extends Threading {
         });
 
         tasks.add(() -> {
-            itemsList.addAll((new ItemsFetcher(context)).fetchAndCache());
+            itemsList.set((new ItemsFetcher(context)).fetchAndCache());
             changeLoadingText("Manufacturing of items...");
             setProgress();
             this.onEnd(7);
@@ -155,7 +158,7 @@ public class FetchThreading extends Threading {
         return typesList;
     }
 
-    public List<Item> getItemsList() {
+    public AtomicReference<HashMap<String, List<Object>>> getItemsList() {
         return itemsList;
     }
 

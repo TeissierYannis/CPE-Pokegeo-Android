@@ -33,6 +33,8 @@ public class UserAdapter extends TypeAdapter<User> {
         out.value(value.getEmail());
         out.name("experience");
         out.value(value.getExperience());
+        out.name("money");
+        out.value(value.getMoney());
         out.name("is_init");
         out.value(value.isInit());
         out.name("created_at");

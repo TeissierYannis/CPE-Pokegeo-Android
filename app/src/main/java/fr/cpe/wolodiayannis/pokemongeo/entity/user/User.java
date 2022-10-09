@@ -37,6 +37,13 @@ public class User implements Serializable  {
     private int experience;
 
     /**
+     * User money.
+     */
+    @SerializedName("money")
+    private int money;
+
+
+    /**
      * User is init
      * If the user as already played
      */
@@ -48,12 +55,6 @@ public class User implements Serializable  {
      */
     @SerializedName("created_at")
     private final Timestamp createdAt;
-
-    /**
-     * User money.
-     */
-    @SerializedName("money")
-    private int money;
 
     /**
      * User JWT.

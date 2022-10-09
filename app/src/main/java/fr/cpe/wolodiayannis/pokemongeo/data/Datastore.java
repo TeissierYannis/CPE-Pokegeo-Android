@@ -8,10 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
@@ -76,7 +76,7 @@ public class Datastore implements Comparable<Object>, Serializable {
     /**
      * The list of items
      */
-    private List<Item> items;
+    private HashMap<String, List<Object>> items;
 
     /**
      * The list of stats
@@ -147,7 +147,7 @@ public class Datastore implements Comparable<Object>, Serializable {
      *
      * @return the list of items.
      */
-    public List<Item> getItems() {
+    public HashMap<String, List<Object>> getItems() {
         return items;
     }
 
@@ -156,7 +156,7 @@ public class Datastore implements Comparable<Object>, Serializable {
      *
      * @param items the list of items.
      */
-    public Datastore setItems(List<Item> items) {
+    public Datastore setItems(HashMap<String, List<Object>> items) {
         this.items = items;
         return this;
     }

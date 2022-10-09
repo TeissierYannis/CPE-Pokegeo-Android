@@ -481,7 +481,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setProgress();
 
         Datastore.getInstance().setPokemons(pokemonList)
-                .setItems(this.fetchThreading.getItemsList())
+                .setItems(this.fetchThreading.getItemsList().get())
                 .setStats(this.fetchThreading.getStatsList())
                 .setTypes(this.fetchThreading.getTypesList())
                 .setAbilities(this.fetchThreading.getAbilitiesList())
