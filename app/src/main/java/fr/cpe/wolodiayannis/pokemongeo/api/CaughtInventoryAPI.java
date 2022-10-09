@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -27,5 +28,8 @@ public interface CaughtInventoryAPI extends BaseAPI {
      */
     @POST("inventory/caught")
     Call<BasicResponse> addCaughtPokemon(@Body CaughtPokemon body);
+
+    @PUT("inventory/caught")
+    Call<BasicResponse> updateCaughtPokemon(CaughtPokemon caughtPokemon);
 }
 

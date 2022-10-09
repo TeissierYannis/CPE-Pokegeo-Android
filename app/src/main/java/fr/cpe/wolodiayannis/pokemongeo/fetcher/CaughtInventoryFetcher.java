@@ -51,10 +51,22 @@ public class CaughtInventoryFetcher {
         }
     }
 
-    public void updateAndCache(CaughtPokemon caughtPokemon) {
+    public void addPokemonAndCache(CaughtPokemon caughtPokemon) {
         try {
             if (caughtPokemon != null) {
                 DataFetcher.addCaughtPokemon(caughtPokemon);
+                Cache.writeCache(this.ctx, "data_caught_pokemon", Datastore.getInstance().getCaughtInventory());
+            }
+            logOnUiThread("[CACHE] CaughtInventory cached");
+        } catch (Exception e) {
+            logOnUiThreadError("[CACHE] CaughtInventory cannot be cached : " + e.getMessage());
+        }
+    }
+
+    public void updatePokemonAndCache(CaughtPokemon caughtPokemon) {
+        try {
+            if (caughtPokemon != null) {
+                DataFetcher.updateCaughtPokemon(caughtPokemon);
                 Cache.writeCache(this.ctx, "data_caught_pokemon", Datastore.getInstance().getCaughtInventory());
             }
             logOnUiThread("[CACHE] CaughtInventory cached");

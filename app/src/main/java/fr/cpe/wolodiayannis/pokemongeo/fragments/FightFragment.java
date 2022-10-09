@@ -1,38 +1,26 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import java.sql.Timestamp;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonFight;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 
 public class FightFragment extends Fragment {
 
@@ -79,7 +67,6 @@ public class FightFragment extends Fragment {
                 .getCaughtPokemonFromPokemonID(this.userPokemon.getId());
 
         if (this.pokemonFight == null) {
-            System.out.println("FightFragment.onCreateView: pokemonFight is null");
             this.pokemonFight = new PokemonFight(this.userPokemon, this.opponentPokemon, userCaughtPokemon.getCurrentLifeState(), this.opponentPokemon.getHp());
             this.updateOpponentLifeBar(this.opponentPokemon, this.pokemonFight.getOpponentLifePoints());
             this.updateUserLifeBar(this.userPokemon, userCaughtPokemon);
@@ -126,8 +113,6 @@ public class FightFragment extends Fragment {
 
                 double totalRate = ballRate + (lifeRate * 0.5);
 
-                System.out.println("Random : " + random + " Total rate : " + totalRate);
-
                 if (random < totalRate * 100) {
                     this.onCapture();
                 } else {
@@ -163,6 +148,9 @@ public class FightFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * On win
+     */
     private void onWin() {
         Toast.makeText(getContext(), "You win !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
@@ -178,6 +166,9 @@ public class FightFragment extends Fragment {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    /**
+     * Update user pokemon in datastore
+     */
     private void updateUserPokemon() {
         // Update the pokemon in the user inventory
         Datastore.getInstance().getCaughtInventory().updateCaughtPokemonLife(
@@ -186,6 +177,9 @@ public class FightFragment extends Fragment {
         );
     }
 
+    /**
+     * On loose
+     */
     private void onLoose() {
         Toast.makeText(getContext(), "You loose !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
@@ -201,6 +195,9 @@ public class FightFragment extends Fragment {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    /**
+     * On capture
+     */
     private void onCapture() {
         Toast.makeText(getContext(), "Pokemon captured !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
@@ -218,6 +215,9 @@ public class FightFragment extends Fragment {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    /**
+     * Update the caught pokemon in the datastore
+     */
     private void updateCaughtPokemon() {
         CaughtPokemon caughtPokemon = new CaughtPokemon(
                 Datastore.getInstance().getUser().getId(),
@@ -229,6 +229,9 @@ public class FightFragment extends Fragment {
         Datastore.getInstance().getCaughtInventory().addPokemon(this.opponentPokemon, caughtPokemon);
     }
 
+    /**
+     * On pokemon escape
+     */
     private void onEscape() {
         Toast.makeText(getContext(), "Pokemon escaped !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
@@ -244,6 +247,9 @@ public class FightFragment extends Fragment {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    /**
+     * Animate capture
+     */
     private void animateCapture() {
         // replace opponent pokemon with pokeball image
         this.binding.pokemonfightImageWildPokemon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pokeball));
@@ -265,6 +271,9 @@ public class FightFragment extends Fragment {
         }, 500);
     }
 
+    /**
+     * Opponent attack
+     */
     private void opponentAttack() {
         this.pokemonFight.attack(this.opponentPokemon, this.userPokemon);
         this.binding.pokemonfightLifebarPlayer.setProgress(this.pokemonFight.getPlayerLifePoints());
@@ -284,6 +293,9 @@ public class FightFragment extends Fragment {
         }
     }
 
+    /**
+     * Player attack
+     */
     private void playerAttack() {
         this.pokemonFight.attack(this.userPokemon, this.opponentPokemon);
         this.binding.lifeBarRight.setProgress(this.pokemonFight.getOpponentLifePoints());
@@ -298,6 +310,12 @@ public class FightFragment extends Fragment {
         }
     }
 
+    /**
+     * On switch pokemon
+     *
+     * @param pokemon       pokemon
+     * @param caughtPokemon caught pokemon
+     */
     private void onSwitchPokemon(Pokemon pokemon, CaughtPokemon caughtPokemon) {
         this.updateUserPokemon();
 
@@ -307,6 +325,9 @@ public class FightFragment extends Fragment {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    /**
+     * Update lifebar
+     */
     private void updateLifeBarProgress() {
         this.binding.pokemonfightLifebarPlayer.setProgress(this.pokemonFight.getPlayerLifePoints());
         this.binding.lifeBarRight.setProgress(this.pokemonFight.getOpponentLifePoints());
@@ -334,11 +355,23 @@ public class FightFragment extends Fragment {
         this.binding.pokemonfightActionsBox.fightpopupButtonPokemon.setEnabled(true);
     }
 
+    /**
+     * Update opponent life bar.
+     *
+     * @param opponentPokemon opponent pokemon
+     * @param lifePoints      life points
+     */
     private void updateOpponentLifeBar(Pokemon opponentPokemon, int lifePoints) {
         this.binding.lifeBarRight.setMax(opponentPokemon.getHp());
         this.binding.lifeBarRight.setProgress(lifePoints);
     }
 
+    /**
+     * Update user life bar.
+     *
+     * @param userPokemon       user pokemon
+     * @param userCaughtPokemon user caught pokemon
+     */
     private void updateUserLifeBar(Pokemon userPokemon, CaughtPokemon userCaughtPokemon) {
         this.binding.pokemonfightLifebarPlayer.setMax(userPokemon.getHp());
         this.binding.pokemonfightLifebarPlayer.setProgress(userCaughtPokemon.getCurrentLifeState());
