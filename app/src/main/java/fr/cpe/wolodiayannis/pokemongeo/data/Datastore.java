@@ -107,7 +107,7 @@ public class Datastore implements Comparable<Object>, Serializable {
     /**
      * User items inventory
      */
-    private ItemInventory itemsInventory;
+    private ItemInventory itemInventory;
 
 
     /**
@@ -266,16 +266,15 @@ public class Datastore implements Comparable<Object>, Serializable {
      * Returns the items inventory.
      * @return the items inventory.
      */
-    public ItemInventory getItemsInventory() {
-        return itemsInventory;
+    public ItemInventory getItemInventory() {
+        return itemInventory;
     }
 
     /**
      * Sets the items inventory.
-     * @param itemsInventory the items inventory.
      */
-    public Datastore setItemsInventory(ItemInventory itemsInventory) {
-        this.itemsInventory = itemsInventory;
+    public Datastore setItemInventory(ItemInventory itemInventory) {
+        this.itemInventory = itemInventory;
         return this;
     }
 

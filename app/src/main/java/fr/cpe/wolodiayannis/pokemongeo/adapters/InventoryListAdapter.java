@@ -1,6 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
@@ -29,7 +29,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     /**
      * List of item inventory.
      */
-    private final ItemInventory itemInventory;
+    private ItemInventory itemInventory;
 
 
 
@@ -69,8 +69,8 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
 
         // Get the item if item do not exist create empty one
         Item itemToAdd = new Item(0, "default", 0);
-        if (Datastore.getInstance().getItemsInventory().getItem(position) != null) {
-            itemToAdd = Datastore.getInstance().getItemsInventory().getItem(position);
+        if (Datastore.getInstance().getItemInventory().getItem(position) != null) {
+            itemToAdd = Datastore.getInstance().getItemInventory().getItem(position);
         }
 
         // Set the item to the view model

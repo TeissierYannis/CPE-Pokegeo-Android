@@ -58,7 +58,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:spanCount="5"
+                app:spanCount="2"
                 tools:listitem="@layout/inventory_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

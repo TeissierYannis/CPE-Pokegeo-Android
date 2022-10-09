@@ -62,10 +62,12 @@ public class ItemInventoryFetcher {
     public void updateAndCache(ItemInventory itemInventory) {
         try {
             if (itemInventory != null) {
+                // TODO : update API item inventory
                 DataFetcher.addItemInventory(itemInventory);
                 Cache.writeCache(this.ctx, "data_item_inventory", Datastore.getInstance().getItemInventory());
             }
         } catch (Exception e) {
             e.printStackTrace();
+            }
     }
 }

@@ -13,16 +13,15 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserUpdateFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 
@@ -107,6 +106,7 @@ public class InitActivity extends AppCompatActivity {
             textView_Dialog.setText(R.string.init_text_04);
             datastore.getUser().setInit(true);
             addStarterToInventory();
+            addItemsToInventory();
         });
     }
 
@@ -185,37 +185,37 @@ public class InitActivity extends AppCompatActivity {
     }
 
     private void addItemsToInventory() {
-        if (datastore.getItemsInventory() == null) {
-            datastore.setItemsInventory(new ItemInventory());
+        if (datastore.getItemInventory() == null) {
+            datastore.setItemInventory(new ItemInventory());
         }
 
         // ajout de 20 pokéballs
-        datastore.getItemsInventory().addItem(
+        datastore.getItemInventory().addItem(
                 datastore.getItemList().getPokeballList().get(1),
                 20
         );
         // ajout de 10 potions
-        datastore.getItemsInventory().addItem(
-                datastore.getItemList().getPotionList().get(1),
+        datastore.getItemInventory().addItem(
+                datastore.getItemList().getPotionList().get(0),
                 10
         );
         // ajout de 3 revive
-        datastore.getItemsInventory().addItem(
-                datastore.getItemList().getReviveList().get(1),
+        datastore.getItemInventory().addItem(
+                datastore.getItemList().getReviveList().get(0),
                 3
         );
 
         // Avoid NetworkOnMainThreadException and call Datafetcher
         new Thread(() ->
         {
-            (new ItemInventoryFetcher(this)).updateAndCache(datastore.getItemsInventory());
+            // (new ItemInventoryFetcher(this)).updateAndCache(datastore.getItemInventory());
             try {
-                (new ItemInventoryUpdate(this)).fetchAndCache(datastore.getItemsInventory(), true);
+                (new ItemInventoryFetcher(this)).cacheInventory(datastore.getItemInventory());
+                // TODO : update item inventory
+                // (new ItemInventoryUpdateFetcher(this)).fetchAndCache(datastore.getItemInventory(), true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
-
-         */
     }
 }

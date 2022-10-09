@@ -9,7 +9,7 @@ import java.util.HashMap;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 
-public class ItemsInventoryAdapter extends TypeAdapter<ItemInventory> {
+public class ItemInventoryAdapter extends TypeAdapter<ItemInventory> {
 
     /**
      * Writes one JSON value (an array, object, string, number, boolean or null)
