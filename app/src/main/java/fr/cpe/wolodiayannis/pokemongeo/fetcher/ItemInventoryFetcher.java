@@ -14,6 +14,7 @@ public class ItemInventoryFetcher {
 
     /**
      * Constructor.
+     *
      * @param ctx the context
      */
     public ItemInventoryFetcher(Context ctx) {
@@ -22,6 +23,7 @@ public class ItemInventoryFetcher {
 
     /**
      * Fetch the item inventory.
+     *
      * @param userID the user id
      * @return the item inventory
      */
@@ -46,6 +48,7 @@ public class ItemInventoryFetcher {
 
     /**
      * Cache the item inventory.
+     *
      * @param inventory the item inventory
      * @throws CacheException cache exception
      */
@@ -56,18 +59,34 @@ public class ItemInventoryFetcher {
     }
 
     /**
-     * Update and cache the item inventory.
+     * Init post of the user item inventory on the API and cache it.
+     *
+     * @param itemInventory the item inventory
+     */
+    public void postAndCache(ItemInventory itemInventory) {
+        try {
+            if (itemInventory != null) {
+                DataFetcher.postItemInventory(itemInventory);
+                Cache.writeCache(this.ctx, "data_item_inventory", Datastore.getInstance().getItemInventory());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Update the user item inventory on the API and cache it.
+     *
      * @param itemInventory the item inventory
      */
     public void updateAndCache(ItemInventory itemInventory) {
         try {
             if (itemInventory != null) {
-                // TODO : update API item inventory
-                DataFetcher.addItemInventory(itemInventory);
+                DataFetcher.updateItemInventory(itemInventory);
                 Cache.writeCache(this.ctx, "data_item_inventory", Datastore.getInstance().getItemInventory());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            }
+        }
     }
 }

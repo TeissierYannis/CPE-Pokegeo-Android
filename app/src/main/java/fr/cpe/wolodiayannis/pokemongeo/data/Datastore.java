@@ -158,6 +158,14 @@ public class Datastore implements Comparable<Object>, Serializable {
     }
 
     /**
+     * Returns items list size.
+     * @return items list size.
+     */
+    public int getSize() {
+        return itemList.getPokeballList().size() + itemList.getReviveList().size() + itemList.getPotionList().size();
+    }
+
+    /**
      * Sets the list of items.
      *
      * @param itemList the list of items.

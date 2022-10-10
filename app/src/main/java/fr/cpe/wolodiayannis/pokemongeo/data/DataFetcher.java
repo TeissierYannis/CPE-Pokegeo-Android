@@ -16,13 +16,11 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemReviveList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
@@ -164,9 +162,16 @@ public class DataFetcher {
     }
 
     /**
-     * Add an item to the user inventory.
-     * TODO
+     * Init post of the user item inventory on the API.
      */
-    public static void addItemInventory(ItemInventory itemInventory) {
+    public static void postItemInventory(ItemInventory itemInventory) {
+        ItemInventoryRequest.postItemInventory(itemInventory);
+    }
+
+    /**
+     * Update the user item inventory on the API.
+     */
+    public static void updateItemInventory(ItemInventory itemInventory) {
+        ItemInventoryRequest.updateItemInventory(itemInventory);
     }
 }

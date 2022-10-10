@@ -185,34 +185,32 @@ public class InitActivity extends AppCompatActivity {
     }
 
     private void addItemsToInventory() {
-        if (datastore.getItemInventory() == null) {
-            datastore.setItemInventory(new ItemInventory());
+        if (Datastore.getInstance().getItemInventory() == null) {
+            Datastore.getInstance().setItemInventory(new ItemInventory());
         }
 
         // ajout de 20 pokéballs
-        datastore.getItemInventory().addItem(
-                datastore.getItemList().getPokeballList().get(1),
+        Datastore.getInstance().getItemInventory().addItem(
+                Datastore.getInstance().getItemList().getPokeballList().get(1),
                 20
         );
         // ajout de 10 potions
-        datastore.getItemInventory().addItem(
-                datastore.getItemList().getPotionList().get(0),
+        Datastore.getInstance().getItemInventory().addItem(
+                Datastore.getInstance().getItemList().getPotionList().get(0),
                 10
         );
         // ajout de 3 revive
-        datastore.getItemInventory().addItem(
-                datastore.getItemList().getReviveList().get(0),
+        Datastore.getInstance().getItemInventory().addItem(
+                Datastore.getInstance().getItemList().getReviveList().get(0),
                 3
         );
+
 
         // Avoid NetworkOnMainThreadException and call Datafetcher
         new Thread(() ->
         {
-            // (new ItemInventoryFetcher(this)).updateAndCache(datastore.getItemInventory());
             try {
-                (new ItemInventoryFetcher(this)).cacheInventory(datastore.getItemInventory());
-                // TODO : update item inventory
-                // (new ItemInventoryUpdateFetcher(this)).fetchAndCache(datastore.getItemInventory(), true);
+                (new ItemInventoryFetcher(this)).postAndCache(Datastore.getInstance().getItemInventory());
             } catch (Exception e) {
                 e.printStackTrace();
             }

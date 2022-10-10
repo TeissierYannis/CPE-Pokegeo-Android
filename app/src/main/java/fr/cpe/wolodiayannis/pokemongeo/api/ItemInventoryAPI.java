@@ -1,9 +1,14 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
+import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
+import fr.cpe.wolodiayannis.pokemongeo.dto.ItemInventoryDto;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -16,8 +21,18 @@ public interface ItemInventoryAPI extends BaseAPI {
     @GET("inventory/item/{userID}")
     Call<ItemInventory> getItemInventory(@Path("userID") int userID);
 
+
     /**
-     * Add item to API inventory.
+     * Init post of the user item inventory on the API.
+     * @param itemInventoryDto the user item inventory
      */
-    Call<ItemInventory> addItem(int userID, int itemID, int quantity);
+    @POST("inventory/item/post/{userID}")
+    Call<BasicResponse> postItemInventory(@Body ItemInventoryDto itemInventoryDto, @Path("userID") int userID);
+
+    /**
+     * update the user item inventory on the API.
+     * @param itemInventoryDto the user item inventory
+     */
+    @PUT("inventory/item/update/{userID}")
+    Call<BasicResponse> updateItemInventory(@Body ItemInventoryDto itemInventoryDto, @Path("userID") int userID);
 }
