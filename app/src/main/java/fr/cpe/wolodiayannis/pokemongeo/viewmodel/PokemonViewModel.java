@@ -1,14 +1,19 @@
 package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import java.util.List;
 
+import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -23,8 +28,14 @@ public class PokemonViewModel extends BaseObservable {
 
     private Datastore datastore;
 
+    /**
+     * Use to replace the Pokemon by ?.
+     */
     private Drawable pokemonImage;
-    private String name;
+    /**
+     * Use to replace the Pokemon by ?.
+     */
+    private String name = null;
 
     /**
      * set pokemon.
@@ -47,8 +58,10 @@ public class PokemonViewModel extends BaseObservable {
     public Drawable getImage(Context context, int res) {
         if (res != -1)
             try {
-                if (this.pokemonImage == null) {
-                    this.pokemonImage = ResourcesCompat.getDrawable(context.getResources(), res, null);
+                this.pokemonImage = ResourcesCompat.getDrawable(context.getResources(), res, null);
+                if (!Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().containsKey(pokemon)) {
+                    Drawable wrapped = DrawableCompat.wrap(this.pokemonImage);
+                    DrawableCompat.setTint(wrapped, Color.BLACK);
                 }
                 return this.pokemonImage;
             } catch (Exception e) {
@@ -56,10 +69,6 @@ public class PokemonViewModel extends BaseObservable {
             }
         else
             return null;
-    }
-
-    public void setPokemonImage(Drawable drawable) {
-        this.pokemonImage = drawable;
     }
 
     /**
@@ -79,7 +88,11 @@ public class PokemonViewModel extends BaseObservable {
      */
     @Bindable
     public String getName() {
-        return (pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1).split("-")[0]);
+        String name = (pokemon.getName().substring(0, 1).toUpperCase() + pokemon.getName().substring(1).split("-")[0]);
+        if (!Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().containsKey(pokemon)) {
+            name = "?????";
+        }
+        return name;
     }
 
     /**
