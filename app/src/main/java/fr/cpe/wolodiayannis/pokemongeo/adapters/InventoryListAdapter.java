@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
@@ -30,8 +29,6 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      * List of item inventory.
      */
     private ItemInventory itemInventory;
-
-
 
     /**
      * Constructor.
@@ -68,20 +65,11 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         // Get the item if item do not exist create empty one
-        Item itemToAdd = new Item(0, "default", 0);
-        if (Datastore.getInstance().getItemInventory().getItem(position) != null) {
-            itemToAdd = Datastore.getInstance().getItemInventory().getItem(position);
-        }
+        Item item = itemInventory.getItem(position);
+        holder.viewModel.setItem(item);
+        holder.binding.getRoot().setOnClickListener(v -> listener.onItemSelected(item));
 
-        // Set the item to the view model
-        holder.viewModel.setItem(
-                itemToAdd
-        );
-
-        Item finalItemToAdd = itemToAdd;
-        holder.binding.getRoot().setOnClickListener(v -> listener.onItemSelected(finalItemToAdd));
-
-        // Set the color of the pokemon bg.
+        // Set the color of the item bg.
         // TODO
     }
 

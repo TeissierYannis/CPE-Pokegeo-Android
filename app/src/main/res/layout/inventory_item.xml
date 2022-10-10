@@ -24,7 +24,7 @@
             android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp"
             android:layout_marginTop="5dp"
-            android:src="@{itemViewModel.getImage(context, itemViewModel.front)}"
+            android:src="@{itemViewModel.getImage(context, itemViewModel.getFront)}"
             android:contentDescription="@string/inventory_item_img_desc" />
         <TextView
             android:id="@+id/item_quantity"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:text="@{itemViewModel.quantity}"
+            android:text="@{itemViewModel.getQuantity}"
             android:textColor="?colorOnPrimary"
             android:textSize="14sp"
             android:textStyle="normal"

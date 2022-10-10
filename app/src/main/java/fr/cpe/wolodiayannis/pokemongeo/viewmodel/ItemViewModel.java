@@ -7,8 +7,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-import java.util.Objects;
-
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 
 /**
@@ -22,17 +21,26 @@ public class ItemViewModel extends BaseObservable {
     private Item item;
 
     /**
+     * Datastore instance.
+     */
+    private Datastore datastore;
+
+    /**
      * Set the item.
-     * @param item Item.
+     *
+     * @param item the item
      */
     public void setItem(Item item) {
+        this.datastore = Datastore.getInstance();
         this.item = item;
+        notifyChange();
     }
 
     /**
      * Get the item image.
+     *
      * @param context Context.
-     * @param res Resource.
+     * @param res     Resource.
      * @return Drawable.
      */
     public Drawable getImage(Context context, int res) {
@@ -49,16 +57,17 @@ public class ItemViewModel extends BaseObservable {
 
     /**
      * Get the item front res.
+     *
      * @return int.
      */
     @Bindable
     public int getFront() {
-        // placeholder
-        return -1;
+        return item.getImageID();
     }
 
     /**
      * Get the item name.
+     *
      * @return String.
      */
     @Bindable
@@ -67,20 +76,12 @@ public class ItemViewModel extends BaseObservable {
     }
 
     /**
-     * Get the item description.
-     * @return String.
-     */
-    @Bindable
-    public String getDescription() {
-        return "desc";
-    }
-
-    /**
      * Get the item quantity.
+     *
      * @return String.
      */
     @Bindable
     public String getQuantity() {
-        return Objects.equals(item.getName(), "") ? "" : String.valueOf(1);
+        return String.valueOf(datastore.getItemInventory().getQuantity(item));
     }
 }
