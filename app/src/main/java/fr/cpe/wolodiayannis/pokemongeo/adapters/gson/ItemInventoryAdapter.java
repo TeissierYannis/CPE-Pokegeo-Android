@@ -41,21 +41,26 @@ public class ItemInventoryAdapter extends TypeAdapter<ItemInventory> {
     /**
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
+     *
      * @param in the stream to read from.
      * @return the converted Java object. May be null.
      */
     @Override
     public ItemInventory read(com.google.gson.stream.JsonReader in) throws java.io.IOException {
         /*
-         * {
-         *   "message": "success",
-         *   "data": {
-         *     "id": 1,
-         *     "name": "master-ball",
-         *     "quantity": 1
-         *     "price": 50000
-         *   }
-         * }
+        {
+            "message": "success",
+                "data": [
+                {
+                    "item_id": 0,
+                    "quantity": 0
+                },
+                {
+                    "item_id": 1,
+                    "quantity": 10
+                },
+                ...
+            ]
          */
 
         HashMap<Item, Integer> items = new HashMap<>();
@@ -64,28 +69,26 @@ public class ItemInventoryAdapter extends TypeAdapter<ItemInventory> {
         in.nextName();
         String message = in.nextString();
         if (message.equals("success")) {
+            in.nextName();
+            in.beginArray();
 
-        in.nextName();
+            // for each object
+            while (in.hasNext()) {
+                in.beginObject();
+                in.nextName();
+                int id = in.nextInt();
+                in.nextName();
+                int quantity = in.nextInt();
+                in.endObject();
+                in.nextName();
 
-        // for each object
-        while (in.peek() != JsonToken.END_OBJECT) {
-            in.beginObject();
-            in.nextName();
-            int id = in.nextInt();
-            in.nextName();
-            String name = in.nextString();
-            in.nextName();
-            int quantity = in.nextInt();
-            in.nextName();
-            int price = in.nextInt();
+                items.put(new Item(id), quantity);
+            }
+
+            in.endArray();
             in.endObject();
-            in.nextName();
-            items.put(new Item(id, name, price), quantity);
-        }
 
-        in.endObject();
-
-        return new ItemInventory(items);
+            return new ItemInventory(items);
         } else {
             throw new IOException("Error while reading the JSON");
         }

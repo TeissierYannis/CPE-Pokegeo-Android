@@ -44,6 +44,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
@@ -85,7 +86,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView progressBarText;
 
-    private final int TASKS_NB = 11;
+    private final int TASKS_NB = 12;
     private final int prcPerTask = 100 / TASKS_NB;
 
     /**
@@ -436,7 +437,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 this.fetchThreading = new FetchThreading();
                 this.fetchThreading
                         .setExecutorListener(executorListener)
-                        .setupExecutor(11)
+                        .setupExecutor(12)
                         .setupTasks(this)
                         .execute();
             }).start();
@@ -485,7 +486,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .setStats(this.fetchThreading.getStatsList())
                 .setTypes(this.fetchThreading.getTypesList())
                 .setAbilities(this.fetchThreading.getAbilitiesList())
-                .setCaughtInventory(this.fetchThreading.getCaughtInventory().get());
+                .setCaughtInventory(this.fetchThreading.getCaughtInventory().get())
+                .setItemInventory(this.fetchThreading.getItemInventory());
 
         // set drawable for potion items
         for (int i = 0; i < Datastore.getInstance().getItemList().getPotionList().size(); i++) {
@@ -525,11 +527,19 @@ public class SplashScreenActivity extends AppCompatActivity {
                     );
         }
 
+        // set correctly item inventory from the itemInventory hasmap
+        for (Item item : Datastore.getInstance().getItemInventory().getItemIventoryList().keySet()) {
+            if (item.getName().equals("todo")) {
+                Item itm = Datastore.getInstance().getItemList().getItemById(item.getId());
+                Datastore.getInstance().getItemInventory().setItem(item.getId(), itm);
+            }
+        }
+
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");
         setProgress();
 
-        // TODO BEURKg
+        // TODO BEURK
         CaughtInventory caughtInventoryStored = Datastore.getInstance().getCaughtInventory();
         HashMap<Pokemon, CaughtPokemon> caughtInventoryList = new HashMap<>();
 
@@ -558,14 +568,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             this.tasksDone.add(taskID);
 
-            int tasksToDo = 11;
+            int tasksToDo = 12;
             if (this.tasksDone.size() == tasksToDo) {
                 this.fetchThreading.shutdown();
                 updatePokemonAndSwitchActivity();
             }
         });
     }
-
 
     /**
      * Check if the player is online.

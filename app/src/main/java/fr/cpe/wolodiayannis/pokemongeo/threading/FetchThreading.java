@@ -17,11 +17,13 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.AbilitiesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemsFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonAbilitiesFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.PokemonStatsFetcher;
@@ -44,6 +46,7 @@ public class FetchThreading extends Threading {
     private List<ItemBall> itemBallList = new ArrayList<>();
     private List<ItemPotion> itemPotionList = new ArrayList<>();
     private List<ItemRevive> itemReviveList = new ArrayList<>();
+    private ItemInventory itemInventory = new ItemInventory();
 
     public FetchThreading() {}
 
@@ -137,6 +140,15 @@ public class FetchThreading extends Threading {
             this.onEnd(11);
             return null;
         });
+
+        tasks.add(() -> {
+            itemInventory = (new ItemInventoryFetcher(context)).fetch(Datastore.getInstance().getUser().getId());
+            changeLoadingText("Gathering of your items...");
+            setProgress();
+            this.onEnd(12);
+            return null;
+        });
+
         return this;
     }
 
@@ -187,5 +199,9 @@ public class FetchThreading extends Threading {
 
     public List<Ability> getAbilitiesList() {
         return abilitiesList;
+    }
+
+    public ItemInventory getItemInventory() {
+        return itemInventory;
     }
 }

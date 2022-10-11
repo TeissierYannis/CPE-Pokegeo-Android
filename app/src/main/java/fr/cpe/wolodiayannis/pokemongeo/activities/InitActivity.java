@@ -205,7 +205,6 @@ public class InitActivity extends AppCompatActivity {
                 3
         );
 
-
         // Avoid NetworkOnMainThreadException and call Datafetcher
         new Thread(() ->
         {

@@ -48,6 +48,17 @@ public class Item implements Serializable {
     }
 
     /**
+     * Item constructor.
+     * !! just for init purpose !!
+     * @param id Item id.
+     */
+    public Item(int id) {
+        this.id = id;
+        this.name = "todo";
+        this.price = 0;
+    }
+
+    /**
      * Get item id.
      * @return Item id.
      */

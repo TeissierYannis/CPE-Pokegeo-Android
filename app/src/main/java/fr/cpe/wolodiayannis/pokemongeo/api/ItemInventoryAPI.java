@@ -18,7 +18,7 @@ public interface ItemInventoryAPI extends BaseAPI {
     /**
      * Get all inventory's items.
      */
-    @GET("inventory/item/{userID}")
+    @GET("inventory/item/get/{userID}")
     Call<ItemInventory> getItemInventory(@Path("userID") int userID);
 
 

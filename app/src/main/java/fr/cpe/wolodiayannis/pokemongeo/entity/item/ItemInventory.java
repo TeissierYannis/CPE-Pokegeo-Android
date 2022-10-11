@@ -25,6 +25,7 @@ public class ItemInventory implements Serializable {
     /**
      * Constructor.
      * set the item inventory HashMap.
+     *
      * @param itemIventoryList The item inventory list
      */
     public ItemInventory(HashMap<Item, Integer> itemIventoryList) {
@@ -33,6 +34,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Get the item inventory list.
+     *
      * @return The item inventory list.
      */
     public HashMap<Item, Integer> getItemIventoryList() {
@@ -41,7 +43,8 @@ public class ItemInventory implements Serializable {
 
     /**
      * Add an item to the inventory.
-     * @param item the item to add
+     *
+     * @param item     the item to add
      * @param quantity the quantity of the item to add
      */
     public void addItem(Item item, int quantity) {
@@ -54,7 +57,8 @@ public class ItemInventory implements Serializable {
 
     /**
      * Remove an item from the inventory.
-     * @param item the item to remove
+     *
+     * @param item     the item to remove
      * @param quantity the quantity of the item to remove
      */
     public void removeItem(Item item, int quantity) {
@@ -69,6 +73,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Completely remove an item from the inventory.
+     *
      * @param item the item to remove
      */
     public void removeItem(Item item) {
@@ -79,6 +84,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Completely remove an item from the inventory.
+     *
      * @param index the index of the item to remove
      */
     public void removeItem(int index) {
@@ -96,6 +102,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Get the quantity of an item in the inventory.
+     *
      * @param item the item to check
      * @return the quantity of the item in the inventory
      */
@@ -109,6 +116,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Get the item at the given index.
+     *
      * @param index the index of the item to get
      * @return the item at the given index
      */
@@ -121,7 +129,20 @@ public class ItemInventory implements Serializable {
     }
 
     /**
+     * Set the item at the given index.
+     *
+     * @param index the index of the item to set
+     * @param item  the item to set
+     */
+    public void setItem(int index, Item item) {
+        if (index < itemIventoryList.size()) {
+            itemIventoryList.keySet().toArray()[index] = item;
+        }
+    }
+
+    /**
      * Get the item inventory size.
+     *
      * @return the item inventory size
      */
     public int size() {
