@@ -44,10 +44,7 @@ public class ItemInventoryRequest extends BaseRequest {
      * @param itemInventory the user item inventory
      */
     public static void postItemInventory(ItemInventory itemInventory) {
-        Call<BasicResponse> call = getAPI().postItemInventory(
-                new ItemInventoryDto(itemInventory),
-                Datastore.getInstance().getUser().getId()
-        );
+        Call<BasicResponse> call = getAPI().postItemInventory(new ItemInventoryDto(itemInventory));
         try {
             call.execute();
             LogAPI("Post inventory of user on API");
@@ -61,10 +58,7 @@ public class ItemInventoryRequest extends BaseRequest {
      * @param itemInventory the user item inventory.
      */
     public static void updateItemInventory(ItemInventory itemInventory) {
-        Call<BasicResponse> call = getAPI().updateItemInventory(
-                new ItemInventoryDto(itemInventory),
-                Datastore.getInstance().getUser().getId()
-        );
+        Call<BasicResponse> call = getAPI().updateItemInventory(new ItemInventoryDto(itemInventory));
         try {
             call.execute();
             LogAPI("Update inventory of user on API");
