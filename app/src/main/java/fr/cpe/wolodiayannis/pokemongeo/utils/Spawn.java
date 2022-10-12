@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -24,7 +25,7 @@ public class Spawn {
         return now.after(spawnDate);
     }
 
-    public void spawnPokemons() {
+    private void spawnPokemons() {
         // Random between 2 and 6 - Corresponds to the number of pokemon to display on the map
         int random = (int) (Math.random() * 5) + 2;
 
@@ -61,22 +62,144 @@ public class Spawn {
         return Datastore.getInstance().getPokemons().get(random);
     }
 
-    public void spawnPharmacies(GeoPoint loc) {
-        NominatimPOIProvider poiProvider = new NominatimPOIProvider("OSMBonusPackTutoUserAgent");
-        Datastore.getInstance().addPharmacies(
-                poiProvider.getPOICloseTo(loc, "pharmacy", 10, 100)
-        );
-    }
-
-    public void spawnShops(GeoPoint loc) {
+    private void spawnPharmacies(GeoPoint loc) {
         NominatimPOIProvider poiProvider = new NominatimPOIProvider("OSMBonusPackTutoUserAgent");
 
-        ArrayList<POI> l = poiProvider.getPOICloseTo(loc, "shop", 10, 100);
-
-
-        Datastore.getInstance().addShops(
-                poiProvider.getPOICloseTo(loc, "shop", 10, 100)
-        );
+        new Thread(() -> {
+            ArrayList<POI> pois = poiProvider.getPOICloseTo(loc, "pharmacy", 10, 0.1);
+            Datastore.getInstance().addPharmacies(pois);
+        }).start();
     }
 
+    private void spawnShops(GeoPoint loc) {
+        NominatimPOIProvider poiProvider = new NominatimPOIProvider("OSMBonusPackTutoUserAgent");
+
+        new Thread(() -> {
+            ArrayList<POI> pois = poiProvider.getPOICloseTo(loc, "shop", 10, 0.1);
+            Datastore.getInstance().addShops(pois);
+        }).start();
+    }
+
+    public boolean isPokemonNearby() {
+        // 1. Sort the list of spawned pokemons by distance (nearest first)
+        // 2. Check if the first one is near enough
+        // 3. If yes, return true
+        HashMap<Pokemon, GeoPoint> sorted = Sorter.sortByPokemonDistance(
+                Datastore.getInstance().getSpawnedPokemons(),
+                new GeoPoint(
+                        Datastore.getInstance().getLastLocation().getLatitude(),
+                        Datastore.getInstance().getLastLocation().getLongitude()
+                )
+        );
+
+        // get first element (geopoint)
+        GeoPoint first = sorted.values().iterator().next();
+
+        // get distance between first and current location
+        double distance = Coordinates.distance(
+                new GeoPoint(
+                        Datastore.getInstance().getLastLocation().getLatitude(),
+                        Datastore.getInstance().getLastLocation().getLongitude()
+                ),
+                first
+        );
+
+        // if distance < 100m, return true
+        return distance < 100;
+    }
+
+    public boolean isShopNearby() {
+        // 1. Sort the list of spawned shops by distance (nearest first)
+        // 2. Check if the first one is near enough
+        // 3. If yes, return true
+        List<POI> sorted = Sorter.sortPOIByDistance(
+                Datastore.getInstance().getShops(),
+                new GeoPoint(
+                        Datastore.getInstance().getLastLocation().getLatitude(),
+                        Datastore.getInstance().getLastLocation().getLongitude()
+                )
+        );
+
+        // get first element (geopoint)
+        GeoPoint first = sorted.get(0).mLocation;
+
+        // get distance between first and current location
+        double distance = Coordinates.distance(
+                new GeoPoint(
+                        Datastore.getInstance().getLastLocation().getLatitude(),
+                        Datastore.getInstance().getLastLocation().getLongitude()
+                ),
+                first
+        );
+
+        // if distance < 100m, return true
+        return distance < 100;
+    }
+
+    public boolean isPharmacyNearby() {
+        // 1. Sort the list of spawned pharmacies by distance (nearest first)
+        // 2. Check if the first one is near enough
+        // 3. If yes, return true
+        List<POI> sorted = Sorter.sortPOIByDistance(
+                Datastore.getInstance().getPharmacies(),
+                new GeoPoint(
+                        Datastore.getInstance().getLastLocation().getLatitude(),
+                        Datastore.getInstance().getLastLocation().getLongitude()
+                )
+        );
+
+        // get first element (geopoint)
+        GeoPoint first = sorted.get(0).mLocation;
+
+        // get distance between first and current location
+        double distance = Coordinates.distance(
+                new GeoPoint(
+                        Datastore.getInstance().getLastLocation().getLatitude(),
+                        Datastore.getInstance().getLastLocation().getLongitude()
+                ),
+                first
+        );
+
+        // if distance < 100m, return true
+        return distance < 100;
+    }
+
+    public boolean isPokemonSpawnNeeded(GeoPoint loc) {
+        if (!this.isSpawned()) {
+            this.spawnPokemons();
+            return true;
+        } else if (this.isSpawnedExpired()) {
+            this.spawnPokemons();
+            return true;
+        } else if (!this.isPokemonNearby()) {
+            this.spawnPokemons();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isShopSpawnNeeded(GeoPoint loc) {
+        if (Datastore.getInstance().getPharmacies() == null) {
+            this.spawnShops(loc);
+            return true;
+        } else if (!this.isShopNearby()) {
+            this.spawnShops(loc);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isPharmacySpawnNeeded(GeoPoint loc) {
+        if (Datastore.getInstance().getPharmacies() == null) {
+            this.spawnPharmacies(loc);
+            return true;
+        } else if (!this.isPharmacyNearby()) {
+            this.spawnPharmacies(loc);
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -73,7 +73,7 @@ public class MapFragment extends Fragment {
         this.map.initializeMap()
                 .addMyLocationOverlay();
 
-        GeoPoint startPoint = new GeoPoint(this.datastore.getLastLocation() != null ? this.datastore.getLastLocation() : new Location("default"));
+        GeoPoint startPoint = this.actualPosition != null ? this.actualPosition : new GeoPoint(this.datastore.getLastLocation() != null ? this.datastore.getLastLocation() : new Location("default"));
 
         this.map.setMapCenter(startPoint);
 
@@ -106,14 +106,20 @@ public class MapFragment extends Fragment {
         } else {
             this.map.animateMapCenter(this.actualPosition);
         }
-    }
 
-    /**
-     * Spawn pokemons.
-     */
-    public void spawnPokemons() {
         Spawn spawn = new Spawn();
-        spawn.spawnPokemons();
+        if (spawn.isPokemonSpawnNeeded(this.actualPosition)) {
+            this.displayPokemons();
+        }
+
+        if (spawn.isPharmacySpawnNeeded(this.actualPosition)) {
+            this.displayPharmacies();
+        }
+
+        if (spawn.isShopSpawnNeeded(this.actualPosition)) {
+            this.displayShops();
+        }
+
     }
 
     /**
@@ -123,18 +129,8 @@ public class MapFragment extends Fragment {
         this.map.displayPokemons(Datastore.getInstance().getSpawnedPokemons());
     }
 
-    public void spawnPharmacies() {
-        Spawn spawn = new Spawn();
-        spawn.spawnPharmacies((GeoPoint) this.map.getMapCenter());
-    }
-
     public void displayPharmacies() {
         this.map.displayPharmacies(Datastore.getInstance().getPharmacies());
-    }
-
-    public void spawnShops() {
-        Spawn spawn = new Spawn();
-        spawn.spawnShops((GeoPoint) this.map.getMapCenter());
     }
 
     public void displayShops() {
