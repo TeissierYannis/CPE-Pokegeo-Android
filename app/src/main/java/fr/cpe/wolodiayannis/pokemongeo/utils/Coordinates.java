@@ -43,7 +43,7 @@ public class Coordinates {
      * This method get a matrix from current location + radius of X meters.
      *
      * @param currentLocation The current location.
-     * @param radiusInMeters          The radius in meters.
+     * @param radiusInMeters  The radius in meters.
      */
     public static double[][] getMatrix(GeoPoint currentLocation, double radiusInMeters) {
         double[][] matrix = new double[2][2];
