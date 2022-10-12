@@ -3,6 +3,7 @@ package fr.cpe.wolodiayannis.pokemongeo.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -19,9 +20,13 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.fragments.FightFragment;
 
 public class Map {
     /**
@@ -129,6 +134,7 @@ public class Map {
         // add markers
         Marker marker;
 
+
         for (Pokemon pokemon : spawned.keySet()) {
             marker = new Marker(this.map);
             marker.setPosition(spawned.get(pokemon));
@@ -139,7 +145,42 @@ public class Map {
             marker.setIcon(drawable);
             marker.setTitle(pokemon.getName());
             marker.setSubDescription(pokemon.getDescription());
+
+            marker.setOnMarkerClickListener((marker1, mapView) -> {
+
+                // get the first pokemon in the list who is not dead
+                Pokemon userPokemon = null;
+                for (Pokemon p : Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().keySet()) {
+                    if (Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(p)).getCurrentLifeState() > 0) {
+                        userPokemon = p;
+                        break;
+                    }
+                }
+
+                if (userPokemon == null) {
+                    Toast.makeText(this.context, "You don't have any pokemon to fight with", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
+                FightFragment fightFragment = new FightFragment();
+                fightFragment.setOpponentPokemon(pokemon);
+                fightFragment.setUserPokemon(userPokemon);
+
+                // Remove locationListener
+                MainActivity mainActivity = (MainActivity) this.context;
+                mainActivity.stopLocation();
+
+                // Switch fragment with FightFragment
+                mainActivity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fightFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                return true;
+            });
+
             this.map.getOverlays().add(marker);
+
         }
     }
 

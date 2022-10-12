@@ -108,6 +108,11 @@ public class MapFragment extends Fragment {
         }
 
         Spawn spawn = new Spawn();
+        spawn.spawnPokemons();
+        this.displayPokemons();
+
+
+        /*
         if (spawn.isPokemonSpawnNeeded(this.actualPosition)) {
             this.displayPokemons();
         }
@@ -119,6 +124,7 @@ public class MapFragment extends Fragment {
         if (spawn.isShopSpawnNeeded(this.actualPosition)) {
             this.displayShops();
         }
+         */
 
     }
 

@@ -25,7 +25,7 @@ public class Spawn {
         return now.after(spawnDate);
     }
 
-    private void spawnPokemons() {
+    public void spawnPokemons() {
         // Random between 2 and 6 - Corresponds to the number of pokemon to display on the map
         int random = (int) (Math.random() * 5) + 2;
 
