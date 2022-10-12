@@ -6,7 +6,10 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Objects;
 
+import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
+import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 
 /**
  * Item class.
@@ -120,4 +123,21 @@ public class Item implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), getName(), getPrice());
     }
+
+    /**
+     * Get the item background color.
+     * @return int color.
+     */
+    public int getBackgroundColor() {
+        if (this instanceof ItemPotion) {
+            return R.color.itemPotion;
+        } else if (this instanceof ItemBall) {
+            return R.color.itemBall;
+        } else if (this instanceof ItemRevive) {
+            return R.color.itemRevive;
+        } else {
+            return R.color.Unknown;
+        }
+    }
 }
+

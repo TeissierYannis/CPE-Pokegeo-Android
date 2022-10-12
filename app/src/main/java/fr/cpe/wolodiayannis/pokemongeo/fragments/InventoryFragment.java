@@ -16,6 +16,8 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.InventoryListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryFragmentBinding;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
 
 /**
@@ -53,7 +55,20 @@ public class InventoryFragment extends Fragment {
         // set grid layout
         binding.inventoryList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         // new adapter
-        InventoryListAdapter adapter = new InventoryListAdapter(datastore.getItemInventory(), listener);
+
+        ItemInventory itemInventoryPossedItem = new ItemInventory();
+        // add only item with quantity > 0
+        for (Item item : datastore.getItemInventory().getItemIventoryList().keySet()) {
+            int quantity = datastore.getItemInventory().getItemIventoryList().get(item);
+            if (quantity > 0) {
+                itemInventoryPossedItem.addItem(
+                        item,
+                        quantity
+                );
+            }
+        }
+
+        InventoryListAdapter adapter = new InventoryListAdapter(itemInventoryPossedItem, listener);
         // bind adapter to recycler view
         binding.inventoryList.setAdapter(adapter);
 

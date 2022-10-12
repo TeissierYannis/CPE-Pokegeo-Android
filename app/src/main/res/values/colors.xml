@@ -36,4 +36,13 @@
     <color name="typeSteel">#FFB8B8D0</color>
     <color name="typeFairy">#FFF0B6BC</color>
 
+    <!-- Items Colors -->
+    <color name="itemBall">#FFF78181</color>
+    <color name="itemPotion">#FF8FF297</color>
+    <color name="itemRevive">#FFFAE57F</color>
+
+    <!-- Default Color -->
+    <color name="Unknown">#FF000000</color>
+
+
 </resources>

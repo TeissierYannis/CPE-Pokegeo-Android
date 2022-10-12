@@ -1,9 +1,11 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,10 +69,16 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         // Get the item if item do not exist create empty one
         Item item = itemInventory.getItem(position);
         holder.viewModel.setItem(item);
-        holder.binding.getRoot().setOnClickListener(v -> listener.onItemSelected(item));
+        // holder.binding.getRoot().setOnClickListener(v -> listener.onItemSelected(item));
+
 
         // Set the color of the item bg.
-        // TODO
+        holder.binding.inventoryBg.getBackground().setTint(
+                ContextCompat.getColor(
+                        holder.binding.getRoot().getContext(),
+                        item.getBackgroundColor()
+                )
+        );
     }
 
     /**

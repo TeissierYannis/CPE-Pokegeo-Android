@@ -3,6 +3,8 @@ package fr.cpe.wolodiayannis.pokemongeo.Enum;
 import java.lang.reflect.Field;
 
 public class BACKGROUND_COLOR {
+
+    // Pokémon types colors
     public static final int Normal = 0xFFA8A878;
     public static final int Fire = 0xFFF08030;
     public static final int Water = 0xFF6890F0;
@@ -22,6 +24,13 @@ public class BACKGROUND_COLOR {
     public static final int Steel = 0xFFB8B8D0;
     public static final int Fairy = 0xFFEE99AC;
     public static final int Shadow = 0x00000000;
+
+    // Items colors
+    public static final int Ball = 0xDB5C5C;
+    public static final int Potion = 0x65CF6E;
+    public static final int Revive = 0xFFD91C;
+
+    // default
     public static final int Unknown = 0xFF000000;
 
     public static int valueOf(String name) {
