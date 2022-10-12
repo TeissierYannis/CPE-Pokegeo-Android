@@ -1,5 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
+import fr.cpe.wolodiayannis.pokemongeo.R;
+
 public class PokemonFight {
 
     /**
@@ -9,7 +11,7 @@ public class PokemonFight {
     /**
      * The pokemon that is fighting (opponent)
      */
-    private Pokemon opponentPokemon;
+    private final Pokemon opponentPokemon;
 
     /**
      * Attacker life points
@@ -24,33 +26,75 @@ public class PokemonFight {
     public PokemonFight(Pokemon playerPokemon, Pokemon opponentPokemon) {
         this.playerPokemon = playerPokemon;
         this.opponentPokemon = opponentPokemon;
+
+        this.playerLifePoints = playerPokemon.getHp();
+        this.opponentLifePoints = opponentPokemon.getHp();
+    }
+
+    public PokemonFight(Pokemon playerPokemon, Pokemon opponentPokemon, int playerLifePoints, int opponentLifePoints) {
+        this.playerPokemon = playerPokemon;
+        this.opponentPokemon = opponentPokemon;
+        this.playerLifePoints = playerLifePoints;
+        this.opponentLifePoints = opponentLifePoints;
     }
 
     public void attack(Pokemon attacker, Pokemon defender) {
-        int damage = attacker.getAttack() - defender.getDefense();
-        if (damage < 0) {
-            damage = 0;
+        double damage = ((this.getDamageMultiplier(attacker, defender) * attacker.getAttack()) / defender.getDefense()) * 3;
+
+        // 5% chance to critical hit
+        if (Math.random() < 0.05) {
+            damage *= 2;
         }
-        // Check if attack is opponent or player
-        if (attacker.equals(playerPokemon)) {
-            opponentLifePoints -= damage;
-            if (isOpponentPokemonDead()) {
-                System.out.println("You win !");
-            }
+
+        if (attacker == playerPokemon) {
+            System.out.println("Player attacks " + defender.getName() + " for " + damage + " damage");
+            this.opponentLifePoints -= damage;
         } else {
-            playerLifePoints -= damage;
-            if (isPlayerPokemonDead()) {
-                System.out.println("You lose !");
-            }
+            System.out.println("Opponent attacks " + defender.getName() + " for " + damage + " damage");
+            this.playerLifePoints -= damage;
         }
+    }
+
+
+    /**
+     * Get damage multiplier in fact of the type of the pokemon.
+     * @return The damage multiplier.
+     */
+    public double getDamageMultiplier(Pokemon attacker, Pokemon defender) {
+        return 1;
     }
 
     public boolean isPlayerPokemonDead() {
-        return playerLifePoints <= 0;
+        return this.playerLifePoints <= 0;
     }
 
     public boolean isOpponentPokemonDead() {
-        return opponentLifePoints <= 0;
+        return this.opponentLifePoints <= 0;
+    }
+
+    public int getEnemyProgressBarColor() {
+        if (this.opponentLifePoints > 50) {
+            return R.color.green;
+        } else if (this.opponentLifePoints > 25) {
+            return R.color.orange;
+        } else {
+            return R.color.red;
+        }
+    }
+
+    public int getPlayerProgressBarColor() {
+        if (this.playerLifePoints > 50) {
+            return R.color.green;
+        } else if (this.playerLifePoints > 25) {
+            return R.color.orange;
+        } else {
+            return R.color.red;
+        }
+    }
+
+    public void switchPlayerPokemon(Pokemon pokemon, int currentLifeState) {
+        this.playerPokemon = pokemon;
+        this.playerLifePoints = currentLifeState;
     }
 
     /**
@@ -59,7 +103,7 @@ public class PokemonFight {
      * @return the playerPokemon
      */
     public Pokemon getPlayerPokemon() {
-        return playerPokemon;
+        return this.playerPokemon;
     }
 
     /**
@@ -68,7 +112,7 @@ public class PokemonFight {
      * @return the opponentPokemon
      */
     public Pokemon getOpponentPokemon() {
-        return opponentPokemon;
+        return this.opponentPokemon;
     }
 
     /**
@@ -84,7 +128,7 @@ public class PokemonFight {
      * @return the playerLifePoints
      */
     public int getPlayerLifePoints() {
-        return playerLifePoints;
+        return this.playerLifePoints;
     }
 
     /**
@@ -92,6 +136,6 @@ public class PokemonFight {
      * @return the opponentLifePoints
      */
     public int getOpponentLifePoints() {
-        return opponentLifePoints;
+        return this.opponentLifePoints;
     }
 }

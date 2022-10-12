@@ -20,6 +20,7 @@ public class BaseRequest extends Request {
 
     /**
      * Get Retrofit from the API.
+     *
      * @return Retrofit builder.
      */
     public static Retrofit getRetrofit() {
@@ -32,21 +33,22 @@ public class BaseRequest extends Request {
 
     /**
      * Bypass SSL.
+     *
      * @return UnsafeOkHttpClient.
      */
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
-            @SuppressLint("CustomX509TrustManager") final TrustManager[] trustAllCerts = new TrustManager[] {
+            @SuppressLint("CustomX509TrustManager") final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @SuppressLint("TrustAllX509TrustManager")
                         @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
 
                         @SuppressLint("TrustAllX509TrustManager")
                         @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
 
                         @Override
@@ -62,15 +64,12 @@ public class BaseRequest extends Request {
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
+            // sslSocketFactory is deprecated in API 28
+            // https://developer.android.com/reference/javax/net/ssl/SSLSocketFactory
+
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslSocketFactory);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @SuppressLint("BadHostnameVerifier")
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier((hostname, session) -> true);
             return builder.build();
         } catch (Exception e) {
             throw new RuntimeException(e);

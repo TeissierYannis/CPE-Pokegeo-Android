@@ -1,11 +1,17 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
@@ -37,19 +44,22 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     /**
      * Constructor.
+     *
      * @param pokemonList List of Pokemon.
-     * @param listener Listener for the click on a Pokemon.
+     * @param listener    Listener for the click on a Pokemon.
      */
     public PokemonListAdapter(List<Pokemon> pokemonList, PokedexListenerInterface listener) {
-        this.pokemonList = pokemonList;
         this.listener = listener;
         this.dataset = new ArrayList<>();
+        this.pokemonList = pokemonList;
+
         this.dataset.addAll(pokemonList);
     }
 
     /**
      * Create a new ViewHolder.
-     * @param parent Parent ViewGroup.
+     *
+     * @param parent   Parent ViewGroup.
      * @param viewType ViewType.
      * @return ViewHolder.
      */
@@ -65,7 +75,8 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     /**
      * Bind the ViewHolder with the Pokemon.
-     * @param holder ViewHolder.
+     *
+     * @param holder   ViewHolder.
      * @param position Position of the Pokemon in the list.
      */
     @Override
@@ -73,9 +84,10 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
         Pokemon pokemon = dataset.get(position);
         holder.viewModel.setPokemon(pokemon);
 
-        // Set the listener for the click on the Pokemon.
-        holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
-
+        if (!holder.viewModel.getName().equals("?????")) {
+            // Set the listener for the click on the Pokemon.
+            holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
+        }
         // Set the color of the pokemon bg.
         holder.binding.pokemonBg.getBackground().setTint(
                 pokemon.getBackgroundColor()
@@ -84,6 +96,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     /**
      * Get the number of Pokemon in the list.
+     *
      * @return Number of Pokemon.
      */
     @Override
@@ -93,6 +106,7 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     /**
      * Get the filter for the search.
+     *
      * @return Filter.
      */
     @Override

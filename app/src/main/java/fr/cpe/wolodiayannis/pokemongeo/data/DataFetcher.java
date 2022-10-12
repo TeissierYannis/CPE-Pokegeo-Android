@@ -174,4 +174,8 @@ public class DataFetcher {
     public static void updateItemInventory(ItemInventory itemInventory) {
         ItemInventoryRequest.updateItemInventory(itemInventory);
     }
+
+    public static boolean updateCaughtPokemon(CaughtPokemon caughtPokemon) {
+        return CaughtInventoryRequest.updateCaughtPokemon(caughtPokemon);
+    }
 }

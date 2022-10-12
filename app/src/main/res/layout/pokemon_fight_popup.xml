@@ -47,7 +47,7 @@
                     android:max="100"
                     android:progress="100"
                     android:progressDrawable="@drawable/progress_bar"
-                    android:secondaryProgress="100" />
+                     />
             </LinearLayout>
 
 
@@ -131,14 +131,14 @@
             android:scaleX="-1"
             android:src="@drawable/p001" />
 
-        <include  layout="@layout/fight_case_item"
+        <include
             android:id="@+id/pokemonfight_actions_box"
+            layout="@layout/fight_case_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:padding="10dp" >
-        </include>
+            android:padding="10dp"></include>
 
     </RelativeLayout>
 </layout>

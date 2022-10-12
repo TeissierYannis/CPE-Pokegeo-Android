@@ -48,4 +48,19 @@ public class CaughtInventoryRequest extends BaseRequest {
         }
         return true;
     }
+
+    public static boolean updateCaughtPokemon(CaughtPokemon caughtPokemon) {
+        Call<BasicResponse> call = getAPI().updateCaughtPokemon(
+                caughtPokemon.getUserId(),
+                caughtPokemon.getPokemonId(),
+                caughtPokemon.getCurrentLifeState()
+        );
+        try {
+            call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

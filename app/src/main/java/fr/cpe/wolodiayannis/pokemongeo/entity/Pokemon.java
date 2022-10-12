@@ -15,7 +15,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
  * Pokemon class.
  */
 @JsonAdapter(PokemonAdapter.class)
-public class Pokemon implements Serializable {
+public class Pokemon implements Serializable, Comparable<Pokemon> {
     /**
      * Pokemon ID.
      */
@@ -364,5 +364,10 @@ public class Pokemon implements Serializable {
      */
     public List<Integer> getImageTypeID() {
         return this.typeIDList;
+    }
+
+    @Override
+    public int compareTo(Pokemon o) {
+        return this.id - o.id;
     }
 }

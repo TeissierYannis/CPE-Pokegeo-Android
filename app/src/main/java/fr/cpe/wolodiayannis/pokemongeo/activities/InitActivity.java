@@ -175,7 +175,7 @@ public class InitActivity extends AppCompatActivity {
         // Avoid NetworkOnMainThreadException and call Datafetcher
         new Thread(() ->
         {
-            (new CaughtInventoryFetcher(this)).updateAndCache(cp);
+            (new CaughtInventoryFetcher(this)).addPokemonAndCache(cp);
             try {
                 (new UserUpdateFetcher(this)).fetchAndCache(datastore.getUser(), true);
             } catch (Exception e) {

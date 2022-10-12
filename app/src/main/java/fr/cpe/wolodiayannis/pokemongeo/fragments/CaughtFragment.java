@@ -18,6 +18,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.CaughtFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 
 /**
  * CaughtFragment
@@ -28,6 +29,11 @@ public class CaughtFragment extends Fragment {
      * Listener on click on pokemon
      */
     private PokedexListenerInterface listener;
+
+    /**
+     * Listener on pokemon switch (for fight fragment)
+     */
+    private PokemonSwitchInterface switchListener;
 
     /**
      * Datastore instance.
@@ -53,8 +59,15 @@ public class CaughtFragment extends Fragment {
         CaughtFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.caught_fragment, container, false);
         // set grid layout
         binding.caughtList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-        // new adapter
-        CaughtPokemonListAdapter adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), listener);
+
+        CaughtPokemonListAdapter adapter = null;
+
+        if (listener == null) {
+            adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), switchListener);
+        } else if (switchListener == null) {
+            adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), listener);
+        }
+
         // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);
 
@@ -67,5 +80,11 @@ public class CaughtFragment extends Fragment {
      */
     public void setPokedexListenerInterface(PokedexListenerInterface listener) {
         this.listener = listener;
+        this.switchListener = null;
+    }
+
+    public void setSwitchListener(PokemonSwitchInterface switchListener) {
+        this.switchListener = switchListener;
+        this.listener = null;
     }
 }

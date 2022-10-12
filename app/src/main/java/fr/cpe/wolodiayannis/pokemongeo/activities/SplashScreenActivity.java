@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -28,6 +30,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import org.osmdroid.config.Configuration;
 
@@ -368,6 +375,36 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // Permission granted.
                 this.datastore = Datastore.getInstance();
 
+                // Single shot location update.
+                // implement the listener
+                LocationCallback locationCallback = new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        Location location = locationResult.getLastLocation();
+                        if (location != null) {
+                            // Update the location in the datastore
+                            Datastore.getInstance().setLastLocation(location);
+                            // Stop the location updates
+                            LocationServices.getFusedLocationProviderClient(SplashScreenActivity.this)
+                                    .removeLocationUpdates(this);
+                        }
+                    }
+                };
+
+                // Request location updates
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                LocationServices.getFusedLocationProviderClient(this)
+                        .requestLocationUpdates(
+                                LocationRequest.create()
+                                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                        .setInterval(10000)
+                                        .setFastestInterval(5000),
+                                locationCallback,
+                                Looper.getMainLooper());
+
+
                 // Check if user is already logged in
                 // get user in cache and check if it's not null
                 try {
@@ -564,7 +601,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         CaughtInventory caughtInventoryStored = Datastore.getInstance().getCaughtInventory();
         HashMap<Pokemon, CaughtPokemon> caughtInventoryList = new HashMap<>();
 
-        for (CaughtPokemon caughtInventory : caughtInventoryStored.getcaughtInventoryList().values()) {
+        for (CaughtPokemon caughtInventory : caughtInventoryStored.getCaughtInventoryList().values()) {
             caughtInventoryList.put(Datastore.getInstance().getPokemons().get(caughtInventory.getPokemonId()), caughtInventory);
         }
         Datastore.getInstance().setCaughtInventory(new CaughtInventory(caughtInventoryList));

@@ -52,7 +52,6 @@ public class PokedexFragment extends Fragment {
 
         // Get the datastore instance
         this.datastore = Datastore.getInstance();
-
         // new adapter
         PokemonListAdapter adapter = new PokemonListAdapter(this.datastore.getPokemons(), listener);
         // set the adapter

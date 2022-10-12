@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -46,8 +47,50 @@ public class CaughtInventory implements Serializable {
      *
      * @return The caught inventory list.
      */
-    public HashMap<Pokemon, CaughtPokemon> getcaughtInventoryList() {
+    public HashMap<Pokemon, CaughtPokemon> getCaughtInventoryList() {
         return caughtInventoryList;
+    }
+
+    /**
+     * Get the pokemon at the given index.
+     */
+    public Pokemon getCaughtPokemon(int i) {
+        return (Pokemon) caughtInventoryList.keySet().toArray()[i];
+    }
+
+    /**
+     * Update the life of the pokemon at the given index.
+     */
+    public void updateCaughtPokemonLife(Pokemon pokemon, int life) {
+        Objects.requireNonNull(caughtInventoryList.get(pokemon)).setCurrentLifeState(life);
+    }
+
+    public ArrayList<?> getPokemonAndCaughtPokemon(Pokemon pokemon) {
+        ArrayList<Object> pokemonAndCaughtPokemon = new ArrayList<>();
+        pokemonAndCaughtPokemon.add(pokemon);
+        pokemonAndCaughtPokemon.add(caughtInventoryList.get(pokemon));
+        return pokemonAndCaughtPokemon;
+    }
+
+    // From pokemonID get the pokemon index in the inventory
+    public int getPokemonIndex(int pokemonID) {
+        int index = 0;
+        for (Pokemon pokemon : caughtInventoryList.keySet()) {
+            if (pokemon.getId() == pokemonID) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    public CaughtPokemon getCaughtPokemonFromPokemonID(int pokemonID) {
+        for (Pokemon pokemon : caughtInventoryList.keySet()) {
+            if (pokemon.getId() == pokemonID) {
+                return caughtInventoryList.get(pokemon);
+            }
+        }
+        return null;
     }
 
 

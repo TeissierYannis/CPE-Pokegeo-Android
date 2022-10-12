@@ -2,12 +2,16 @@ package fr.cpe.wolodiayannis.pokemongeo.data;
 
 import android.location.Location;
 
+import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
@@ -45,12 +49,18 @@ public class Datastore implements Comparable<Object>, Serializable {
     /**
      * The list of spawned Pokemon's and their locations.
      */
-    private HashMap<Pokemon, GeoPoint> spawnedPokemons = new HashMap<>();
+    private Map<Pokemon, GeoPoint> spawnedPokemons = new HashMap<>();
+    /**
+     * Shops (geo points) that buy items;
+     */
+    private ArrayList<POI> shops;
+    private ArrayList<POI> pharmacy;
 
     /**
      * The datastore constructor.
      */
-    private Datastore() {}
+    private Datastore() {
+    }
 
     /**
      * Returns the datastore instance.
@@ -288,6 +298,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the last Date pokemon spawned on the map.
+     *
      * @return the last Date pokemon spawned on the map.
      */
     public Date getSpawnedPokemonExpiration() {
@@ -296,6 +307,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the last Date pokemon spawned on the map.
+     *
      * @param lastPokemonSpawned the last Date pokemon spawned on the map.
      */
     public Datastore setSpawnedPokemonExpiration(Date lastPokemonSpawned) {
@@ -305,17 +317,19 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the list of spawned Pokemon's and their locations.
+     *
      * @return the list of spawned Pokemon's and their locations.
      */
     public HashMap<Pokemon, GeoPoint> getSpawnedPokemons() {
-        return spawnedPokemons;
+        return (HashMap<Pokemon, GeoPoint>) spawnedPokemons;
     }
 
     /**
      * Sets the list of spawned Pokemon's and their locations.
+     *
      * @param spawnedPokemons the list of spawned Pokemon's and their locations.
      */
-    public Datastore setSpawnedPokemons(HashMap<Pokemon, GeoPoint> spawnedPokemons) {
+    public Datastore setSpawnedPokemons(Map<Pokemon, GeoPoint> spawnedPokemons) {
         this.spawnedPokemons = spawnedPokemons;
         return this;
     }
@@ -360,7 +374,22 @@ public class Datastore implements Comparable<Object>, Serializable {
             return 1;
         }
 
-
         return 0;
+    }
+
+    public void addShops(ArrayList<POI> shops) {
+        this.shops = shops;
+    }
+
+    public ArrayList<POI> getShops() {
+        return shops;
+    }
+
+    public void addPharmacies(ArrayList<POI> pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public ArrayList<POI> getPharmacies() {
+        return pharmacy;
     }
 }

@@ -1,20 +1,27 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
 
 /**
@@ -25,6 +32,12 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      * Listener for the click on a Pokemon.
      */
     private final PokedexListenerInterface listener;
+
+    /**
+     * Listener for the switch of a Pokemon.
+     */
+    private final PokemonSwitchInterface switchListener;
+
     /**
      * List of Pokemon.
      */
@@ -39,6 +52,13 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokedexListenerInterface listener) {
         this.caughtInventory = caughtInventory;
         this.listener = listener;
+        this.switchListener = null;
+    }
+
+    public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokemonSwitchInterface listener) {
+        this.caughtInventory = caughtInventory;
+        this.switchListener = listener;
+        this.listener = null;
     }
 
     /**
@@ -65,18 +85,45 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        HashMap<Pokemon, CaughtPokemon> caughtPokemon = caughtInventory.getcaughtInventoryList();
+        HashMap<Pokemon, CaughtPokemon> caughtPokemon = caughtInventory.getCaughtInventoryList();
         Pokemon pokemon = (Pokemon) caughtPokemon.keySet().toArray()[position];
 
-        holder.viewModel.setPokemon(pokemon);
+        // if currentLifestate === 0, then the pokemon is dead display gray filter on the pokemon
+        if (Objects.requireNonNull(caughtPokemon.get(pokemon)).getCurrentLifeState() <= 0) {
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.setSaturation(0);
+            holder.binding.pokemonImage.setColorFilter(new ColorMatrixColorFilter(matrix));
+        }
 
-        // Set the listener for the click on the Pokemon.
-        holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
+        if (listener != null) {
+            // Set the listener for the click on the Pokemon.
+            holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
+        } else if (switchListener != null) {
+
+            // if currentLifestate === 0, then the pokemon is dead display gray filter on the pokemon
+            if (Objects.requireNonNull(caughtPokemon.get(pokemon)).getCurrentLifeState() <= 0) {
+                holder.binding.getRoot().setOnClickListener(v -> {
+                    Toast.makeText(v.getContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
+                });
+            } else {
+                // Set the listener for the click on the Pokemon.
+                holder.binding.getRoot().setOnClickListener(v -> {
+                    ArrayList<?> ar = Datastore.getInstance()
+                            .getCaughtInventory()
+                            .getPokemonAndCaughtPokemon(pokemon);
+
+                    switchListener.onPokemonSwitch((Pokemon) ar.get(0), (CaughtPokemon) ar.get(1));
+                });
+            }
+        }
 
         // Set the color of the pokemon bg.
         holder.binding.pokemonBg.getBackground().setTint(
                 pokemon.getBackgroundColor()
         );
+
+        // Set the PokemonViewModel to the layout.
+        holder.binding.getPokemonViewModel().setPokemon(pokemon);
     }
 
     /**
@@ -85,7 +132,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      */
     @Override
     public int getItemCount() {
-        return caughtInventory.getcaughtInventoryList().size();
+        return caughtInventory.getCaughtInventoryList().size();
     }
 
     /**
