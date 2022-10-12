@@ -88,35 +88,6 @@ public class ItemInventory implements Serializable {
     }
 
     /**
-     * Completely remove an item from the inventory.
-     *
-     * @param item the item to remove
-     */
-    public void removeItem(Item item) {
-        if (itemIventoryList.containsKey(item)) {
-            itemIventoryList.remove(item);
-        }
-    }
-
-    /**
-     * Completely remove an item from the inventory.
-     *
-     * @param index the index of the item to remove
-     */
-    public void removeItem(int index) {
-        if (index < itemIventoryList.size()) {
-            itemIventoryList.remove(index);
-        }
-    }
-
-    /**
-     * remove all items from the inventory.
-     */
-    public void removeItem() {
-        itemIventoryList.clear();
-    }
-
-    /**
      * Get the quantity of an item in the inventory.
      *
      * @param item the item to check
@@ -142,20 +113,6 @@ public class ItemInventory implements Serializable {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Set the item at the given index.
-     *
-     * @param item the item to set
-     */
-    public void setItem(int index, Item item) {
-        if (index < Datastore.getInstance().getItemInventory().size()) {
-            Item toReplace = (Item) itemIventoryList.keySet().toArray()[index];
-            itemIventoryList.put(item, itemIventoryList.get(toReplace));
-            itemIventoryList.remove(toReplace);
-        }
-        Datastore.getInstance().setItemInventory(this);
     }
 
     /**

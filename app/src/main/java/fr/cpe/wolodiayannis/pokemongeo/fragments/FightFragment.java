@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
@@ -26,6 +27,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
 
 public class FightFragment extends Fragment {
 
@@ -358,21 +360,18 @@ public class FightFragment extends Fragment {
             if (item.getName().equals("master-ball")) {
                 this.animateCapture(item.getImageID());
                 // 3s time out for animation
-                this.binding.pokemonfightImageWildPokemon.postDelayed(() -> {
-                    this.onCapture();
-                }, 3000);
+                this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
             } else {
-                double ballRate = ((ItemBall) item).getAccuracy();
 
+                double minimumRate = 5.0;
+                double ballRate = ((ItemBall) item).getAccuracy() * minimumRate;
                 double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
                 double totalRate = ballRate + (lifeRate * 0.5);
 
                 if (random < totalRate * 100) {
                     this.animateCapture(item.getImageID());
                     // 3s time out for animation
-                    this.binding.pokemonfightImageWildPokemon.postDelayed(() -> {
-                        this.onCapture();
-                    }, 3000);
+                    this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
                 } else {
                     // 1% chance to exit the fight and disappear from the map
                     if (random < 1) {
@@ -381,6 +380,12 @@ public class FightFragment extends Fragment {
                     this.opponentAttack();
                 }
             }
+            // remove 1 item from the inventory and update into the API
+            Datastore.getInstance().getItemInventory().removeItem(item, 1);
+            new Thread(() -> {
+                (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
+            }).start();
+
             this.activeAllButtons();
         }
 
