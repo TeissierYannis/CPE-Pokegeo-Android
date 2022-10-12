@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 
 public class PokemonFight {
 
@@ -128,6 +129,19 @@ public class PokemonFight {
      * @return the playerLifePoints
      */
     public int getPlayerLifePoints() {
+        return this.playerLifePoints;
+    }
+
+    /**
+     * Heal the player pokemon.
+     * @param potion the potion to use
+     * @return the playerLifePoints
+     */
+    public int healPlayerPokemon(ItemPotion potion) {
+        this.playerLifePoints += potion.getBonus();
+        if (this.playerLifePoints > this.playerPokemon.getHp()) {
+            this.playerLifePoints = this.playerPokemon.getHp();
+        }
         return this.playerLifePoints;
     }
 

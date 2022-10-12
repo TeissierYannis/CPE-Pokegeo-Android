@@ -16,12 +16,15 @@ import androidx.fragment.app.Fragment;
 import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonFight;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 
 public class FightFragment extends Fragment {
@@ -98,35 +101,22 @@ public class FightFragment extends Fragment {
             this.binding.pokemonfightActionsBox.fightpopupButtonFight.postDelayed(this::activeAllButtons, 100);
         });
 
-        // On click on bag button try to capture the pokemon
+        // On click on bag button, open a modal to select a item
         this.binding.pokemonfightActionsBox.fightpopupButtonBag.setOnClickListener(v -> {
-
             this.deactivateAllButtons();
 
-            this.animateCapture();
+            // Switch fragment without closing the current one
+            InventoryFragment inventoryFragment = new InventoryFragment();
+            inventoryFragment.setUseListener(this::onUseItem);
 
-            int random = (int) (Math.random() * 100);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, inventoryFragment)
+                    .addToBackStack("fight")
+                    .setReorderingAllowed(true)
+                    .commit();
 
-            // Timeout 3 seconds
-            this.binding.pokemonfightActionsBox.fightpopupButtonBag.postDelayed(() -> {
-
-                double ballRate = 0.25;
-                double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
-
-                double totalRate = ballRate + (lifeRate * 0.5);
-
-                if (random < totalRate * 100) {
-                    this.onCapture();
-                } else {
-                    // 1% chance to exit the fight and disappear from the map
-                    if (random < 1) {
-                        this.onEscape();
-                    }
-                    this.opponentAttack();
-                }
-                this.activeAllButtons();
-            }, 2000);
-
+            this.activeAllButtons();
         });
 
         // On click on pokemon button, open a modal to select a pokemon
@@ -268,9 +258,10 @@ public class FightFragment extends Fragment {
     /**
      * Animate capture
      */
-    private void animateCapture() {
+    private void animateCapture(int imageID) {
         // replace opponent pokemon with pokeball image
-        this.binding.pokemonfightImageWildPokemon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.pokeball));
+        this.binding.pokemonfightImageWildPokemon.setImageDrawable(ContextCompat.getDrawable(requireContext(), imageID));
+
         // Animate the pokeball
         this.binding.pokemonfightImageWildPokemon.animate().rotation(20).setDuration(500);
         this.binding.pokemonfightImageWildPokemon.animate().scaleX(0.5f).setDuration(500);
@@ -342,6 +333,61 @@ public class FightFragment extends Fragment {
         // go back to this fragment and reupdate bar
         requireActivity().getSupportFragmentManager().popBackStack();
     }
+
+    /**
+     * On using item
+     */
+    private void onUseItem(Item item, CaughtPokemon cp) {
+
+        if (item instanceof ItemPotion) {
+            System.out.println("Using " + item.getName());
+            pokemonFight.healPlayerPokemon((ItemPotion) item);
+            // TODO heal target
+
+        } else if (item instanceof ItemRevive) {
+            System.out.println("Using " + item.getName());
+            // TODO revive target
+
+        } else if (item instanceof ItemBall) {
+
+            System.out.println("Using " + item.getName());
+
+            int random = (int) (Math.random() * 100);
+
+            // if the item is a master-ball
+            if (item.getName().equals("master-ball")) {
+                this.animateCapture(item.getImageID());
+                // 3s time out for animation
+                this.binding.pokemonfightImageWildPokemon.postDelayed(() -> {
+                    this.onCapture();
+                }, 3000);
+            } else {
+                double ballRate = ((ItemBall) item).getAccuracy();
+
+                double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
+                double totalRate = ballRate + (lifeRate * 0.5);
+
+                if (random < totalRate * 100) {
+                    this.animateCapture(item.getImageID());
+                    // 3s time out for animation
+                    this.binding.pokemonfightImageWildPokemon.postDelayed(() -> {
+                        this.onCapture();
+                    }, 3000);
+                } else {
+                    // 1% chance to exit the fight and disappear from the map
+                    if (random < 1) {
+                        this.onEscape();
+                    }
+                    this.opponentAttack();
+                }
+            }
+            this.activeAllButtons();
+        }
+
+        // go back to this fragment and re-update bar
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
 
     /**
      * Update lifebar

@@ -24,7 +24,7 @@ public class ItemBall extends Item {
      * Get pokeball precision.
      * @return Pokeball precision.
      */
-    public int getAccuracy() {
-        return accuracy;
+    public double getAccuracy() {
+        return accuracy / 10.0;
     }
 }

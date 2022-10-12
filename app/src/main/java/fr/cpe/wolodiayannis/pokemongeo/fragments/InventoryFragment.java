@@ -16,9 +16,9 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.InventoryListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryFragmentBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
 
 /**
  * Inventory Fragment.
@@ -34,6 +34,11 @@ public class InventoryFragment extends Fragment {
      * Datastore instance.
      */
     private Datastore datastore;
+
+    /**
+     * Listener on item Inventory switch (for fight fragment)
+     */
+    private InventoryUseInterface useListener;
 
     /**
      * onCreateView.
@@ -56,19 +61,15 @@ public class InventoryFragment extends Fragment {
         binding.inventoryList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         // new adapter
 
-        ItemInventory itemInventoryPossedItem = new ItemInventory();
-        // add only item with quantity > 0
-        for (Item item : datastore.getItemInventory().getItemIventoryList().keySet()) {
-            int quantity = datastore.getItemInventory().getItemIventoryList().get(item);
-            if (quantity > 0) {
-                itemInventoryPossedItem.addItem(
-                        item,
-                        quantity
-                );
-            }
+        ItemInventory itemInventoryPossedItem = (new ItemInventory()).getPossedItems();
+
+        InventoryListAdapter adapter = null;
+        if (listener == null) {
+            adapter = new InventoryListAdapter(itemInventoryPossedItem, useListener);
+        } else {
+            adapter = new InventoryListAdapter(itemInventoryPossedItem, listener);
         }
 
-        InventoryListAdapter adapter = new InventoryListAdapter(itemInventoryPossedItem, listener);
         // bind adapter to recycler view
         binding.inventoryList.setAdapter(adapter);
 
@@ -81,5 +82,11 @@ public class InventoryFragment extends Fragment {
      */
     public void setListener(InventoryListenerInterface listener) {
         this.listener = listener;
+        this.useListener = null;
+    }
+
+    public void setUseListener(InventoryUseInterface useListener) {
+        this.useListener = useListener;
+        this.listener = null;
     }
 }

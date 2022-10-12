@@ -50,6 +50,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Set the item inventory list.
+     *
      * @param hm The item inventory hasmap
      */
     public void setItemIventoryList(HashMap<Item, Integer> hm) {
@@ -164,5 +165,25 @@ public class ItemInventory implements Serializable {
      */
     public int size() {
         return itemIventoryList.size();
+    }
+
+    /**
+     * Get possed items.
+     *
+     * @return the possed items
+     */
+    public ItemInventory getPossedItems() {
+        ItemInventory itemInventoryPossedItem = new ItemInventory();
+        // add only item with quantity > 0
+        for (Item item : Datastore.getInstance().getItemInventory().getItemIventoryList().keySet()) {
+            int quantity = Datastore.getInstance().getItemInventory().getItemIventoryList().get(item);
+            if (quantity > 0) {
+                itemInventoryPossedItem.addItem(
+                        item,
+                        quantity
+                );
+            }
+        }
+        return itemInventoryPossedItem;
     }
 }
