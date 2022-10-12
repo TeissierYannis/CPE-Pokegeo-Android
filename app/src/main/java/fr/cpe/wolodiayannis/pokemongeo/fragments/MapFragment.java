@@ -160,10 +160,4 @@ public class MapFragment extends Fragment {
     public void displayPokemons() {
         this.map.displayPokemons(Datastore.getInstance().getSpawnedPokemons());
     }
-
-    public void displayPharmacies() {
-        if (Datastore.getInstance().getPharmacies() != null) {
-            this.map.displayPharmacies(Datastore.getInstance().getPharmacies());
-        }
-    }
 }
