@@ -71,13 +71,16 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param savedInstanceState Bundle
      */
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();
-        window.setStatusBarColor(getColor(R.color.colorPrimaryDark));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setStatusBarColor(
+                    getResources().getColor(R.color.colorPrimaryDark, getTheme())
+            );
+        }
 
         this.datastore = Datastore.getInstance();
 
@@ -117,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationBarView.OnItemSelectedListener listener = item -> {
             switch (item.getItemId()) {
                 case R.id.map:
-                    // if already on map, do nothing
                     if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof MapFragment) {
                         return true;
                     }
