@@ -80,7 +80,6 @@ public class ItemInventoryAdapter extends TypeAdapter<ItemInventory> {
                 in.nextName();
                 int quantity = in.nextInt();
                 in.endObject();
-                in.nextName();
 
                 items.put(new Item(id), quantity);
             }

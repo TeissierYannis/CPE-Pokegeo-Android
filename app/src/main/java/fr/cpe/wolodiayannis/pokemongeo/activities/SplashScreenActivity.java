@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -45,9 +46,11 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.exception.CacheException;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.ExecutorListener;
 import fr.cpe.wolodiayannis.pokemongeo.threading.FetchThreading;
 import fr.cpe.wolodiayannis.pokemongeo.threading.LoginThreading;
@@ -527,13 +530,22 @@ public class SplashScreenActivity extends AppCompatActivity {
                     );
         }
 
-        // set correctly item inventory from the itemInventory hasmap
+
+        // set correctly itemInventory hasmap
+        ItemInventory itemInventoryADD = new ItemInventory(new HashMap<>());
         for (Item item : Datastore.getInstance().getItemInventory().getItemIventoryList().keySet()) {
-            if (item.getName().equals("todo")) {
-                Item itm = Datastore.getInstance().getItemList().getItemById(item.getId());
-                Datastore.getInstance().getItemInventory().setItem(item.getId(), itm);
-            }
+            itemInventoryADD.addItem(
+                    Datastore.getInstance().getItemList().getItemById(item.getId()),
+                    Datastore.getInstance().getItemInventory().getItemIventoryList().get(item));
         }
+        Datastore.getInstance().setItemInventory(itemInventoryADD);
+        try {
+            new ItemInventoryFetcher(this).cacheInventory(Datastore.getInstance().getItemInventory());
+        } catch (CacheException e) {
+            logOnUiThread("Error while caching inventory");
+            e.printStackTrace();
+        }
+
 
         // Start MainActivity
         changeLoadingText("Pokémon are ready to fight!");

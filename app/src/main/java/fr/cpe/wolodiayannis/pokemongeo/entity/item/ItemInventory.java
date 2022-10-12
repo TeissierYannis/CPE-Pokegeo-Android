@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemInventoryAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 
 /**
  * Items inventory class.
@@ -131,13 +132,15 @@ public class ItemInventory implements Serializable {
     /**
      * Set the item at the given index.
      *
-     * @param index the index of the item to set
      * @param item  the item to set
      */
     public void setItem(int index, Item item) {
-        if (index < itemIventoryList.size()) {
-            itemIventoryList.keySet().toArray()[index] = item;
+        if (index < Datastore.getInstance().getItemInventory().size()) {
+            Item toReplace = (Item) itemIventoryList.keySet().toArray()[index];
+            itemIventoryList.put(item, itemIventoryList.get(toReplace));
+            itemIventoryList.remove(toReplace);
         }
+        Datastore.getInstance().setItemInventory(this);
     }
 
     /**
