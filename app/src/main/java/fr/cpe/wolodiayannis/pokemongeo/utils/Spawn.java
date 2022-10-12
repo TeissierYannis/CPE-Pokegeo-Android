@@ -2,18 +2,28 @@ package fr.cpe.wolodiayannis.pokemongeo.utils;
 
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.observers.PharmaciesObserver;
+import fr.cpe.wolodiayannis.pokemongeo.observers.ShopsObserver;
 
 public class Spawn {
+
+    private final PharmaciesObserver pharmaciesObserver;
+    private final ShopsObserver shopsObserver;
+
+    public Spawn(ShopsObserver shopsObserver, PharmaciesObserver pharmaciesObserver) {
+        this.shopsObserver = shopsObserver;
+        this.pharmaciesObserver = pharmaciesObserver;
+    }
 
     public boolean isSpawned() {
         return Datastore.getInstance().getSpawnedPokemonExpiration() != null;
@@ -25,19 +35,16 @@ public class Spawn {
         return now.after(spawnDate);
     }
 
-    private void spawnPokemons() {
-        // Random between 2 and 6 - Corresponds to the number of pokemon to display on the map
-        int random = (int) (Math.random() * 5) + 2;
+    private void spawnPokemons(GeoPoint location) {
+        // Random between 4 and 6 - Corresponds to the number of pokemon to display on the map
+        int random = (int) (Math.random() * 9) + 4;
 
         // Get the list of pokemon to display
         HashMap<Pokemon, GeoPoint> pokemonToDisplay = new HashMap<>();
 
         GeoPoint[] points = Coordinates.generateRandomPoints(
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                ),
-                1000,
+                location,
+                100,
                 random
         );
 
@@ -45,6 +52,7 @@ public class Spawn {
         for (int i = 0; i < random; i++) {
             pokemonToDisplay.put(getRandomPokemon(), points[i]);
         }
+
         Datastore.getInstance().setSpawnedPokemons(pokemonToDisplay);
 
         this.generateTimeout();
@@ -62,21 +70,48 @@ public class Spawn {
         return Datastore.getInstance().getPokemons().get(random);
     }
 
-    private void spawnPharmacies(GeoPoint loc) {
+    boolean isRequestForPharmacyRunning = false;
+
+    public void spawnPharmacies(GeoPoint loc) {
+
+        if (isRequestForPharmacyRunning) {
+            return;
+        }
+
         NominatimPOIProvider poiProvider = new NominatimPOIProvider("OSMBonusPackTutoUserAgent");
 
         new Thread(() -> {
-            ArrayList<POI> pois = poiProvider.getPOICloseTo(loc, "pharmacy", 10, 0.1);
+            isRequestForPharmacyRunning = true;
+            BoundingBox boundingBox = new BoundingBox(loc.getLatitude() + 0.005, loc.getLongitude() + 0.005, loc.getLatitude() - 0.005, loc.getLongitude() - 0.005);
+            ArrayList<POI> pois = poiProvider.getPOIInside(boundingBox, "pharmacy", 10);
             Datastore.getInstance().addPharmacies(pois);
+            pharmaciesObserver.set(pois);
         }).start();
     }
 
-    private void spawnShops(GeoPoint loc) {
+    boolean isRequestForShopRunning = false;
+
+    public void spawnShops(GeoPoint loc) {
+        if (isRequestForShopRunning) {
+            return;
+        }
         NominatimPOIProvider poiProvider = new NominatimPOIProvider("OSMBonusPackTutoUserAgent");
 
         new Thread(() -> {
-            ArrayList<POI> pois = poiProvider.getPOICloseTo(loc, "shop", 10, 0.1);
+            isRequestForShopRunning = true;
+            BoundingBox boundingBox = new BoundingBox(loc.getLatitude() + 0.005, loc.getLongitude() + 0.005, loc.getLatitude() - 0.005, loc.getLongitude() - 0.005);
+            ArrayList<POI> pois = new ArrayList<>();
+            try {
+                pois = poiProvider.getPOIInside(boundingBox, "cafe", 20);
+            } catch (Exception e) {
+                try {
+                    pois = poiProvider.getPOIInside(boundingBox.increaseByScale(100), "supermarket", 20);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
             Datastore.getInstance().addShops(pois);
+            shopsObserver.set(pois);
         }).start();
     }
 
@@ -84,122 +119,130 @@ public class Spawn {
         // 1. Sort the list of spawned pokemons by distance (nearest first)
         // 2. Check if the first one is near enough
         // 3. If yes, return true
-        HashMap<Pokemon, GeoPoint> sorted = Sorter.sortByPokemonDistance(
-                Datastore.getInstance().getSpawnedPokemons(),
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                )
-        );
+        try {
 
-        // get first element (geopoint)
-        GeoPoint first = sorted.values().iterator().next();
+            HashMap<Pokemon, GeoPoint> sorted = Sorter.sortByPokemonDistance(
+                    Datastore.getInstance().getSpawnedPokemons(),
+                    new GeoPoint(
+                            Datastore.getInstance().getLastLocation().getLatitude(),
+                            Datastore.getInstance().getLastLocation().getLongitude()
+                    )
+            );
 
-        // get distance between first and current location
-        double distance = Coordinates.distance(
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                ),
-                first
-        );
+            // get first element (geopoint)
+            GeoPoint first = sorted.values().iterator().next();
 
-        // if distance < 100m, return true
-        return distance < 100;
+            // get distance between first and current location
+            double distance = Coordinates.distance(
+                    new GeoPoint(
+                            Datastore.getInstance().getLastLocation().getLatitude(),
+                            Datastore.getInstance().getLastLocation().getLongitude()
+                    ),
+                    first
+            );
+
+            // if distance < 100m, return true
+            return distance < 10000.0 / 111111.0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isShopNearby() {
         // 1. Sort the list of spawned shops by distance (nearest first)
         // 2. Check if the first one is near enough
         // 3. If yes, return true
-        List<POI> sorted = Sorter.sortPOIByDistance(
-                Datastore.getInstance().getShops(),
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                )
-        );
+        try {
 
-        // get first element (geopoint)
-        GeoPoint first = sorted.get(0).mLocation;
+            List<POI> sorted = Sorter.sortPOIByDistance(
+                    Datastore.getInstance().getShops(),
+                    new GeoPoint(
+                            Datastore.getInstance().getLastLocation().getLatitude(),
+                            Datastore.getInstance().getLastLocation().getLongitude()
+                    )
+            );
 
-        // get distance between first and current location
-        double distance = Coordinates.distance(
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                ),
-                first
-        );
+            // get first element (geopoint)
+            GeoPoint first = sorted.get(0).mLocation;
 
-        // if distance < 100m, return true
-        return distance < 100;
+            // get distance between first and current location
+            double distance = Coordinates.distance(
+                    new GeoPoint(
+                            Datastore.getInstance().getLastLocation().getLatitude(),
+                            Datastore.getInstance().getLastLocation().getLongitude()
+                    ),
+                    first
+            );
+
+            return distance > 10000.0 / 111111.0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isPharmacyNearby() {
         // 1. Sort the list of spawned pharmacies by distance (nearest first)
         // 2. Check if the first one is near enough
         // 3. If yes, return true
-        List<POI> sorted = Sorter.sortPOIByDistance(
-                Datastore.getInstance().getPharmacies(),
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                )
-        );
+        try {
 
-        // get first element (geopoint)
-        GeoPoint first = sorted.get(0).mLocation;
+            List<POI> sorted = Sorter.sortPOIByDistance(
+                    Datastore.getInstance().getPharmacies(),
+                    new GeoPoint(
+                            Datastore.getInstance().getLastLocation().getLatitude(),
+                            Datastore.getInstance().getLastLocation().getLongitude()
+                    )
+            );
 
-        // get distance between first and current location
-        double distance = Coordinates.distance(
-                new GeoPoint(
-                        Datastore.getInstance().getLastLocation().getLatitude(),
-                        Datastore.getInstance().getLastLocation().getLongitude()
-                ),
-                first
-        );
+            // get first element (geopoint)
+            GeoPoint first = sorted.get(0).mLocation;
 
-        // if distance < 100m, return true
-        return distance < 100;
+            // get distance between first and current location
+            double distance = Coordinates.distance(
+                    new GeoPoint(
+                            Datastore.getInstance().getLastLocation().getLatitude(),
+                            Datastore.getInstance().getLastLocation().getLongitude()
+                    ),
+                    first
+            );
+
+            return distance > 10000.0 / 111111.0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isPokemonSpawnNeeded(GeoPoint loc) {
         if (!this.isSpawned()) {
-            this.spawnPokemons();
+            this.spawnPokemons(loc);
             return true;
         } else if (this.isSpawnedExpired()) {
-            this.spawnPokemons();
+            this.spawnPokemons(loc);
             return true;
         } else if (!this.isPokemonNearby()) {
-            this.spawnPokemons();
+            this.spawnPokemons(loc);
             return true;
         }
-
         return false;
     }
 
-    public boolean isShopSpawnNeeded(GeoPoint loc) {
-        if (Datastore.getInstance().getPharmacies() == null) {
-            this.spawnShops(loc);
-            return true;
-        } else if (!this.isShopNearby()) {
-            this.spawnShops(loc);
-            return true;
-        }
-
-        return false;
+    public boolean isShopSpawned() {
+        return Datastore.getInstance().getShops() != null && Datastore.getInstance().getShops().size() > 0;
     }
 
-    public boolean isPharmacySpawnNeeded(GeoPoint loc) {
-        if (Datastore.getInstance().getPharmacies() == null) {
-            this.spawnPharmacies(loc);
-            return true;
-        } else if (!this.isPharmacyNearby()) {
-            this.spawnPharmacies(loc);
-            return true;
-        }
+    public boolean isPharmacySpawned() {
+        return Datastore.getInstance().getPharmacies() != null && Datastore.getInstance().getPharmacies().size() > 0;
+    }
 
-        return false;
+    public void isShopSpawnNeeded(GeoPoint loc) {
+        if (!this.isShopSpawned() || !this.isShopNearby()) {
+            this.shopsObserver.needUpdate(loc);
+        }
+    }
+
+    public void isPharmacySpawnNeeded(GeoPoint loc) {
+        if (!this.isPharmacySpawned() || !this.isPharmacyNearby()) {
+            this.pharmaciesObserver.needUpdate(loc);
+        }
     }
 }
