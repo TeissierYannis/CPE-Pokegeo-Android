@@ -37,6 +37,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -56,6 +58,7 @@ import fr.cpe.wolodiayannis.pokemongeo.threading.FetchThreading;
 import fr.cpe.wolodiayannis.pokemongeo.threading.LoginThreading;
 import fr.cpe.wolodiayannis.pokemongeo.threading.RegisterThreading;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Sorter;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -539,6 +542,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Datastore.getInstance().getItemInventory().getItemIventoryList().get(item));
         }
         Datastore.getInstance().setItemInventory(itemInventoryADD);
+
+        // sort the item Iventory by id
+        ItemInventory itemInventorySorted = Datastore.getInstance().getItemInventory();
+        itemInventorySorted.setItemIventoryList(Sorter.sortByValue(itemInventorySorted.getItemIventoryList()));
+        Datastore.getInstance().setItemInventory(itemInventorySorted);
+
         try {
             new ItemInventoryFetcher(this).cacheInventory(Datastore.getInstance().getItemInventory());
         } catch (CacheException e) {
