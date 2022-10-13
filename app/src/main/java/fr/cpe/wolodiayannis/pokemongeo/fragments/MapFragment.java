@@ -109,7 +109,11 @@ public class MapFragment extends Fragment {
         this.onShopsChangeListener = new OnShopsChangeListener() {
             @Override
             public void onShopsChange(ArrayList<POI> shops) {
-                map.displayShops(shops);
+                try {
+                    map.displayShops(shops);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -121,7 +125,11 @@ public class MapFragment extends Fragment {
         this.onPharmaciesChangeListener = new OnPharmaciesChangeListener() {
             @Override
             public void onPharmaciesChange(ArrayList<POI> pharmacies) {
-                map.displayPharmacies(pharmacies);
+                try {
+                    map.displayPharmacies(pharmacies);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
