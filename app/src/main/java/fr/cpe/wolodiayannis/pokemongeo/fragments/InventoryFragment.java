@@ -16,9 +16,8 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.InventoryListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryFragmentBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
 
 /**
  * Inventory Fragment.
@@ -26,19 +25,15 @@ import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
 public class InventoryFragment extends Fragment {
 
     /**
-     * Listener on click on item
+     * Listener on item Inventory switch (for fight fragment)
      */
-    private InventoryListenerInterface listener;
-
-    /**
-     * Datastore instance.
-     */
-    private Datastore datastore;
+    private InventoryUseInterface itemUseListener;
 
     /**
      * onCreateView.
-     * @param inflater inflater
-     * @param container container
+     *
+     * @param inflater           inflater
+     * @param container          container
      * @param savedInstanceState savedInstanceState
      * @return view
      */
@@ -49,26 +44,23 @@ public class InventoryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         // Get datastore instance
-        this.datastore = Datastore.getInstance();
+        /**
+         * Datastore instance.
+         */
         // Bind layout
         InventoryFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.inventory_fragment, container, false);
         // set grid layout
         binding.inventoryList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         // new adapter
 
-        ItemInventory itemInventoryPossedItem = new ItemInventory();
-        // add only item with quantity > 0
-        for (Item item : datastore.getItemInventory().getItemIventoryList().keySet()) {
-            int quantity = datastore.getItemInventory().getItemIventoryList().get(item);
-            if (quantity > 0) {
-                itemInventoryPossedItem.addItem(
-                        item,
-                        quantity
-                );
-            }
-        }
+        ItemInventory itemInventoryPossedItem = (new ItemInventory()).getPossedItems();
 
-        InventoryListAdapter adapter = new InventoryListAdapter(itemInventoryPossedItem, listener);
+        InventoryListAdapter adapter = null;
+        adapter = new InventoryListAdapter(itemInventoryPossedItem, itemUseListener);
+
+        // set user money
+        binding.inventoryTextviewPokemoney.setText(String.valueOf(Datastore.getInstance().getUser().getMoney()));
+
         // bind adapter to recycler view
         binding.inventoryList.setAdapter(adapter);
 
@@ -77,9 +69,10 @@ public class InventoryFragment extends Fragment {
 
     /**
      * Set listener.
-     * @param listener listener
+     *
+     * @param itemUseListener listener
      */
-    public void setListener(InventoryListenerInterface listener) {
-        this.listener = listener;
+    public void setItemUseListener(InventoryUseInterface itemUseListener) {
+        this.itemUseListener = itemUseListener;
     }
 }

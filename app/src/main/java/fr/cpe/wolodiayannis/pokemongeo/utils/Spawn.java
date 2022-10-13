@@ -1,5 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.utils;
 
+import android.graphics.drawable.Drawable;
+
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.util.BoundingBox;

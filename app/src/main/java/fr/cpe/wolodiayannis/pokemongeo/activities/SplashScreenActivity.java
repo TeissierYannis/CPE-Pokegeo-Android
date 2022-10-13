@@ -164,14 +164,15 @@ public class SplashScreenActivity extends AppCompatActivity {
      */
     private final List<Integer> tasksDone = new ArrayList<>();
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
         Window window = getWindow();
-        window.setStatusBarColor(getColor(R.color.pikaColor));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setStatusBarColor(getColor(R.color.pikaColor));
+        }
 
         this.progressBar = findViewById(R.id.progressBar);
         this.progressBarText = findViewById(R.id.progress_bar_text);

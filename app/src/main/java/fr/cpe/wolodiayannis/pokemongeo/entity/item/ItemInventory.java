@@ -50,6 +50,7 @@ public class ItemInventory implements Serializable {
 
     /**
      * Set the item inventory list.
+     *
      * @param hm The item inventory hasmap
      */
     public void setItemIventoryList(HashMap<Item, Integer> hm) {
@@ -87,35 +88,6 @@ public class ItemInventory implements Serializable {
     }
 
     /**
-     * Completely remove an item from the inventory.
-     *
-     * @param item the item to remove
-     */
-    public void removeItem(Item item) {
-        if (itemIventoryList.containsKey(item)) {
-            itemIventoryList.remove(item);
-        }
-    }
-
-    /**
-     * Completely remove an item from the inventory.
-     *
-     * @param index the index of the item to remove
-     */
-    public void removeItem(int index) {
-        if (index < itemIventoryList.size()) {
-            itemIventoryList.remove(index);
-        }
-    }
-
-    /**
-     * remove all items from the inventory.
-     */
-    public void removeItem() {
-        itemIventoryList.clear();
-    }
-
-    /**
      * Get the quantity of an item in the inventory.
      *
      * @param item the item to check
@@ -144,25 +116,31 @@ public class ItemInventory implements Serializable {
     }
 
     /**
-     * Set the item at the given index.
-     *
-     * @param item the item to set
-     */
-    public void setItem(int index, Item item) {
-        if (index < Datastore.getInstance().getItemInventory().size()) {
-            Item toReplace = (Item) itemIventoryList.keySet().toArray()[index];
-            itemIventoryList.put(item, itemIventoryList.get(toReplace));
-            itemIventoryList.remove(toReplace);
-        }
-        Datastore.getInstance().setItemInventory(this);
-    }
-
-    /**
      * Get the item inventory size.
      *
      * @return the item inventory size
      */
     public int size() {
         return itemIventoryList.size();
+    }
+
+    /**
+     * Get possed items.
+     *
+     * @return the possed items
+     */
+    public ItemInventory getPossedItems() {
+        ItemInventory itemInventoryPossedItem = new ItemInventory();
+        // add only item with quantity > 0
+        for (Item item : Datastore.getInstance().getItemInventory().getItemIventoryList().keySet()) {
+            int quantity = Datastore.getInstance().getItemInventory().getItemIventoryList().get(item);
+            if (quantity > 0) {
+                itemInventoryPossedItem.addItem(
+                        item,
+                        quantity
+                );
+            }
+        }
+        return itemInventoryPossedItem;
     }
 }

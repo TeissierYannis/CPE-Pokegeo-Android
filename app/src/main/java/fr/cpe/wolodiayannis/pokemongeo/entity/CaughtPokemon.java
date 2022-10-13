@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.CaughtPokemonAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 
 @JsonAdapter(CaughtPokemonAdapter.class)
 public class CaughtPokemon implements Serializable {
@@ -111,6 +112,10 @@ public class CaughtPokemon implements Serializable {
      */
     public void setCurrentLifeState(int current_life_state) {
         this.currentLifeState = current_life_state;
+    }
+
+    public Pokemon getCorrespondingPokemon() {
+        return Datastore.getInstance().getPokemons().get(this.pokemonId);
     }
 
     /**

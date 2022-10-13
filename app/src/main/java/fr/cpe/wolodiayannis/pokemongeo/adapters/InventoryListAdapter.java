@@ -12,7 +12,7 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
 /**
@@ -21,9 +21,9 @@ import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdapter.ViewHolder> {
 
     /**
-     * Listener for the click on an item.
+     * Listener for to use an item.
      */
-    private final InventoryListenerInterface listener;
+    private final InventoryUseInterface useItemListener;
 
     /**
      * List of item inventory.
@@ -32,17 +32,19 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
 
     /**
      * Constructor.
+     *
      * @param itemInventory List of item inventory.
-     * @param listener Listener for the click on an item.
+     * @param listener      Listener for the click on an item.
      */
-    public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterface listener) {
+    public InventoryListAdapter(ItemInventory itemInventory, InventoryUseInterface listener) {
         this.itemInventory = itemInventory;
-        this.listener = listener;
+        this.useItemListener = listener;
     }
 
     /**
      * Create a new ViewHolder.
-     * @param parent Parent ViewGroup.
+     *
+     * @param parent   Parent ViewGroup.
      * @param viewType ViewType.
      * @return ViewHolder.
      */
@@ -58,7 +60,8 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
 
     /**
      * Bind the ViewHolder.
-     * @param holder ViewHolder.
+     *
+     * @param holder   ViewHolder.
      * @param position Position.
      */
     @Override
@@ -67,8 +70,13 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         // Get the item if item do not exist create empty one
         Item item = itemInventory.getItem(position);
         holder.viewModel.setItem(item);
-        // holder.binding.getRoot().setOnClickListener(v -> listener.onItemSelected(item));
 
+        if (useItemListener != null) {
+            // set the listener for the click on the item
+            holder.binding.getRoot().setOnClickListener(v -> {
+                useItemListener.onItemInventorySwitch(item);
+            });
+        }
 
         // Set the color of the item bg.
         holder.binding.inventoryBg.getBackground().setTint(
@@ -77,10 +85,14 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
                         item.getBackgroundColor()
                 )
         );
+
+        // Set the ItemViewModel to the layout.
+        holder.binding.getItemViewModel().setItem(item);
     }
 
     /**
      * Get the number of items in the inventory.
+     *
      * @return the number of items in the inventory.
      */
     @Override

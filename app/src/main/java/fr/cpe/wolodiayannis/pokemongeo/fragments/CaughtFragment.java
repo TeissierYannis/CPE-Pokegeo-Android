@@ -63,7 +63,8 @@ public class CaughtFragment extends Fragment {
 
         if (listener == null) {
             adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), switchListener);
-        } else if (switchListener == null) {
+        }
+        if (switchListener == null) {
             adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), listener);
         }
         // bind adapter to recycler view
@@ -86,7 +87,7 @@ public class CaughtFragment extends Fragment {
      * @param switchListener switchListener
      */
     public void setSwitchListener(PokemonSwitchInterface switchListener) {
-        this.switchListener = switchListener;
         this.listener = null;
+        this.switchListener = switchListener;
     }
 }
