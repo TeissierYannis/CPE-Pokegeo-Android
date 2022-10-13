@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +28,8 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterfaceInventory;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterfaceFight;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 
 /**
@@ -38,9 +40,15 @@ public class InventoryFragment extends Fragment {
     /**
      * Listener on item Inventory switch (for fight fragment)
      */
-    private InventoryUseInterface itemUseListener;
+    private InventoryListenerInterfaceFight itemListenerFight;
+
+    /**
+     * Listener on item inventory for inventory fragment
+     */
+    private InventoryListenerInterfaceInventory inventoryListenerInv;
 
     private Item itemToUse;
+    private CaughtPokemon caughtPokemon;
 
     /**
      * onCreateView.
@@ -61,11 +69,15 @@ public class InventoryFragment extends Fragment {
         // set grid layout
         binding.inventoryList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         // new adapter
-
         ItemInventory itemInventoryPossedItem = (new ItemInventory()).getPossedItems();
 
-        itemUseListener = this::useItem;
-        InventoryListAdapter adapter = new InventoryListAdapter(itemInventoryPossedItem, itemUseListener);
+        InventoryListAdapter adapter = null;
+        if (itemListenerFight != null) {
+            adapter = new InventoryListAdapter(itemInventoryPossedItem, itemListenerFight);
+        } else {
+            inventoryListenerInv = this::useItem;
+            adapter = new InventoryListAdapter(itemInventoryPossedItem, inventoryListenerInv);
+        }
 
         // set user money
         binding.inventoryTextviewPokemoney.setText(String.valueOf(Datastore.getInstance().getUser().getMoney()));
@@ -79,12 +91,17 @@ public class InventoryFragment extends Fragment {
     /**
      * Set listener.
      *
-     * @param itemUseListener listener
+     * @param itemListenerFight listener
      */
-    public void setItemUseListener(InventoryUseInterface itemUseListener) {
-        this.itemUseListener = itemUseListener;
+    public void setItemListenerFight(InventoryListenerInterfaceFight itemListenerFight) {
+        this.itemListenerFight = itemListenerFight;
     }
 
+    /**
+     * Use item.
+     *
+     * @param item item
+     */
     private void useItem(Item item) {
         System.out.println("Use item " + item.getName());
 
@@ -105,15 +122,37 @@ public class InventoryFragment extends Fragment {
         }
     }
 
+    /**
+     * Handle how to use heal item.
+     *
+     * @param cp      caught pokemon
+     * @param pokemon pokemon
+     */
     private void useHealItem(Pokemon pokemon, CaughtPokemon cp) {
+        this.caughtPokemon = cp;
+        // if the user try to use a potion on a dead pokemon
+        if (caughtPokemon != null && caughtPokemon.getCurrentLifeState() <= 0 && itemToUse instanceof ItemPotion) {
+            Toast.makeText(requireContext(), "You can't use a potion on a dead pokemon", Toast.LENGTH_SHORT).show();
+        }
+        // if the user try to use a revive on a alive pokemon
+        else if (caughtPokemon != null && caughtPokemon.getCurrentLifeState() > 0 && itemToUse instanceof ItemRevive) {
+            Toast.makeText(requireContext(), "You can't use a revive on a alive pokemon", Toast.LENGTH_SHORT).show();
+        } else {
+            this.useItem();
+        }
+    }
 
+    /**
+     * Use item.
+     */
+    private void useItem() {
         if (itemToUse instanceof ItemPotion) {
-            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
-                    .setCurrentLifeState(cp.getCurrentLifeState() + ((ItemPotion) itemToUse).getBonus());
+            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(caughtPokemon.getCorrespondingPokemon()))
+                    .setCurrentLifeState(caughtPokemon.getCurrentLifeState() + ((ItemPotion) itemToUse).getBonus());
 
         } else if (itemToUse instanceof ItemRevive) {
-            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon())).
-                    setCurrentLifeState(((ItemRevive) itemToUse).getExactHpToHeal(cp.getCorrespondingPokemon()));
+            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(caughtPokemon.getCorrespondingPokemon())).
+                    setCurrentLifeState(((ItemRevive) itemToUse).getExactHpToHeal(caughtPokemon.getCorrespondingPokemon()));
         }
         // go back to this fragment and re-update bar
         requireActivity().getSupportFragmentManager().popBackStack();
@@ -122,7 +161,7 @@ public class InventoryFragment extends Fragment {
             (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
         }).start();
         new Thread(() -> {
-            (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(cp);
+            (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(caughtPokemon);
         }).start();
     }
 }

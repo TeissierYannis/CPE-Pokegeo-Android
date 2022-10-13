@@ -116,7 +116,7 @@ public class FightFragment extends Fragment {
 
             // Switch fragment without closing the current one
             InventoryFragment inventoryFragment = new InventoryFragment();
-            inventoryFragment.setItemUseListener(this::setItem);
+            inventoryFragment.setItemListenerFight(this::setItem);
 
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -549,12 +549,14 @@ public class FightFragment extends Fragment {
             if (random < totalRate * 100) {
                 // 3s time out for animation
                 this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
+                Datastore.getInstance().getUser().addMoney(2000);
+                Datastore.getInstance().getUser().addExperience(1000);
                 new Thread(() -> {
                     // Give 2000 ₽ and 1000 exp to the player
                     (new UserUpdateFetcher(getContext())).updateAndCacheMoneyAndExp(
                             Datastore.getInstance().getUser(),
-                            Datastore.getInstance().getUser().getMoneyWithAdding(2000),
-                            Datastore.getInstance().getUser().getExpWithAdding(1000)
+                            Datastore.getInstance().getUser().getMoney(),
+                            Datastore.getInstance().getUser().getExperience()
                     );
                 }).start();
             } else {

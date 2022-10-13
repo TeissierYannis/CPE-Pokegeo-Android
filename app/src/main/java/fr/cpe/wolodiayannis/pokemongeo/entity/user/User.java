@@ -176,6 +176,22 @@ public class User implements Serializable {
     }
 
     /**
+     * Add money to the user.
+     * @param money money to add.
+     */
+    public void addMoney(int money) {
+        this.money += money;
+    }
+
+    /**
+     * Remove money to the user.
+     * @param money money to remove.
+     */
+    public void removeMoney(int money) {
+        this.money -= money;
+    }
+
+    /**
      * Get user experience.
      *
      * @return User experience.
@@ -203,5 +219,11 @@ public class User implements Serializable {
         this.experience = experience;
     }
 
-
+    /**
+     * Add experience to the user.
+     * @param exp experience to add.
+     */
+    public void addExperience(int exp) {
+        this.experience += exp;
+    }
 }

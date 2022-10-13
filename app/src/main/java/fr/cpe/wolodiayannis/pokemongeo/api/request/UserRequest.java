@@ -8,7 +8,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserIsInit;
-import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserMoney;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserMoneyAndExp;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 import retrofit2.Call;
 
@@ -97,7 +97,7 @@ public class UserRequest extends BaseRequest {
      * @param money Money.
      */
     public static void updateUserMoneyAndExp(int user_id, int money, int exp) {
-        Call<BasicResponse> call = getAPI().updateUserMoneyAndExp(new UserMoney(user_id, money, exp));
+        Call<BasicResponse> call = getAPI().updateUserMoneyAndExp(new UserMoneyAndExp(user_id, money, exp));
         try {
             call.execute();
             Datastore.getInstance().getUser().setMoney(money);

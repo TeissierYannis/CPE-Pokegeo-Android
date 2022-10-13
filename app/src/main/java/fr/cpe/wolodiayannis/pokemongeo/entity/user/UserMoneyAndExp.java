@@ -1,6 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity.user;
 
-public class UserMoney {
+public class UserMoneyAndExp {
 
     /**
      * User id.
@@ -18,12 +18,12 @@ public class UserMoney {
     Integer experience;
 
 
-    /**
+    /**us
      * Constructor.
      * @param userId User id.
      * @param money User money.
      */
-    public UserMoney(int userId, int money, int experience) {
+    public UserMoneyAndExp(int userId, int money, int experience) {
         this.id = userId;
         this.money = money;
         this.experience = experience;

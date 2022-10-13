@@ -12,7 +12,8 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterfaceInventory;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterfaceFight;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
 /**
@@ -21,9 +22,14 @@ import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdapter.ViewHolder> {
 
     /**
-     * Listener for to use an item.
+     * Listener to use an item (fight).
      */
-    private final InventoryUseInterface useItemListener;
+    private final InventoryListenerInterfaceFight useItemListener;
+
+    /**
+     * Listener to use an item (inventory).
+     */
+    private final InventoryListenerInterfaceInventory useItemListenerInventory;
 
     /**
      * List of item inventory.
@@ -36,9 +42,22 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      * @param itemInventory List of item inventory.
      * @param listener      Listener for the click on an item.
      */
-    public InventoryListAdapter(ItemInventory itemInventory, InventoryUseInterface listener) {
+    public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterfaceFight listener) {
         this.itemInventory = itemInventory;
         this.useItemListener = listener;
+        this.useItemListenerInventory = null;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param itemInventory List of item inventory.
+     * @param listener      Listener for the click on an item.
+     */
+    public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterfaceInventory listener) {
+        this.itemInventory = itemInventory;
+        this.useItemListener = null;
+        this.useItemListenerInventory = listener;
     }
 
     /**
@@ -74,7 +93,12 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         if (useItemListener != null) {
             // set the listener for the click on the item
             holder.binding.getRoot().setOnClickListener(v -> {
-                useItemListener.onItemInventorySwitch(item);
+                useItemListener.onItemSelectedFight(item);
+            });
+        } else if (useItemListenerInventory != null) {
+            // set the listener for the click on the item
+            holder.binding.getRoot().setOnClickListener(v -> {
+                useItemListenerInventory.onItemSelectedInv(item);
             });
         }
 

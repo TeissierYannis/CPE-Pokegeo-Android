@@ -4,7 +4,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserIsInit;
-import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserMoney;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserMoneyAndExp;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -37,6 +37,6 @@ public interface UserAPI extends BaseAPI {
     Call<UserIsInit> updateUserIsInit(@Body UserIsInit userIsInit);
 
     @PUT("user/update/moneyExp")
-    Call<BasicResponse> updateUserMoneyAndExp(@Body UserMoney userMoney);
+    Call<BasicResponse> updateUserMoneyAndExp(@Body UserMoneyAndExp userMoneyAndExp);
 }
 
