@@ -111,7 +111,6 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
 
         } else if (switchListener != null) {
 
-
             // Set the listener for the click on the Pokemon.
             holder.binding.getRoot().setOnClickListener(v -> {
 

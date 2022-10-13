@@ -35,11 +35,6 @@ public class CaughtFragment extends Fragment {
     private PokemonSwitchInterface switchListener;
 
     /**
-     * Datastore instance.
-     */
-    private Datastore datastore;
-
-    /**
      * onCreateView.
      * @param inflater inflater
      * @param container container
@@ -52,8 +47,7 @@ public class CaughtFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // Get datastore instance
-        this.datastore = Datastore.getInstance();
+
         // Bind layout
         CaughtFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.caught_fragment, container, false);
         // set grid layout
@@ -62,10 +56,10 @@ public class CaughtFragment extends Fragment {
         CaughtPokemonListAdapter adapter = null;
 
         if (listener == null) {
-            adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), switchListener);
+            adapter = new CaughtPokemonListAdapter(Datastore.getInstance().getCaughtInventory(), switchListener);
         }
         if (switchListener == null) {
-            adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), listener);
+            adapter = new CaughtPokemonListAdapter(Datastore.getInstance().getCaughtInventory(), listener);
         }
         // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);

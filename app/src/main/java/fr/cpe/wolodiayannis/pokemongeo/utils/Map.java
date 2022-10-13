@@ -24,6 +24,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
@@ -170,11 +171,7 @@ public class Map {
 
         // remove all previous markers
         List<Overlay> overlays = this.map.getOverlays();
-        for (Overlay overlay : overlays) {
-            if (overlay instanceof Marker) {
-                overlays.remove(overlay);
-            }
-        }
+        overlays.removeIf(overlay -> overlay instanceof Marker);
 
         for (Pokemon pokemon : spawned.keySet()) {
             marker = new Marker(this.map);
@@ -194,7 +191,7 @@ public class Map {
                 Pokemon userPokemon = null;
                 for (Pokemon p : Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().keySet()) {
                     CaughtPokemon caughtPokemon = Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(p);
-                    if (caughtPokemon.getCurrentLifeState() > 0) {
+                    if (Objects.requireNonNull(caughtPokemon).getCurrentLifeState() > 0) {
                         userPokemon = p;
                         break;
                     }
