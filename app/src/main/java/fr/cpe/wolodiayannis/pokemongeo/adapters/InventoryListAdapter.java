@@ -101,16 +101,15 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         if (useListener != null) {
             // set the listener for the click on the item
             holder.binding.getRoot().setOnClickListener(v -> {
-                Item itm = Datastore.getInstance().getItemInventory().getItem(position);
-                CaughtPokemon cp = null;
+                CaughtPokemon cp = Datastore.getInstance().getCaughtInventory().getCaughtPokemonFromPokemonID(Datastore.getInstance().getCaughtInventory().getCaughtPokemon(0).getId());
 
-                if (itm instanceof ItemPotion) {
+                if (item instanceof ItemPotion) {
                     // TODO show caught pokemon frag and get a targ
-                } else if (itm instanceof ItemRevive) {
+                } else if (item instanceof ItemRevive) {
                     // TODO show caught pokemon frag and get a targ
                 }
 
-                useListener.onItemInventorySwitch((Item) itm, (CaughtPokemon) cp);
+                useListener.onItemInventorySwitch((Item) item, cp);
             });
         }
 

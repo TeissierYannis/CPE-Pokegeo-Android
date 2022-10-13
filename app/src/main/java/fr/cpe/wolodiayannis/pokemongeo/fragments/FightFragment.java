@@ -47,6 +47,8 @@ public class FightFragment extends Fragment {
      * Pokemon fight
      */
     PokemonFight pokemonFight;
+    private Item lastItemToUse;
+    private CaughtPokemon useItemOn;
 
     @Nullable
     @Override
@@ -297,6 +299,9 @@ public class FightFragment extends Fragment {
         Drawable playerProgressDrawable = this.binding.pokemonfightLifebarPlayer.getProgressDrawable().mutate();
         playerProgressDrawable.setTint(ContextCompat.getColor(requireContext(), this.pokemonFight.getPlayerProgressBarColor()));
 
+        this.updateLifeBarProgress();
+        this.updateLifeBarColor();
+
         if (this.pokemonFight.isPlayerPokemonDead()) {
             this.onLoose();
             this.updateUserPokemon();
@@ -313,6 +318,9 @@ public class FightFragment extends Fragment {
 
         Drawable enemyProgressDrawable = this.binding.lifeBarRight.getProgressDrawable().mutate();
         enemyProgressDrawable.setTint(ContextCompat.getColor(requireContext(), this.pokemonFight.getEnemyProgressBarColor()));
+
+        this.updateLifeBarProgress();
+        this.updateLifeBarColor();
 
         if (this.pokemonFight.isOpponentPokemonDead()) {
             this.onWin();
@@ -340,55 +348,8 @@ public class FightFragment extends Fragment {
      * On using item
      */
     private void onUseItem(Item item, CaughtPokemon cp) {
-
-        if (item instanceof ItemPotion) {
-            System.out.println("Using " + item.getName());
-            pokemonFight.healPlayerPokemon((ItemPotion) item);
-            // TODO heal target
-
-        } else if (item instanceof ItemRevive) {
-            System.out.println("Using " + item.getName());
-            // TODO revive target
-
-        } else if (item instanceof ItemBall) {
-
-            System.out.println("Using " + item.getName());
-
-            int random = (int) (Math.random() * 100);
-
-            // if the item is a master-ball
-            if (item.getName().equals("master-ball")) {
-                this.animateCapture(item.getImageID());
-                // 3s time out for animation
-                this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
-            } else {
-
-                double minimumRate = 5.0;
-                double ballRate = ((ItemBall) item).getAccuracy() * minimumRate;
-                double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
-                double totalRate = ballRate + (lifeRate * 0.5);
-
-                if (random < totalRate * 100) {
-                    this.animateCapture(item.getImageID());
-                    // 3s time out for animation
-                    this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
-                } else {
-                    // 1% chance to exit the fight and disappear from the map
-                    if (random < 1) {
-                        this.onEscape();
-                    }
-                    this.opponentAttack();
-                }
-            }
-            // remove 1 item from the inventory and update into the API
-            Datastore.getInstance().getItemInventory().removeItem(item, 1);
-            new Thread(() -> {
-                (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
-            }).start();
-
-            this.activeAllButtons();
-        }
-
+        this.lastItemToUse = item;
+        this.useItemOn = cp;
         // go back to this fragment and re-update bar
         requireActivity().getSupportFragmentManager().popBackStack();
     }
@@ -483,6 +444,61 @@ public class FightFragment extends Fragment {
         super.onResume();
         this.updateLifeBarProgress();
         this.updateLifeBarColor();
+        System.out.println("[Fight] On resume");
+
+        if (this.lastItemToUse != null && this.useItemOn != null) {
+            this.useItem();
+        }
+    }
+
+    public void useItem() {
+        Item item = this.lastItemToUse;
+        CaughtPokemon cp = this.useItemOn;
+
+        // wait to be sure that the fragment is back
+        if (item instanceof ItemPotion) {
+            System.out.println("Using " + item.getName());
+            pokemonFight.healPlayerPokemon((ItemPotion) item);
+            // TODO heal target
+
+        } else if (item instanceof ItemRevive) {
+            System.out.println("Using " + item.getName());
+            // TODO revive target
+
+        } else if (item instanceof ItemBall) {
+
+            System.out.println("Using " + item.getName());
+
+            int random = (int) (Math.random() * 100);
+
+            this.animateCapture(item.getImageID());
+
+            double minimumRate = 0.05;
+            double ballRate = ((ItemBall) item).getAccuracy() * minimumRate;
+            double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
+            double totalRate = ballRate + (lifeRate * 0.5);
+
+            if (random < totalRate * 100) {
+                // 3s time out for animation
+                this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
+            } else {
+                // 1% chance to exit the fight and disappear from the map
+                if (random < 1) {
+                    this.onEscape();
+                }
+                this.opponentAttack();
+            }
+            // remove 1 item from the inventory and update into the API
+            Datastore.getInstance().getItemInventory().removeItem(item, 1);
+            new Thread(() -> {
+                (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
+            }).start();
+
+            this.activeAllButtons();
+
+            this.lastItemToUse = null;
+            this.useItemOn = null;
+        }
     }
 
 }
