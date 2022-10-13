@@ -2,6 +2,7 @@ package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
@@ -447,10 +449,26 @@ public class FightFragment extends Fragment {
         System.out.println("[Fight] On resume");
 
         if (this.lastItemToUse != null && this.useItemOn != null) {
-            this.useItem();
+
+            // if the user try to use a potion on a dead pokemon
+            if (this.useItemOn.getCurrentLifeState() <= 0 && this.lastItemToUse instanceof ItemPotion) {
+                Toast.makeText(requireContext(), "You can't use a potion on a dead pokemon", Toast.LENGTH_SHORT).show();
+            }
+            // if the user try to use a revive on a alive pokemon
+            else if (this.useItemOn.getCurrentLifeState() > 0 && this.lastItemToUse instanceof ItemRevive) {
+                Toast.makeText(requireContext(), "You can't use a revive on a alive pokemon", Toast.LENGTH_SHORT).show();
+            } else {
+                this.useItem();
+            }
         }
     }
 
+
+    /**
+     * set the item with the one chosen
+     * and display caught pokemon if needed
+     * @param item item to set as last item to use
+     */
     private void setItem(Item item) {
         this.lastItemToUse = item;
 
@@ -472,59 +490,79 @@ public class FightFragment extends Fragment {
         }
     }
 
+    /**
+     * Set the caught pokemon to use item
+     * @param pokemon NOT USED
+     * @param caughtPokemon caught pokemon to use item on
+     */
     private void setCaughtPokemonToUseItem(Pokemon pokemon, CaughtPokemon caughtPokemon) {
 
         this.useItemOn = caughtPokemon;
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    /**
+     * Use the item chose as needed (on the chosen pokemon if needed)
+     */
     public void useItem() {
         Item item = this.lastItemToUse;
         CaughtPokemon cp = this.useItemOn;
+        System.out.println("Using " + item.getName());
+        int random = (int) (Math.random() * 100);
 
-        // wait to be sure that the fragment is back
         if (item instanceof ItemPotion) {
-            System.out.println("Using " + item.getName());
-            pokemonFight.healPlayerPokemon((ItemPotion) item);
-            // TODO heal target
+            // if the pokemon to heal is the actual user pokemon
+            if (cp.getCorrespondingPokemon().equals(this.userPokemon)) {
+                pokemonFight.healPlayerPokemon((ItemPotion) item);
+            }
+            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
+                    .setCurrentLifeState(cp.getCurrentLifeState() + ((ItemPotion) item).getBonus());
+            this.opponentAttack();
 
         } else if (item instanceof ItemRevive) {
-            System.out.println("Using " + item.getName());
-            // TODO revive target
+            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon())).
+                    setCurrentLifeState(((ItemRevive) item).getExactHpToHeal(cp.getCorrespondingPokemon()));
+            this.opponentAttack();
 
         } else if (item instanceof ItemBall) {
-
-            System.out.println("Using " + item.getName());
-
-            int random = (int) (Math.random() * 100);
-
             this.animateCapture(item.getImageID());
 
+            // calculate catch rate
             double minimumRate = 0.05;
             double ballRate = ((ItemBall) item).getAccuracy() * minimumRate;
             double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
             double totalRate = ballRate + (lifeRate * 0.5);
 
+            // auto catch if the item is a master-ball
+            if (item.getName().equals("master-ball")) {
+                totalRate = 1;
+            }
+
+            // try to catch
             if (random < totalRate * 100) {
                 // 3s time out for animation
                 this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
             } else {
-                // 1% chance to exit the fight and disappear from the map
-                if (random < 1) {
-                    this.onEscape();
-                }
                 this.opponentAttack();
             }
-            // remove 1 item from the inventory and update into the API
-            Datastore.getInstance().getItemInventory().removeItem(item, 1);
-            new Thread(() -> {
-                (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
-            }).start();
-
-            this.activeAllButtons();
         }
+        // update lifeState
+        this.updateLifeBarProgress();
+        this.updateLifeBarColor();
+
+        // 1% chance to exit the fight and disappear from the map
+        if (random < 1) {
+            this.onEscape();
+        }
+
+        // remove 1 item from the inventory and update into the API
+        Datastore.getInstance().getItemInventory().removeItem(item, 1);
+        new Thread(() -> {
+            (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
+        }).start();
+
+        this.activeAllButtons();
         this.lastItemToUse = null;
         this.useItemOn = null;
     }
-
 }
