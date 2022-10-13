@@ -545,7 +545,7 @@ public class FightFragment extends Fragment {
                 // 3s time out for animation
                 this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
             } else {
-                this.opponentAttack();
+                this.binding.pokemonfightImageWildPokemon.postDelayed(this::opponentAttack, 3000);
             }
         }
         // update lifeState
