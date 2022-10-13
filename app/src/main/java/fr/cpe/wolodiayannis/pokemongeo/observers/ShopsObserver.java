@@ -51,7 +51,9 @@ public class ShopsObserver implements ObserverInterface<ArrayList<POI>, OnShopsC
     public void set(ArrayList<POI> value) {
         this.value = value;
         if (listener != null) {
-            listener.onShopsChange(value);
+            if (value != null) {
+                listener.onShopsChange(value);
+            }
         }
     }
 

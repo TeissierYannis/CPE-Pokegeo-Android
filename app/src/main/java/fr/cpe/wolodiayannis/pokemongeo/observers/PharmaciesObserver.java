@@ -51,7 +51,9 @@ public class PharmaciesObserver implements ObserverInterface<ArrayList<POI>, OnP
     public void set(ArrayList<POI> value) {
         this.value = value;
         if (listener != null) {
-            listener.onPharmaciesChange(value);
+            if (value != null) {
+                listener.onPharmaciesChange(value);
+            }
         }
     }
 

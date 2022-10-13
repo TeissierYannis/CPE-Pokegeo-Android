@@ -83,7 +83,12 @@ public class Spawn {
         new Thread(() -> {
             isRequestForPharmacyRunning = true;
             BoundingBox boundingBox = new BoundingBox(loc.getLatitude() + 0.005, loc.getLongitude() + 0.005, loc.getLatitude() - 0.005, loc.getLongitude() - 0.005);
-            ArrayList<POI> pois = poiProvider.getPOIInside(boundingBox, "pharmacy", 10);
+            ArrayList<POI> pois = new ArrayList<>();
+            try {
+                pois = poiProvider.getPOIInside(boundingBox, "pharmacy", 10);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Datastore.getInstance().addPharmacies(pois);
             pharmaciesObserver.set(pois);
         }).start();
