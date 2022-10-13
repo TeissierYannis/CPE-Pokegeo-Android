@@ -8,18 +8,16 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryItemBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
-import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterface;
+import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
@@ -29,14 +27,9 @@ import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdapter.ViewHolder> {
 
     /**
-     * Listener for the click on an item.
-     */
-    private final InventoryListenerInterface listener;
-
-    /**
      * Listener for to use an item.
      */
-    private final InventoryUseInterface useListener;
+    private final InventoryUseInterface useItemListener;
 
     /**
      * List of item inventory.
@@ -49,22 +42,9 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      * @param itemInventory List of item inventory.
      * @param listener      Listener for the click on an item.
      */
-    public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterface listener) {
-        this.itemInventory = itemInventory;
-        this.listener = listener;
-        this.useListener = null;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param itemInventory List of item inventory.
-     * @param listener      Listener for the click on an item.
-     */
     public InventoryListAdapter(ItemInventory itemInventory, InventoryUseInterface listener) {
         this.itemInventory = itemInventory;
-        this.listener = null;
-        this.useListener = listener;
+        this.useItemListener = listener;
     }
 
     /**
@@ -97,19 +77,10 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         Item item = itemInventory.getItem(position);
         holder.viewModel.setItem(item);
 
-
-        if (useListener != null) {
+        if (useItemListener != null) {
             // set the listener for the click on the item
             holder.binding.getRoot().setOnClickListener(v -> {
-                CaughtPokemon cp = Datastore.getInstance().getCaughtInventory().getCaughtPokemonFromPokemonID(Datastore.getInstance().getCaughtInventory().getCaughtPokemon(0).getId());
-
-                if (item instanceof ItemPotion) {
-                    // TODO show caught pokemon frag and get a targ
-                } else if (item instanceof ItemRevive) {
-                    // TODO show caught pokemon frag and get a targ
-                }
-
-                useListener.onItemInventorySwitch((Item) item, cp);
+                useItemListener.onItemInventorySwitch(item);
             });
         }
 

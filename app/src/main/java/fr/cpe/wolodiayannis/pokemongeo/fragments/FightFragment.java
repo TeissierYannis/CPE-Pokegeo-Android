@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
@@ -28,6 +27,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 
 public class FightFragment extends Fragment {
 
@@ -111,7 +111,7 @@ public class FightFragment extends Fragment {
 
             // Switch fragment without closing the current one
             InventoryFragment inventoryFragment = new InventoryFragment();
-            inventoryFragment.setUseListener(this::onUseItem);
+            inventoryFragment.setItemUseListener(this::setItem);
 
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -451,6 +451,33 @@ public class FightFragment extends Fragment {
         }
     }
 
+    private void setItem(Item item) {
+        this.lastItemToUse = item;
+
+        requireActivity().getSupportFragmentManager().popBackStack();
+        if (!(item instanceof ItemBall)) {
+            PokemonSwitchInterface pokemonSwitchInterface = this::setCaughtPokemonToUseItem;
+
+            CaughtFragment caughtFragment = new CaughtFragment();
+            caughtFragment.setSwitchListener(pokemonSwitchInterface);
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, caughtFragment)
+                    .addToBackStack("fight")
+                    .setReorderingAllowed(true)
+                    .commit();
+        } else {
+            this.useItem();
+        }
+    }
+
+    private void setCaughtPokemonToUseItem(Pokemon pokemon, CaughtPokemon caughtPokemon) {
+
+        this.useItemOn = caughtPokemon;
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
     public void useItem() {
         Item item = this.lastItemToUse;
         CaughtPokemon cp = this.useItemOn;
@@ -495,10 +522,9 @@ public class FightFragment extends Fragment {
             }).start();
 
             this.activeAllButtons();
-
-            this.lastItemToUse = null;
-            this.useItemOn = null;
         }
+        this.lastItemToUse = null;
+        this.useItemOn = null;
     }
 
 }

@@ -20,6 +20,7 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
@@ -46,24 +47,27 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
 
     /**
      * Constructor.
+     *
      * @param caughtInventory List of Pokemon.
-     * @param listener Listener for the click on a Pokemon.
+     * @param listener        Listener for the click on a Pokemon.
      */
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokedexListenerInterface listener) {
-        this.caughtInventory = caughtInventory;
         this.listener = listener;
+        this.caughtInventory = caughtInventory;
         this.switchListener = null;
     }
 
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokemonSwitchInterface listener) {
+        this.listener = null;
         this.caughtInventory = caughtInventory;
         this.switchListener = listener;
-        this.listener = null;
     }
+
 
     /**
      * Create a new ViewHolder.
-     * @param parent Parent ViewGroup.
+     *
+     * @param parent   Parent ViewGroup.
      * @param viewType ViewType.
      * @return ViewHolder.
      */
@@ -79,7 +83,8 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
 
     /**
      * Bind the ViewHolder with the Pokemon.
-     * @param holder ViewHolder.
+     *
+     * @param holder   ViewHolder.
      * @param position Position of the Pokemon in the list.
      */
     @Override
@@ -98,6 +103,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         if (listener != null) {
             // Set the listener for the click on the Pokemon.
             holder.binding.getRoot().setOnClickListener(v -> listener.onPokemonSelected(pokemon));
+
         } else if (switchListener != null) {
 
             // if currentLifestate === 0, then the pokemon is dead display gray filter on the pokemon
@@ -118,16 +124,21 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         }
 
         // Set the color of the pokemon bg.
-        holder.binding.pokemonBg.getBackground().setTint(
-                pokemon.getBackgroundColor()
-        );
+        holder.binding.pokemonBg.getBackground().
+
+                setTint(
+                        pokemon.getBackgroundColor()
+                );
 
         // Set the PokemonViewModel to the layout.
-        holder.binding.getPokemonViewModel().setPokemon(pokemon);
+        holder.binding.getPokemonViewModel().
+
+                setPokemon(pokemon);
     }
 
     /**
      * Get the number of Pokemon in the list.
+     *
      * @return Number of Pokemon.
      */
     @Override

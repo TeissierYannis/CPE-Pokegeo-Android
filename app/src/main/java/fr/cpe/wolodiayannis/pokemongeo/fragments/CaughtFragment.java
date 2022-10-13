@@ -16,7 +16,7 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.CaughtPokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.CaughtFragmentBinding;
-import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 
@@ -64,7 +64,8 @@ public class CaughtFragment extends Fragment {
 
         if (listener == null) {
             adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), switchListener);
-        } else if (switchListener == null) {
+        }
+        if (switchListener == null) {
             adapter = new CaughtPokemonListAdapter(datastore.getCaughtInventory(), listener);
         }
 
@@ -84,7 +85,7 @@ public class CaughtFragment extends Fragment {
     }
 
     public void setSwitchListener(PokemonSwitchInterface switchListener) {
-        this.switchListener = switchListener;
         this.listener = null;
+        this.switchListener = switchListener;
     }
 }
