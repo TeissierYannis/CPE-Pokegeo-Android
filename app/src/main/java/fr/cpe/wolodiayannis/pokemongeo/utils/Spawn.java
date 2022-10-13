@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.observers.PharmaciesObserver;
 import fr.cpe.wolodiayannis.pokemongeo.observers.ShopsObserver;
@@ -75,6 +76,7 @@ public class Spawn {
 
         // Fill the list of pokemon to display
         for (int i = 0; i < random; i++) {
+
             pokemonToDisplay.put(getRandomPokemon(), points[i]);
         }
 
@@ -98,8 +100,21 @@ public class Spawn {
      * @return Pokemon.
      */
     private Pokemon getRandomPokemon() {
+
+        // Get the list of pokemon
+        List<Pokemon> pokemons = Datastore.getInstance().getPokemons();
+        HashMap<Pokemon, CaughtPokemon> caughtPokemons = Datastore.getInstance().getCaughtInventory().getCaughtInventoryList();
+
+        // Get the list of pokemon not caught
+        List<Pokemon> notCaughtPokemons = new ArrayList<>();
+        for (Pokemon pokemon : pokemons) {
+            if (!caughtPokemons.containsKey(pokemon)) {
+                notCaughtPokemons.add(pokemon);
+            }
+        }
+
         int random = (int) (Math.random() * Datastore.getInstance().getPokemons().size());
-        return Datastore.getInstance().getPokemons().get(random);
+        return notCaughtPokemons.get(random);
     }
 
     /**
