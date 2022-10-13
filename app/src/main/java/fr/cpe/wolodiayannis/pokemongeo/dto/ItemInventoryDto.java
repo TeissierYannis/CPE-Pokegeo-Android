@@ -1,7 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.dto;
 
-import android.provider.ContactsContract;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,9 +8,19 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 
 public class ItemInventoryDto implements Serializable {
+    /**
+     * user id.
+     */
     int user_id;
+    /**
+     * Quantity of items.
+     */
     int[] quantity;
 
+    /**
+     * Constructor.
+     * @param itemInventory item inventory
+     */
     public ItemInventoryDto(ItemInventory itemInventory) {
 
         user_id = Datastore.getInstance().getUser().getId();

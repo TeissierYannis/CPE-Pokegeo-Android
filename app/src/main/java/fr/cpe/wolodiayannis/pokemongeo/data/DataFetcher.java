@@ -175,6 +175,11 @@ public class DataFetcher {
         ItemInventoryRequest.updateItemInventory(itemInventory);
     }
 
+    /**
+     * Update caught pokemon.
+     * @param caughtPokemon Caught pokemon to update.
+     * @return true if the update is successful.
+     */
     public static boolean updateCaughtPokemon(CaughtPokemon caughtPokemon) {
         return CaughtInventoryRequest.updateCaughtPokemon(caughtPokemon);
     }

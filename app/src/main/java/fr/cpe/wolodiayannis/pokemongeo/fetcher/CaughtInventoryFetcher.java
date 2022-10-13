@@ -14,12 +14,24 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class CaughtInventoryFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx
+     */
     public CaughtInventoryFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get caught inventory.
+     * @param userID user id.
+     * @return caught inventory.
+     */
     public CaughtInventory fetch(int userID) {
         CaughtInventory caughtPokemonList = null;
         try {
@@ -51,6 +63,10 @@ public class CaughtInventoryFetcher {
         }
     }
 
+    /**
+     * Add a pokemon to the caught inventory and cache it.
+     * @param caughtPokemon the caught pokemon.
+     */
     public void addPokemonAndCache(CaughtPokemon caughtPokemon) {
         try {
             if (caughtPokemon != null) {

@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 
 public class PokemonTypeListAdapter extends TypeAdapter<PokemonTypeList> {

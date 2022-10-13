@@ -12,12 +12,24 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class UserRegisterFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx
+     */
     public UserRegisterFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get user.
+     * @param user user.
+     * @param password password.
+     */
     public void fetchAndCache(User user, String password) {
         try {
             User userFromDB = DataFetcher.createUser(user, password);

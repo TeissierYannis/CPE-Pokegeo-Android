@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import java.sql.Timestamp;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
@@ -26,6 +25,9 @@ import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 
 public class FightFragment extends Fragment {
 
+    /**
+     * Binding for fight.
+     */
     private PokemonFightPopupBinding binding;
 
     /**
@@ -136,6 +138,8 @@ public class FightFragment extends Fragment {
             // Switch fragment without closing the current one
             CaughtFragment fragment = new CaughtFragment();
             fragment.setSwitchListener(this::onSwitchPokemon);
+
+
 
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()

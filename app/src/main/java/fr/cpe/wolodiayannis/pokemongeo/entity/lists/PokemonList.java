@@ -10,6 +10,9 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 @JsonAdapter(PokemonListAdapter.class)
 public class PokemonList implements Serializable {
+    /**
+     * List of pokemon.
+     */
     private List<Pokemon> pokemonList;
 
     /**

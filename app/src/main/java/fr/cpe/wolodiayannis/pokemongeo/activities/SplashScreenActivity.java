@@ -76,39 +76,92 @@ public class SplashScreenActivity extends AppCompatActivity {
      */
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
-    private Datastore datastore;
-
+    /**
+     * Dialog builder.
+     */
     private AlertDialog.Builder dialogBuilder;
+    /**
+     * Dialog.
+     */
     private AlertDialog dialog;
 
     // Log in pop up window
+    /**
+     * Login edit text.
+     */
     private EditText idEditText_login;
+    /**
+     * Password edit text.
+     */
     private EditText passwordEditText_login;
+    /**
+     * Login button.
+     */
     private Button loginButton_login;
+    /**
+     * Register button.
+     */
     private Button signupButton_login;
 
     // Sign up pop up window
+    /**
+     * Email edit text.
+     */
     private EditText emailEditText_signup;
+    /**
+     * Login edit text.
+     */
     private EditText pseudoEditText_signup;
+    /**
+     * Password edit text.
+     */
     private EditText passwordEditText_signup;
+    /**
+     * Confirm password edit text.
+     */
     private EditText passwordConfirmEditText_signup;
+    /**
+     * Sign up button.
+     */
     private Button signupButton_signup;
+    /**
+     * Cancel button.
+     */
     private ImageView backArrow_signup;
-
-
+    /**
+     * Progress bar.
+     */
     private ProgressBar progressBar;
+    /**
+     * Progress bar text.
+     */
     private TextView progressBarText;
 
+    /**
+     * Tasks to fetch.
+     */
     private final int TASKS_NB = 12;
+    /**
+     * % of tasks done.
+     */
     private final int prcPerTask = 100 / TASKS_NB;
 
     /**
-     * The executor service.
+     * The executor service. for fetching
      */
     FetchThreading fetchThreading;
+    /**
+     * The executor service. for login
+     */
     LoginThreading loginThreading;
+    /**
+     * The executor service. for register
+     */
     RegisterThreading registerThreading;
 
+    /**
+     * List of tasks done.
+     */
     private final List<Integer> tasksDone = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -372,9 +425,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if ((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Permission granted.
-                this.datastore = Datastore.getInstance();
-
                 // Single shot location update.
                 // implement the listener
                 LocationCallback locationCallback = new LocationCallback() {
@@ -410,7 +460,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 try {
                     User user = (User) Cache.readCache(this, "data_user");
                     if (user != null) {
-                        this.datastore.setUser(user);
+                        Datastore.getInstance().setUser(user);
                         animateAndInitFetching();
                     } else {
                         createLoginDialog();
@@ -487,6 +537,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Update pokemon and go to main activity.
+     */
     private void updatePokemonAndSwitchActivity() {
         List<Pokemon> pokemonList = this.fetchThreading.getPokemonList().get();
         HashMap<Integer, List<Integer>> pokemonTypes = this.fetchThreading.getPokemonTypes().get();
@@ -613,7 +666,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
         Intent intent;
-        if (!this.datastore.getUser().isInit()) {
+        if (!Datastore.getInstance().getUser().isInit()) {
             intent = new Intent(this, InitActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
@@ -622,6 +675,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * On all tasks ended call updatePokemonAndSwitchActivity, and close the thread pool.
+     * @param taskID the task id
+     */
     private void taskEnd(int taskID) {
         runOnUiThread(() -> {
             this.tasksDone.add(taskID);

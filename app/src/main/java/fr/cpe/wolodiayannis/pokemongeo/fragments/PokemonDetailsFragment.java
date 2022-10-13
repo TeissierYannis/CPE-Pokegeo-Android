@@ -69,6 +69,10 @@ public class PokemonDetailsFragment extends Fragment {
         this.listener = backArrowListener;
     }
 
+    /**
+     * Set pokemon.
+     * @param pokemon Pokemon
+     */
     public void setPokemon(Pokemon pokemon) {
         this.pokemon = pokemon;
     }

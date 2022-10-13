@@ -1,16 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-import java.util.HashMap;
-import java.util.List;
-
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
-import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatMappingList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

@@ -1,6 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.TypeList;
 import retrofit2.Call;

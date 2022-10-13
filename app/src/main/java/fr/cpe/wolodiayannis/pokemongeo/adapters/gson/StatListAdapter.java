@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
-import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.StatList;
 
 public class StatListAdapter extends TypeAdapter<StatList> {

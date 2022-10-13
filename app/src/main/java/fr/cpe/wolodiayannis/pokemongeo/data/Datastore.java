@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
@@ -377,18 +376,34 @@ public class Datastore implements Comparable<Object>, Serializable {
         return 0;
     }
 
+    /**
+     * Add shop list.
+     * @param shops the list of shops.
+     */
     public void addShops(ArrayList<POI> shops) {
         this.shops = shops;
     }
 
+    /**
+     * Returns the list of shops.
+     * @return the list of shops.
+     */
     public ArrayList<POI> getShops() {
         return shops;
     }
 
+    /**
+     * Returns the list of pharmacies.
+     * @param pharmacy the list of pharmacies.
+     */
     public void addPharmacies(ArrayList<POI> pharmacy) {
         this.pharmacy = pharmacy;
     }
 
+    /**
+     * Returns the list of pharmacies.
+     * @return the list of pharmacies.
+     */
     public ArrayList<POI> getPharmacies() {
         return pharmacy;
     }

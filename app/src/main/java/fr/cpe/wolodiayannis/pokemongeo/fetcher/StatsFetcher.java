@@ -1,8 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.fetcher;
 
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
-
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -14,12 +11,23 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class StatsFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx context.
+     */
     public StatsFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get stats.
+     * @return stats.
+     */
     public List<Stat> fetchAndCache() {
         List<Stat> statList = new ArrayList<>();
         try {

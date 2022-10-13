@@ -32,6 +32,11 @@ public class PokemonStatList implements Serializable {
         return stats;
     }
 
+    /**
+     * Get the stat list for a pokemon.
+     * @param id Pokemon id.
+     * @return List of stat.
+     */
     public List<PokemonStat> getStatsByPokemonID(int id) {
         // get the list in fact of the id
         return stats.get(id);

@@ -10,6 +10,9 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class ItemInventoryFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
     /**

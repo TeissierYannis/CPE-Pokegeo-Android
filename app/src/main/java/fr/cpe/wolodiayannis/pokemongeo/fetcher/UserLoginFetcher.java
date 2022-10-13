@@ -13,12 +13,24 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class UserLoginFetcher {
 
+    /**
+     *
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx context.
+     */
     public UserLoginFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get user.
+     * @param pseudo pseudo.
+     * @param password password.
+     */
     public void fetchAndCache(String pseudo, String password) {
         Datastore datastore = Datastore.getInstance();
         // Check if user is already cached

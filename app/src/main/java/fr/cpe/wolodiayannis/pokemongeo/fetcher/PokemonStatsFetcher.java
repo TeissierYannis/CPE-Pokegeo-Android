@@ -1,7 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.fetcher;
 
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
-
 import android.content.Context;
 
 import java.util.HashMap;
@@ -13,12 +11,23 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class PokemonStatsFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx context.
+     */
     public PokemonStatsFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get pokemon stats.
+     * @return pokemon stats.
+     */
     public HashMap<Integer, List<PokemonStat>> fetchAndCache() {
         HashMap<Integer, List<PokemonStat>> statList = new HashMap<>();
         try {

@@ -38,6 +38,11 @@ public class PokemonFight {
         this.opponentLifePoints = opponentLifePoints;
     }
 
+    /**
+     * Attack the opponent.
+     * @param attacker The attacker.
+     * @param defender The defender.
+     */
     public void attack(Pokemon attacker, Pokemon defender) {
         double damage = ((this.getDamageMultiplier(attacker, defender) * attacker.getAttack()) / defender.getDefense()) * 3;
 
@@ -64,14 +69,26 @@ public class PokemonFight {
         return 1;
     }
 
+    /**
+     * Is player pokemon dead ?
+     * @return True if dead, false otherwise.
+     */
     public boolean isPlayerPokemonDead() {
         return this.playerLifePoints <= 0;
     }
 
+    /**
+     * Is opponent pokemon dead ?
+     * @return True if dead, false otherwise.
+     */
     public boolean isOpponentPokemonDead() {
         return this.opponentLifePoints <= 0;
     }
 
+    /**
+     * Get life bar color.
+     * @return The color.
+     */
     public int getEnemyProgressBarColor() {
         if (this.opponentLifePoints > 50) {
             return R.color.green;
@@ -82,6 +99,10 @@ public class PokemonFight {
         }
     }
 
+    /**
+     * Get life bar color.
+     * @return The color.
+     */
     public int getPlayerProgressBarColor() {
         if (this.playerLifePoints > 50) {
             return R.color.green;
@@ -92,6 +113,11 @@ public class PokemonFight {
         }
     }
 
+    /**
+     * Change pokemon.
+     * @param pokemon The new pokemon.
+     * @param currentLifeState The current life state of the pokemon.
+     */
     public void switchPlayerPokemon(Pokemon pokemon, int currentLifeState) {
         this.playerPokemon = pokemon;
         this.playerLifePoints = currentLifeState;

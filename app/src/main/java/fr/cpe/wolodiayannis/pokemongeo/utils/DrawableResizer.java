@@ -22,6 +22,13 @@ public class DrawableResizer {
         return new BitmapDrawable(Resources.getSystem(), Bitmap.createScaledBitmap(bitmap, width, height, true));
     }
 
+    /**
+     * Resize vector.
+     * @param drawable Drawable.
+     * @param width Width.
+     * @param height Height.
+     * @return Drawable.
+     */
     public static Drawable resizeVectorDrawable(VectorDrawable drawable, int width, int height) {
         // Convert vector drawable to drawable
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

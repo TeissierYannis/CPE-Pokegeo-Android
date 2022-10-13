@@ -2,7 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.api;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.dto.ItemInventoryDto;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import retrofit2.Call;
 import retrofit2.http.Body;

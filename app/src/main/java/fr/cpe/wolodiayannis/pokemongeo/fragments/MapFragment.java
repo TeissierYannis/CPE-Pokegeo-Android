@@ -41,19 +41,36 @@ public class MapFragment extends Fragment {
      * Binding.
      */
     MapFragmentBinding binding;
-    
+
     /**
      * My position.
      */
     GeoPoint actualPosition;
 
+    /**
+     * Map class.
+     */
     Map map;
-    
-    OnShopsChangeListener onShopsChangeListener;
-    OnPharmaciesChangeListener onPharmaciesChangeListener;
 
+    /**
+     * OnShopsChangeListener.
+     */
+    OnShopsChangeListener onShopsChangeListener;
+    /**
+     * OnPharmaciesChangeListener.
+     */
+    OnPharmaciesChangeListener onPharmaciesChangeListener;
+    /**
+     * ShopsObserver.
+     */
     ShopsObserver shopsObserver;
+    /**
+     * PharmaciesObserver.
+     */
     PharmaciesObserver pharmaciesObserver;
+    /**
+     * Spawn class.
+     */
     private Spawn spawn;
 
     /**
@@ -123,6 +140,13 @@ public class MapFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        if (Datastore.getInstance().getSpawnedPokemons().size() > 0) {
+            this.displayPokemons();
+        } else if (this.actualPosition != null) {
+            if (this.spawn.isPokemonSpawnNeeded(this.actualPosition)) {
+                this.displayPokemons();
+            }
+        }
     }
 
     @Override

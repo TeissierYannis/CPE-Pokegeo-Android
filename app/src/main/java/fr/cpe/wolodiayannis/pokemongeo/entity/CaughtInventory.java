@@ -8,12 +8,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
-import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 
 /**
  * Items inventory class.
@@ -21,6 +17,9 @@ import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 @JsonAdapter(CaughtPokemonListAdapter.class)
 public class CaughtInventory implements Serializable {
 
+    /**
+     * Caught pokemon list.
+     */
     @SerializedName("data")
     private HashMap<Pokemon, CaughtPokemon> caughtInventoryList;
 
@@ -72,7 +71,11 @@ public class CaughtInventory implements Serializable {
         return pokemonAndCaughtPokemon;
     }
 
-    // From pokemonID get the pokemon index in the inventory
+    /**
+     * From pokemonID get the pokemon index in the inventory
+     * @param pokemonID The pokemon ID
+     * @return The pokemon index in the inventory
+     */
     public int getPokemonIndex(int pokemonID) {
         int index = 0;
         for (Pokemon pokemon : caughtInventoryList.keySet()) {
@@ -84,6 +87,11 @@ public class CaughtInventory implements Serializable {
         return -1;
     }
 
+    /**
+     * Get caught pokemon by pokemon id.
+     * @param pokemonID The pokemon id.
+     * @return The caught pokemon.
+     */
     public CaughtPokemon getCaughtPokemonFromPokemonID(int pokemonID) {
         for (Pokemon pokemon : caughtInventoryList.keySet()) {
             if (pokemon.getId() == pokemonID) {

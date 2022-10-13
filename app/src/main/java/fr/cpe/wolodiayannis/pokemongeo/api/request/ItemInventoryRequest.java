@@ -1,12 +1,9 @@
 package fr.cpe.wolodiayannis.pokemongeo.api.request;
 
-import android.content.ClipData;
-
 import java.io.IOException;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.ItemInventoryAPI;
 import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
-import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.dto.ItemInventoryDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import retrofit2.Call;

@@ -1,7 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.adapters.gson;
 
 import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonToken;
 
 import java.io.IOException;
 import java.util.HashMap;

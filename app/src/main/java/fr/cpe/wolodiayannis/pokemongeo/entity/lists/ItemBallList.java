@@ -11,6 +11,9 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemBall;
 @JsonAdapter(ItemBallListAdapter.class)
 public class ItemBallList implements Serializable {
 
+    /**
+     * List of item ball.
+     */
     private List<ItemBall> itemBallList;
 
     /**

@@ -12,18 +12,33 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.CaughtPokemonAdapter;
 @JsonAdapter(CaughtPokemonAdapter.class)
 public class CaughtPokemon implements Serializable {
 
+    /**
+     * user id.
+     */
     @SerializedName("user_id")
     private final int userId;
 
+    /**
+     * pokemon id.
+     */
     @SerializedName("pokemon_id")
     private final int pokemonId;
 
+    /**
+     * caught time.
+     */
     @SerializedName("caught_time")
     private final Timestamp caughtTime;
 
+    /**
+     * pokemon experience.
+     */
     @SerializedName("pokemon_experience")
     private int pokemonExperience;
 
+    /**
+     * current life state.
+     */
     @SerializedName("current_life_state")
     private int currentLifeState;
 

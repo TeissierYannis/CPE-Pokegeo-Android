@@ -11,6 +11,9 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 @JsonAdapter(ItemPotionListAdapter.class)
 public class ItemPotionList implements Serializable {
 
+    /**
+     * List of item potion.
+     */
     private List<ItemPotion> itemPotionList;
 
     /**

@@ -17,24 +17,47 @@ import fr.cpe.wolodiayannis.pokemongeo.observers.ShopsObserver;
 
 public class Spawn {
 
+    /**
+     * Pharmacies observer.
+     */
     private final PharmaciesObserver pharmaciesObserver;
+    /**
+     * Shops observer.
+     */
     private final ShopsObserver shopsObserver;
 
+    /**
+     * Constructor.
+     * @param shopsObserver Shops observer.
+     * @param pharmaciesObserver Pharmacies observer.
+     */
     public Spawn(ShopsObserver shopsObserver, PharmaciesObserver pharmaciesObserver) {
         this.shopsObserver = shopsObserver;
         this.pharmaciesObserver = pharmaciesObserver;
     }
 
+    /**
+     * Is pokemon in spawned.
+     * @return True if spawned, false otherwise.
+     */
     public boolean isSpawned() {
         return Datastore.getInstance().getSpawnedPokemonExpiration() != null;
     }
 
+    /**
+     * Is spawned expired.
+     * @return True if expired, false otherwise.
+     */
     public boolean isSpawnedExpired() {
         Date now = new Date();
         Date spawnDate = Datastore.getInstance().getSpawnedPokemonExpiration();
         return now.after(spawnDate);
     }
 
+    /**
+     * Spawn pokemon.
+     * @param location Location.
+     */
     private void spawnPokemons(GeoPoint location) {
         // Random between 4 and 6 - Corresponds to the number of pokemon to display on the map
         int random = (int) (Math.random() * 9) + 4;
@@ -58,6 +81,9 @@ public class Spawn {
         this.generateTimeout();
     }
 
+    /**
+     * set timeout.
+     */
     private void generateTimeout() {
         // Timeout 5 minutes
         Date now = new Date();
@@ -65,13 +91,24 @@ public class Spawn {
         Datastore.getInstance().setSpawnedPokemonExpiration(expiration);
     }
 
+    /**
+     * get random pokemon.
+     * @return Pokemon.
+     */
     private Pokemon getRandomPokemon() {
         int random = (int) (Math.random() * Datastore.getInstance().getPokemons().size());
         return Datastore.getInstance().getPokemons().get(random);
     }
 
+    /**
+     * Is request for pharmacies running.
+     */
     boolean isRequestForPharmacyRunning = false;
 
+    /**
+     * Spawn pharmacies.
+     * @param loc Location.
+     */
     public void spawnPharmacies(GeoPoint loc) {
 
         if (isRequestForPharmacyRunning) {
@@ -94,8 +131,15 @@ public class Spawn {
         }).start();
     }
 
+    /**
+     * Is request for shops running.
+     */
     boolean isRequestForShopRunning = false;
 
+    /**
+     * Spawn shops.
+     * @param loc Location.
+     */
     public void spawnShops(GeoPoint loc) {
         if (isRequestForShopRunning) {
             return;
@@ -120,6 +164,10 @@ public class Spawn {
         }).start();
     }
 
+    /**
+     * Is pokemon near.
+     * @return True if near, false otherwise.
+     */
     public boolean isPokemonNearby() {
         // 1. Sort the list of spawned pokemons by distance (nearest first)
         // 2. Check if the first one is near enough
@@ -153,6 +201,10 @@ public class Spawn {
         }
     }
 
+    /**
+     * is shop near.
+     * @return True if near, false otherwise.
+     */
     public boolean isShopNearby() {
         // 1. Sort the list of spawned shops by distance (nearest first)
         // 2. Check if the first one is near enough
@@ -185,6 +237,10 @@ public class Spawn {
         }
     }
 
+    /**
+     * is pharmacy near.
+     * @return True if near, false otherwise.
+     */
     public boolean isPharmacyNearby() {
         // 1. Sort the list of spawned pharmacies by distance (nearest first)
         // 2. Check if the first one is near enough
@@ -217,6 +273,11 @@ public class Spawn {
         }
     }
 
+    /**
+     * Is pokemon spawn needed ?
+     * @param loc Location.
+     * @return True if needed, false otherwise.
+     */
     public boolean isPokemonSpawnNeeded(GeoPoint loc) {
         if (!this.isSpawned()) {
             this.spawnPokemons(loc);
@@ -231,20 +292,36 @@ public class Spawn {
         return false;
     }
 
+    /**
+     * is shop spawned?
+     * @return True if spawned, false otherwise.
+     */
     public boolean isShopSpawned() {
         return Datastore.getInstance().getShops() != null && Datastore.getInstance().getShops().size() > 0;
     }
 
+    /**
+     * is pharmacy spawned?
+     * @return True if spawned, false otherwise.
+     */
     public boolean isPharmacySpawned() {
         return Datastore.getInstance().getPharmacies() != null && Datastore.getInstance().getPharmacies().size() > 0;
     }
 
+    /**
+     * Is shop spawn needed ?
+     * @param loc Location.
+     */
     public void isShopSpawnNeeded(GeoPoint loc) {
         if (!this.isShopSpawned() || !this.isShopNearby()) {
             this.shopsObserver.needUpdate(loc);
         }
     }
 
+    /**
+     * Is pharmacy spawn needed ?
+     * @param loc Location.
+     */
     public void isPharmacySpawnNeeded(GeoPoint loc) {
         if (!this.isPharmacySpawned() || !this.isPharmacyNearby()) {
             this.pharmaciesObserver.needUpdate(loc);

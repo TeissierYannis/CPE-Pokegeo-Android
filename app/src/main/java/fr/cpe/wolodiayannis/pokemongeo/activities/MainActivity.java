@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.Window;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;

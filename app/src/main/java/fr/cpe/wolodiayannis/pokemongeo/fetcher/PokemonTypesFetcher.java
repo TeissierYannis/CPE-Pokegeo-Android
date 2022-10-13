@@ -10,12 +10,23 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class PokemonTypesFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx context.
+     */
     public PokemonTypesFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get pokemon types.
+     * @return pokemon types.
+     */
     public HashMap<Integer, List<Integer>> fetchAndCache() {
         HashMap<Integer, List<Integer>> typesList = new HashMap<>();
         try {

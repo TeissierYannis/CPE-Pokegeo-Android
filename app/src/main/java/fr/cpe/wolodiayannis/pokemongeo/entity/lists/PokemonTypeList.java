@@ -31,6 +31,11 @@ public class PokemonTypeList implements Serializable {
         return types;
     }
 
+    /**
+     * Get the types of a pokemon.
+     * @param id Pokemon id.
+     * @return List of types.
+     */
     public List<Integer> getTypesByPokemonID(int id) {
        // get the list in fact of the id
         return types.get(id);

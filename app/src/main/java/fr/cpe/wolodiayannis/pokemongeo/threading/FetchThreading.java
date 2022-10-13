@@ -5,13 +5,11 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
@@ -34,22 +32,69 @@ import fr.cpe.wolodiayannis.pokemongeo.fetcher.TypesFetcher;
 
 public class FetchThreading extends Threading {
 
+    /**
+     * Pokemon list.
+     */
     private AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
+    /**
+     * Pokemon abilities.
+     */
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
+    /**
+     * Pokemon types.
+     */
     private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
+    /**
+     * Pokemon stats.
+     */
     private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
+    /**
+     * Caught inventory.
+     */
     private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
+    /**
+     * stats list.
+     */
     private List<Stat> statsList = new ArrayList<>();
+    /**
+     * types list.
+     */
     private List<Type> typesList = new ArrayList<>();
+    /**
+     * abilities list.
+     */
     private List<Ability> abilitiesList = new ArrayList<>();
+    /**
+     * items list.
+     */
     private ItemList itemsList = new ItemList();
+    /**
+     * item ball list.
+     */
     private List<ItemBall> itemBallList = new ArrayList<>();
+    /**
+     * item potion list.
+     */
     private List<ItemPotion> itemPotionList = new ArrayList<>();
+    /**
+     * item revive list.
+     */
     private List<ItemRevive> itemReviveList = new ArrayList<>();
+    /**
+     * item inventory.
+     */
     private ItemInventory itemInventory = new ItemInventory();
 
+    /**
+     * Constructor.
+     */
     public FetchThreading() {}
 
+    /**
+     * Setup tasks.
+     * @param context The context to use.
+     * @return The tasks.
+     */
     @Override
     public FetchThreading setupTasks(Context context) {
         // Fetching tasks
@@ -152,18 +197,28 @@ public class FetchThreading extends Threading {
         return this;
     }
 
+    /**
+     * On end task.
+     * @param i task id.
+     */
     private void onEnd(int i) {
         executorListener.onEnd(i);
     }
 
+    /**
+     * Change laoding text.
+     * @param s text.
+     */
     private void changeLoadingText(String s) {
         executorListener.onLoadingTextChange(s);
     }
 
+    /**
+     * Set progress.
+     */
     private void setProgress() {
         executorListener.onTaskendSetProgress();
     }
-
 
     public AtomicReference<List<Pokemon>> getPokemonList() {
         return pokemonList;

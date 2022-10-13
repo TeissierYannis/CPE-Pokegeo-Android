@@ -8,7 +8,6 @@ import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.PokemonAbilityListAdapter;
 
-
 @JsonAdapter(PokemonAbilityListAdapter.class)
 public class PokemonAbilityList implements Serializable {
     /**
@@ -32,6 +31,11 @@ public class PokemonAbilityList implements Serializable {
         return abilities;
     }
 
+    /**
+     * Get the ability(ids) list by pokemon id.
+     * @param id Pokemon id.
+     * @return List of ability.
+     */
     public List<Integer> getAbilitiesByPokemonID(int id) {
        // get the list in fact of the id
         return abilities.get(id);

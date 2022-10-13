@@ -6,10 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Objects;
 
-import fr.cpe.wolodiayannis.pokemongeo.Enum.BACKGROUND_COLOR;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemAdapter;
-import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 
 /**
  * Item class.

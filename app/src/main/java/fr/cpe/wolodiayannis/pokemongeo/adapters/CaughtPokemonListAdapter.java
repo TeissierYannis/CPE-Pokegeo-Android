@@ -55,6 +55,11 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         this.switchListener = null;
     }
 
+    /**
+     * Constructor.
+     * @param caughtInventory List of Pokemon.
+     * @param listener Listener for the click on a Pokemon.
+     */
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokemonSwitchInterface listener) {
         this.caughtInventory = caughtInventory;
         this.switchListener = listener;

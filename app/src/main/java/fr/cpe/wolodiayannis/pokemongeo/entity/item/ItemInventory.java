@@ -4,13 +4,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.ItemInventoryAdapter;
@@ -22,9 +16,15 @@ import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 @JsonAdapter(ItemInventoryAdapter.class)
 public class ItemInventory implements Serializable {
 
+    /**
+     * Inventory list.
+     */
     @SerializedName("data")
     private HashMap<Item, Integer> itemIventoryList;
 
+    /**
+     * Constructor.
+     */
     public ItemInventory() {
         this.itemIventoryList = new HashMap<>();
     }

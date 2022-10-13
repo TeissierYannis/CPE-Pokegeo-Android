@@ -1,8 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.fetcher;
 
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
-
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -14,12 +11,23 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class AbilitiesFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx
+     */
     public AbilitiesFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get abilities.
+     * @return abilities.
+     */
     public List<Ability> fetchAndCache() {
         List<Ability> abilityList = new ArrayList<>();
         try {

@@ -57,6 +57,10 @@ public class ShopsObserver implements ObserverInterface<ArrayList<POI>, OnShopsC
         }
     }
 
+    /**
+     * On need update.
+     * @param position position
+     */
     public void  needUpdate(GeoPoint position) {
         if (listener != null) {
             listener.onShopsNeedUpdate(position);

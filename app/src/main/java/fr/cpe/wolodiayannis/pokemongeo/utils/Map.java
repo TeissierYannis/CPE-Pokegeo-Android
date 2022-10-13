@@ -2,9 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 
@@ -28,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 
 public class Map {
@@ -56,6 +52,10 @@ public class Map {
         this.context = context;
     }
 
+    /**
+     * Init map.
+     * @return Map.
+     */
     public Map initializeMap() {
         // Clear cache
         //this.map.getTileProvider().getTileCache().clear();
@@ -71,12 +71,16 @@ public class Map {
         this.mapController = map.getController();
         // Zoom
         this.mapController.setZoom(16.0);
-        //this.map.setMinZoomLevel(18.0);
-        //this.map.setMaxZoomLevel(19.0);
+        this.map.setMinZoomLevel(18.0);
+        this.map.setMaxZoomLevel(19.0);
 
         return this;
     }
 
+    /**
+     * Add location overlay.
+     * @return Map.
+     */
     public Map addMyLocationOverlay() {
         // Set location overlay
         MyLocationNewOverlay mLocationOverlay = new MyLocationNewOverlay(
@@ -91,6 +95,10 @@ public class Map {
         return this;
     }
 
+    /**
+     * Add custom player.
+     * @return Map.
+     */
     public Map addPlayer() {
         // set custom marker as location marker (bitmal needed)
         //Drawable marker = AppCompatResources.getDrawable(requireContext(), R.drawable.dragon);
@@ -99,18 +107,32 @@ public class Map {
         return this;
     }
 
+    /**
+     * Set map center.
+     * @param position Position.
+     * @return Map.
+     */
     public Map setMapCenter(GeoPoint position) {
         this.mapController.setCenter(position);
 
         return this;
     }
 
+    /**
+     * Animate to center.
+     * @param position Position.
+     * @return Map.
+     */
     public Map animateMapCenter(GeoPoint position) {
         this.mapController.animateTo(position);
 
         return this;
     }
 
+    /**
+     * get map center.
+     * @return GeoPoint.
+     */
     public IGeoPoint getMapCenter() {
         return this.map.getMapCenter();
     }
@@ -133,6 +155,10 @@ public class Map {
         return mapController;
     }
 
+    /**
+     * Display pokemons marker
+     * @param spawned Pokemons.
+     */
     public void displayPokemons(HashMap<Pokemon, GeoPoint> spawned) {
         // add markers
         Marker marker;
@@ -160,6 +186,10 @@ public class Map {
         }
     }
 
+    /**
+     * Display pharmacy marker
+     * @param pharmacies Pharmacies.
+     */
     public void displayPharmacies(ArrayList<POI> pharmacies) {
         // add markers
         Marker marker;
@@ -203,6 +233,10 @@ public class Map {
         }
     }
 
+    /**
+     * display shops marker
+     * @param shops Shops.
+     */
     public void displayShops(ArrayList<POI> shops) {
         // add markers
         Marker marker;

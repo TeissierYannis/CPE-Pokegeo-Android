@@ -32,22 +32,67 @@ public class InitActivity extends AppCompatActivity {
      */
     private Datastore datastore;
 
+    /**
+     * Mother layout.
+     */
     private ConstraintLayout mother_Layout;
+    /**
+     * Starter box layout.
+     */
     private ConstraintLayout starterBox_Layout;
+    /**
+     * Bulbasaur layout.
+     */
     private ConstraintLayout starterBox_Bulbasaur;
+    /**
+     * Charmander Layout.
+     */
     private ConstraintLayout starterBox_Charmander;
+    /**
+     * Squirtle layout.
+     */
     private ConstraintLayout starterBox_Squirtle;
+    /**
+     * Professor image.
+     */
     private ImageView imageView_Professor;
+    /**
+     * Bulbasaur Image.
+     */
     private ImageView imageView_Bulbasaur;
+    /**
+     * Charmander Image.
+     */
     private ImageView imageView_Charmander;
+    /**
+     * Squirtle Image.
+     */
     private ImageView imageView_Squirtle;
+    /**
+     * Text dialog.
+     */
     private TextView textView_Dialog;
+    /**
+     * Yes button.
+     */
     private Button button_YESSS;
 
+    /**
+     * Bulbasaur id.
+     */
     private final int BULBASAUR = 1;
+    /**
+     * Charmander id.
+     */
     private final int CHARMANDER = 4;
+    /**
+     * Squirtle id.
+     */
     private final int SQUIRTLE = 7;
 
+    /**
+     * Chosen pokemon id.
+     */
     private int starterChoice = -1;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -80,7 +125,7 @@ public class InitActivity extends AppCompatActivity {
 
         // changement du dialog lors du click sur la view
         mother_Layout.setOnClickListener(v -> {
-            setDialog_toNext();
+            setDialogToNext();
 
             if (datastore.getUser().isInit()) {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -110,7 +155,10 @@ public class InitActivity extends AppCompatActivity {
         });
     }
 
-    private void setDialog_toNext() {
+    /**
+     * Switch the dialog to the next one.
+     */
+    private void setDialogToNext() {
 
         if (Objects.equals(
                 textView_Dialog.getText().toString(),
@@ -132,6 +180,11 @@ public class InitActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set the view on click.
+     *
+     * @param STARTER_CLICK the starter clicked.
+     */
     private void setViewOnCLick(int STARTER_CLICK) {
 
         imageView_Bulbasaur.setVisibility(View.INVISIBLE);
@@ -165,6 +218,9 @@ public class InitActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add start to the player inventory.
+     */
     private void addStarterToInventory() {
 
         if (datastore.getCaughtInventory() == null) {
@@ -184,6 +240,9 @@ public class InitActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * Add base items to the inventory.
+     */
     private void addItemsToInventory() {
         if (Datastore.getInstance().getItemInventory() == null) {
             Datastore.getInstance().setItemInventory(new ItemInventory());

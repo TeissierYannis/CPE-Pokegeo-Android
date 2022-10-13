@@ -7,6 +7,9 @@ import org.osmdroid.util.GeoPoint;
  */
 public class Coordinates {
 
+    /**
+     * Earth radius.
+     */
     private static final double EARTH_RADIUS = 6371;
 
     /**

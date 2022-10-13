@@ -10,6 +10,9 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 @JsonAdapter(ItemReviveListAdapter.class)
 public class ItemReviveList {
 
+    /**
+     * List of item revive.
+     */
     private List<ItemRevive> itemReviveList;
 
     /**

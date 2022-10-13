@@ -1,13 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
-import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemReviveList;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Item API With Retrofit.

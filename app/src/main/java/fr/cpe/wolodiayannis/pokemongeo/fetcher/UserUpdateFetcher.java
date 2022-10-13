@@ -11,12 +11,24 @@ import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
 public class UserUpdateFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx context.
+     */
     public UserUpdateFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get user.
+     * @param user user.
+     * @param isInit is init.
+     */
     public void fetchAndCache(User user, boolean isInit) {
         Datastore datastore = Datastore.getInstance();
         try {

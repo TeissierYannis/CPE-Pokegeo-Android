@@ -17,6 +17,11 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 
 public class Sorter {
 
+    /**
+     * Sort by value.
+     * @param hm Map to sort.
+     * @return Sorted map.
+     */
     public static HashMap<Item, Integer> sortByValue(HashMap<Item, Integer> hm) {
         // Create a list from elements of HashMap
         List<Map.Entry<Item, Integer> > list =
@@ -33,6 +38,12 @@ public class Sorter {
         return temp;
     }
 
+    /**
+     * Sort by distance.
+     * @param hm Map to sort.
+     * @param userLocation User location.
+     * @return Sorted map.
+     */
     public static HashMap<Pokemon, GeoPoint> sortByPokemonDistance(HashMap<Pokemon, GeoPoint> hm, GeoPoint userLocation) {
         // Create a list from elements of HashMap
         List<Map.Entry<Pokemon, GeoPoint> > list =
@@ -49,6 +60,12 @@ public class Sorter {
         return temp;
     }
 
+    /**
+     * Sort by distance.
+     * @param shops List of shops.
+     * @param userLocation User location.
+     * @return Sorted list.
+     */
     public static List<POI> sortPOIByDistance(ArrayList<POI> shops, GeoPoint userLocation) {
         // Create a list from elements of HashMap
         List<POI> list = shops;

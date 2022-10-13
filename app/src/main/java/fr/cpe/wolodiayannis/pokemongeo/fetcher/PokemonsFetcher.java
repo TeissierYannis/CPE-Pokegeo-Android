@@ -1,8 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.fetcher;
 
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
-import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
-
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -12,14 +9,28 @@ import fr.cpe.wolodiayannis.pokemongeo.data.DataFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Cache;
 
+/**
+ * Pokemon fetcher.
+ */
 public class PokemonsFetcher {
 
+    /**
+     * Context.
+     */
     private Context ctx;
 
+    /**
+     * Constructor.
+     * @param ctx context.
+     */
     public PokemonsFetcher(Context ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Get pokemons.
+     * @return pokemons.
+     */
     public List<Pokemon> fetchAndCache() {
         List<Pokemon> pokemonList = new ArrayList<>();
         try {
