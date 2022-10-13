@@ -28,6 +28,7 @@ import java.util.List;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.FightFragment;
 
@@ -189,19 +190,16 @@ public class Map {
 
             marker.setOnMarkerClickListener((marker1, mapView) -> {
 
-                /*
+
                 // get the first pokemon in the list who is not dead
                 Pokemon userPokemon = null;
                 for (Pokemon p : Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().keySet()) {
                     CaughtPokemon caughtPokemon = Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(p);
-                    if (caughtPokemon > 0) {
+                    if (caughtPokemon.getCurrentLifeState() > 0) {
                         userPokemon = p;
                         break;
                     }
                 }
-                 */
-
-                Pokemon userPokemon = Datastore.getInstance().getCaughtInventory().getCaughtPokemon(1);
 
                 if (userPokemon == null) {
                     Toast.makeText(this.context, "You don't have any pokemon to fight with", Toast.LENGTH_LONG).show();
