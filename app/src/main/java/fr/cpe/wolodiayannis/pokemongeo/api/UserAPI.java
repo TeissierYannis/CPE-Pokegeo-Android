@@ -1,8 +1,10 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
+import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserIsInit;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserMoney;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -33,5 +35,8 @@ public interface UserAPI extends BaseAPI {
      */
     @PUT("user/update/is_init")
     Call<UserIsInit> updateUserIsInit(@Body UserIsInit userIsInit);
+
+    @PUT("user/update/moneyExp")
+    Call<BasicResponse> updateUserMoneyAndExp(@Body UserMoney userMoney);
 }
 

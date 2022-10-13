@@ -233,7 +233,7 @@ public class InitActivity extends AppCompatActivity {
         {
             (new CaughtInventoryFetcher(this)).addPokemonAndCache(cp);
             try {
-                (new UserUpdateFetcher(this)).fetchAndCache(datastore.getUser(), true);
+                (new UserUpdateFetcher(this)).updateAndCacheInit(datastore.getUser(), true);
             } catch (Exception e) {
                 e.printStackTrace();
             }

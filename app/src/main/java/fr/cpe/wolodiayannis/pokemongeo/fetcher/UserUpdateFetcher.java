@@ -29,11 +29,24 @@ public class UserUpdateFetcher {
      * @param user user.
      * @param isInit is init.
      */
-    public void fetchAndCache(User user, boolean isInit) {
+    public void updateAndCacheInit(User user, boolean isInit) {
         Datastore datastore = Datastore.getInstance();
         try {
             DataFetcher.updateUserIsInit(user.getId(), isInit);
             datastore.getUser().setInit(isInit);
+            Cache.writeCache(this.ctx, "data_user", user);
+        } catch (Exception exception) {
+            logOnUiThreadError("[CACHE] User cannot be cached : " + exception.getMessage());
+            exception.printStackTrace();
+        }
+    }
+
+    public void updateAndCacheMoneyAndExp(User user, int money, int exp) {
+        Datastore datastore = Datastore.getInstance();
+        try {
+            DataFetcher.updateUserMoneyAndExp(user.getId(), money, exp);
+            datastore.getUser().setMoney(money);
+            datastore.getUser().setExperience(exp);
             Cache.writeCache(this.ctx, "data_user", user);
         } catch (Exception exception) {
             logOnUiThreadError("[CACHE] User cannot be cached : " + exception.getMessage());

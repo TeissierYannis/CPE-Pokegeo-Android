@@ -12,7 +12,7 @@ import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.UserAdapter;
  * User entity class.
  */
 @JsonAdapter(UserAdapter.class)
-public class User implements Serializable  {
+public class User implements Serializable {
     /**
      * User id.
      */
@@ -64,15 +64,16 @@ public class User implements Serializable  {
 
     /**
      * User constructor.
-     * @param id User id.
-     * @param pseudo User pseudo.
-     * @param email User email.
+     *
+     * @param id         User id.
+     * @param pseudo     User pseudo.
+     * @param email      User email.
      * @param experience User experience.
-     * @param isInit User is init.
-     * @param createdAt Timestamp when the user was created.
-     * @param money User money.
+     * @param isInit     User is init.
+     * @param createdAt  Timestamp when the user was created.
+     * @param money      User money.
      */
-    public User(int id, String pseudo, String email, int experience,  int money, boolean isInit, Timestamp createdAt, String jwt) {
+    public User(int id, String pseudo, String email, int experience, int money, boolean isInit, Timestamp createdAt, String jwt) {
         this.id = id;
         this.pseudo = pseudo;
         this.email = email;
@@ -85,6 +86,7 @@ public class User implements Serializable  {
 
     /**
      * Get user id.
+     *
      * @return User id.
      */
     public int getId() {
@@ -93,6 +95,7 @@ public class User implements Serializable  {
 
     /**
      * Get user pseudo.
+     *
      * @return User pseudo.
      */
     public String getPseudo() {
@@ -101,6 +104,7 @@ public class User implements Serializable  {
 
     /**
      * Get user email.
+     *
      * @return User email.
      */
     public String getEmail() {
@@ -108,15 +112,8 @@ public class User implements Serializable  {
     }
 
     /**
-     * Get user experience.
-     * @return User experience.
-     */
-    public int getExperience() {
-        return experience;
-    }
-
-    /**
      * Get user is init.
+     *
      * @return User is init.
      */
     public boolean isInit() {
@@ -125,6 +122,7 @@ public class User implements Serializable  {
 
     /**
      * Set the user init.
+     *
      * @param init true if init.
      */
     public void setInit(boolean init) {
@@ -133,6 +131,7 @@ public class User implements Serializable  {
 
     /**
      * Get timestamp when the user was created.
+     *
      * @return Timestamp when the user was created.
      */
     public Timestamp getCreatedAt() {
@@ -141,6 +140,7 @@ public class User implements Serializable  {
 
     /**
      * Get user JWT.
+     *
      * @return User JWT.
      */
     public String getJwt() {
@@ -149,9 +149,59 @@ public class User implements Serializable  {
 
     /**
      * Get user money.
+     *
      * @return User money.
      */
     public int getMoney() {
         return money;
     }
+
+    /**
+     * Get user experience by adding exp.
+     *
+     * @param money experience to add.
+     * @return User experience.
+     */
+    public int getMoneyWithAdding(int money) {
+        return money + money;
+    }
+
+    /**
+     * Set user money.
+     *
+     * @param money User money.
+     */
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    /**
+     * Get user experience.
+     *
+     * @return User experience.
+     */
+    public int getExperience() {
+        return experience;
+    }
+
+    /**
+     * Get user experience by adding exp.
+     *
+     * @param exp experience to add.
+     * @return User experience.
+     */
+    public int getExpWithAdding(int exp) {
+        return experience + exp;
+    }
+
+    /**
+     * Set user experience.
+     *
+     * @param experience User experience.
+     */
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+
 }

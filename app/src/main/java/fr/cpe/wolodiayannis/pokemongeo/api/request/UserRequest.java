@@ -3,10 +3,12 @@ package fr.cpe.wolodiayannis.pokemongeo.api.request;
 import java.io.IOException;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.UserAPI;
+import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.dto.UserDto;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserIsInit;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.UserMoney;
 import fr.cpe.wolodiayannis.pokemongeo.utils.Logger;
 import retrofit2.Call;
 
@@ -67,6 +69,7 @@ public class UserRequest extends BaseRequest {
 
     /**
      * Update the user isInit
+     *
      * @param userId User ID.
      * @param isInit Is init.
      * @return Boolean
@@ -86,5 +89,24 @@ public class UserRequest extends BaseRequest {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Update the user money on API.
+     * @param user_id User ID.
+     * @param money Money.
+     */
+    public static void updateUserMoneyAndExp(int user_id, int money, int exp) {
+        Call<BasicResponse> call = getAPI().updateUserMoneyAndExp(new UserMoney(user_id, money, exp));
+        try {
+            call.execute();
+            Datastore.getInstance().getUser().setMoney(money);
+            Datastore.getInstance().getUser().setExperience(exp);
+
+            LogAPI("Update User");
+        } catch (Exception e) {
+            Logger.logOnUiThreadError(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

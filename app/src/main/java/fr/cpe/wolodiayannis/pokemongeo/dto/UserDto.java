@@ -1,5 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.dto;
 
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
+
 public class UserDto {
     /**
      * Pseudo.

@@ -2,7 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.CaughtInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserUpdateFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 
 public class FightFragment extends Fragment {
@@ -549,6 +549,14 @@ public class FightFragment extends Fragment {
             if (random < totalRate * 100) {
                 // 3s time out for animation
                 this.binding.pokemonfightImageWildPokemon.postDelayed(this::onCapture, 3000);
+                new Thread(() -> {
+                    // Give 2000 ₽ and 1000 exp to the player
+                    (new UserUpdateFetcher(getContext())).updateAndCacheMoneyAndExp(
+                            Datastore.getInstance().getUser(),
+                            Datastore.getInstance().getUser().getMoneyWithAdding(2000),
+                            Datastore.getInstance().getUser().getExpWithAdding(1000)
+                    );
+                }).start();
             } else {
                 this.binding.pokemonfightImageWildPokemon.postDelayed(this::opponentAttack, 3000);
             }

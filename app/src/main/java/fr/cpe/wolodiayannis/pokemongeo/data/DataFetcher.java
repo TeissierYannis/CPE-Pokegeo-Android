@@ -183,4 +183,8 @@ public class DataFetcher {
     public static boolean updateCaughtPokemon(CaughtPokemon caughtPokemon) {
         return CaughtInventoryRequest.updateCaughtPokemon(caughtPokemon);
     }
+
+    public static void updateUserMoneyAndExp(int id, int money, int exp) {
+        UserRequest.updateUserMoneyAndExp(id, money, exp);
+    }
 }
