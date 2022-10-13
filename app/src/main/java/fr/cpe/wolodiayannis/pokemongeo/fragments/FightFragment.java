@@ -121,8 +121,6 @@ public class FightFragment extends Fragment {
                     .addToBackStack("fight")
                     .setReorderingAllowed(true)
                     .commit();
-
-            this.activeAllButtons();
         });
 
         // On click on pokemon button, open a modal to select a pokemon
@@ -266,7 +264,9 @@ public class FightFragment extends Fragment {
      */
     private void animateCapture(int imageID) {
         // replace opponent pokemon with pokeball image
-        this.binding.pokemonfightImageWildPokemon.setImageDrawable(ContextCompat.getDrawable(requireContext(), imageID));
+        Drawable pokeball = ContextCompat.getDrawable(requireContext(), imageID);
+
+        this.binding.pokemonfightImageWildPokemon.setImageDrawable(pokeball);
 
         // Animate the pokeball
         this.binding.pokemonfightImageWildPokemon.animate().rotation(20).setDuration(500);
@@ -448,14 +448,13 @@ public class FightFragment extends Fragment {
         this.updateLifeBarColor();
         System.out.println("[Fight] On resume");
 
-        if (this.lastItemToUse != null && this.useItemOn != null) {
-
+        if (this.lastItemToUse != null) {
             // if the user try to use a potion on a dead pokemon
-            if (this.useItemOn.getCurrentLifeState() <= 0 && this.lastItemToUse instanceof ItemPotion) {
+            if (this.useItemOn != null && this.useItemOn.getCurrentLifeState() <= 0 && this.lastItemToUse instanceof ItemPotion) {
                 Toast.makeText(requireContext(), "You can't use a potion on a dead pokemon", Toast.LENGTH_SHORT).show();
             }
             // if the user try to use a revive on a alive pokemon
-            else if (this.useItemOn.getCurrentLifeState() > 0 && this.lastItemToUse instanceof ItemRevive) {
+            else if (this.useItemOn != null && this.useItemOn.getCurrentLifeState() > 0 && this.lastItemToUse instanceof ItemRevive) {
                 Toast.makeText(requireContext(), "You can't use a revive on a alive pokemon", Toast.LENGTH_SHORT).show();
             } else {
                 this.useItem();
@@ -467,12 +466,14 @@ public class FightFragment extends Fragment {
     /**
      * set the item with the one chosen
      * and display caught pokemon if needed
+     *
      * @param item item to set as last item to use
      */
     private void setItem(Item item) {
         this.lastItemToUse = item;
 
         requireActivity().getSupportFragmentManager().popBackStack();
+
         if (!(item instanceof ItemBall)) {
             PokemonSwitchInterface pokemonSwitchInterface = this::setCaughtPokemonToUseItem;
 
@@ -485,26 +486,26 @@ public class FightFragment extends Fragment {
                     .addToBackStack("fight")
                     .setReorderingAllowed(true)
                     .commit();
-        } else {
-            this.useItem();
         }
     }
 
     /**
      * Set the caught pokemon to use item
-     * @param pokemon NOT USED
+     *
+     * @param pokemon       NOT USED
      * @param caughtPokemon caught pokemon to use item on
      */
     private void setCaughtPokemonToUseItem(Pokemon pokemon, CaughtPokemon caughtPokemon) {
-
         this.useItemOn = caughtPokemon;
         requireActivity().getSupportFragmentManager().popBackStack();
+        this.activeAllButtons();
     }
 
     /**
      * Use the item chose as needed (on the chosen pokemon if needed)
      */
     public void useItem() {
+
         Item item = this.lastItemToUse;
         CaughtPokemon cp = this.useItemOn;
         System.out.println("Using " + item.getName());
@@ -525,7 +526,8 @@ public class FightFragment extends Fragment {
             this.opponentAttack();
 
         } else if (item instanceof ItemBall) {
-            this.animateCapture(item.getImageID());
+            ItemBall ball = (ItemBall) item;
+            this.animateCapture(ball.getImageID());
 
             // calculate catch rate
             double minimumRate = 0.05;
