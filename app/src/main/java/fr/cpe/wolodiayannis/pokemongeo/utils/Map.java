@@ -190,7 +190,6 @@ public class Map {
 
             marker.setOnMarkerClickListener((marker1, mapView) -> {
 
-
                 // get the first pokemon in the list who is not dead
                 Pokemon userPokemon = null;
                 for (Pokemon p : Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().keySet()) {

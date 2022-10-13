@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.utils;
 
 import android.graphics.drawable.Drawable;
+import android.provider.ContactsContract;
 
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
@@ -114,7 +115,14 @@ public class Spawn {
         }
 
         int random = (int) (Math.random() * Datastore.getInstance().getPokemons().size());
-        return notCaughtPokemons.get(random);
+
+        if (notCaughtPokemons.size() == 1) {
+            return Datastore.getInstance().getPokemons().get(0);
+        } else if (random == 0) {
+            return notCaughtPokemons.get(1);
+        } else {
+            return notCaughtPokemons.get(random);
+        }
     }
 
     /**
