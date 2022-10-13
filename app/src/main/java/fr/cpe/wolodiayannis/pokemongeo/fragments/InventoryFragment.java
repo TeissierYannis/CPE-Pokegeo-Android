@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.InventoryListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.InventoryFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryUseInterface;
@@ -56,6 +57,9 @@ public class InventoryFragment extends Fragment {
 
         InventoryListAdapter adapter = null;
         adapter = new InventoryListAdapter(itemInventoryPossedItem, itemUseListener);
+
+        // set user money
+        binding.inventoryTextviewPokemoney.setText(String.valueOf(Datastore.getInstance().getUser().getMoney()));
 
         // bind adapter to recycler view
         binding.inventoryList.setAdapter(adapter);
