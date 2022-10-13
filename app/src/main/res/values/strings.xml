@@ -69,4 +69,10 @@
     <string name="player_pokemon">Player Pokémon</string>
     <string name="pokeball_desc">Pokéball</string>
     <string name="pokemoney_desc">pokemoney</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_subtitle">Your profile</string>
+    <string name="avatar">Avatar</string>
+    <string name="user_profile_description">User profile</string>
 </resources>
