@@ -24,7 +24,6 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
@@ -75,7 +74,7 @@ public class Map {
         // set map controller
         this.mapController = map.getController();
         // Zoom
-        this.mapController.setZoom(16.0);
+        this.mapController.setZoom(18.0);
         this.map.setMinZoomLevel(18.0);
         this.map.setMaxZoomLevel(19.0);
 
@@ -187,6 +186,45 @@ public class Map {
             marker.setIcon(resized);
             marker.setTitle(pokemon.getName());
             marker.setSubDescription(pokemon.getDescription());
+
+            marker.setOnMarkerClickListener((marker1, mapView) -> {
+
+                /*
+                // get the first pokemon in the list who is not dead
+                Pokemon userPokemon = null;
+                for (Pokemon p : Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().keySet()) {
+                    CaughtPokemon caughtPokemon = Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(p);
+                    if (caughtPokemon > 0) {
+                        userPokemon = p;
+                        break;
+                    }
+                }
+                 */
+
+                Pokemon userPokemon = Datastore.getInstance().getCaughtInventory().getCaughtPokemon(1);
+
+                if (userPokemon == null) {
+                    Toast.makeText(this.context, "You don't have any pokemon to fight with", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
+                FightFragment fightFragment = new FightFragment();
+                fightFragment.setOpponentPokemon(pokemon);
+                fightFragment.setUserPokemon(userPokemon);
+
+                // Remove locationListener
+                MainActivity mainActivity = (MainActivity) this.context;
+                mainActivity.stopLocation();
+
+                // Switch fragment with FightFragment
+                mainActivity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fightFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                return true;
+            });
+
             this.map.getOverlays().add(marker);
         }
     }
