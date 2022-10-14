@@ -519,12 +519,40 @@ public class FightFragment extends Fragment {
         int random = (int) (Math.random() * 100);
 
         if (item instanceof ItemPotion) {
-            // if the pokemon to heal is the actual user pokemon
-            if (cp.getCorrespondingPokemon().equals(this.userPokemon)) {
-                pokemonFight.healPlayerPokemon((ItemPotion) item);
+            int maxPokemonLife = pokemonFight.getPlayerPokemon().getHp();
+            int currentLife = pokemonFight.getPlayerLifePoints();
+
+            // if the pokemon is already at max life
+            if (currentLife == maxPokemonLife) {
+                Toast.makeText(requireContext(), "This pokemon is already at max life", Toast.LENGTH_SHORT).show();
+            } else {
+                // if the pokemon is dead
+                if (currentLife <= 0) {
+                    Toast.makeText(requireContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    int newLife;
+
+                    if (currentLife + ((ItemPotion) item).getBonus() > maxPokemonLife) {
+                        newLife = maxPokemonLife;
+                    } else {
+                        newLife = currentLife + ((ItemPotion) item).getBonus();
+                    }
+
+                    // if the pokemon is not dead and not at max life
+                    Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
+                            .setCurrentLifeState(
+                                    newLife
+                            );
+
+                    // if the pokemon to heal is the actual user pokemon
+                    if (cp.getCorrespondingPokemon().equals(this.userPokemon)) {
+                        pokemonFight.healPlayerPokemon(newLife);
+                    }
+
+                    Toast.makeText(requireContext(), "The potion worked", Toast.LENGTH_SHORT).show();
+                }
             }
-            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
-                    .setCurrentLifeState(cp.getCurrentLifeState() + ((ItemPotion) item).getBonus());
             this.opponentAttack();
 
         } else if (item instanceof ItemRevive) {

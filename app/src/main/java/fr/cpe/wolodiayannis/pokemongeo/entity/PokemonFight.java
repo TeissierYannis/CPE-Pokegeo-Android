@@ -161,14 +161,9 @@ public class PokemonFight {
     /**
      * Heal the player pokemon.
      * @param potion the potion to use
-     * @return the playerLifePoints
      */
-    public int healPlayerPokemon(ItemPotion potion) {
-        this.playerLifePoints += potion.getBonus();
-        if (this.playerLifePoints > this.playerPokemon.getHp()) {
-            this.playerLifePoints = this.playerPokemon.getHp();
-        }
-        return this.playerLifePoints;
+    public void healPlayerPokemon(int newLifePoints) {
+        this.playerLifePoints = newLifePoints;
     }
 
     /**
