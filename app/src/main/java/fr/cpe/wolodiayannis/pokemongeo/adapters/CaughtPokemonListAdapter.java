@@ -173,7 +173,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         CaughtInventory aliveCaughtInventory = new CaughtInventory();
 
         for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
-            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0) {
+            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0 && Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() < pokemon.getHp()) {
                 aliveCaughtInventory.addPokemon(pokemon);
             }
         }

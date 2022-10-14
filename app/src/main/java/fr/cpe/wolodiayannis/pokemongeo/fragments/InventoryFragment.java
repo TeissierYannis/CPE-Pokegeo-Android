@@ -108,6 +108,8 @@ public class InventoryFragment extends Fragment {
         if (!(item instanceof ItemBall)) {
 
             this.itemToUse = item;
+            Datastore.getInstance().setActualItem(item);
+
             PokemonSwitchInterface pokemonSwitchInterface = this::useHealItem;
 
             CaughtFragment caughtFragment = new CaughtFragment();
