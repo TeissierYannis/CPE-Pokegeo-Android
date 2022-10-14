@@ -185,6 +185,25 @@ public class FightFragment extends Fragment {
     }
 
     /**
+     * Update user pokemon without updating db
+     */
+    private void updateUserPokemonWithoutDB() {
+        // Update the pokemon in the user inventory
+        Datastore.getInstance().getCaughtInventory().updateCaughtPokemonLife(
+                userPokemon,
+                this.pokemonFight.getPlayerLifePoints()
+        );
+
+        CaughtPokemon userCaughtPokemon = Datastore.getInstance()
+                .getCaughtInventory()
+                .getCaughtPokemonFromPokemonID(this.userPokemon.getId());
+
+        if (userCaughtPokemon.getCurrentLifeState() < 0) {
+            userCaughtPokemon.setCurrentLifeState(0);
+        }
+    }
+
+    /**
      * On loose :
      * - remove pokemon from the map
      * - update user pokemon life in the caught inventory
@@ -301,6 +320,8 @@ public class FightFragment extends Fragment {
 
         this.updateLifeBarProgress();
         this.updateLifeBarColor();
+
+        this.updateUserPokemonWithoutDB();
 
         if (this.pokemonFight.isPlayerPokemonDead()) {
             this.onLoose();
@@ -516,8 +537,8 @@ public class FightFragment extends Fragment {
         int random = (int) (Math.random() * 100);
 
         if (item instanceof ItemPotion) {
-            int maxPokemonLife = pokemonFight.getPlayerPokemon().getHp();
-            int currentLife = pokemonFight.getPlayerLifePoints();
+            int maxPokemonLife = Datastore.getInstance().getPokemons().get(cp.getPokemonId()).getHp();
+            int currentLife = cp.getCurrentLifeState();
 
             // if the pokemon is already at max life
             if (currentLife == maxPokemonLife) {

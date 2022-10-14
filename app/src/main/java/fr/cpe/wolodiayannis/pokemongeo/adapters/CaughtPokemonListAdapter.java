@@ -69,9 +69,9 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
 
         // change the caught inventory list depending on the context
         if (Datastore.getInstance().getActualItem() instanceof ItemRevive) {
-            this.caughtInventory = DeadCaughtInventory(caughtInventory);
+            this.caughtInventory = deadCaughtInventory(caughtInventory);
         } else if (Datastore.getInstance().getActualItem() instanceof ItemPotion) {
-            this.caughtInventory = AliveCaughtInventory(caughtInventory);
+            this.caughtInventory = aliveCaughtInventory(caughtInventory);
         } else {
             this.caughtInventory = caughtInventory;
         }
@@ -169,14 +169,12 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      * @param caughtInventory List of all caught Pokemon.
      * @return a caught inventory with only alive pokemon.
      */
-    private CaughtInventory AliveCaughtInventory(CaughtInventory caughtInventory) {
+    private CaughtInventory aliveCaughtInventory(CaughtInventory caughtInventory) {
         CaughtInventory aliveCaughtInventory = new CaughtInventory();
 
         for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
-            // if the pokemon is alive and is not full life
-            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0
-                    || Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() != pokemon.getHp()) {
-                aliveCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)));
+            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0) {
+                aliveCaughtInventory.addPokemon(pokemon);
             }
         }
         return aliveCaughtInventory;
@@ -188,7 +186,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      * @param caughtInventory List of all caught Pokemon.
      * @return a caught inventory with only dead pokemon.
      */
-    private CaughtInventory DeadCaughtInventory(CaughtInventory caughtInventory) {
+    private CaughtInventory deadCaughtInventory(CaughtInventory caughtInventory) {
         CaughtInventory deadCaughtInventory = new CaughtInventory();
 
         for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
