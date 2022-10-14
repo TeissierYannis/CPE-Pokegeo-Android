@@ -358,6 +358,7 @@ public class FightFragment extends Fragment {
      */
     private void onUseItem(Item item, CaughtPokemon cp) {
         this.lastItemToUse = item;
+        Datastore.getInstance().setActualItem(item);
         this.useItemOn = cp;
         // go back to this fragment and re-update bar
         requireActivity().getSupportFragmentManager().popBackStack();
@@ -430,7 +431,7 @@ public class FightFragment extends Fragment {
     /**
      * Set the user pokemon.
      *
-     * @param userPokemon
+     * @param userPokemon user pokemon
      */
     public void setUserPokemon(Pokemon userPokemon) {
         this.userPokemon = userPokemon;
@@ -439,7 +440,7 @@ public class FightFragment extends Fragment {
     /**
      * Set the opponent pokemon.
      *
-     * @param opponentPokemon
+     * @param opponentPokemon opponent pokemon
      */
     public void setOpponentPokemon(Pokemon opponentPokemon) {
         this.opponentPokemon = opponentPokemon;
@@ -478,6 +479,7 @@ public class FightFragment extends Fragment {
      */
     private void setItem(Item item) {
         this.lastItemToUse = item;
+        Datastore.getInstance().setActualItem(item);
 
         requireActivity().getSupportFragmentManager().popBackStack();
 

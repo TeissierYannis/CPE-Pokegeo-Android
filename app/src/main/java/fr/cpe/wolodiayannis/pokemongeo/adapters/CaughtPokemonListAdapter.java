@@ -19,6 +19,8 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonItemBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemRevive;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
@@ -63,20 +65,17 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      */
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokemonSwitchInterface listener) {
         this.listener = null;
-        this.caughtInventory = AliveCaughtInventory(caughtInventory);
         this.switchListener = listener;
-    }
 
-    private CaughtInventory AliveCaughtInventory(CaughtInventory caughtInventory) {
-        CaughtInventory aliveCaughtInventory = new CaughtInventory();
-
-        for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
-            // if the pokemon is alive
-            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0) {
-                aliveCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)));
-            }
+        // change the caught inventory list depending on the context
+        if (Datastore.getInstance().getActualItem() instanceof ItemRevive) {
+            this.caughtInventory = DeadCaughtInventory(caughtInventory);
+        } else if (Datastore.getInstance().getActualItem() instanceof ItemPotion) {
+            this.caughtInventory = AliveCaughtInventory(caughtInventory);
+        } else {
+            this.caughtInventory = caughtInventory;
         }
-        return aliveCaughtInventory;
+        Datastore.getInstance().setActualItem(null);
     }
 
     /**
@@ -162,6 +161,41 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
             this.binding = binding;
             this.binding.setPokemonViewModel(viewModel);
         }
+    }
+
+    /**
+     * Filter the caught inventory to return only alive pokemon.
+     * @param caughtInventory List of all caught Pokemon.
+     * @return a caught inventory with only alive pokemon.
+     */
+    private CaughtInventory AliveCaughtInventory(CaughtInventory caughtInventory) {
+        CaughtInventory aliveCaughtInventory = new CaughtInventory();
+
+        for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
+            // if the pokemon is alive and is not full life
+            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0
+                    || Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() != pokemon.getHp()) {
+                aliveCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)));
+            }
+        }
+        return aliveCaughtInventory;
+    }
+
+    /**
+     * Filter the caught inventory to return only dead pokemon.
+     * @param caughtInventory List of all caught Pokemon.
+     * @return a caught inventory with only dead pokemon.
+     */
+    private CaughtInventory DeadCaughtInventory(CaughtInventory caughtInventory) {
+        CaughtInventory deadCaughtInventory = new CaughtInventory();
+
+        for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
+            // if the pokemon is dead
+            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() <= 0) {
+                deadCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)));
+            }
+        }
+        return deadCaughtInventory;
     }
 }
 

@@ -17,6 +17,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Stat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Type;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
@@ -53,7 +54,15 @@ public class Datastore implements Comparable<Object>, Serializable {
      * Shops (geo points) that buy items;
      */
     private ArrayList<POI> shops;
+    /**
+     * Pharmacies (geo points) that buy items;
+     */
     private ArrayList<POI> pharmacy;
+
+    /**
+     * Private actual Item to use.
+     */
+    private Item actualItem;
 
     /**
      * The datastore constructor.
@@ -168,6 +177,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns items list size.
+     *
      * @return items list size.
      */
     public int getSize() {
@@ -281,6 +291,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the items inventory.
+     *
      * @return the items inventory.
      */
     public ItemInventory getItemInventory() {
@@ -293,6 +304,24 @@ public class Datastore implements Comparable<Object>, Serializable {
     public Datastore setItemInventory(ItemInventory itemInventory) {
         this.itemInventory = itemInventory;
         return this;
+    }
+
+    /**
+     * Returns the actual item.
+     *
+     * @return the actual item.
+     */
+    public Item getActualItem() {
+        return actualItem;
+    }
+
+    /**
+     * Sets the actual item.
+     *
+     * @param actualItem the actual item.
+     */
+    public void setActualItem(Item actualItem) {
+        this.actualItem = actualItem;
     }
 
     /**
@@ -378,6 +407,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Add shop list.
+     *
      * @param shops the list of shops.
      */
     public void addShops(ArrayList<POI> shops) {
@@ -386,6 +416,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the list of shops.
+     *
      * @return the list of shops.
      */
     public ArrayList<POI> getShops() {
@@ -394,6 +425,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the list of pharmacies.
+     *
      * @param pharmacy the list of pharmacies.
      */
     public void addPharmacies(ArrayList<POI> pharmacy) {
@@ -402,6 +434,7 @@ public class Datastore implements Comparable<Object>, Serializable {
 
     /**
      * Returns the list of pharmacies.
+     *
      * @return the list of pharmacies.
      */
     public ArrayList<POI> getPharmacies() {

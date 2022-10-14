@@ -4,6 +4,7 @@ import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThread;
 import static fr.cpe.wolodiayannis.pokemongeo.utils.Logger.logOnUiThreadError;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         // set color of bottom nav icons
         binding.bottomNavigation.setItemIconTintList(null);
         // init listener of the bottom bar to change fragment
+        @SuppressLint("NonConstantResourceId")
         NavigationBarView.OnItemSelectedListener listener = item -> {
             switch (item.getItemId()) {
                 case R.id.map:
