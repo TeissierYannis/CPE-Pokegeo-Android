@@ -47,5 +47,6 @@
 
     <!-- Default Color -->
     <color name="Unknown">#FF000000</color>
+    <color name="blur">#32000000</color>
 
 </resources>

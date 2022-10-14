@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -159,6 +160,7 @@ public class SplashScreenActivity extends AppCompatActivity {
      * List of tasks done.
      */
     private final List<Integer> tasksDone = new ArrayList<>();
+    private View loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,6 +252,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                         } else {
                             // Run toast in UI thread
                             runOnUiThread(() -> {
+
+                                ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
+                                rootView.removeView(loader);
+
                                 idEditText_login.setEnabled(true);
                                 passwordEditText_login.setEnabled(true);
                                 loginButton_login.setEnabled(true);
@@ -279,7 +285,14 @@ public class SplashScreenActivity extends AppCompatActivity {
                             .execute();
                 }).start();
 
-                // TODO : Add a spinner
+                // Superpose spinner layout
+                this.loader = getLayoutInflater().inflate(R.layout.loader, null);
+                // Add the view to the root view of the layout.
+                ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
+                rootView.addView(loader, 0);
+                //this.loader = getLayoutInflater().inflate(R.layout.loader, null);
+                //getWindow().addContentView(loader, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                // Disable buttons
                 idEditText_login.setEnabled(false);
                 passwordEditText_login.setEnabled(false);
                 loginButton_login.setEnabled(false);
@@ -394,7 +407,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                             .setupTasks(this)
                             .execute();
                 }).start();
-                // TODO : Add a spinner
+
+                // Superpose spinner layout
+                getLayoutInflater().inflate(R.layout.loader, (ViewGroup) signupPopupView.getParent(), true);
+
                 emailEditText_signup.setEnabled(false);
                 pseudoEditText_signup.setEnabled(false);
                 passwordEditText_signup.setEnabled(false);
