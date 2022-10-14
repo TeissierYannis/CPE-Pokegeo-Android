@@ -312,7 +312,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void createSignupDialog() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View signupPopupView = getLayoutInflater().inflate(R.layout.signup_popup, null);
-
         emailEditText_signup = signupPopupView.findViewById(R.id.emailEditText_signup);
         pseudoEditText_signup = signupPopupView.findViewById(R.id.pseudoEditText_signup);
         passwordEditText_signup = signupPopupView.findViewById(R.id.passwordEditText_signup);
@@ -324,6 +323,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.show();
+
+        this.addSpinner(signupPopupView);
 
         backArrow_signup.setOnClickListener(v -> {
             dialog.cancel();
@@ -363,6 +364,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void onEnd(Integer taskID) {
+
                         // if datastore get user is not null, go to main activity
                         if (Datastore.getInstance().getUser() != null) {
                             runOnUiThread(() -> {
@@ -404,8 +406,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             .execute();
                 }).start();
 
-                // Superpose spinner layout
-                getLayoutInflater().inflate(R.layout.loader, (ViewGroup) signupPopupView.getParent(), true);
+                this.showLoader();
 
                 emailEditText_signup.setEnabled(false);
                 pseudoEditText_signup.setEnabled(false);
@@ -686,6 +687,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     /**
      * On all tasks ended call updatePokemonAndSwitchActivity, and close the thread pool.
+     *
      * @param taskID the task id
      */
     private void taskEnd(int taskID) {
@@ -726,7 +728,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void addSpinner(View view) {
         runOnUiThread(() -> {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View loader = inflater.inflate(R.layout.loader, null);
+            View loader = inflater.inflate(R.layout.loader, (ViewGroup) view, false);
             this.loader = loader;
             this.loader.setVisibility(View.GONE);
             ((ViewGroup) view).addView(loader);
@@ -748,7 +750,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     /**
      * Hide the loader.
      */
-
     public void hideLoader() {
         runOnUiThread(() -> {
             if (this.loader != null) {
