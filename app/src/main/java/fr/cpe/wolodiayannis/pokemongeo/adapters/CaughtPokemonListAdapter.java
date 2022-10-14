@@ -57,15 +57,27 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
 
     /**
      * Constructor.
+     *
      * @param caughtInventory List of Pokemon.
-     * @param listener Listener for the click on a Pokemon.
+     * @param listener        Listener for the click on a Pokemon.
      */
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokemonSwitchInterface listener) {
         this.listener = null;
-        this.caughtInventory = caughtInventory;
+        this.caughtInventory = AliveCaughtInventory(caughtInventory);
         this.switchListener = listener;
     }
 
+    private CaughtInventory AliveCaughtInventory(CaughtInventory caughtInventory) {
+        CaughtInventory aliveCaughtInventory = new CaughtInventory();
+
+        for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
+            // if the pokemon is alive
+            if (Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)).getCurrentLifeState() > 0) {
+                aliveCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(caughtInventory.getCaughtInventoryList().get(pokemon)));
+            }
+        }
+        return aliveCaughtInventory;
+    }
 
     /**
      * Create a new ViewHolder.
@@ -122,16 +134,10 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         }
 
         // Set the color of the pokemon bg.
-        holder.binding.pokemonBg.getBackground().
-
-                setTint(
-                        pokemon.getBackgroundColor()
-                );
+        holder.binding.pokemonBg.getBackground().setTint(pokemon.getBackgroundColor());
 
         // Set the PokemonViewModel to the layout.
-        holder.binding.getPokemonViewModel().
-
-                setPokemon(pokemon);
+        holder.binding.getPokemonViewModel().setPokemon(pokemon);
     }
 
     /**
