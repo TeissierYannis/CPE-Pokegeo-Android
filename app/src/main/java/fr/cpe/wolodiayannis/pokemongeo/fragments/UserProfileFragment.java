@@ -54,6 +54,9 @@ public class UserProfileFragment extends Fragment {
 
         // Get logout button without id
         binding.logoutButton.setOnClickListener(v -> {
+
+            binding.logoutButton.setEnabled(false);
+
             (new Thread(() -> {
                 (new UserLogoutFetcher(requireContext())).logoutAndClearCache(Datastore.getInstance().getUser());
                 requireActivity().runOnUiThread(() -> {
