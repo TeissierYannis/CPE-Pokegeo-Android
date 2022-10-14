@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -21,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -214,6 +216,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         final View loginPopupView = getLayoutInflater().inflate(R.layout.login_popup, null);
         dialogBuilder.setView(loginPopupView);
 
+        this.addSpinner(loginPopupView);
+
         idEditText_login = loginPopupView.findViewById(R.id.idEditText_login);
         passwordEditText_login = loginPopupView.findViewById(R.id.editText_password_login);
         loginButton_login = loginPopupView.findViewById(R.id.button_login_login);
@@ -252,10 +256,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         } else {
                             // Run toast in UI thread
                             runOnUiThread(() -> {
-
-                                ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
-                                rootView.removeView(loader);
-
+                                hideLoader();
                                 idEditText_login.setEnabled(true);
                                 passwordEditText_login.setEnabled(true);
                                 loginButton_login.setEnabled(true);
@@ -285,13 +286,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                             .execute();
                 }).start();
 
-                // Superpose spinner layout
-                this.loader = getLayoutInflater().inflate(R.layout.loader, null);
-                // Add the view to the root view of the layout.
-                ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
-                rootView.addView(loader, 0);
-                //this.loader = getLayoutInflater().inflate(R.layout.loader, null);
-                //getWindow().addContentView(loader, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                this.showLoader();
+
                 // Disable buttons
                 idEditText_login.setEnabled(false);
                 passwordEditText_login.setEnabled(false);
@@ -724,4 +720,40 @@ public class SplashScreenActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Add layout loader to the main layout. (fullscreen)
+     */
+    public void addSpinner(View view) {
+        runOnUiThread(() -> {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View loader = inflater.inflate(R.layout.loader, null);
+            this.loader = loader;
+            this.loader.setVisibility(View.GONE);
+            ((ViewGroup) view).addView(loader);
+        });
+    }
+
+    /**
+     * Show the loader.
+     */
+    public void showLoader() {
+        runOnUiThread(() -> {
+            if (this.loader != null) {
+                this.loader.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
+    /**
+     * Hide the loader.
+     */
+
+    public void hideLoader() {
+        runOnUiThread(() -> {
+            if (this.loader != null) {
+                this.loader.setVisibility(View.GONE);
+            }
+        });
+    }
 }
