@@ -45,4 +45,11 @@ public final class InternalStorage {
         Object object = ois.readObject();
         return object;
     }
+
+    public static void clearCache(Context ctx) {
+        String[] files = ctx.fileList();
+        for (String file : files) {
+            ctx.deleteFile(file);
+        }
+    }
 }

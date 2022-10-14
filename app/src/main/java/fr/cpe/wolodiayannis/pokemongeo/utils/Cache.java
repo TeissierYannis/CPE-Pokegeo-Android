@@ -38,4 +38,8 @@ public class Cache {
             throw new CacheException("Error while writing cache");
         }
     }
+
+    public static void clearCache(Context ctx) {
+        InternalStorage.clearCache(ctx);
+    }
 }

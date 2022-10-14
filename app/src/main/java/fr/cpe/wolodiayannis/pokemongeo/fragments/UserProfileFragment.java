@@ -9,13 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.UserProfileBinding;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLogoutFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.UserViewModel;
 ;
 
@@ -46,6 +44,17 @@ public class UserProfileFragment extends Fragment {
 
         binding.chevronBack.setOnClickListener(v -> {
             requireActivity().onBackPressed();
+        });
+
+        // Get logout button without id
+        binding.logoutButton.setOnClickListener(v -> {
+            (new Thread( () -> {
+                (new UserLogoutFetcher(requireContext())).logoutAndClearCache(Datastore.getInstance().getUser());
+                requireActivity().runOnUiThread(() -> {
+                    // Go to SpashScreen activity
+                    requireActivity().finish();
+                });
+            })).start();
         });
 
         return binding.getRoot();

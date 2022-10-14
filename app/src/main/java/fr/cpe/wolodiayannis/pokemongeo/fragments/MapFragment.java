@@ -96,6 +96,7 @@ public class MapFragment extends Fragment {
             assert mainActivity != null;
             mainActivity.stopLocation();
             // switch to fragment UserProfileFragment
+
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new UserProfileFragment())
                     .addToBackStack(null)
