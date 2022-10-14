@@ -12,8 +12,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.activities.InitActivity;
-import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.activities.SplashScreenActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.UserProfileBinding;
@@ -58,6 +56,18 @@ public class UserProfileFragment extends Fragment {
             binding.logoutButton.setEnabled(false);
 
             (new Thread(() -> {
+                // display a spinner to wait
+                requireActivity().runOnUiThread(() -> {
+                    if (container != null) {
+                        View loader = inflater.inflate(R.layout.loader_center, container, false);
+                        loader.setVisibility(View.GONE);
+                        container.addView(loader);
+                        loader.setVisibility(View.VISIBLE);
+                    }
+                });
+            })).start();
+
+            (new Thread(() -> {
                 (new UserLogoutFetcher(requireContext())).logoutAndClearCache(Datastore.getInstance().getUser());
                 requireActivity().runOnUiThread(() -> {
                     // Open SpashScreen activity
@@ -68,8 +78,7 @@ public class UserProfileFragment extends Fragment {
                 });
             })).start();
         });
-
         return binding.getRoot();
     }
-
 }
+

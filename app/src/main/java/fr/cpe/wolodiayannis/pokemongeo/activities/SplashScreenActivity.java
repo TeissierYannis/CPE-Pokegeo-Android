@@ -22,7 +22,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -728,7 +727,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void addSpinner(View view) {
         runOnUiThread(() -> {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View loader = inflater.inflate(R.layout.loader, (ViewGroup) view, false);
+            View loader = inflater.inflate(R.layout.loader_sign, (ViewGroup) view, false);
             this.loader = loader;
             this.loader.setVisibility(View.GONE);
             ((ViewGroup) view).addView(loader);
