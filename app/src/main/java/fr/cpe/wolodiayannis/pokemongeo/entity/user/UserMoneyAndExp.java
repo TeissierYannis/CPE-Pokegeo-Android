@@ -5,7 +5,7 @@ public class UserMoneyAndExp {
     /**
      * User id.
      */
-    Integer id;
+    Integer userId;
 
     /**
      * User money.
@@ -24,7 +24,7 @@ public class UserMoneyAndExp {
      * @param money User money.
      */
     public UserMoneyAndExp(int userId, int money, int experience) {
-        this.id = userId;
+        this.userId = userId;
         this.money = money;
         this.experience = experience;
     }
