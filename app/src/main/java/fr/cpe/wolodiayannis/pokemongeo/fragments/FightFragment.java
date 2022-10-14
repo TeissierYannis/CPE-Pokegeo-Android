@@ -217,6 +217,11 @@ public class FightFragment extends Fragment {
         // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
+        // Remove inventory view if it's open
+        View inventoryView = requireActivity().findViewById(R.id.fragment_container);
+        if (inventoryView != null) {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        }
         // navigation bar
         requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
         requireActivity().getSupportFragmentManager().popBackStack();
