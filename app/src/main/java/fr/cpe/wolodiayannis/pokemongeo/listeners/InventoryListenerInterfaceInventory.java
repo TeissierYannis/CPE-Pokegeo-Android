@@ -8,6 +8,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 public interface InventoryListenerInterfaceInventory {
     /**
      * On select item.
+     *
      * @param item item
      */
     void onItemSelectedInv(Item item);

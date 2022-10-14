@@ -12,17 +12,18 @@ public final class InternalStorage {
     /**
      * Constructor.
      */
-    private InternalStorage() {}
+    private InternalStorage() {
+    }
 
     /**
      * Write object in cache.
+     *
      * @param context Context.
-     * @param key Key.
-     * @param object Object.
-     * @throws IOException
-     * @throws IOException
+     * @param key     Key.
+     * @param object  Object.
+     * @throws IOException IO exception.
      */
-    public static void writeObject(Context context, String key, Object object) throws IOException, IOException {
+    public static void writeObject(Context context, String key, Object object) throws IOException {
         FileOutputStream fos = context.openFileOutput(key, Context.MODE_PRIVATE);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(object);
@@ -32,18 +33,18 @@ public final class InternalStorage {
 
     /**
      * Read object from cache.
+     *
      * @param context Context.
-     * @param key Key.
+     * @param key     Key.
      * @return Object.
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @throws IOException            IO exception.
+     * @throws ClassNotFoundException Class not found exception.
      */
     public static Object readObject(Context context, String key) throws IOException,
             ClassNotFoundException {
         FileInputStream fis = context.openFileInput(key);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        Object object = ois.readObject();
-        return object;
+        return ois.readObject();
     }
 
     public static void clearCache(Context ctx) {

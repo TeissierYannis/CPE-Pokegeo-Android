@@ -13,7 +13,7 @@ public class StatAdapter extends TypeAdapter<Stat> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out the stream to write to
+     * @param out   the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -54,16 +54,16 @@ public class StatAdapter extends TypeAdapter<Stat> {
         String message = in.nextString();
         if (message.equals("success")) {
 
-        in.nextName();
-        in.beginObject();
-        in.nextName();
-        int id = in.nextInt();
-        in.nextName();
-        String name = in.nextString();
-        in.endObject();
-        in.endObject();
+            in.nextName();
+            in.beginObject();
+            in.nextName();
+            int id = in.nextInt();
+            in.nextName();
+            String name = in.nextString();
+            in.endObject();
+            in.endObject();
 
-        return new Stat(id, name);
+            return new Stat(id, name);
         } else {
             throw new IOException("Error while reading Stat");
         }

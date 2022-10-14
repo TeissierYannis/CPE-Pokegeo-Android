@@ -14,11 +14,12 @@ public class AbilitiesFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
-     * @param ctx
+     *
+     * @param ctx Context.
      */
     public AbilitiesFetcher(Context ctx) {
         this.ctx = ctx;
@@ -26,6 +27,7 @@ public class AbilitiesFetcher {
 
     /**
      * Get abilities.
+     *
      * @return abilities.
      */
     public List<Ability> fetchAndCache() {

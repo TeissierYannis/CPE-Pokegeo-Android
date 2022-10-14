@@ -111,10 +111,10 @@ public class UserRequest extends BaseRequest {
         }
     }
 
-    /*
+    /**
      * Logout the user.
      *
-     * @param user
+     * @param user User.
      */
     public static void logoutUser(User user) {
 

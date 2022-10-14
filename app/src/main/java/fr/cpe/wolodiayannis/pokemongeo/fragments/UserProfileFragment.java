@@ -17,7 +17,6 @@ import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.UserProfileBinding;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLogoutFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.UserViewModel;
-;
 
 public class UserProfileFragment extends Fragment {
 
@@ -40,15 +39,13 @@ public class UserProfileFragment extends Fragment {
         UserViewModel userViewModel = new UserViewModel();
 
         userViewModel.setUser(Datastore.getInstance().getUser());
-        userViewModel.setPokedexCount(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().size() + "/" + Datastore.getInstance().getPokemons().size());
+        userViewModel.setPokedexCount(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().size() + "/" + (Datastore.getInstance().getPokemons().size() - 1));
 
         binding.setUserViewModel(userViewModel);
         binding.progressBarLevel.setMax(100);
         binding.progressBarLevel.setProgress(userViewModel.getUserExperience());
 
-        binding.chevronBack.setOnClickListener(v -> {
-            requireActivity().onBackPressed();
-        });
+        binding.chevronBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
         // Get logout button without id
         binding.logoutButton.setOnClickListener(v -> {

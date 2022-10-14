@@ -39,7 +39,8 @@ public class Item implements Serializable {
 
     /**
      * Item constructor.
-     * @param id Item id.
+     *
+     * @param id   Item id.
      * @param name Item name.
      */
     public Item(int id, String name, int price) {
@@ -51,6 +52,7 @@ public class Item implements Serializable {
     /**
      * Item constructor.
      * !! just for init purpose !!
+     *
      * @param id Item id.
      */
     public Item(int id) {
@@ -61,6 +63,7 @@ public class Item implements Serializable {
 
     /**
      * Get item id.
+     *
      * @return Item id.
      */
     public int getId() {
@@ -69,6 +72,7 @@ public class Item implements Serializable {
 
     /**
      * Get item name.
+     *
      * @return Item name.
      */
     public String getName() {
@@ -77,6 +81,7 @@ public class Item implements Serializable {
 
     /**
      * Get item price.
+     *
      * @return Item price.
      */
     public int getPrice() {
@@ -103,6 +108,7 @@ public class Item implements Serializable {
 
     /**
      * Check if two items are equals.
+     *
      * @param o Item to compare.
      * @return True if equals, false otherwise.
      */
@@ -124,6 +130,7 @@ public class Item implements Serializable {
 
     /**
      * Get the item background color.
+     *
      * @return int color.
      */
     public int getBackgroundColor() {

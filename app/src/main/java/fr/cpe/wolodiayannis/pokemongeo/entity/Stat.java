@@ -23,7 +23,8 @@ public class Stat implements Serializable {
 
     /**
      * Stat constructor.
-     * @param id stat id.
+     *
+     * @param id   stat id.
      * @param name stat name.
      */
     public Stat(int id, String name) {
@@ -33,7 +34,8 @@ public class Stat implements Serializable {
 
     /**
      * Stat factory.
-     * @param id stat id.
+     *
+     * @param id   stat id.
      * @param name stat name.
      * @return Stat instance.
      */
@@ -43,6 +45,7 @@ public class Stat implements Serializable {
 
     /**
      * Get stat id.
+     *
      * @return stat id.
      */
     public int getId() {
@@ -51,6 +54,7 @@ public class Stat implements Serializable {
 
     /**
      * Get stat name.
+     *
      * @return stat name.
      */
     public String getName() {

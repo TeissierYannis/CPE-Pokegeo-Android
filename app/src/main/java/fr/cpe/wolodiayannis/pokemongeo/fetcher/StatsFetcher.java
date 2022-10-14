@@ -14,10 +14,11 @@ public class StatsFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public StatsFetcher(Context ctx) {
@@ -26,6 +27,7 @@ public class StatsFetcher {
 
     /**
      * Get stats.
+     *
      * @return stats.
      */
     public List<Stat> fetchAndCache() {

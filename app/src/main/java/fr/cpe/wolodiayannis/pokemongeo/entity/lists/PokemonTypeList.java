@@ -13,10 +13,11 @@ public class PokemonTypeList implements Serializable {
     /**
      * List of ability
      */
-    private HashMap<Integer, List<Integer>> types;
+    private final HashMap<Integer, List<Integer>> types;
 
     /**
      * Constructor.
+     *
      * @param types List of types.
      */
     public PokemonTypeList(HashMap<Integer, List<Integer>> types) {
@@ -25,19 +26,10 @@ public class PokemonTypeList implements Serializable {
 
     /**
      * Get the ability list.
+     *
      * @return List of types.
      */
     public HashMap<Integer, List<Integer>> getTypes() {
         return types;
-    }
-
-    /**
-     * Get the types of a pokemon.
-     * @param id Pokemon id.
-     * @return List of types.
-     */
-    public List<Integer> getTypesByPokemonID(int id) {
-       // get the list in fact of the id
-        return types.get(id);
     }
 }

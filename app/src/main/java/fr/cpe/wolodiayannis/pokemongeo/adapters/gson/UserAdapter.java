@@ -15,7 +15,7 @@ public class UserAdapter extends TypeAdapter<User> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out  the stream to write to
+     * @param out   the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -108,7 +108,7 @@ public class UserAdapter extends TypeAdapter<User> {
             // from 2022-09-25T12:13:06.000Z to timestamp
             Timestamp createdAt = Timestamp.valueOf(createdAtString.replace("Z", "").replace("T", " "));
 
-            return new User(id, pseudo, email, experience, money, isInitBool, createdAt, token );
+            return new User(id, pseudo, email, experience, money, isInitBool, createdAt, token);
         } else {
             throw new IOException("SQL Error");
         }

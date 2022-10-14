@@ -23,6 +23,7 @@ public interface ItemInventoryAPI extends BaseAPI {
 
     /**
      * Init post of the user item inventory on the API.
+     *
      * @param itemInventoryDto the user item inventory
      */
     @POST("inventory/item/post")
@@ -30,6 +31,7 @@ public interface ItemInventoryAPI extends BaseAPI {
 
     /**
      * update the user item inventory on the API.
+     *
      * @param itemInventoryDto the user item inventory
      */
     @PUT("inventory/item/update")

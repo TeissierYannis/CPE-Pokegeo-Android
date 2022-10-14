@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.gson.lists.CaughtPokemonListAdapter;
+import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 
 /**
  * Items inventory class.
@@ -51,13 +52,6 @@ public class CaughtInventory implements Serializable {
     }
 
     /**
-     * Get the pokemon at the given index.
-     */
-    public Pokemon getCaughtPokemon(int i) {
-        return (Pokemon) caughtInventoryList.keySet().toArray()[i];
-    }
-
-    /**
      * Update the life of the pokemon at the given index.
      */
     public void updateCaughtPokemonLife(Pokemon pokemon, int life) {
@@ -72,23 +66,8 @@ public class CaughtInventory implements Serializable {
     }
 
     /**
-     * From pokemonID get the pokemon index in the inventory
-     * @param pokemonID The pokemon ID
-     * @return The pokemon index in the inventory
-     */
-    public int getPokemonIndex(int pokemonID) {
-        int index = 0;
-        for (Pokemon pokemon : caughtInventoryList.keySet()) {
-            if (pokemon.getId() == pokemonID) {
-                return index;
-            }
-            index++;
-        }
-        return -1;
-    }
-
-    /**
      * Get caught pokemon by pokemon id.
+     *
      * @param pokemonID The pokemon id.
      * @return The caught pokemon.
      */
@@ -117,10 +96,10 @@ public class CaughtInventory implements Serializable {
      *
      * @param pokemon The pokemon to add.
      */
-    public CaughtPokemon addPokemon(Pokemon pokemon, int user_id) {
+    public CaughtPokemon addPokemon(Pokemon pokemon) {
 
         CaughtPokemon caughtPokemon = new CaughtPokemon(
-                user_id,
+                Datastore.getInstance().getUser().getId(),
                 pokemon.getId(),
                 0,
                 pokemon.getHp(),
@@ -133,6 +112,47 @@ public class CaughtInventory implements Serializable {
         );
 
         return caughtPokemon;
+    }
+
+    /**
+     * From pokemonID get the pokemon index in the inventory
+     *
+     * @param pokemonID The pokemon ID
+     * @return The pokemon index in the inventory
+     */
+    public int getPokemonIndex(int pokemonID) {
+        int index = 0;
+        for (Pokemon pokemon : caughtInventoryList.keySet()) {
+            if (pokemon.getId() == pokemonID) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    /**
+     * Get the pokemon by ID in the caught inventory list.
+     *
+     * @param id The pokemon ID
+     * @return The pokemon
+     */
+    public Pokemon getPokemonById(int id) {
+        for (Pokemon pokemon : caughtInventoryList.keySet()) {
+            if (pokemon.getId() == id) {
+                return pokemon;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the pokemon at the given index.
+     *
+     * @param index The pokemon index
+     */
+    public Pokemon getCaughtPokemon(int index) {
+        return (Pokemon) caughtInventoryList.keySet().toArray()[index];
     }
 
     /**
@@ -155,17 +175,5 @@ public class CaughtInventory implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(caughtInventoryList);
-    }
-
-    /**
-     * Get the pokemon by ID in the caught inventory list.
-     */
-    public Pokemon getPokemonById(int id) {
-        for (Pokemon pokemon : caughtInventoryList.keySet()) {
-            if (pokemon.getId() == id) {
-                return pokemon;
-            }
-        }
-        return null;
     }
 }

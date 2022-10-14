@@ -14,11 +14,12 @@ public class StatList implements Serializable {
     /**
      * List of stats
      */
-    private List<Stat> statsList;
+    private final List<Stat> statsList;
 
     /**
      * Constructor.
-     * @param statsList
+     *
+     * @param statsList List of stats.
      */
     public StatList(List<Stat> statsList) {
         this.statsList = statsList;
@@ -26,22 +27,10 @@ public class StatList implements Serializable {
 
     /**
      * Get the stat list.
+     *
      * @return List of stat.
      */
     public List<Stat> getStatsList() {
         return statsList;
-    }
-
-    /**
-     * Add a stat to the list.
-     * @param id Stat id.
-     * @param name Stat name.
-     */
-    public void addStat(int id, String name) {
-        try {
-            assert id > 0;
-            assert name != null;
-            statsList.add(new Stat(id, name));
-        } catch (AssertionError ignored) {}
     }
 }

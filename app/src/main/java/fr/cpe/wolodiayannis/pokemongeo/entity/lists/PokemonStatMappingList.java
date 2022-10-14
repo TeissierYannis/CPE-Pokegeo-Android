@@ -18,6 +18,7 @@ public class PokemonStatMappingList {
 
     /**
      * Constructor.
+     *
      * @param pokemonStatMappingList List of stat to map with pokemon id.
      */
     public PokemonStatMappingList(HashMap<Integer, List<PokemonStat>> pokemonStatMappingList) {
@@ -26,6 +27,7 @@ public class PokemonStatMappingList {
 
     /**
      * Get the stat list.
+     *
      * @return List of stat.
      */
     public HashMap<Integer, List<PokemonStat>> getPokemonStatMappingList() {

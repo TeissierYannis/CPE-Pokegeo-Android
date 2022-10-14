@@ -24,9 +24,10 @@ public class DrawableResizer {
 
     /**
      * Resize vector.
+     *
      * @param drawable Drawable.
-     * @param width Width.
-     * @param height Height.
+     * @param width    Width.
+     * @param height   Height.
      * @return Drawable.
      */
     public static Drawable resizeVectorDrawable(VectorDrawable drawable, int width, int height) {

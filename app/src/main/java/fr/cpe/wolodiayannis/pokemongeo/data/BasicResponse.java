@@ -5,10 +5,11 @@ public class BasicResponse {
     /**
      * Message.
      */
-    private String message;
+    private final String message;
 
     /**
      * Constructor.
+     *
      * @param message message
      */
     public BasicResponse(String message) {
@@ -17,6 +18,7 @@ public class BasicResponse {
 
     /**
      * Get message.
+     *
      * @return message
      */
     public String getMessage() {

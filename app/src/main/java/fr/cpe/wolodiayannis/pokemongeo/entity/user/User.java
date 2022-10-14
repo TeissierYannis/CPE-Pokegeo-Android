@@ -60,7 +60,7 @@ public class User implements Serializable {
      * User JWT.
      */
     @SerializedName("token")
-    private String jwt;
+    private final String jwt;
 
     /**
      * User constructor.
@@ -157,16 +157,6 @@ public class User implements Serializable {
     }
 
     /**
-     * Get user experience by adding exp.
-     *
-     * @param money experience to add.
-     * @return User experience.
-     */
-    public int getMoneyWithAdding(int money) {
-        return money + money;
-    }
-
-    /**
      * Set user money.
      *
      * @param money User money.
@@ -177,18 +167,11 @@ public class User implements Serializable {
 
     /**
      * Add money to the user.
+     *
      * @param money money to add.
      */
     public void addMoney(int money) {
         this.money += money;
-    }
-
-    /**
-     * Remove money to the user.
-     * @param money money to remove.
-     */
-    public void removeMoney(int money) {
-        this.money -= money;
     }
 
     /**
@@ -198,16 +181,6 @@ public class User implements Serializable {
      */
     public int getExperience() {
         return experience;
-    }
-
-    /**
-     * Get user experience by adding exp.
-     *
-     * @param exp experience to add.
-     * @return User experience.
-     */
-    public int getExpWithAdding(int exp) {
-        return experience + exp;
     }
 
     /**
@@ -221,6 +194,7 @@ public class User implements Serializable {
 
     /**
      * Add experience to the user.
+     *
      * @param exp experience to add.
      */
     public void addExperience(int exp) {

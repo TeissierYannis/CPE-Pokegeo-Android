@@ -26,7 +26,8 @@ public class Ability implements Serializable {
 
     /**
      * Ability constructor.
-     * @param id Ability id.
+     *
+     * @param id   Ability id.
      * @param name Ability name.
      */
     public Ability(int id, String name) {
@@ -34,8 +35,9 @@ public class Ability implements Serializable {
         this.name = name;
     }
 
-/**
+    /**
      * Get ability id.
+     *
      * @return Ability id.
      */
     public int getId() {
@@ -44,6 +46,7 @@ public class Ability implements Serializable {
 
     /**
      * Get ability name.
+     *
      * @return Ability name.
      */
     public String getName() {

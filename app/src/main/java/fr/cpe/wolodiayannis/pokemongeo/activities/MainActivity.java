@@ -33,6 +33,8 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.ActivityMainBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.fetcher.ItemInventoryFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.CaughtFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.InventoryFragment;
 import fr.cpe.wolodiayannis.pokemongeo.fragments.MapFragment;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.datastore = Datastore.getInstance();
+        addForDev();
 
         // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -336,5 +339,37 @@ public class MainActivity extends AppCompatActivity {
         //cache management ends her
         logOnUiThread("[DEBUG] " + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
                 "Cache size: " + Formatter.formatFileSize(this, cacheSize));
+    }
+
+    /**
+     * Add each item x500 times to the user's inventory and arceus.
+     */
+    private void addForDev() {
+
+        // add each ball x500 to the user inventory
+        for (Item item : Datastore.getInstance().getItemList().getPokeballList()) {
+            Datastore.getInstance().getItemInventory().addItem(item, 500);
+        }
+        // add each potion x500 to the user inventory
+        for (Item item : Datastore.getInstance().getItemList().getPotionList()) {
+            Datastore.getInstance().getItemInventory().addItem(item, 500);
+        }
+        // add each berry x500 to the user inventory
+        for (Item item : Datastore.getInstance().getItemList().getReviveList()) {
+            Datastore.getInstance().getItemInventory().addItem(item, 500);
+        }
+        // add arceus to the user inventory
+        Datastore.getInstance().getCaughtInventory().addPokemon(
+                Datastore.getInstance().getPokemons().get(493)
+        );
+
+        new Thread(() ->
+        {
+            try {
+                (new ItemInventoryFetcher(this)).postAndCache(Datastore.getInstance().getItemInventory());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

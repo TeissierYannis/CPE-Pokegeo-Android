@@ -45,13 +45,14 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Constructor.
-     * @param userId User ID
-     * @param caughtTime Caught time
+     *
+     * @param userId            User ID
+     * @param caughtTime        Caught time
      * @param pokemonExperience Pokemon experience
-     * @param currentLifeState Current life state
+     * @param currentLifeState  Current life state
      */
     public CaughtPokemon(int userId, int pokemonId, int pokemonExperience, int currentLifeState, Timestamp caughtTime) {
-        this.userId = userId;;
+        this.userId = userId;
         this.pokemonId = pokemonId;
         this.caughtTime = caughtTime;
         this.pokemonExperience = pokemonExperience;
@@ -60,6 +61,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Get the user id.
+     *
      * @return The user id.
      */
     public int getUserId() {
@@ -68,6 +70,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Get the pokemon id.
+     *
      * @return The pokemon id.
      */
     public int getPokemonId() {
@@ -76,6 +79,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Get the caught time.
+     *
      * @return The caught time.
      */
     public Timestamp getCaughtTime() {
@@ -84,6 +88,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Get the pokemon experience.
+     *
      * @return The pokemon experience.
      */
     public int getPokemonExperience() {
@@ -92,6 +97,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Set the pokemon experience.
+     *
      * @param pokemon_experience The pokemon experience.
      */
     public void setPokemonExperience(int pokemon_experience) {
@@ -100,6 +106,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Get the current life state.
+     *
      * @return The current life state.
      */
     public int getCurrentLifeState() {
@@ -108,6 +115,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Set the current life state.
+     *
      * @param current_life_state The current life state.
      */
     public void setCurrentLifeState(int current_life_state) {
@@ -120,6 +128,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Check if two caught pokemons are equals.
+     *
      * @param o Caught pokemon to compare.
      * @return True if equals, false otherwise.
      */
@@ -133,6 +142,7 @@ public class CaughtPokemon implements Serializable {
 
     /**
      * Get the hash code of the caught pokemon.
+     *
      * @return The hash code of the caught pokemon.
      */
     @Override

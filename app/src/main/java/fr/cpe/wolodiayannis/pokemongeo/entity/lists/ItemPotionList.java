@@ -14,10 +14,11 @@ public class ItemPotionList implements Serializable {
     /**
      * List of item potion.
      */
-    private List<ItemPotion> itemPotionList;
+    private final List<ItemPotion> itemPotionList;
 
     /**
      * Constructor.
+     *
      * @param itemPotionList List of item potion.
      */
     public ItemPotionList(List<ItemPotion> itemPotionList) {
@@ -26,6 +27,7 @@ public class ItemPotionList implements Serializable {
 
     /**
      * Get the item potion list.
+     *
      * @return List of item potion.
      */
     public List<ItemPotion> getItemPotionList() {

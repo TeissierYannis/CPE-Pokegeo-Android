@@ -1,7 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.dto;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.user.User;
-
 public class UserDto {
     /**
      * Pseudo.
@@ -18,7 +16,8 @@ public class UserDto {
 
     /**
      * Constructor.
-     * @param pseudo pseudo
+     *
+     * @param pseudo   pseudo
      * @param password password
      */
     public UserDto(String pseudo, String password) {
@@ -29,8 +28,9 @@ public class UserDto {
 
     /**
      * Constructor.
-     * @param pseudo pseudo
-     * @param email email
+     *
+     * @param pseudo   pseudo
+     * @param email    email
      * @param password password
      */
     public UserDto(String pseudo, String email, String password) {

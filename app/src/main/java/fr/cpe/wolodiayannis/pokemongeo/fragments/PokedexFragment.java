@@ -29,14 +29,10 @@ public class PokedexFragment extends Fragment {
     private PokedexListenerInterface listener;
 
     /**
-     * Datastore instance.
-     */
-    private Datastore datastore;
-
-    /**
      * onCreateView.
-     * @param inflater inflater
-     * @param container container
+     *
+     * @param inflater           inflater
+     * @param container          container
      * @param savedInstanceState savedInstanceState
      * @return view
      */
@@ -50,10 +46,8 @@ public class PokedexFragment extends Fragment {
         // Set the layout
         binding.pokemonList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
 
-        // Get the datastore instance
-        this.datastore = Datastore.getInstance();
         // new adapter
-        PokemonListAdapter adapter = new PokemonListAdapter(this.datastore.getPokemons(), listener);
+        PokemonListAdapter adapter = new PokemonListAdapter(Datastore.getInstance().getPokemons(), listener);
         // set the adapter
         binding.pokemonList.setAdapter(adapter);
 
@@ -76,6 +70,7 @@ public class PokedexFragment extends Fragment {
 
     /**
      * Set the listener.
+     *
      * @param listener listener
      */
     public void setPokedexListenerInterface(PokedexListenerInterface listener) {

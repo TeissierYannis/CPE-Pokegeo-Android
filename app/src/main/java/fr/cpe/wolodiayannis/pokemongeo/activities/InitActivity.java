@@ -95,6 +95,15 @@ public class InitActivity extends AppCompatActivity {
      */
     private int starterChoice = -1;
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it most recently
+     *                           supplied in {@link #onSaveInstanceState}. <b><i>Note: Otherwise it is null.</i></b>
+     * @see #onSaveInstanceState
+     * @see #onRestoreInstanceState
+     */
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,7 +236,7 @@ public class InitActivity extends AppCompatActivity {
             datastore.setCaughtInventory(new CaughtInventory());
         }
 
-        CaughtPokemon cp = datastore.getCaughtInventory().addPokemon(datastore.getPokemons().get(starterChoice), datastore.getUser().getId());
+        CaughtPokemon cp = datastore.getCaughtInventory().addPokemon(datastore.getPokemons().get(starterChoice));
         // Avoid NetworkOnMainThreadException and call Datafetcher
         new Thread(() ->
         {

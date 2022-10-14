@@ -11,6 +11,7 @@ public class TypeRequest extends BaseRequest {
 
     /**
      * Get TypeAPI.
+     *
      * @return TypeAPI.
      */
     protected static TypeAPI getAPI() {
@@ -19,6 +20,7 @@ public class TypeRequest extends BaseRequest {
 
     /**
      * Get all types.
+     *
      * @return List of types.
      */
     public static TypeList getAllTypes() {
@@ -27,23 +29,6 @@ public class TypeRequest extends BaseRequest {
             TypeList typeList = call.execute().body();
             LogAPI("Types");
             return typeList;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Get one type.
-     * @param id Type id.
-     * @return Type.
-     */
-    public static Type getTypeFromID(int id) {
-        Call<Type> call = getAPI().getType(id);
-        try {
-            Type type = call.execute().body();
-            LogAPI("Type");
-            return type;
         } catch (IOException e) {
             e.printStackTrace();
         }

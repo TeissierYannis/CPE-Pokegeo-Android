@@ -14,10 +14,11 @@ public class ItemBallList implements Serializable {
     /**
      * List of item ball.
      */
-    private List<ItemBall> itemBallList;
+    private final List<ItemBall> itemBallList;
 
     /**
      * Constructor.
+     *
      * @param itemBallList List of item ball.
      */
     public ItemBallList(List<ItemBall> itemBallList) {
@@ -26,6 +27,7 @@ public class ItemBallList implements Serializable {
 
     /**
      * Get the item ball list.
+     *
      * @return List of item ball.
      */
     public List<ItemBall> getItemBallList() {

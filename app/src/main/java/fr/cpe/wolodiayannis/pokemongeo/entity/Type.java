@@ -32,7 +32,8 @@ public class Type implements Serializable {
 
     /**
      * Type constructor.
-     * @param id Type id.
+     *
+     * @param id   Type id.
      * @param name Type name.
      */
     public Type(int id, String name) {
@@ -49,6 +50,7 @@ public class Type implements Serializable {
 
     /**
      * Get type id.
+     *
      * @return Type id.
      */
     public int getId() {
@@ -57,6 +59,7 @@ public class Type implements Serializable {
 
     /**
      * Get type name.
+     *
      * @return Type name.
      */
     public String getName() {
@@ -65,6 +68,7 @@ public class Type implements Serializable {
 
     /**
      * Get type color.
+     *
      * @return Type color.
      */
     public int getColor() {

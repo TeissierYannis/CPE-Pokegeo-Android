@@ -2,8 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -13,7 +11,6 @@ import androidx.databinding.Bindable;
 
 import java.util.List;
 
-import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
@@ -24,8 +21,15 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
  * Pokemon View Model.
  */
 public class PokemonViewModel extends BaseObservable {
+
+    /**
+     * Pokemon.
+     */
     private Pokemon pokemon = null;
 
+    /**
+     * Datastore instance.
+     */
     private Datastore datastore;
 
     /**
@@ -277,6 +281,9 @@ public class PokemonViewModel extends BaseObservable {
             return -1;
     }
 
+    /**
+     * Set the pokemon type image.
+     */
     public void setName(String s) {
         this.name = s;
     }

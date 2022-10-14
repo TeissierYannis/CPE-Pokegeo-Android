@@ -18,10 +18,12 @@ public class UserMoneyAndExp {
     Integer experience;
 
 
-    /**us
+    /**
+     * us
      * Constructor.
+     *
      * @param userId User id.
-     * @param money User money.
+     * @param money  User money.
      */
     public UserMoneyAndExp(int userId, int money, int experience) {
         this.userId = userId;

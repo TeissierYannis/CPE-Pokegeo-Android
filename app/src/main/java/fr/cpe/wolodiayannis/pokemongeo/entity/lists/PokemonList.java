@@ -13,17 +13,20 @@ public class PokemonList implements Serializable {
     /**
      * List of pokemon.
      */
-    private List<Pokemon> pokemonList;
+    private final List<Pokemon> pokemonList;
 
     /**
      * Constuctor.
+     *
      * @param pokemonList List of pokemons.
      */
     public PokemonList(List<Pokemon> pokemonList) {
         this.pokemonList = pokemonList;
     }
+
     /**
      * Get the pokemon list.
+     *
      * @return List of pokemon.
      */
     public List<Pokemon> getPokemonList() {

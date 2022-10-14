@@ -13,12 +13,12 @@ public class UserLogoutFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
      *
-     * @param ctx
+     * @param ctx context.
      */
     public UserLogoutFetcher(Context ctx) {
         this.ctx = ctx;
@@ -27,7 +27,7 @@ public class UserLogoutFetcher {
     /**
      * Get user.
      *
-     * @param user     user.
+     * @param user user.
      */
     public void logoutAndClearCache(User user) {
         try {

@@ -362,15 +362,15 @@ public class Datastore implements Comparable<Object>, Serializable {
         return this;
     }
 
-    /**
+    /*
      * ===============================================
      *  COMPARABLE INTERFACE IMPLEMENTATION TODO
      * ===============================================
      */
 
     /**
-     * @param types
-     * @return
+     * @param types List to compare
+     * @return TODO
      */
     public int compareTo(List<Type> types) {
         // TODO

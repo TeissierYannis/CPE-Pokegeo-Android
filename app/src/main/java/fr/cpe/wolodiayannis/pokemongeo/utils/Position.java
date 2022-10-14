@@ -6,8 +6,9 @@ public class Position {
 
     /**
      * Is position in range.
-     * @param point1 Point 1.
-     * @param point2 Point 2.
+     *
+     * @param point1       Point 1.
+     * @param point2       Point 2.
      * @param rangeInMeter Range in meter.
      * @return True if in range, false otherwise.
      */

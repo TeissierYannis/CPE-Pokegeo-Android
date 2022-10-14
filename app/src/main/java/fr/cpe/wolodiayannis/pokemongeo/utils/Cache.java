@@ -11,10 +11,11 @@ public class Cache {
 
     /**
      * Read cache.
+     *
      * @param ctx Context.
      * @param key Cache key.
      * @return Cache value.
-     * @throws CacheException
+     * @throws CacheException Cache exception.
      */
     public static Object readCache(Context ctx, String key) throws CacheException {
         try {
@@ -26,10 +27,11 @@ public class Cache {
 
     /**
      * Write cache.
-     * @param ctx Context.
-     * @param key Cache key.
+     *
+     * @param ctx   Context.
+     * @param key   Cache key.
      * @param value Cache value.
-     * @throws CacheException
+     * @throws CacheException Cache exception.
      */
     public static void writeCache(Context ctx, String key, Object value) throws CacheException {
         try {

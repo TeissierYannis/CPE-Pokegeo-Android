@@ -1,11 +1,8 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-
-import fr.cpe.wolodiayannis.pokemongeo.entity.Ability;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.AbilityList;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Ability API With Retrofit.
@@ -22,20 +19,14 @@ import retrofit2.http.Path;
  *  }
  *  The data is in the data field inside of an array.
  */
-public interface AbilityAPI extends  BaseAPI {
+public interface AbilityAPI extends BaseAPI {
 
     /**
      * Get all abilities.
+     *
      * @return List of abilities.
      */
     @GET("ability")
     Call<AbilityList> getAbilities();
-
-    /**
-     * Get one ability.
-     * @param id Ability id.
-     */
-    @GET("ability/{id}")
-    Call<Ability> getAbility(@Path("id") int id);
 }
 

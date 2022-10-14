@@ -16,10 +16,11 @@ public class ItemsFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx the context
      */
     public ItemsFetcher(Context ctx) {
@@ -29,6 +30,7 @@ public class ItemsFetcher {
 
     /**
      * Fetches the ball item list from the API.
+     *
      * @return the ball item list.
      */
     public List<ItemBall> fetchBall() {
@@ -49,6 +51,7 @@ public class ItemsFetcher {
 
     /**
      * Fetches the potion item list from the API.
+     *
      * @return the potion item list.
      */
     public List<ItemPotion> fetchPotion() {
@@ -69,6 +72,7 @@ public class ItemsFetcher {
 
     /**
      * Fetches the revive item list from the API.
+     *
      * @return the revive item list.
      */
     public List<ItemRevive> fetchRevive() {

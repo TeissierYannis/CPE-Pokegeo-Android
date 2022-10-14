@@ -1,13 +1,11 @@
 package fr.cpe.wolodiayannis.pokemongeo.api;
 
-import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonStatMappingList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonTypeList;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Pokemon API With Retrofit.
@@ -18,14 +16,6 @@ public interface PokemonAPI extends BaseAPI {
      */
     @GET("pokemon")
     Call<PokemonList> getPokemons();
-
-    /**
-     * Get one item.
-     *
-     * @param id Item id.
-     */
-    @GET("pokemon/{id}")
-    Call<Pokemon> getPokemon(@Path("id") int id);
 
     /**
      * Get pokemon abilities

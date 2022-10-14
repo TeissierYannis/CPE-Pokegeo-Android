@@ -13,10 +13,11 @@ public class AbilityList implements Serializable {
     /**
      * List of ability
      */
-    private List<Ability> abilityList;
+    private final List<Ability> abilityList;
 
     /**
      * Constructor.
+     *
      * @param abilityList List of ability.
      */
     public AbilityList(List<Ability> abilityList) {
@@ -25,6 +26,7 @@ public class AbilityList implements Serializable {
 
     /**
      * Get the ability list.
+     *
      * @return List of ability.
      */
     public List<Ability> getAbilityList() {

@@ -1,5 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class FightFragment extends Fragment {
     private Item lastItemToUse;
     private CaughtPokemon useItemOn;
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,9 +92,7 @@ public class FightFragment extends Fragment {
         }
 
         // Return to map fragment
-        this.binding.pokemonfightActionsBox.fightpopupButtonRun.setOnClickListener(v -> {
-            this.onEscape();
-        });
+        this.binding.pokemonfightActionsBox.fightpopupButtonRun.setOnClickListener(v -> this.onEscape());
 
         this.binding.pokemonfightActionsBox.fightpopupButtonFight.setOnClickListener(v -> {
             this.deactivateAllButtons();
@@ -155,9 +155,7 @@ public class FightFragment extends Fragment {
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
-        /**
-         * Update user pokemon life in the caught inventory
-         */
+        // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
         // navigation bar
@@ -183,22 +181,21 @@ public class FightFragment extends Fragment {
             userCaughtPokemon.setCurrentLifeState(0);
         }
 
-        new Thread(() -> {
-            (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(userCaughtPokemon);
-        }).start();
+        new Thread(() -> (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(userCaughtPokemon)).start();
     }
 
     /**
-     * On loose
+     * On loose :
+     * - remove pokemon from the map
+     * - update user pokemon life in the caught inventory
+     * - set the navigation bar visible
      */
     private void onLoose() {
         Toast.makeText(getContext(), "You loose !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
-        /**
-         * Update user pokemon life in the caught inventory
-         */
+        // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
         // navigation bar
@@ -207,16 +204,18 @@ public class FightFragment extends Fragment {
     }
 
     /**
-     * On capture
+     * On capture :
+     * - add pokemon to the caught inventory
+     * - remove pokemon from the map
+     * - update user pokemon life in the caught inventory
+     * - set the navigation bar visible
      */
     private void onCapture() {
         Toast.makeText(getContext(), "Pokemon captured !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
-        /**
-         * Update user pokemon life in the caught inventory
-         */
+        // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
         this.updateCaughtPokemon();
@@ -239,9 +238,7 @@ public class FightFragment extends Fragment {
         );
         Datastore.getInstance().getCaughtInventory().addPokemon(this.opponentPokemon, caughtPokemon);
 
-        new Thread(() -> {
-            (new CaughtInventoryFetcher(getContext())).addPokemonAndCache(caughtPokemon);
-        }).start();
+        new Thread(() -> (new CaughtInventoryFetcher(getContext())).addPokemonAndCache(caughtPokemon)).start();
     }
 
     /**
@@ -252,9 +249,7 @@ public class FightFragment extends Fragment {
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
-        /**
-         * Update user pokemon life in the caught inventory
-         */
+        // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
         // navigation bar
@@ -378,7 +373,7 @@ public class FightFragment extends Fragment {
     }
 
     /**
-     * Deactivate all buttons
+     * Deactivate all buttons of the fight except the escape button
      */
     private void deactivateAllButtons() {
         this.binding.pokemonfightActionsBox.fightpopupButtonFight.setEnabled(false);
@@ -387,7 +382,7 @@ public class FightFragment extends Fragment {
     }
 
     /**
-     * Activate all buttons
+     * Activate all buttons of the fight
      */
     private void activeAllButtons() {
         this.binding.pokemonfightActionsBox.fightpopupButtonFight.setEnabled(true);
@@ -533,13 +528,7 @@ public class FightFragment extends Fragment {
                     Toast.makeText(requireContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    int newLife;
-
-                    if (currentLife + ((ItemPotion) item).getBonus() > maxPokemonLife) {
-                        newLife = maxPokemonLife;
-                    } else {
-                        newLife = currentLife + ((ItemPotion) item).getBonus();
-                    }
+                    int newLife = Math.min(currentLife + ((ItemPotion) item).getBonus(), maxPokemonLife);
 
                     // if the pokemon is not dead and not at max life
                     Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
@@ -606,9 +595,7 @@ public class FightFragment extends Fragment {
 
         // remove 1 item from the inventory and update into the API
         Datastore.getInstance().getItemInventory().removeItem(item, 1);
-        new Thread(() -> {
-            (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
-        }).start();
+        new Thread(() -> (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory())).start();
 
         this.activeAllButtons();
         this.lastItemToUse = null;

@@ -17,11 +17,12 @@ public class CaughtInventoryFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
-     * @param ctx
+     *
+     * @param ctx Context.
      */
     public CaughtInventoryFetcher(Context ctx) {
         this.ctx = ctx;
@@ -29,6 +30,7 @@ public class CaughtInventoryFetcher {
 
     /**
      * Get caught inventory.
+     *
      * @param userID user id.
      * @return caught inventory.
      */
@@ -53,9 +55,9 @@ public class CaughtInventoryFetcher {
 
     /**
      * Cache the caught pokemon list/
+     *
      * @param inventory the caught pokemon list
-
-     * @throws CacheException
+     * @throws CacheException if the cache failed.
      */
     public void cacheInventory(CaughtInventory inventory) throws CacheException {
         if (inventory != null) {
@@ -65,6 +67,7 @@ public class CaughtInventoryFetcher {
 
     /**
      * Add a pokemon to the caught inventory and cache it.
+     *
      * @param caughtPokemon the caught pokemon.
      */
     public void addPokemonAndCache(CaughtPokemon caughtPokemon) {
@@ -79,6 +82,11 @@ public class CaughtInventoryFetcher {
         }
     }
 
+    /**
+     * Update a pokemon in the caught inventory and cache it.
+     *
+     * @param caughtPokemon the caught pokemon.
+     */
     public void updatePokemonAndCache(CaughtPokemon caughtPokemon) {
         try {
             if (caughtPokemon != null) {

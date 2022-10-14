@@ -36,8 +36,9 @@ public class CaughtFragment extends Fragment {
 
     /**
      * onCreateView.
-     * @param inflater inflater
-     * @param container container
+     *
+     * @param inflater           inflater
+     * @param container          container
      * @param savedInstanceState savedInstanceState
      * @return view
      */
@@ -69,6 +70,7 @@ public class CaughtFragment extends Fragment {
 
     /**
      * set listener
+     *
      * @param listener listener
      */
     public void setPokedexListenerInterface(PokedexListenerInterface listener) {
@@ -78,6 +80,7 @@ public class CaughtFragment extends Fragment {
 
     /**
      * set listener (switch pokemon in fight)
+     *
      * @param switchListener switchListener
      */
     public void setSwitchListener(PokemonSwitchInterface switchListener) {

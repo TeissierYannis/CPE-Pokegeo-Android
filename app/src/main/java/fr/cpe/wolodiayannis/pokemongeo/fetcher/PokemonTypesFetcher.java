@@ -13,10 +13,11 @@ public class PokemonTypesFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public PokemonTypesFetcher(Context ctx) {
@@ -25,6 +26,7 @@ public class PokemonTypesFetcher {
 
     /**
      * Get pokemon types.
+     *
      * @return pokemon types.
      */
     public HashMap<Integer, List<Integer>> fetchAndCache() {

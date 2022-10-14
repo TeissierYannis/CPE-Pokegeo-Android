@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;;import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
+import java.util.Objects;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.PokemonAbilityList;
 
 public class PokemonAbilityListAdapter extends TypeAdapter<PokemonAbilityList> {
     /**

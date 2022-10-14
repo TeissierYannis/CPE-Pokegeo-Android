@@ -158,6 +158,10 @@ public class MapFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * onResume.
+     * Called when the fragment is visible to the user and actively running.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -171,6 +175,10 @@ public class MapFragment extends Fragment {
         }
     }
 
+    /**
+     * onPause.
+     * Called when the Fragment is no longer resumed.
+     */
     @Override
     public void onPause() {
         super.onPause();

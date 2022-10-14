@@ -15,11 +15,12 @@ public class UserRegisterFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
-     * @param ctx
+     *
+     * @param ctx context.
      */
     public UserRegisterFetcher(Context ctx) {
         this.ctx = ctx;
@@ -27,7 +28,8 @@ public class UserRegisterFetcher {
 
     /**
      * Get user.
-     * @param user user.
+     *
+     * @param user     user.
      * @param password password.
      */
     public void fetchAndCache(User user, String password) {

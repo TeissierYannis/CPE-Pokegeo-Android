@@ -16,10 +16,11 @@ public class UserLoginFetcher {
     /**
      *
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public UserLoginFetcher(Context ctx) {
@@ -28,7 +29,8 @@ public class UserLoginFetcher {
 
     /**
      * Get user.
-     * @param pseudo pseudo.
+     *
+     * @param pseudo   pseudo.
      * @param password password.
      */
     public void fetchAndCache(String pseudo, String password) {

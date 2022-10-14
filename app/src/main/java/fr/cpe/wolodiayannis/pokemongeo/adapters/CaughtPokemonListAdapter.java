@@ -154,17 +154,18 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
      */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final PokemonItemBinding binding;
-        private final PokemonViewModel viewModel = new PokemonViewModel();
 
         ViewHolder(PokemonItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            PokemonViewModel viewModel = new PokemonViewModel();
             this.binding.setPokemonViewModel(viewModel);
         }
     }
 
     /**
      * Filter the caught inventory to return only alive pokemon.
+     *
      * @param caughtInventory List of all caught Pokemon.
      * @return a caught inventory with only alive pokemon.
      */
@@ -183,6 +184,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
 
     /**
      * Filter the caught inventory to return only dead pokemon.
+     *
      * @param caughtInventory List of all caught Pokemon.
      * @return a caught inventory with only dead pokemon.
      */

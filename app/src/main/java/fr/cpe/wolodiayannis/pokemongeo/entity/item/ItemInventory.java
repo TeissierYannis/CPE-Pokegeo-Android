@@ -133,7 +133,7 @@ public class ItemInventory implements Serializable {
         ItemInventory itemInventoryPossedItem = new ItemInventory();
         // add only item with quantity > 0
         for (Item item : Datastore.getInstance().getItemInventory().getItemIventoryList().keySet()) {
-            int quantity = Datastore.getInstance().getItemInventory().getItemIventoryList().get(item);
+            int quantity = Objects.requireNonNull(Datastore.getInstance().getItemInventory().getItemIventoryList().get(item));
             if (quantity > 0) {
                 itemInventoryPossedItem.addItem(
                         item,

@@ -19,6 +19,7 @@ public class ItemInventoryDto implements Serializable {
 
     /**
      * Constructor.
+     *
      * @param itemInventory item inventory
      */
     public ItemInventoryDto(ItemInventory itemInventory) {

@@ -105,6 +105,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Pokemon constructor.
+     *
      * @param id               Pokemon ID.
      * @param name             Pokemon name.
      * @param height           Pokemon height.
@@ -148,6 +149,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon ID.
+     *
      * @return int Pokemon ID.
      */
     public int getId() {
@@ -156,6 +158,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon name.
+     *
      * @return String Pokemon name.
      */
     public String getName() {
@@ -164,6 +167,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon height.
+     *
      * @return int Pokemon height.
      */
     public int getHeight() {
@@ -172,6 +176,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon weight.
+     *
      * @return int Pokemon weight.
      */
     public int getWeight() {
@@ -180,6 +185,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon description.
+     *
      * @return String Pokemon description.
      */
     public String getDescription() {
@@ -188,6 +194,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon generation ID.
+     *
      * @return int Pokemon generation ID.
      */
     public int getGenerationId() {
@@ -196,6 +203,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon evolution chain ID.
+     *
      * @return int Pokemon evolution chain ID.
      */
     public int getEvolutionChainId() {
@@ -204,6 +212,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get Pokemon background color.
+     *
      * @return int Pokemon background color.
      */
     public int getBackgroundColor() {
@@ -231,6 +240,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get abilities.
+     *
      * @return abilities
      */
     public List<Integer> getAbilities() {
@@ -239,6 +249,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get types list.
+     *
      * @return types list
      */
     public List<Integer> getTypes() {
@@ -247,6 +258,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get stats list.
+     *
      * @return stats list
      */
     public List<PokemonStat> getStats() {
@@ -255,6 +267,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get abilities list.
+     *
      * @return abilities list
      */
     public List<Integer> getAbility() {
@@ -263,6 +276,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Set abilities list.
+     *
      * @param abilityList abilities list
      */
     public void setAbilities(List<Integer> abilityList) {
@@ -271,6 +285,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Set types list
+     *
      * @param typeList types list
      */
     public void setTypes(List<Integer> typeList) {
@@ -279,6 +294,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Set stats list
+     *
      * @param statList stats list
      */
     public void setStats(List<PokemonStat> statList) {
@@ -287,6 +303,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get image id.
+     *
      * @return int image ID.
      */
     public int getImageID() {
@@ -295,6 +312,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Set image ID.
+     *
      * @param drawable image ID.
      */
     public void setImageID(int drawable) {
@@ -352,6 +370,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Set pokemon's list of type drawable.
+     *
      * @param drawable drawable list.
      */
     public void setImageTypeID(List<Integer> drawable) {
@@ -360,6 +379,7 @@ public class Pokemon implements Serializable, Comparable<Pokemon> {
 
     /**
      * Get pokemon's list of type drawable.
+     *
      * @return drawable list.
      */
     public List<Integer> getImageTypeID() {

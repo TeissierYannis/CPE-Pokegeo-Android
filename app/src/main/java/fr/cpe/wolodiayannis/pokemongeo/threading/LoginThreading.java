@@ -9,15 +9,16 @@ public class LoginThreading extends Threading {
     /**
      * The pseudo of the user;
      */
-    private String pseudo;
+    private final String pseudo;
     /**
      * The password of the user.
      */
-    private String password;
+    private final String password;
 
     /**
      * Constructor.
-     * @param pseudo The pseudo of the user.
+     *
+     * @param pseudo   The pseudo of the user.
      * @param password The password of the user.
      */
     public LoginThreading(String pseudo, String password) {
@@ -25,6 +26,10 @@ public class LoginThreading extends Threading {
         this.password = password;
     }
 
+    /**
+     * Run the threading.
+     * @param context The context.
+     */
     @Override
     public Threading setupTasks(Context context) {
         tasks.add(() -> {

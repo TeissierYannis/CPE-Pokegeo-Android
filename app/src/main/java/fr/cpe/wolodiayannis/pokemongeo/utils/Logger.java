@@ -19,7 +19,12 @@ public class Logger {
         });
     }
 
-    // log in main thread
+
+    /**
+     * Log error in main thread.
+     * @param message The error message.
+     * @param args The error arguments.
+     */
     public static void logOnUiThread(final String message, final Object... args) {
         new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -29,7 +34,10 @@ public class Logger {
         });
     }
 
-    // log in main thread error
+    /**
+     * Log error in main thread.
+     * @param message error message.
+     */
     public static void logOnUiThreadError(final String message) {
         new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -39,7 +47,11 @@ public class Logger {
         });
     }
 
-    // log in main thread error
+    /**
+     * Log error in main thread.
+     * @param message error message.
+     * @param args error message arguments.
+     */
     public static void logOnUiThreadError(final String message, final Object... args) {
         new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
             @Override

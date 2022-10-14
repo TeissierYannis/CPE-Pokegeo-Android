@@ -2,7 +2,6 @@ package fr.cpe.wolodiayannis.pokemongeo.viewmodel;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.BaseObservable;

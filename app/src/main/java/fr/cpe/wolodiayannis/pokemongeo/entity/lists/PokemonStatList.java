@@ -11,13 +11,14 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 
 @JsonAdapter(PokemonStatMappingListAdapter.class)
 public class PokemonStatList implements Serializable {
-/**
+    /**
      * List of stat
      */
-    private HashMap<Integer, List<PokemonStat>> stats;
+    private final HashMap<Integer, List<PokemonStat>> stats;
 
     /**
      * Constructor.
+     *
      * @param statList List of stat.
      */
     public PokemonStatList(HashMap<Integer, List<PokemonStat>> statList) {
@@ -26,6 +27,7 @@ public class PokemonStatList implements Serializable {
 
     /**
      * Get the stat list.
+     *
      * @return List of stat.
      */
     public HashMap<Integer, List<PokemonStat>> getStatList() {
@@ -34,6 +36,7 @@ public class PokemonStatList implements Serializable {
 
     /**
      * Get the stat list for a pokemon.
+     *
      * @param id Pokemon id.
      * @return List of stat.
      */

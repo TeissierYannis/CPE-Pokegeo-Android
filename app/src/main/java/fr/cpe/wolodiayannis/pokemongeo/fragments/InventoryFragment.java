@@ -160,13 +160,7 @@ public class InventoryFragment extends Fragment {
                     Toast.makeText(requireContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    int newLife;
-
-                    if (currentLife + ((ItemPotion) itemToUse).getBonus() > maxPokemonLife) {
-                        newLife = maxPokemonLife;
-                    } else {
-                        newLife = currentLife + ((ItemPotion) itemToUse).getBonus();
-                    }
+                    int newLife = Math.min(currentLife + ((ItemPotion) itemToUse).getBonus(), maxPokemonLife);
 
                     // if the pokemon is not dead and not at max life
                     Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(caughtPokemon.getCorrespondingPokemon()))
@@ -184,33 +178,11 @@ public class InventoryFragment extends Fragment {
         }
 
         // go back to this fragment and re-update bar
-        requireActivity().
-
-                getSupportFragmentManager().
-
-                popBackStack();
-        Datastore.getInstance().
-
-                getItemInventory().
-
-                removeItem(itemToUse, 1);
-        new
-
-                Thread(() ->
-
-        {
-            (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
-        }).
-
-                start();
-        new
-
-                Thread(() ->
-
-        {
-            (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(caughtPokemon);
-        }).
-
-                start();
+        requireActivity().getSupportFragmentManager().popBackStack();
+        Datastore.getInstance().getItemInventory().removeItem(itemToUse, 1);
+        new Thread(() ->
+                (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory())).start();
+        new Thread(() ->
+                (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(caughtPokemon)).start();
     }
 }

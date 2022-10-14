@@ -35,39 +35,39 @@ public class FetchThreading extends Threading {
     /**
      * Pokemon list.
      */
-    private AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
+    private final AtomicReference<List<Pokemon>> pokemonList = new AtomicReference<>(new ArrayList<>());
     /**
      * Pokemon abilities.
      */
-    private AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
+    private final AtomicReference<HashMap<Integer, List<Integer>>> pokemonAbilities = new AtomicReference<>(new HashMap<>());
     /**
      * Pokemon types.
      */
-    private AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
+    private final AtomicReference<HashMap<Integer, List<Integer>>> pokemonTypes = new AtomicReference<>(new HashMap<>());
     /**
      * Pokemon stats.
      */
-    private AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
+    private final AtomicReference<HashMap<Integer, List<PokemonStat>>> pokemonStats = new AtomicReference<>(new HashMap<>());
     /**
      * Caught inventory.
      */
-    private AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
+    private final AtomicReference<CaughtInventory> caughtInventory = new AtomicReference<>(new CaughtInventory());
     /**
      * stats list.
      */
-    private List<Stat> statsList = new ArrayList<>();
+    private final List<Stat> statsList = new ArrayList<>();
     /**
      * types list.
      */
-    private List<Type> typesList = new ArrayList<>();
+    private final List<Type> typesList = new ArrayList<>();
     /**
      * abilities list.
      */
-    private List<Ability> abilitiesList = new ArrayList<>();
+    private final List<Ability> abilitiesList = new ArrayList<>();
     /**
      * items list.
      */
-    private ItemList itemsList = new ItemList();
+    private final ItemList itemsList = new ItemList();
     /**
      * item ball list.
      */
@@ -88,10 +88,12 @@ public class FetchThreading extends Threading {
     /**
      * Constructor.
      */
-    public FetchThreading() {}
+    public FetchThreading() {
+    }
 
     /**
      * Setup tasks.
+     *
      * @param context The context to use.
      * @return The tasks.
      */
@@ -199,6 +201,7 @@ public class FetchThreading extends Threading {
 
     /**
      * On end task.
+     *
      * @param i task id.
      */
     private void onEnd(int i) {
@@ -207,6 +210,7 @@ public class FetchThreading extends Threading {
 
     /**
      * Change laoding text.
+     *
      * @param s text.
      */
     private void changeLoadingText(String s) {
@@ -220,42 +224,93 @@ public class FetchThreading extends Threading {
         executorListener.onTaskendSetProgress();
     }
 
+    /**
+     * Get pokemon list.
+     *
+     * @return pokemon list.
+     */
     public AtomicReference<List<Pokemon>> getPokemonList() {
         return pokemonList;
     }
 
+    /**
+     * Get pokemon abilities.
+     *
+     * @return pokemon abilities.
+     */
     public AtomicReference<HashMap<Integer, List<Integer>>> getPokemonAbilities() {
         return pokemonAbilities;
     }
 
+    /**
+     * Get pokemon types.
+     *
+     * @return pokemon types.
+     */
     public AtomicReference<HashMap<Integer, List<Integer>>> getPokemonTypes() {
         return pokemonTypes;
     }
 
+    /**
+     * Get pokemon stats.
+     *
+     * @return pokemon stats.
+     */
     public AtomicReference<HashMap<Integer, List<PokemonStat>>> getPokemonStats() {
         return pokemonStats;
     }
 
+    /**
+     * Get caught inventory.
+     *
+     * @return caught inventory.
+     */
     public AtomicReference<CaughtInventory> getCaughtInventory() {
         return caughtInventory;
     }
 
+    /**
+     * Get stats list.
+     *
+     * @return stats list.
+     */
     public List<Stat> getStatsList() {
         return statsList;
     }
 
+
+    /**
+     * Get types list.
+     *
+     * @return types list.
+     */
     public List<Type> getTypesList() {
         return typesList;
     }
 
+    /**
+     * Get items list.
+     *
+     * @return items list.
+     */
     public ItemList getItemsList() {
         return itemsList;
     }
 
+    /**
+     * Get abilities list.
+     *
+     * @return abilities list.
+     */
     public List<Ability> getAbilitiesList() {
         return abilitiesList;
     }
 
+    /**
+     * Get item inventory.
+     *
+     * @return item inventory.
+     */
     public ItemInventory getItemInventory() {
         return itemInventory;
     }

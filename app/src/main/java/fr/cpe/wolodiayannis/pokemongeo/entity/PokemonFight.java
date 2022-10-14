@@ -1,7 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.entity;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
-import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemPotion;
 
 public class PokemonFight {
 
@@ -24,14 +23,27 @@ public class PokemonFight {
      */
     private int opponentLifePoints;
 
+    /**
+     * Constructor.
+     *
+     * @param playerPokemon   The pokemon that is fighting (player)
+     * @param opponentPokemon The pokemon that is fighting (opponent)
+     */
     public PokemonFight(Pokemon playerPokemon, Pokemon opponentPokemon) {
         this.playerPokemon = playerPokemon;
         this.opponentPokemon = opponentPokemon;
-
         this.playerLifePoints = playerPokemon.getHp();
         this.opponentLifePoints = opponentPokemon.getHp();
     }
 
+    /**
+     * Constructor.
+     *
+     * @param playerPokemon      The pokemon that is fighting (player)
+     * @param opponentPokemon    The pokemon that is fighting (opponent)
+     * @param playerLifePoints   Attacker life points
+     * @param opponentLifePoints Defender life points
+     */
     public PokemonFight(Pokemon playerPokemon, Pokemon opponentPokemon, int playerLifePoints, int opponentLifePoints) {
         this.playerPokemon = playerPokemon;
         this.opponentPokemon = opponentPokemon;
@@ -41,6 +53,7 @@ public class PokemonFight {
 
     /**
      * Attack the opponent.
+     *
      * @param attacker The attacker.
      * @param defender The defender.
      */
@@ -64,6 +77,7 @@ public class PokemonFight {
 
     /**
      * Get damage multiplier in fact of the type of the pokemon.
+     *
      * @return The damage multiplier.
      */
     public double getDamageMultiplier(Pokemon attacker, Pokemon defender) {
@@ -72,6 +86,7 @@ public class PokemonFight {
 
     /**
      * Is player pokemon dead ?
+     *
      * @return True if dead, false otherwise.
      */
     public boolean isPlayerPokemonDead() {
@@ -80,6 +95,7 @@ public class PokemonFight {
 
     /**
      * Is opponent pokemon dead ?
+     *
      * @return True if dead, false otherwise.
      */
     public boolean isOpponentPokemonDead() {
@@ -88,6 +104,7 @@ public class PokemonFight {
 
     /**
      * Get life bar color.
+     *
      * @return The color.
      */
     public int getEnemyProgressBarColor() {
@@ -102,6 +119,7 @@ public class PokemonFight {
 
     /**
      * Get life bar color.
+     *
      * @return The color.
      */
     public int getPlayerProgressBarColor() {
@@ -116,7 +134,8 @@ public class PokemonFight {
 
     /**
      * Change pokemon.
-     * @param pokemon The new pokemon.
+     *
+     * @param pokemon          The new pokemon.
      * @param currentLifeState The current life state of the pokemon.
      */
     public void switchPlayerPokemon(Pokemon pokemon, int currentLifeState) {
@@ -144,6 +163,7 @@ public class PokemonFight {
 
     /**
      * Set the player pokemon.
+     *
      * @param playerPokemon the playerPokemon to set
      */
     public void setPlayerPokemon(Pokemon playerPokemon) {
@@ -152,6 +172,7 @@ public class PokemonFight {
 
     /**
      * Get the player life points.
+     *
      * @return the playerLifePoints
      */
     public int getPlayerLifePoints() {
@@ -160,7 +181,8 @@ public class PokemonFight {
 
     /**
      * Heal the player pokemon.
-     * @param potion the potion to use
+     *
+     * @param newLifePoints The new life points.
      */
     public void healPlayerPokemon(int newLifePoints) {
         this.playerLifePoints = newLifePoints;
@@ -168,6 +190,7 @@ public class PokemonFight {
 
     /**
      * Get the opponent life points.
+     *
      * @return the opponentLifePoints
      */
     public int getOpponentLifePoints() {

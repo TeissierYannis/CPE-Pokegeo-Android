@@ -12,6 +12,7 @@ public class ItemInventoryRequest extends BaseRequest {
 
     /**
      * Get ItemInventoryAPI.
+     *
      * @return ItemInventoryAPI.
      */
     protected static ItemInventoryAPI getAPI() {
@@ -20,6 +21,7 @@ public class ItemInventoryRequest extends BaseRequest {
 
     /**
      * Get all all item in inventory.
+     *
      * @return List of items in inventory.
      */
     public static ItemInventory getItemInventory(int userID) {
@@ -38,6 +40,7 @@ public class ItemInventoryRequest extends BaseRequest {
 
     /**
      * Init post of the user item inventory on the API.
+     *
      * @param itemInventory the user item inventory
      */
     public static void postItemInventory(ItemInventory itemInventory) {
@@ -52,6 +55,7 @@ public class ItemInventoryRequest extends BaseRequest {
 
     /**
      * update the user item inventory on the API.
+     *
      * @param itemInventory the user item inventory.
      */
     public static void updateItemInventory(ItemInventory itemInventory) {

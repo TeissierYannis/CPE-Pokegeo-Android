@@ -1,8 +1,5 @@
 package fr.cpe.wolodiayannis.pokemongeo.utils;
 
-import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
-
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.util.BoundingBox;
@@ -32,7 +29,8 @@ public class Spawn {
 
     /**
      * Constructor.
-     * @param shopsObserver Shops observer.
+     *
+     * @param shopsObserver      Shops observer.
      * @param pharmaciesObserver Pharmacies observer.
      */
     public Spawn(ShopsObserver shopsObserver, PharmaciesObserver pharmaciesObserver) {
@@ -42,6 +40,7 @@ public class Spawn {
 
     /**
      * Is pokemon in spawned.
+     *
      * @return True if spawned, false otherwise.
      */
     public boolean isSpawned() {
@@ -50,6 +49,7 @@ public class Spawn {
 
     /**
      * Is spawned expired.
+     *
      * @return True if expired, false otherwise.
      */
     public boolean isSpawnedExpired() {
@@ -60,6 +60,7 @@ public class Spawn {
 
     /**
      * Spawn pokemon.
+     *
      * @param location Location.
      */
     private void spawnPokemons(GeoPoint location) {
@@ -98,6 +99,7 @@ public class Spawn {
 
     /**
      * get random pokemon.
+     *
      * @return Pokemon.
      */
     private Pokemon getRandomPokemon() {
@@ -132,6 +134,7 @@ public class Spawn {
 
     /**
      * Spawn pharmacies.
+     *
      * @param loc Location.
      */
     public void spawnPharmacies(GeoPoint loc) {
@@ -163,6 +166,7 @@ public class Spawn {
 
     /**
      * Spawn shops.
+     *
      * @param loc Location.
      */
     public void spawnShops(GeoPoint loc) {
@@ -191,6 +195,7 @@ public class Spawn {
 
     /**
      * Is pokemon near.
+     *
      * @return True if near, false otherwise.
      */
     public boolean isPokemonNearby() {
@@ -228,6 +233,7 @@ public class Spawn {
 
     /**
      * is shop near.
+     *
      * @return True if near, false otherwise.
      */
     public boolean isShopNearby() {
@@ -264,6 +270,7 @@ public class Spawn {
 
     /**
      * is pharmacy near.
+     *
      * @return True if near, false otherwise.
      */
     public boolean isPharmacyNearby() {
@@ -300,6 +307,7 @@ public class Spawn {
 
     /**
      * Is pokemon spawn needed ?
+     *
      * @param loc Location.
      * @return True if needed, false otherwise.
      */
@@ -319,6 +327,7 @@ public class Spawn {
 
     /**
      * is shop spawned?
+     *
      * @return True if spawned, false otherwise.
      */
     public boolean isShopSpawned() {
@@ -327,6 +336,7 @@ public class Spawn {
 
     /**
      * is pharmacy spawned?
+     *
      * @return True if spawned, false otherwise.
      */
     public boolean isPharmacySpawned() {
@@ -335,6 +345,7 @@ public class Spawn {
 
     /**
      * Is shop spawn needed ?
+     *
      * @param loc Location.
      */
     public void isShopSpawnNeeded(GeoPoint loc) {
@@ -345,6 +356,7 @@ public class Spawn {
 
     /**
      * Is pharmacy spawn needed ?
+     *
      * @param loc Location.
      */
     public void isPharmacySpawnNeeded(GeoPoint loc) {

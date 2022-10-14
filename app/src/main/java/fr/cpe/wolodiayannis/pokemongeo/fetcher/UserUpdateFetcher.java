@@ -14,10 +14,11 @@ public class UserUpdateFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public UserUpdateFetcher(Context ctx) {
@@ -26,7 +27,8 @@ public class UserUpdateFetcher {
 
     /**
      * Get user.
-     * @param user user.
+     *
+     * @param user   user.
      * @param isInit is init.
      */
     public void updateAndCacheInit(User user, boolean isInit) {
@@ -41,6 +43,13 @@ public class UserUpdateFetcher {
         }
     }
 
+    /**
+     * Update and cache user money and experience.
+     *
+     * @param user  user.
+     * @param money user's amount of money.
+     * @param exp   user's amount of experience.
+     */
     public void updateAndCacheMoneyAndExp(User user, int money, int exp) {
         Datastore datastore = Datastore.getInstance();
         try {

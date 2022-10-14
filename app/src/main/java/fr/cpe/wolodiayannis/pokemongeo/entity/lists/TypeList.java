@@ -13,10 +13,11 @@ public class TypeList implements Serializable {
     /**
      * List of type
      */
-    private List<Type> typeList;
+    private final List<Type> typeList;
 
     /**
      * Constructor.
+     *
      * @param typeList List of type.
      */
     public TypeList(List<Type> typeList) {
@@ -25,6 +26,7 @@ public class TypeList implements Serializable {
 
     /**
      * Get the type list.
+     *
      * @return List of type.
      */
     public List<Type> getTypeList() {

@@ -59,9 +59,10 @@ public class PharmaciesObserver implements ObserverInterface<ArrayList<POI>, OnP
 
     /**
      * On need update.
+     *
      * @param position position
      */
-    public void  needUpdate(GeoPoint position) {
+    public void needUpdate(GeoPoint position) {
         if (listener != null) {
             listener.onPharmaciesNeedUpdate(position);
         }

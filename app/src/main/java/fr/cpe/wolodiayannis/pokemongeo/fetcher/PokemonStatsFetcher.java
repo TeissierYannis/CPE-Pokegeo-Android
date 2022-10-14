@@ -14,10 +14,11 @@ public class PokemonStatsFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public PokemonStatsFetcher(Context ctx) {
@@ -26,6 +27,7 @@ public class PokemonStatsFetcher {
 
     /**
      * Get pokemon stats.
+     *
      * @return pokemon stats.
      */
     public HashMap<Integer, List<PokemonStat>> fetchAndCache() {

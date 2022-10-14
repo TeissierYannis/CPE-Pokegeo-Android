@@ -29,6 +29,7 @@ public abstract class Threading {
 
     /**
      * Setup all the tasks.
+     *
      * @param context The context to use.
      * @return The current instance.
      */
@@ -36,6 +37,7 @@ public abstract class Threading {
 
     /**
      * Setup the listener.
+     *
      * @param threadCount The number of threads to use.
      * @return The current instance.
      */
@@ -58,6 +60,7 @@ public abstract class Threading {
 
     /**
      * Shutdown the executor.
+     *
      * @return The current instance.
      */
     public Threading shutdown() {
@@ -65,6 +68,12 @@ public abstract class Threading {
         return this;
     }
 
+    /**
+     * Set the listener.
+     *
+     * @param executorListener The listener.
+     * @return The current instance.
+     */
     public Threading setExecutorListener(ExecutorListener executorListener) {
         this.executorListener = executorListener;
         return this;

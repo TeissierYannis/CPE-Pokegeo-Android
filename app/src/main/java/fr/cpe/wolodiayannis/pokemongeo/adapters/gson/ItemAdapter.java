@@ -13,7 +13,7 @@ public class ItemAdapter extends TypeAdapter<Item> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out  the stream to write to
+     * @param out   the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override

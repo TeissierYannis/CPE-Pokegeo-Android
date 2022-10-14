@@ -34,7 +34,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     /**
      * List of item inventory.
      */
-    private ItemInventory itemInventory;
+    private final ItemInventory itemInventory;
 
     /**
      * Constructor.
@@ -92,14 +92,10 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
 
         if (useItemListener != null) {
             // set the listener for the click on the item
-            holder.binding.getRoot().setOnClickListener(v -> {
-                useItemListener.onItemSelectedFight(item);
-            });
+            holder.binding.getRoot().setOnClickListener(v -> useItemListener.onItemSelectedFight(item));
         } else if (useItemListenerInventory != null) {
             // set the listener for the click on the item
-            holder.binding.getRoot().setOnClickListener(v -> {
-                useItemListenerInventory.onItemSelectedInv(item);
-            });
+            holder.binding.getRoot().setOnClickListener(v -> useItemListenerInventory.onItemSelectedInv(item));
         }
 
         // Set the color of the item bg.

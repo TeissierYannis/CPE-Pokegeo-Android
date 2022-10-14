@@ -14,10 +14,11 @@ public class TypesFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public TypesFetcher(Context ctx) {
@@ -26,6 +27,7 @@ public class TypesFetcher {
 
     /**
      * Get types.
+     *
      * @return types.
      */
     public List<Type> fetchAndCache() {

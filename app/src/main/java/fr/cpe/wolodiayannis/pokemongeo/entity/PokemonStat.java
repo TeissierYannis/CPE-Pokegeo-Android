@@ -7,16 +7,17 @@ public class PokemonStat implements Serializable {
     /**
      * Stat of the pokemon.
      */
-    private Stat stat;
+    private final Stat stat;
 
     /**
      * Base value of the stat.
      */
-    private int baseStat;
+    private final int baseStat;
 
     /**
      * constructor.
-     * @param stat stat.
+     *
+     * @param stat     stat.
      * @param baseStat baseStat.
      */
     public PokemonStat(Stat stat, int baseStat) {
@@ -26,6 +27,7 @@ public class PokemonStat implements Serializable {
 
     /**
      * Get stat.
+     *
      * @return stat
      */
     public Stat getStat() {
@@ -34,6 +36,7 @@ public class PokemonStat implements Serializable {
 
     /**
      * Get base stat.
+     *
      * @return base stat.
      */
     public int getBaseStat() {

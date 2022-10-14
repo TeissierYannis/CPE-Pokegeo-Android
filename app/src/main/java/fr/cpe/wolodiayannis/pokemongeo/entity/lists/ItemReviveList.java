@@ -13,10 +13,11 @@ public class ItemReviveList {
     /**
      * List of item revive.
      */
-    private List<ItemRevive> itemReviveList;
+    private final List<ItemRevive> itemReviveList;
 
     /**
      * Constructor.
+     *
      * @param itemReviveList List of item revive.
      */
     public ItemReviveList(List<ItemRevive> itemReviveList) {
@@ -25,6 +26,7 @@ public class ItemReviveList {
 
     /**
      * Get the item revive list.
+     *
      * @return List of item revive.
      */
     public List<ItemRevive> getItemReviveList() {

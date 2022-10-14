@@ -37,7 +37,7 @@ public class Map {
     /**
      * Map view.
      */
-    private MapView map;
+    private final MapView map;
     /**
      * Map controller.
      */
@@ -45,7 +45,7 @@ public class Map {
     /**
      * Context
      */
-    private Context context;
+    private final Context context;
 
     /**
      * Constructor.
@@ -60,6 +60,7 @@ public class Map {
 
     /**
      * Init map.
+     *
      * @return Map.
      */
     public Map initializeMap() {
@@ -85,6 +86,7 @@ public class Map {
 
     /**
      * Add location overlay.
+     *
      * @return Map.
      */
     public Map addMyLocationOverlay() {
@@ -103,6 +105,7 @@ public class Map {
 
     /**
      * Add custom player.
+     *
      * @return Map.
      */
     public Map addPlayer() {
@@ -115,6 +118,7 @@ public class Map {
 
     /**
      * Set map center.
+     *
      * @param position Position.
      * @return Map.
      */
@@ -126,6 +130,7 @@ public class Map {
 
     /**
      * Animate to center.
+     *
      * @param position Position.
      * @return Map.
      */
@@ -137,6 +142,7 @@ public class Map {
 
     /**
      * get map center.
+     *
      * @return GeoPoint.
      */
     public IGeoPoint getMapCenter() {
@@ -163,6 +169,7 @@ public class Map {
 
     /**
      * Display pokemons marker
+     *
      * @param spawned Pokemons.
      */
     public void displayPokemons(HashMap<Pokemon, GeoPoint> spawned) {
@@ -225,6 +232,7 @@ public class Map {
 
     /**
      * Display pharmacy marker
+     *
      * @param pharmacies Pharmacies.
      */
     public void displayPharmacies(ArrayList<POI> pharmacies) {
@@ -272,6 +280,7 @@ public class Map {
 
     /**
      * display shops marker
+     *
      * @param shops Shops.
      */
     public void displayShops(ArrayList<POI> shops) {

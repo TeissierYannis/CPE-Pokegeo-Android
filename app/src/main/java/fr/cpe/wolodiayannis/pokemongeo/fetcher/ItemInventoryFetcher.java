@@ -13,7 +13,7 @@ public class ItemInventoryFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.

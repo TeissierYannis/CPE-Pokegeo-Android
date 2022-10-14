@@ -116,13 +116,7 @@ public class ItemPotionListAdapter extends TypeAdapter<ItemPotionList> {
                 int bonus = in.nextInt();
                 in.endObject();
 
-                itemPotionList.add(new ItemPotion(
-                        id,
-                        name,
-                        price,
-                        stat_id,
-                        bonus
-                ));
+                itemPotionList.add(new ItemPotion(id, name, price, bonus));
             }
             in.endArray();
             in.endObject();

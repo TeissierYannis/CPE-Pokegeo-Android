@@ -13,7 +13,7 @@ public class TypeAdapter extends com.google.gson.TypeAdapter<Type> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out  the stream to write to
+     * @param out   the stream to write to
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -34,6 +34,7 @@ public class TypeAdapter extends com.google.gson.TypeAdapter<Type> {
     /**
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
+     *
      * @param in the stream to read from.
      * @return the converted Java object. May be null.
      */

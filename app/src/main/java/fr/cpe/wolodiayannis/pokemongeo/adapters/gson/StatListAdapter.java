@@ -17,7 +17,7 @@ public class StatListAdapter extends TypeAdapter<StatList> {
      * Writes one JSON value (an array, object, string, number, boolean or null)
      * for {@code value}.
      *
-     * @param out the stream to write to.
+     * @param out   the stream to write to.
      * @param value the Java object to write. May be null.
      */
     @Override
@@ -52,7 +52,7 @@ public class StatListAdapter extends TypeAdapter<StatList> {
         out.endObject();
     }
 
-/**
+    /**
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
      *
@@ -83,22 +83,22 @@ public class StatListAdapter extends TypeAdapter<StatList> {
         String message = in.nextString();
         if (message.equals("success")) {
 
-        in.nextName();
-        in.beginArray();
-        while (in.hasNext()) {
-            in.beginObject();
             in.nextName();
-            int id = in.nextInt();
-            in.nextName();
-            String name = in.nextString();
+            in.beginArray();
+            while (in.hasNext()) {
+                in.beginObject();
+                in.nextName();
+                int id = in.nextInt();
+                in.nextName();
+                String name = in.nextString();
+                in.endObject();
+                statList.add(new Stat(id, name));
+            }
+            in.endArray();
             in.endObject();
-            statList.add(new Stat(id, name));
-        }
-        in.endArray();
-        in.endObject();
-        return new StatList(statList);
+            return new StatList(statList);
         } else {
-           throw new IOException("Error while reading StatList");
+            throw new IOException("Error while reading StatList");
         }
     }
 }

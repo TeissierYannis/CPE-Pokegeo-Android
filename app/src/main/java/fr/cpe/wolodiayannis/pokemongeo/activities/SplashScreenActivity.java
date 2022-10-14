@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.BuildConfig;
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -163,6 +164,12 @@ public class SplashScreenActivity extends AppCompatActivity {
     private final List<Integer> tasksDone = new ArrayList<>();
     private View loader;
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized
+     *                           after previously being shut down then this Bundle contains the data it most recently supplied in
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -549,6 +556,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     /**
      * Update pokemon and go to main activity.
      */
+    @SuppressLint({"DiscouragedApi", "DefaultLocale"})
     private void updatePokemonAndSwitchActivity() {
         List<Pokemon> pokemonList = this.fetchThreading.getPokemonList().get();
         HashMap<Integer, List<Integer>> pokemonTypes = this.fetchThreading.getPokemonTypes().get();
@@ -638,7 +646,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         for (Item item : Datastore.getInstance().getItemInventory().getItemIventoryList().keySet()) {
             itemInventoryADD.addItem(
                     Datastore.getInstance().getItemList().getItemById(item.getId()),
-                    Datastore.getInstance().getItemInventory().getItemIventoryList().get(item));
+                    Objects.requireNonNull(Datastore.getInstance().getItemInventory().getItemIventoryList().get(item)));
         }
         Datastore.getInstance().setItemInventory(itemInventoryADD);
 

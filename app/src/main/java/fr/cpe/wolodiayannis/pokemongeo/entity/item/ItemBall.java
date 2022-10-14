@@ -10,9 +10,9 @@ public class ItemBall extends Item {
     /**
      * Item constructor.
      *
-     * @param id    Item id.
-     * @param name  Item name.
-     * @param price Item price.
+     * @param id        Item id.
+     * @param name      Item name.
+     * @param price     Item price.
      * @param precision Pokeball precision.
      */
     public ItemBall(int id, String name, int price, int precision) {
@@ -22,6 +22,7 @@ public class ItemBall extends Item {
 
     /**
      * Get pokeball precision.
+     *
      * @return Pokeball precision.
      */
     public double getAccuracy() {

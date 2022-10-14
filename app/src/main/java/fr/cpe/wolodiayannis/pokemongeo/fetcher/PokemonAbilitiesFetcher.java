@@ -13,10 +13,11 @@ public class PokemonAbilitiesFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public PokemonAbilitiesFetcher(Context ctx) {
@@ -25,6 +26,7 @@ public class PokemonAbilitiesFetcher {
 
     /**
      * Get pokemon abilities.
+     *
      * @return pokemon abilities.
      */
     public HashMap<Integer, List<Integer>> fetchAndCache() {

@@ -12,9 +12,9 @@ public class ItemRevive extends Item {
     /**
      * Revive constructor.
      *
-     * @param id    Item id.
-     * @param name  Item name.
-     * @param price Item price.
+     * @param id        Item id.
+     * @param name      Item name.
+     * @param price     Item price.
      * @param hp_amount Revive hp amount giving.
      */
     public ItemRevive(int id, String name, int price, int hp_amount) {
@@ -24,6 +24,7 @@ public class ItemRevive extends Item {
 
     /**
      * Get revive hp amount giving.
+     *
      * @return Revive hp amount giving.
      */
     public int getHpAmount() {
@@ -32,6 +33,7 @@ public class ItemRevive extends Item {
 
     /**
      * Get the exact amount of hp given by the revive for the pokemon.
+     *
      * @param pokemon Pokemon to revive.
      * @return int Exact amount of hp given by the revive for the pokemon.
      */

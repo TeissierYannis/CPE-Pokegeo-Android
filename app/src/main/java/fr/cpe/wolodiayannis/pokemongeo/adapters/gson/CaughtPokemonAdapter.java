@@ -31,6 +31,7 @@ public class CaughtPokemonAdapter extends TypeAdapter<CaughtPokemon> {
     /**
      * Reads one JSON value (an array, object, string, number, boolean or null)
      * and converts it to a Java object. Returns the converted object.
+     *
      * @param in the stream to read from.
      * @return the converted Java object. May be null.
      * @throws IOException if the next value cannot be read.

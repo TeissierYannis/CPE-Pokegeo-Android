@@ -12,6 +12,7 @@ public class ItemRequest extends BaseRequest {
 
     /**
      * Get ItemAPI.
+     *
      * @return ItemAPI.
      */
     protected static ItemAPI getAPI() {
@@ -21,6 +22,7 @@ public class ItemRequest extends BaseRequest {
 
     /**
      * Get all ball items.
+     *
      * @return List of ball items.
      */
     public static ItemBallList getItemBallList() {
@@ -37,6 +39,7 @@ public class ItemRequest extends BaseRequest {
 
     /**
      * Get all potion items.
+     *
      * @return List of potion items.
      */
     public static ItemPotionList getItemPotionList() {
@@ -53,6 +56,7 @@ public class ItemRequest extends BaseRequest {
 
     /**
      * Get all revive items.
+     *
      * @return List of revive items.
      */
     public static ItemReviveList getItemReviveList() {

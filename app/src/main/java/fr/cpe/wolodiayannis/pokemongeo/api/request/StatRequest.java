@@ -26,7 +26,7 @@ public class StatRequest extends BaseRequest {
         try {
             StatList statList = call.execute().body();
             LogAPI("Stats");
-            return statList;
+            return getStatList(statList);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,19 +35,11 @@ public class StatRequest extends BaseRequest {
     }
 
     /**
-     * Get one stat.
-     * @param id Stat id.
-     * @return Stat.
+     * Get stat List.
+     * @param statList StatList.
+     * @return StatList.
      */
-    public static Stat getStat(int id) {
-        Call<Stat> call = getAPI().getStat(id);
-        try {
-            Stat stat = call.execute().body();
-            LogAPI("Stat");
-            return stat;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private static StatList getStatList(StatList statList) {
+        return statList;
     }
 }

@@ -31,15 +31,27 @@ public interface UserAPI extends BaseAPI {
     @POST("register")
     Call<User> createUser(@Body UserDto userDto);
 
-    /*
-        * PUT the user
+    /**
+     * Update the user init
+     * @param userIsInit user init
+     * @return UserIsInit
      */
     @PUT("user/update/is_init")
     Call<UserIsInit> updateUserIsInit(@Body UserIsInit userIsInit);
 
+    /**
+     * Update the user money and exp
+     * @param userMoneyAndExp user money and exp
+     * @return UserMoneyAndExp
+     */
     @PUT("user/update/moneyExp")
     Call<BasicResponse> updateUserMoneyAndExp(@Body UserMoneyAndExp userMoneyAndExp);
 
+    /**
+     * logout the user
+     * @param userDto user info
+     * @return BasicResponse
+     */
     @POST("/logout")
     Call<BasicResponse> logoutUser(@Body UserDto userDto);
 }

@@ -41,26 +41,6 @@ public class PokemonRequest extends BaseRequest {
     }
 
     /**
-     * Get one item.
-     *
-     * @param id Pokemon id.
-     * @return Pokemon.
-     */
-    public static Pokemon getPokemon(int id) {
-        Call<Pokemon> call = getAPI().getPokemon(id);
-
-        try {
-            Pokemon pokemon = call.execute().body();
-            LogAPI("Pokemon");
-            return pokemon;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
      * Get pokemonAbility
      *
      * @return PokemonAbility.

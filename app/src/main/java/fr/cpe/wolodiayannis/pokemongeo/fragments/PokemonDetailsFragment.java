@@ -32,8 +32,9 @@ public class PokemonDetailsFragment extends Fragment {
 
     /**
      * onCreateView.
-     * @param inflater inflater
-     * @param container container
+     *
+     * @param inflater           inflater
+     * @param container          container
      * @param savedInstanceState savedInstanceState
      * @return view
      */
@@ -63,6 +64,7 @@ public class PokemonDetailsFragment extends Fragment {
 
     /**
      * Set the back arrow listener.
+     *
      * @param backArrowListener BackArrowListenerInterface
      */
     public void setBackArrowListenerInterface(BackArrowListenerInterface backArrowListener) {
@@ -71,6 +73,7 @@ public class PokemonDetailsFragment extends Fragment {
 
     /**
      * Set pokemon.
+     *
      * @param pokemon Pokemon
      */
     public void setPokemon(Pokemon pokemon) {

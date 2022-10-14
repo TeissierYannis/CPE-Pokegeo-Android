@@ -17,10 +17,11 @@ public class PokemonsFetcher {
     /**
      * Context.
      */
-    private Context ctx;
+    private final Context ctx;
 
     /**
      * Constructor.
+     *
      * @param ctx context.
      */
     public PokemonsFetcher(Context ctx) {
@@ -29,6 +30,7 @@ public class PokemonsFetcher {
 
     /**
      * Get pokemons.
+     *
      * @return pokemons.
      */
     public List<Pokemon> fetchAndCache() {

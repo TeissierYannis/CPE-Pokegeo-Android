@@ -10,15 +10,16 @@ public class RegisterThreading extends Threading {
     /**
      * The pseudo of the user;
      */
-    private User user;
+    private final User user;
     /**
      * The password of the user.
      */
-    private String password;
+    private final String password;
 
     /**
      * Constructor.
-     * @param user The user.
+     *
+     * @param user     The user.
      * @param password The password of the user.
      */
     public RegisterThreading(User user, String password) {
@@ -26,6 +27,10 @@ public class RegisterThreading extends Threading {
         this.password = password;
     }
 
+    /**
+     * Run the threading.
+     * @param context The context.
+     */
     @Override
     public Threading setupTasks(Context context) {
         tasks.add(() -> {
