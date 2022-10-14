@@ -134,8 +134,6 @@ public class FightFragment extends Fragment {
             CaughtFragment fragment = new CaughtFragment();
             fragment.setSwitchListener(this::onSwitchPokemon);
 
-
-
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
@@ -343,12 +341,16 @@ public class FightFragment extends Fragment {
      * @param caughtPokemon caught pokemon
      */
     private void onSwitchPokemon(Pokemon pokemon, CaughtPokemon caughtPokemon) {
-        this.updateUserPokemon();
-
-        this.userPokemon = pokemon;
-        pokemonFight.switchPlayerPokemon(pokemon, caughtPokemon.getCurrentLifeState());
-        // go back to this fragment and reupdate bar
-        requireActivity().getSupportFragmentManager().popBackStack();
+        // check if the pokemon is KO
+        if (caughtPokemon.getCurrentLifeState() <= 0 || pokemon == null) {
+            Toast.makeText(getContext(), "This pokemon is KO !", Toast.LENGTH_SHORT).show();
+        } else {
+            this.updateUserPokemon();
+            this.userPokemon = pokemon;
+            pokemonFight.switchPlayerPokemon(pokemon, caughtPokemon.getCurrentLifeState());
+            // go back to this fragment and reupdate bar
+            requireActivity().getSupportFragmentManager().popBackStack();
+        }
     }
 
     /**
