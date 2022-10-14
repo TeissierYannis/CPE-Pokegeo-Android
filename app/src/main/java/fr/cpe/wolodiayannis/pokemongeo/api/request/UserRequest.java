@@ -93,8 +93,9 @@ public class UserRequest extends BaseRequest {
 
     /**
      * Update the user money on API.
+     *
      * @param user_id User ID.
-     * @param money Money.
+     * @param money   Money.
      */
     public static void updateUserMoneyAndExp(int user_id, int money, int exp) {
         Call<BasicResponse> call = getAPI().updateUserMoneyAndExp(new UserMoneyAndExp(user_id, money, exp));
@@ -104,6 +105,24 @@ public class UserRequest extends BaseRequest {
             Datastore.getInstance().getUser().setExperience(exp);
 
             LogAPI("Update User");
+        } catch (Exception e) {
+            Logger.logOnUiThreadError(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * Logout the user.
+     *
+     * @param user
+     */
+    public static void logoutUser(User user) {
+
+        UserDto userDto = new UserDto(user.getPseudo(), user.getEmail());
+        Call<BasicResponse> call = getAPI().logoutUser(userDto);
+        try {
+            call.execute();
+            LogAPI("Logout User");
         } catch (Exception e) {
             Logger.logOnUiThreadError(e.getMessage());
             e.printStackTrace();

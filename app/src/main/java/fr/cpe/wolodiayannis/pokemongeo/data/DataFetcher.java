@@ -29,6 +29,7 @@ public class DataFetcher {
 
     /**
      * Get all pokemons.
+     *
      * @return List of pokemons.
      */
     public static PokemonList fetchPokemonList() {
@@ -37,6 +38,7 @@ public class DataFetcher {
 
     /**
      * Get all stats.
+     *
      * @return List of stats.
      */
     public static StatList fetchStatList() {
@@ -45,6 +47,7 @@ public class DataFetcher {
 
     /**
      * Get all types.
+     *
      * @return List of types.
      */
     public static TypeList fetchTypeList() {
@@ -53,6 +56,7 @@ public class DataFetcher {
 
     /**
      * Get all abilities.
+     *
      * @return List of abilities.
      */
     public static AbilityList fetchAbilityList() {
@@ -61,6 +65,7 @@ public class DataFetcher {
 
     /**
      * Get all pokemon abilities.
+     *
      * @return List of pokemon abilities.
      */
     public static HashMap<Integer, List<Integer>> fetchPokemonAbilities() {
@@ -69,6 +74,7 @@ public class DataFetcher {
 
     /**
      * Get all pokemon types.
+     *
      * @return List of pokemon types.
      */
     public static HashMap<Integer, List<Integer>> fetchPokemonTypes() {
@@ -77,6 +83,7 @@ public class DataFetcher {
 
     /**
      * Get all pokemon stats.
+     *
      * @return List of pokemon stats.
      */
     public static HashMap<Integer, List<PokemonStat>> fetchPokemonStats() {
@@ -85,7 +92,8 @@ public class DataFetcher {
 
     /**
      * Check user is correct to login.
-     * @param email User email.
+     *
+     * @param email    User email.
      * @param password User password.
      */
     public static User checkUser(String email, String password) {
@@ -94,7 +102,8 @@ public class DataFetcher {
 
     /**
      * Create a new user.
-     * @param user User to create.
+     *
+     * @param user     User to create.
      * @param password User password.
      */
     public static User createUser(User user, String password) {
@@ -103,6 +112,7 @@ public class DataFetcher {
 
     /**
      * Get the caught inventory of a user.
+     *
      * @param userId User id.
      * @return Caught inventory.
      */
@@ -112,6 +122,7 @@ public class DataFetcher {
 
     /**
      * add a caught pokemon to the user inventory.
+     *
      * @param caughtPokemon Caught pokemon to add.
      */
     public static boolean addCaughtPokemon(CaughtPokemon caughtPokemon) {
@@ -120,6 +131,7 @@ public class DataFetcher {
 
     /**
      * Update if the user is init.
+     *
      * @param userId User id.
      * @param isInit init state.
      * @return true if the update is successful.
@@ -130,6 +142,7 @@ public class DataFetcher {
 
     /**
      * Get all ball list.
+     *
      * @return Ball list.
      */
     public static ItemBallList fetchItemBallList() {
@@ -138,6 +151,7 @@ public class DataFetcher {
 
     /**
      * Get all potion list.
+     *
      * @return Potion list.
      */
     public static ItemPotionList fetchItemPotionList() {
@@ -146,6 +160,7 @@ public class DataFetcher {
 
     /**
      * Get all revive list.
+     *
      * @return Revive list.
      */
     public static ItemReviveList fetchItemReviveList() {
@@ -154,6 +169,7 @@ public class DataFetcher {
 
     /**
      * Get the item inventory of a user.
+     *
      * @param userID User id.
      * @return Item inventory.
      */
@@ -177,6 +193,7 @@ public class DataFetcher {
 
     /**
      * Update caught pokemon.
+     *
      * @param caughtPokemon Caught pokemon to update.
      * @return true if the update is successful.
      */
@@ -186,5 +203,9 @@ public class DataFetcher {
 
     public static void updateUserMoneyAndExp(int id, int money, int exp) {
         UserRequest.updateUserMoneyAndExp(id, money, exp);
+    }
+
+    public static void logoutUser(User user) {
+        UserRequest.logoutUser(user);
     }
 }

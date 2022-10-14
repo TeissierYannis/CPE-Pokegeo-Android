@@ -18,6 +18,7 @@ import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.MapFragmentBinding;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.OnPharmaciesChangeListener;
@@ -88,6 +89,19 @@ public class MapFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         // Bind layout
         this.binding = DataBindingUtil.inflate(inflater, R.layout.map_fragment, container, false);
+
+        this.binding.userProfileButton.setOnClickListener(v -> {
+
+            MainActivity mainActivity = (MainActivity) getActivity();
+            assert mainActivity != null;
+            mainActivity.stopLocation();
+            // switch to fragment UserProfileFragment
+
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new UserProfileFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         this.shopsObserver = new ShopsObserver();
         this.pharmaciesObserver = new PharmaciesObserver();
