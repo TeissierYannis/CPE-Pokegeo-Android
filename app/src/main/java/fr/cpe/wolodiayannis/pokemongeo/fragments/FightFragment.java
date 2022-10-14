@@ -343,9 +343,9 @@ public class FightFragment extends Fragment {
             this.updateUserPokemon();
             this.userPokemon = pokemon;
             pokemonFight.switchPlayerPokemon(pokemon, caughtPokemon.getCurrentLifeState());
-            // go back to this fragment and reupdate bar
-            requireActivity().getSupportFragmentManager().popBackStack();
         }
+        // go back to this fragment and reupdate bar
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     /**

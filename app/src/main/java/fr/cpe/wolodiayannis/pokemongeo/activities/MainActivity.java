@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.datastore = Datastore.getInstance();
-        addForDev();
 
         // bind the activity
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
