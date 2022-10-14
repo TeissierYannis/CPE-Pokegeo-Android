@@ -147,21 +147,70 @@ public class InventoryFragment extends Fragment {
      */
     private void useItem() {
         if (itemToUse instanceof ItemPotion) {
-            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(caughtPokemon.getCorrespondingPokemon()))
-                    .setCurrentLifeState(caughtPokemon.getCurrentLifeState() + ((ItemPotion) itemToUse).getBonus());
+
+            int maxPokemonLife = this.caughtPokemon.getCorrespondingPokemon().getHp();
+            int currentLife = this.caughtPokemon.getCurrentLifeState();
+
+            // if the pokemon is already at max life
+            if (currentLife == maxPokemonLife) {
+                Toast.makeText(requireContext(), "This pokemon is already at max life", Toast.LENGTH_SHORT).show();
+            } else {
+                // if the pokemon is dead
+                if (currentLife <= 0) {
+                    Toast.makeText(requireContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    int newLife;
+
+                    if (currentLife + ((ItemPotion) itemToUse).getBonus() > maxPokemonLife) {
+                        newLife = maxPokemonLife;
+                    } else {
+                        newLife = currentLife + ((ItemPotion) itemToUse).getBonus();
+                    }
+
+                    // if the pokemon is not dead and not at max life
+                    Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(caughtPokemon.getCorrespondingPokemon()))
+                            .setCurrentLifeState(
+                                    newLife
+                            );
+                }
+
+                Toast.makeText(requireContext(), "The potion worked", Toast.LENGTH_SHORT).show();
+            }
 
         } else if (itemToUse instanceof ItemRevive) {
             Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(caughtPokemon.getCorrespondingPokemon())).
                     setCurrentLifeState(((ItemRevive) itemToUse).getExactHpToHeal(caughtPokemon.getCorrespondingPokemon()));
         }
+
         // go back to this fragment and re-update bar
-        requireActivity().getSupportFragmentManager().popBackStack();
-        Datastore.getInstance().getItemInventory().removeItem(itemToUse, 1);
-        new Thread(() -> {
+        requireActivity().
+
+                getSupportFragmentManager().
+
+                popBackStack();
+        Datastore.getInstance().
+
+                getItemInventory().
+
+                removeItem(itemToUse, 1);
+        new
+
+                Thread(() ->
+
+        {
             (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory());
-        }).start();
-        new Thread(() -> {
+        }).
+
+                start();
+        new
+
+                Thread(() ->
+
+        {
             (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(caughtPokemon);
-        }).start();
+        }).
+
+                start();
     }
 }
