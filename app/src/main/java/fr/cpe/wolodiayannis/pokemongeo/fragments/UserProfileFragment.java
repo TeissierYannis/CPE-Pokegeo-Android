@@ -1,5 +1,6 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.activities.InitActivity;
+import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
+import fr.cpe.wolodiayannis.pokemongeo.activities.SplashScreenActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.UserProfileBinding;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLogoutFetcher;
@@ -41,6 +45,8 @@ public class UserProfileFragment extends Fragment {
         userViewModel.setPokedexCount(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().size() + "/" + Datastore.getInstance().getPokemons().size());
 
         binding.setUserViewModel(userViewModel);
+        binding.progressBarLevel.setMax(100);
+        binding.progressBarLevel.setProgress(userViewModel.getUserExperience());
 
         binding.chevronBack.setOnClickListener(v -> {
             requireActivity().onBackPressed();
@@ -48,10 +54,13 @@ public class UserProfileFragment extends Fragment {
 
         // Get logout button without id
         binding.logoutButton.setOnClickListener(v -> {
-            (new Thread( () -> {
+            (new Thread(() -> {
                 (new UserLogoutFetcher(requireContext())).logoutAndClearCache(Datastore.getInstance().getUser());
                 requireActivity().runOnUiThread(() -> {
-                    // Go to SpashScreen activity
+                    // Open SpashScreen activity
+                    Intent intent;
+                    intent = new Intent(requireContext(), SplashScreenActivity.class);
+                    startActivity(intent);
                     requireActivity().finish();
                 });
             })).start();

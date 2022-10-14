@@ -52,4 +52,9 @@ public class UserViewModel extends BaseObservable {
     public String getPokedexCount() {
         return pokedexCount;
     }
+
+    @Bindable
+    public int getUserExperience() {
+        return user.getExperience();
+    }
 }
