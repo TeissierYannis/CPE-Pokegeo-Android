@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 
@@ -36,6 +38,28 @@ public class Sorter {
             temp.put(aa.getKey(), aa.getValue());
         }
         return temp;
+    }
+
+    /**
+     * Sort by value.
+     *
+     * @param caughtInventory CaughtInventory to sort.
+     * @return Sorted caught inventory.
+     */
+    public static CaughtInventory sortByValue(CaughtInventory caughtInventory) {
+
+        // Create a list from elements of HashMap
+        List<Map.Entry<Pokemon, CaughtPokemon>> list = new LinkedList<>(caughtInventory.getCaughtInventoryList().entrySet());
+
+        // Sort the list
+        list.sort(Comparator.comparingInt(o -> o.getKey().getId()));
+
+        // put data from sorted list to hashmap
+        HashMap<Pokemon, CaughtPokemon> temp = new LinkedHashMap<>();
+        for (Map.Entry<Pokemon, CaughtPokemon> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return new CaughtInventory(temp);
     }
 
     /**

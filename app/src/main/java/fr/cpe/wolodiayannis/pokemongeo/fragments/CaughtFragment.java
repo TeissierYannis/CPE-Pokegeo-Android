@@ -16,8 +16,10 @@ import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.adapters.CaughtPokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.CaughtFragmentBinding;
+import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokemonSwitchInterface;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Sorter;
 
 /**
  * CaughtFragment
@@ -56,11 +58,14 @@ public class CaughtFragment extends Fragment {
 
         CaughtPokemonListAdapter adapter = null;
 
+        CaughtInventory caughtInventorySORT = Datastore.getInstance().getCaughtInventory();
+        caughtInventorySORT = Sorter.sortByValue(caughtInventorySORT);
+
         if (listener == null) {
-            adapter = new CaughtPokemonListAdapter(Datastore.getInstance().getCaughtInventory(), switchListener);
+            adapter = new CaughtPokemonListAdapter(caughtInventorySORT, switchListener);
         }
         if (switchListener == null) {
-            adapter = new CaughtPokemonListAdapter(Datastore.getInstance().getCaughtInventory(), listener);
+            adapter = new CaughtPokemonListAdapter(caughtInventorySORT, listener);
         }
         // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);
