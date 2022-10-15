@@ -12,9 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import java.util.List;
+
 import fr.cpe.wolodiayannis.pokemongeo.adapters.PokemonListAdapter;
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
+import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.PokedexListenerInterface;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokedexFragmentBinding;
 
@@ -46,8 +49,13 @@ public class PokedexFragment extends Fragment {
         // Set the layout
         binding.pokemonList.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
 
+        // do not display missing no if the user does not have all the pokemon
+        List<Pokemon> pokemonList = Datastore.getInstance().getPokemons();
+        if (Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().size() < Datastore.getInstance().getPokemons().size() - 1) {
+            pokemonList.remove(0);
+        }
         // new adapter
-        PokemonListAdapter adapter = new PokemonListAdapter(Datastore.getInstance().getPokemons(), listener);
+        PokemonListAdapter adapter = new PokemonListAdapter(pokemonList, listener);
         // set the adapter
         binding.pokemonList.setAdapter(adapter);
 
