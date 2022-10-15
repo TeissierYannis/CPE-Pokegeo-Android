@@ -70,6 +70,23 @@ public class CaughtFragment extends Fragment {
         // bind adapter to recycler view
         binding.caughtList.setAdapter(adapter);
 
+        // search bar : pokedex_search
+        if (adapter != null) {
+            CaughtPokemonListAdapter finalAdapter = adapter;
+            binding.caughtinventorySearch.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    finalAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+        }
+
         return binding.getRoot();
     }
 

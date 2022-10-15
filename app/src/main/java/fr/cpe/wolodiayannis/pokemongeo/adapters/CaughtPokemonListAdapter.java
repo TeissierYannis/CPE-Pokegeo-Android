@@ -4,6 +4,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -42,8 +43,12 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
     /**
      * List of Pokemon.
      */
-    private final CaughtInventory caughtInventory;
+    private CaughtInventory caughtInventory;
 
+    /**
+     * List of Pokemon received at init.
+     */
+    private final CaughtInventory initCaughtInventory;
 
     /**
      * Constructor.
@@ -54,6 +59,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
     public CaughtPokemonListAdapter(CaughtInventory caughtInventory, PokedexListenerInterface listener) {
         this.listener = listener;
         this.caughtInventory = caughtInventory;
+        this.initCaughtInventory = caughtInventory;
         this.switchListener = null;
     }
 
@@ -75,7 +81,10 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         } else {
             this.caughtInventory = caughtInventory;
         }
+
         Datastore.getInstance().setActualItem(null);
+
+        this.initCaughtInventory = this.caughtInventory;
     }
 
     /**
@@ -197,6 +206,65 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
         }
         return deadCaughtInventory;
     }
+
+    /**
+     * Get the filter for the search.
+     *
+     * @return Filter.
+     */
+    public Filter getFilter() {
+        return SearchedFilter;
+    }
+
+    /**
+     * Filter for the search.
+     */
+    private final Filter SearchedFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            CaughtInventory filteredCaughtInventory = new CaughtInventory();
+
+            // If the search is empty, return the full list else return the list filtered.
+            if (constraint == null || constraint.length() == 0) {
+                filteredCaughtInventory = initCaughtInventory;
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                // If filterPattern contains number filter by id or else filter by name.
+                if (filterPattern.matches("[0-9]+")) {
+                    int id = Integer.parseInt(filterPattern);
+                    for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
+                        if (pokemon.getId() == id) {
+                            filteredCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(initCaughtInventory.getCaughtInventoryList().get(pokemon)));
+                        }
+                    }
+                } else {
+                    for (Pokemon pokemon : caughtInventory.getCaughtInventoryList().keySet()) {
+                        if (pokemon.getName().toLowerCase().contains(filterPattern)) {
+                            filteredCaughtInventory.addPokemon(pokemon, Objects.requireNonNull(initCaughtInventory.getCaughtInventoryList().get(pokemon)));
+                        }
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = caughtInventory;
+
+            return results;
+        }
+
+        /**
+         * Update the list with the filtered list.
+         * @param constraint Search.
+         * @param results Filtered list.
+         */
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            caughtInventory = (CaughtInventory) results.values;
+            notifyDataSetChanged();
+        }
+    };
 }
 
 
