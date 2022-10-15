@@ -75,4 +75,16 @@
     <string name="profile_subtitle">Your profile</string>
     <string name="avatar">Avatar</string>
     <string name="user_profile_description">User profile</string>
+    <string name="tokens_title">Tokens</string>
+    <string name="experience_title">Experience</string>
+    <string name="user_profile_image_desc">user profile image</string>
+    <string name="playing_time_title">Playing time :</string>
+    <string name="items_used_title">Items used :</string>
+    <string name="poke_encountered_title">Pokémon encountered :</string>
+    <string name="poke_encountered_replace">\? Pokémon</string>
+    <string name="items_used_replace">\? Items</string>
+    <string name="hours_played_replace">\? Hours</string>
+    <string name="logout_title">Logout</string>
+    <string name="distance_travelled_title">Distance travelled :</string>
+    <string name="km_replace">\? Km</string>
 </resources>

@@ -81,12 +81,21 @@ public class UserViewModel extends BaseObservable {
     }
 
     /**
-     * Get the item name.
+     * Get the user experience.
      *
-     * @return String.
+     * @return int experience.
      */
-    @Bindable
     public int getUserExperience() {
         return user.getExperience();
+    }
+
+    /**
+     * Get the user experience string.
+     *
+     * @return String experience.
+     */
+    @Bindable
+    public String getUserExperienceString() {
+        return String.valueOf(user.getExperience());
     }
 }

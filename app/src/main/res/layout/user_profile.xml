@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="userViewModel"
             type="fr.cpe.wolodiayannis.pokemongeo.viewmodel.UserViewModel" />
@@ -13,12 +12,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/lightGrayPlus"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="405dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
@@ -32,14 +32,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:src="@drawable/ic_baseline_chevron_left_24"
-                    android:contentDescription="Go back" />
+                    android:contentDescription="@string/go_back_icon"
+                    android:src="@drawable/ic_baseline_chevron_left_24" />
 
                 <ImageView
+                    android:id="@+id/user_profile_image"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="0dp"
+                    android:contentDescription="@string/user_profile_image_desc"
                     android:src="@drawable/bag" />
 
                 <TextView
@@ -54,44 +56,45 @@
 
                 <ProgressBar
                     android:id="@+id/progressBar_level"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="100dp"
-                    android:layout_marginStart="100dp"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="10dp"
                     android:indeterminate="false"
-                    android:visibility="visible"
                     android:indeterminateTint="@color/colorPrimaryDark"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    />
+                    android:visibility="visible" />
 
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="400dp"
                 android:layout_height="120dp"
-                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/white"                android:layout_centerHorizontal="true"
                 android:layout_marginTop="275dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:baselineAligned="false"
                     android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:weightSum="3">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:backgroundTint="@color/white"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pokedex"
+                            android:text="@string/pokedex_title"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="20sp" />
 
@@ -103,7 +106,6 @@
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="20sp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -116,7 +118,31 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tokens"
+                            android:text="@string/experience_title"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:text="@{userViewModel.userExperienceString}"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tokens_title"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="20sp" />
 
@@ -130,9 +156,7 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
@@ -140,29 +164,145 @@
             android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="45dp"
-            android:orientation="vertical">
+            android:layout_marginTop="5dp"
+            android:padding="3dp"
+            android:background="@drawable/background_plant_shape"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            android:paddingStart="25dp"
+            tools:ignore="RtlSymmetry">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/email"
+                android:src="@drawable/ic_baseline_alternate_email_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:text="@{userViewModel.userEmail}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/background_plant_shape"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
+                android:id="@+id/userprofile_linearLayout_playingTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
-                android:paddingLeft="25dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_baseline_alternate_email_24"
-                    android:contentDescription="@string/email" />
+                android:weightSum="2">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="20dp"
-                    android:text="@{userViewModel.userEmail}"
+                    android:layout_weight="1"
+                    android:text="@string/playing_time_title"
                     android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/hours_played_replace"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userprofile_linearLayout_usedItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/items_used_title"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/items_used_replace"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userprofile_linearLayout_pokeEncountered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/poke_encountered_title"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/poke_encountered_replace"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userprofile_linearLayout_distanceTravelled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/distance_travelled_title"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/km_replace"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
             </LinearLayout>
 
         </LinearLayout>
@@ -173,11 +313,11 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="45dp"
-            android:background="@drawable/background_plant_shape"
-            android:padding="15dp"
-            android:text="Logout"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:backgroundTint="@color/red"
+            android:text="@string/logout_title"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
     </LinearLayout>
 </layout>
