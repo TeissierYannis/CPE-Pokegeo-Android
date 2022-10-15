@@ -14,6 +14,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterfaceInventory;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.InventoryListenerInterfaceFight;
+import fr.cpe.wolodiayannis.pokemongeo.utils.Sorter;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.ItemViewModel;
 
 /**
@@ -43,7 +44,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      * @param listener      Listener for the click on an item.
      */
     public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterfaceFight listener) {
-        this.itemInventory = itemInventory;
+        this.itemInventory = Sorter.sortItemInventory(itemInventory);
         this.useItemListener = listener;
         this.useItemListenerInventory = null;
     }
@@ -55,7 +56,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
      * @param listener      Listener for the click on an item.
      */
     public InventoryListAdapter(ItemInventory itemInventory, InventoryListenerInterfaceInventory listener) {
-        this.itemInventory = itemInventory;
+        this.itemInventory = Sorter.sortItemInventory(itemInventory);
         this.useItemListener = null;
         this.useItemListenerInventory = listener;
     }

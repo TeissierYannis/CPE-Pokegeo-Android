@@ -4,6 +4,7 @@ import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.Item;
+import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
 
 public class Sorter {
 
@@ -41,12 +43,31 @@ public class Sorter {
     }
 
     /**
-     * Sort by value.
+     * Sort item inventory by item id.
+     *
+     * @param itemInventory Item inventory to sort.
+     * @return Sorted item inventory.
+     */
+    public static ItemInventory sortItemInventory(ItemInventory itemInventory) {
+        List<Map.Entry<Item, Integer>> list = new LinkedList<>(sortByValue(itemInventory.getItemIventoryList()).entrySet());
+
+        // reverse the order
+        Collections.reverse(list);
+
+        HashMap<Item, Integer> temp = new LinkedHashMap<>();
+        for (Map.Entry<Item, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return new ItemInventory(temp);
+    }
+
+    /**
+     * Sort caught inventory by pokemon id.
      *
      * @param caughtInventory CaughtInventory to sort.
      * @return Sorted caught inventory.
      */
-    public static CaughtInventory sortByValue(CaughtInventory caughtInventory) {
+    public static CaughtInventory sortCaughtInventory(CaughtInventory caughtInventory) {
 
         // Create a list from elements of HashMap
         List<Map.Entry<Pokemon, CaughtPokemon>> list = new LinkedList<>(caughtInventory.getCaughtInventoryList().entrySet());

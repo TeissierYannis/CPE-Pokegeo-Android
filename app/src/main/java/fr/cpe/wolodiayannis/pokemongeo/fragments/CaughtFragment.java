@@ -59,7 +59,7 @@ public class CaughtFragment extends Fragment {
         CaughtPokemonListAdapter adapter = null;
 
         CaughtInventory caughtInventorySORT = Datastore.getInstance().getCaughtInventory();
-        caughtInventorySORT = Sorter.sortByValue(caughtInventorySORT);
+        caughtInventorySORT = Sorter.sortCaughtInventory(caughtInventorySORT);
 
         if (listener == null) {
             adapter = new CaughtPokemonListAdapter(caughtInventorySORT, switchListener);
