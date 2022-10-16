@@ -334,28 +334,32 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:id="@+id/friend_list_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/background_plant_shape"
                     android:padding="15dp"
-                    android:text="Friends"
+                    android:text="@string/friends"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
-                    style="?android:attr/buttonBarButtonStyle" />
+                    style="?android:attr/buttonBarStyle" />
 
                 <Button
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:id="@+id/friend_request_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/background_plant_shape"
                     android:padding="15dp"
-                    android:text="requests"
+                    android:text="@string/requests"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
-                    style="?android:attr/buttonBarButtonStyle" />
+                    style="?android:attr/buttonBarStyle" />
             </LinearLayout>
 
             <!-- Add friends request -->
@@ -365,7 +369,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:paddingLeft="25dp"
+                android:paddingStart="25dp"
                 android:visibility="gone"
                 android:weightSum="3">
 
@@ -375,7 +379,7 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:contentDescription="Friends"
+                    android:contentDescription="@string/friends"
                     android:src="@drawable/ic_baseline_emoji_people_24" />
 
                 <TextView
@@ -385,9 +389,10 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:paddingStart="20dp"
-                    android:text="1 friend request"
+                    android:text=""
                     android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
 
                 <!-- Add plus button -->
                 <Button
@@ -399,7 +404,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/background_plant_shape"
                     android:padding="15dp"
-                    android:text="+"
+                    android:text="@string/plus"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />
 
@@ -412,7 +417,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:paddingLeft="25dp"
+                android:paddingStart="25dp"
                 android:visibility="visible"
                 android:weightSum="3">
 
@@ -422,7 +427,7 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:contentDescription="Friends"
+                    android:contentDescription="@string/friends"
                     android:src="@drawable/ic_baseline_emoji_people_24" />
 
                 <TextView
@@ -432,9 +437,10 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:paddingStart="20dp"
-                    android:text="1 friends"
+                    android:text=""
                     android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 

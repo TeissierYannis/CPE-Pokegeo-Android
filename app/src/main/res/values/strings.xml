@@ -87,4 +87,7 @@
     <string name="logout_title">Logout</string>
     <string name="distance_travelled_title">Distance travelled :</string>
     <string name="km_replace">\? Km</string>
+    <string name="friends">Friends</string>
+    <string name="requests">requests</string>
+    <string name="plus">+</string>
 </resources>
