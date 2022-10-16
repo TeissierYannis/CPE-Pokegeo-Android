@@ -123,7 +123,10 @@ public class CaughtPokemon implements Serializable {
     }
 
     public Pokemon getCorrespondingPokemon() {
-        return Datastore.getInstance().getPokemons().get(this.pokemonId);
+        if (this.pokemonId != 0) {
+            return Datastore.getInstance().getPokemons().get(this.pokemonId);
+        }
+        return null;
     }
 
     /**

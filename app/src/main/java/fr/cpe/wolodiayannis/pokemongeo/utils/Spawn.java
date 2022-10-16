@@ -123,7 +123,11 @@ public class Spawn {
         } else if (random == 0) {
             return notCaughtPokemons.get(1);
         } else {
-            return notCaughtPokemons.get(random);
+            try {
+                return notCaughtPokemons.get(random);
+            } catch (IndexOutOfBoundsException e) {
+                return notCaughtPokemons.get(0);
+            }
         }
     }
 

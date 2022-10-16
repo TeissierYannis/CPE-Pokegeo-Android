@@ -1,6 +1,7 @@
 package fr.cpe.wolodiayannis.pokemongeo.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
+import fr.cpe.wolodiayannis.pokemongeo.activities.MainActivity;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.PokemonFightPopupBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
@@ -540,43 +542,49 @@ public class FightFragment extends Fragment {
         CaughtPokemon cp = this.useItemOn;
         System.out.println("Using " + item.getName());
         int random = (int) (Math.random() * 100);
+        double totalRate = 0;
 
         if (item instanceof ItemPotion) {
-            int maxPokemonLife = Datastore.getInstance().getPokemons().get(cp.getPokemonId()).getHp();
-            int currentLife = cp.getCurrentLifeState();
+            if (cp != null) {
 
-            // if the pokemon is already at max life
-            if (currentLife == maxPokemonLife) {
-                Toast.makeText(requireContext(), "This pokemon is already at max life", Toast.LENGTH_SHORT).show();
-            } else {
-                // if the pokemon is dead
-                if (currentLife <= 0) {
-                    Toast.makeText(requireContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
+
+                int maxPokemonLife = Datastore.getInstance().getPokemons().get(cp.getPokemonId()).getHp();
+                int currentLife = cp.getCurrentLifeState();
+
+                // if the pokemon is already at max life
+                if (currentLife == maxPokemonLife) {
+                    Toast.makeText(requireContext(), "This pokemon is already at max life", Toast.LENGTH_SHORT).show();
                 } else {
+                    // if the pokemon is dead
+                    if (currentLife <= 0) {
+                        Toast.makeText(requireContext(), "This pokemon is dead", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    int newLife = Math.min(currentLife + ((ItemPotion) item).getBonus(), maxPokemonLife);
+                        int newLife = Math.min(currentLife + ((ItemPotion) item).getBonus(), maxPokemonLife);
 
-                    // if the pokemon is not dead and not at max life
-                    Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
-                            .setCurrentLifeState(
-                                    newLife
-                            );
+                        // if the pokemon is not dead and not at max life
+                        Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon()))
+                                .setCurrentLifeState(
+                                        newLife
+                                );
 
-                    // if the pokemon to heal is the actual user pokemon
-                    if (cp.getCorrespondingPokemon().equals(this.userPokemon)) {
-                        pokemonFight.healPlayerPokemon(newLife);
+                        // if the pokemon to heal is the actual user pokemon
+                        if (cp.getCorrespondingPokemon().equals(this.userPokemon)) {
+                            pokemonFight.healPlayerPokemon(newLife);
+                        }
+
+                        Toast.makeText(requireContext(), "The potion worked", Toast.LENGTH_SHORT).show();
                     }
-
-                    Toast.makeText(requireContext(), "The potion worked", Toast.LENGTH_SHORT).show();
                 }
+                this.opponentAttack();
             }
-            this.opponentAttack();
 
         } else if (item instanceof ItemRevive) {
-            Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon())).
-                    setCurrentLifeState(((ItemRevive) item).getExactHpToHeal(cp.getCorrespondingPokemon()));
-            this.opponentAttack();
-
+            if (cp != null) {
+                Objects.requireNonNull(Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().get(cp.getCorrespondingPokemon())).
+                        setCurrentLifeState(((ItemRevive) item).getExactHpToHeal(cp.getCorrespondingPokemon()));
+                this.opponentAttack();
+            }
         } else if (item instanceof ItemBall) {
             ItemBall ball = (ItemBall) item;
             this.animateCapture(ball.getImageID());
@@ -585,7 +593,7 @@ public class FightFragment extends Fragment {
             double minimumRate = 0.05;
             double ballRate = ((ItemBall) item).getAccuracy() * minimumRate;
             double lifeRate = 1 - ((double) this.pokemonFight.getOpponentLifePoints() / (double) this.pokemonFight.getOpponentPokemon().getHp());
-            double totalRate = ballRate + (lifeRate * 0.5);
+            totalRate = ballRate + (lifeRate * 0.5);
 
             // auto catch if the item is a master-ball
             if (item.getName().equals("master-ball")) {
@@ -615,7 +623,7 @@ public class FightFragment extends Fragment {
         this.updateLifeBarColor();
 
         // 1% chance to exit the fight and disappear from the map
-        if (random < 1) {
+        if (random < 1 && totalRate < 1 && random > totalRate * 100) {
             this.onEscape();
         }
 
