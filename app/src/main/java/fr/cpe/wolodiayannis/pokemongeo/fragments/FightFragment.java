@@ -151,7 +151,7 @@ public class FightFragment extends Fragment {
      * On win
      */
     private void onWin() {
-        Toast.makeText(getContext(), "You win !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "You win !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
@@ -181,7 +181,7 @@ public class FightFragment extends Fragment {
             userCaughtPokemon.setCurrentLifeState(0);
         }
 
-        new Thread(() -> (new CaughtInventoryFetcher(getContext())).updatePokemonAndCache(userCaughtPokemon)).start();
+        new Thread(() -> (new CaughtInventoryFetcher(requireContext())).updatePokemonAndCache(userCaughtPokemon)).start();
     }
 
     /**
@@ -210,7 +210,7 @@ public class FightFragment extends Fragment {
      * - set the navigation bar visible
      */
     private void onLoose() {
-        Toast.makeText(getContext(), "You loose !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "You loose !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
@@ -235,7 +235,7 @@ public class FightFragment extends Fragment {
      * - set the navigation bar visible
      */
     private void onCapture() {
-        Toast.makeText(getContext(), "Pokemon captured !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Pokemon captured !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
@@ -262,14 +262,14 @@ public class FightFragment extends Fragment {
         );
         Datastore.getInstance().getCaughtInventory().addPokemon(this.opponentPokemon, caughtPokemon);
 
-        new Thread(() -> (new CaughtInventoryFetcher(getContext())).addPokemonAndCache(caughtPokemon)).start();
+        new Thread(() -> (new CaughtInventoryFetcher(requireContext())).addPokemonAndCache(caughtPokemon)).start();
     }
 
     /**
      * On pokemon escape
      */
     private void onEscape() {
-        Toast.makeText(getContext(), "Pokemon escaped !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Pokemon escaped !", Toast.LENGTH_SHORT).show();
         // remove pokemon from the map
         Datastore.getInstance().getSpawnedPokemons().remove(this.opponentPokemon);
 
@@ -364,7 +364,7 @@ public class FightFragment extends Fragment {
     private void onSwitchPokemon(Pokemon pokemon, CaughtPokemon caughtPokemon) {
         // check if the pokemon is KO
         if (caughtPokemon.getCurrentLifeState() <= 0 || pokemon == null) {
-            Toast.makeText(getContext(), "This pokemon is KO !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "This pokemon is KO !", Toast.LENGTH_SHORT).show();
         } else {
             this.updateUserPokemon();
             this.userPokemon = pokemon;
@@ -600,7 +600,7 @@ public class FightFragment extends Fragment {
                 Datastore.getInstance().getUser().addExperience(1000);
                 new Thread(() -> {
                     // Give 2000 ₽ and 1000 exp to the player
-                    (new UserUpdateFetcher(getContext())).updateAndCacheMoneyAndExp(
+                    (new UserUpdateFetcher(requireContext())).updateAndCacheMoneyAndExp(
                             Datastore.getInstance().getUser(),
                             Datastore.getInstance().getUser().getMoney(),
                             Datastore.getInstance().getUser().getExperience()
@@ -621,7 +621,7 @@ public class FightFragment extends Fragment {
 
         // remove 1 item from the inventory and update into the API
         Datastore.getInstance().getItemInventory().removeItem(item, 1);
-        new Thread(() -> (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory())).start();
+        new Thread(() -> (new ItemInventoryFetcher(requireContext())).updateAndCache(Datastore.getInstance().getItemInventory())).start();
 
         this.binding.pokemonfightImageWildPokemon.postDelayed(this::activeAllButtons, 3000);
         this.lastItemToUse = null;

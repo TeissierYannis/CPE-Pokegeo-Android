@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.cpe.wolodiayannis.pokemongeo.adapters.PokemonListAdapter;
@@ -52,7 +53,13 @@ public class PokedexFragment extends Fragment {
         // do not display missing no if the user does not have all the pokemon
         List<Pokemon> pokemonList = Datastore.getInstance().getPokemons();
         if (Datastore.getInstance().getCaughtInventory().getCaughtInventoryList().size() < Datastore.getInstance().getPokemons().size() - 1) {
-            pokemonList.remove(0);
+            ArrayList<Pokemon> pokemonListWithoutMissingNo = new ArrayList<>();
+            for (Pokemon pokemon : pokemonList) {
+                if (pokemon.getId() != 0) {
+                    pokemonListWithoutMissingNo.add(pokemon);
+                }
+            }
+            pokemonList = pokemonListWithoutMissingNo;
         }
         // new adapter
         PokemonListAdapter adapter = new PokemonListAdapter(pokemonList, listener);
