@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:style="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/pokemon_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_rect_shape"
+        android:backgroundTint="#FFFFFF"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/backArrow_add_friend"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:src="@drawable/ic_baseline_chevron_left_24"
+            android:contentDescription="@string/go_back_icon"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:id="@+id/textview_pseudo_label_add_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_below="@+id/backArrow_add_friend"
+            android:layout_alignStart="@+id/backArrow_add_friend"
+            android:text="@string/pseudo"
+            android:textColor="@color/popUpTextColor"
+            />
+
+        <EditText
+            android:id="@+id/pseudo_add_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textview_pseudo_label_add_friend"
+            android:layout_alignBottom="@+id/textview_pseudo_label_add_friend"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="80dp"
+            android:hint="Friend pseudo"
+            android:ems="10"
+            android:inputType="text"
+            android:textColor="@color/popUpTextColor" />
+
+
+        <Button
+            android:id="@+id/add_friend_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pseudo_add_friend"
+            android:layout_alignStart="@+id/pseudo_add_friend"
+            android:layout_alignEnd="@+id/pseudo_add_friend"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#8BC34A"
+            android:text="Send request"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+</layout>

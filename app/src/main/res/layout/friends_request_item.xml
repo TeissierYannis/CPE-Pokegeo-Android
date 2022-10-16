@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="itemViewModel"
+            type="fr.cpe.wolodiayannis.pokemongeo.viewmodel.FriendViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/attack_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@color/white"
+        android:weightSum="2">
+
+       <!-- List of pseudo and button accept or decline -->
+        <TextView
+            android:id="@+id/pseudo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@{itemViewModel.pseudo}"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/accept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:background="@drawable/ic_baseline_check_24"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                style="?android:attr/buttonCornerRadius" />
+
+            <Button
+                android:id="@+id/decline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_close_24"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                style="?android:attr/buttonCornerRadius" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
