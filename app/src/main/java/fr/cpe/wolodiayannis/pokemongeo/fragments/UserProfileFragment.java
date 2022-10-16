@@ -271,9 +271,13 @@ public class UserProfileFragment extends Fragment {
         new Thread(() -> {
             AtomicReference<FriendList> friendList = new AtomicReference<>(this.loadFriendList());
             // run in ui
-            requireActivity().runOnUiThread(() -> {
-                onLoadFriendList.onLoadFriendList(friendList.get());
-            });
+            try {
+                requireActivity().runOnUiThread(() -> {
+                    onLoadFriendList.onLoadFriendList(friendList.get());
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }).start();
     }
@@ -282,10 +286,13 @@ public class UserProfileFragment extends Fragment {
         new Thread(() -> {
             AtomicReference<FriendList> friendList = new AtomicReference<>(this.loadPendingFriendList());
             // run in ui
-            requireActivity().runOnUiThread(() -> {
-                onLoadPendingFriendList.onLoadFriendList(friendList.get());
-            });
-
+            try {
+                requireActivity().runOnUiThread(() -> {
+                    onLoadPendingFriendList.onLoadFriendList(friendList.get());
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }).start();
     }
 
