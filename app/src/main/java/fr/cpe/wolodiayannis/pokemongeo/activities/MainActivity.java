@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.map:
                     if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof MapFragment) {
+                        // clear all backstack
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         return true;
                     }
                     setupLocation();
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.pokedex:
                     // if already on pokedex, do nothing
                     if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PokedexFragment) {
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         return true;
                     }
                     stopLocation();
@@ -140,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.itemsInventory:
                     // if already on inventory, do nothing
                     if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof InventoryFragment) {
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         return true;
                     }
                     stopLocation();
@@ -148,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.caught:
                     // if already on caught, do nothing
                     if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof CaughtFragment) {
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         return true;
                     }
                     stopLocation();

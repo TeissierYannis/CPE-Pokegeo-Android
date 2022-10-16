@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -160,6 +161,11 @@ public class FightFragment extends Fragment {
         // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
+        // Clear backstack
+        requireActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        // set backstack to map fragment
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+
         // navigation bar
         requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
         requireActivity().getSupportFragmentManager().popBackStack();
@@ -219,13 +225,14 @@ public class FightFragment extends Fragment {
         // Update user pokemon life in the caught inventory
         this.updateUserPokemon();
 
-        // Remove inventory view if it's open
-        View inventoryView = requireActivity().findViewById(R.id.fragment_container);
-        if (inventoryView != null) {
-            requireActivity().getSupportFragmentManager().popBackStack();
-        }
+        // Clear backstack
+        requireActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        // set backstack to map fragment
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapFragment()).commit();
+
         // navigation bar
         requireActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
+
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
