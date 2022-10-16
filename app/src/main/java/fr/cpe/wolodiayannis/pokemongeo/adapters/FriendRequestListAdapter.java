@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import fr.cpe.wolodiayannis.pokemongeo.R;
 import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.FriendsRequestItemBinding;
@@ -65,23 +68,27 @@ public class FriendRequestListAdapter extends RecyclerView.Adapter<FriendRequest
         friendViewModel.setFriendRequest(friendList.getFriendList().get(position));
 
         holder.binding.accept.setOnClickListener(v -> {
-            new Thread(() -> {
-                BasicResponse response = (new FriendFetcher(v.getContext())).acceptFriend(
-                        friendList.getFriendList().get(position).getFriendId()
-                );
-                // run on UI thread
-                v.post(() -> {
-                    if (response.getMessage().equals("success")) {
-                        friendList.getFriendList().remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, friendList.getFriendList().size());
-                        onFriend.onAccept();
-                    } else {
-                        Toast.makeText(holder.binding.getRoot().getContext(), "Friend request not accepted an error occurred", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }).start();
+            // Executor
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                new Thread(() -> {
+                    BasicResponse response = (new FriendFetcher(v.getContext())).acceptFriend(
+                            friendList.getFriendList().get(position).getFriendId()
+                    );
+                    // run on UI thread
+                    v.post(() -> {
+                        if (response.getMessage().equals("success")) {
+                            friendList.getFriendList().remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, friendList.getFriendList().size());
+                            onFriend.onAccept();
+                        } else {
+                            Toast.makeText(holder.binding.getRoot().getContext(), "Friend request not accepted an error occurred", Toast.LENGTH_SHORT).show();
+                        }
+                        executor.shutdown();
+                    });
+                }).start();
+            });
         });
 
         holder.binding.decline.setOnClickListener(v -> {

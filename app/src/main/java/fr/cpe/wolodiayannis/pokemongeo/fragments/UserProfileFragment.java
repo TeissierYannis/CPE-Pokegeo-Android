@@ -25,6 +25,7 @@ import fr.cpe.wolodiayannis.pokemongeo.databinding.UserProfileBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.FriendList;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.FriendFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLogoutFetcher;
+import fr.cpe.wolodiayannis.pokemongeo.listeners.OnFriend;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.OnLoadFriendList;
 import fr.cpe.wolodiayannis.pokemongeo.viewmodel.UserViewModel;
 
@@ -49,6 +50,19 @@ public class UserProfileFragment extends Fragment {
         public void onLoadFriendList(FriendList friendList) {
             FriendRequestListAdapter adapter = new FriendRequestListAdapter();
             adapter.setFriendList(friendList);
+            adapter.setOnFriend(new OnFriend() {
+                @Override
+                public void onAccept() {
+                    loadPendingFriendList();
+                    Toast.makeText(getContext(), "Friend request accepted", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onDecline() {
+                    loadPendingFriendList();
+                    Toast.makeText(getContext(), "Friend request declined", Toast.LENGTH_SHORT).show();
+                }
+            });
             binding.friendsRequest.setAdapter(adapter);
             binding.friendsRequestCount.setText(friendList.getFriendList().size() + " friends requests");
             // reload the list
