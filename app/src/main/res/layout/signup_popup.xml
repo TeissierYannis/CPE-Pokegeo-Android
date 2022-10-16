@@ -28,7 +28,9 @@
             android:layout_below="@+id/backArrow_signup"
             android:layout_alignStart="@+id/backArrow_signup"
             android:text="@string/email"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            android:gravity="center"
+            />
 
         <EditText
             android:id="@+id/emailEditText_signup"
@@ -51,7 +53,9 @@
             android:layout_alignStart="@+id/textview_email_label_signup"
             android:layout_marginTop="10dp"
             android:text="@string/pseudo"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            android:gravity="center"
+            />
 
         <EditText
             android:id="@+id/pseudoEditText_signup"
@@ -73,7 +77,9 @@
             android:layout_alignStart="@+id/textview_pseudo_label_signup"
             android:layout_marginTop="10dp"
             android:text="@string/password"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            android:gravity="center"
+            />
 
         <EditText
             android:id="@+id/passwordEditText_signup"
@@ -98,7 +104,9 @@
             android:layout_marginTop="5dp"
             android:paddingBottom="4dp"
             android:text="@string/confirm_password"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            android:gravity="center"
+            />
 
         <EditText
             android:id="@+id/passwordConfirmEditText_signup"
@@ -110,7 +118,8 @@
             android:ems="10"
             android:hint="@string/same_password_example"
             android:inputType="textPassword"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            />
 
 
         <Button

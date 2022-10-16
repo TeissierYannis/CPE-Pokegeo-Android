@@ -623,7 +623,7 @@ public class FightFragment extends Fragment {
         Datastore.getInstance().getItemInventory().removeItem(item, 1);
         new Thread(() -> (new ItemInventoryFetcher(getContext())).updateAndCache(Datastore.getInstance().getItemInventory())).start();
 
-        this.activeAllButtons();
+        this.binding.pokemonfightImageWildPokemon.postDelayed(this::activeAllButtons, 3000);
         this.lastItemToUse = null;
         this.useItemOn = null;
     }

@@ -17,7 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/pseudo"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            android:gravity="center"
+            />
 
         <EditText
             android:id="@+id/idEditText_login"
@@ -40,7 +42,9 @@
             android:layout_alignStart="@+id/textview_email_label_login"
             android:layout_marginTop="20dp"
             android:text="@string/password"
-            android:textColor="@color/popUpTextColor" />
+            android:textColor="@color/popUpTextColor"
+            android:gravity="center"
+            />
 
         <EditText
             android:id="@+id/editText_password_login"
@@ -63,7 +67,7 @@
             android:layout_alignBottom="@+id/signupButton_login"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/signupButton_login"
-            android:backgroundTint="#F4F4F4"
+            android:backgroundTint="#8BC34A"
             android:text="@string/log_in"
             android:textAllCaps="false"
             android:textColor="@color/popUpTextColor"
@@ -75,10 +79,10 @@
             android:layout_height="40dp"
             android:layout_below="@+id/editText_password_login"
             android:layout_alignEnd="@+id/editText_password_login"
-            android:backgroundTint="#8BC34A"
+            android:backgroundTint="#F4F4F4"
             android:text="@string/sign_up"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/popUpTextColor"
             android:textSize="11sp" />
 
     </RelativeLayout>
