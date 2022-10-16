@@ -126,7 +126,7 @@ public class Spawn {
             try {
                 return notCaughtPokemons.get(random);
             } catch (IndexOutOfBoundsException e) {
-                return notCaughtPokemons.get(0);
+                return notCaughtPokemons.get(1);
             }
         }
     }
