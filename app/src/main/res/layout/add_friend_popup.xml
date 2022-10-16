@@ -28,6 +28,7 @@
             android:layout_alignStart="@+id/backArrow_add_friend"
             android:text="@string/pseudo"
             android:textColor="@color/popUpTextColor"
+            android:gravity="center"
             />
 
         <EditText
