@@ -8,19 +8,12 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.lists.FriendList;
 
 public class FriendFetcher {
 
-
-    /**
-     * Context.
-     */
-    private final Context ctx;
-
     /**
      * Constructor.
      *
      * @param ctx the context
      */
-    public FriendFetcher(Context ctx) {
-        this.ctx = ctx;
+    public FriendFetcher() {
     }
 
 

@@ -68,47 +68,15 @@ public class FriendRequestListAdapter extends RecyclerView.Adapter<FriendRequest
         friendViewModel.setFriendRequest(friendList.getFriendList().get(position));
 
         holder.binding.accept.setOnClickListener(v -> {
-            // Executor
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            executor.execute(() -> {
-                new Thread(() -> {
-                    BasicResponse response = (new FriendFetcher(v.getContext())).acceptFriend(
-                            friendList.getFriendList().get(position).getFriendId()
-                    );
-                    // run on UI thread
-                    v.post(() -> {
-                        if (response.getMessage().equals("success")) {
-                            friendList.getFriendList().remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, friendList.getFriendList().size());
-                            onFriend.onAccept();
-                        } else {
-                            Toast.makeText(holder.binding.getRoot().getContext(), "Friend request not accepted an error occurred", Toast.LENGTH_SHORT).show();
-                        }
-                        executor.shutdown();
-                    });
-                }).start();
-            });
+            onFriend.onAccept(
+                    friendList.getFriendList().get(position)
+            );
         });
 
         holder.binding.decline.setOnClickListener(v -> {
-            new Thread(() -> {
-                BasicResponse response = (new FriendFetcher(v.getContext())).declineFriend(
-                        friendList.getFriendList().get(position).getFriendId()
-                );
-                // run on UI thread
-                v.post(() -> {
-                    if (response.getMessage().equals("success")) {
-                        friendList.getFriendList().remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, friendList.getFriendList().size());
-                        onFriend.onDecline();
-                    } else {
-                        Toast.makeText(holder.binding.getRoot().getContext(), "Friend request not declined an error occurred", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }).start();
+            onFriend.onDecline(
+                    friendList.getFriendList().get(position)
+            );
         });
 
         holder.binding.setItemViewModel(friendViewModel);

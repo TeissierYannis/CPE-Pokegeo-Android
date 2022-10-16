@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.cpe.wolodiayannis.pokemongeo.R;
@@ -23,6 +24,7 @@ import fr.cpe.wolodiayannis.pokemongeo.data.BasicResponse;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.databinding.UserProfileBinding;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.FriendList;
+import fr.cpe.wolodiayannis.pokemongeo.entity.user.FriendRequest;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.FriendFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.fetcher.UserLogoutFetcher;
 import fr.cpe.wolodiayannis.pokemongeo.listeners.OnFriend;
@@ -52,15 +54,45 @@ public class UserProfileFragment extends Fragment {
             adapter.setFriendList(friendList);
             adapter.setOnFriend(new OnFriend() {
                 @Override
-                public void onAccept() {
-                    loadPendingFriendList();
-                    Toast.makeText(getContext(), "Friend request accepted", Toast.LENGTH_SHORT).show();
+                public void onAccept(FriendRequest request) {
+                    // Executor
+                    new Thread(() -> {
+                        BasicResponse response = (new FriendFetcher()).acceptFriend(
+                                request.getFriendId()
+                        );
+                        // run on UI thread
+                        requireActivity().runOnUiThread(() -> {
+                            if (response.getMessage().equals("success")) {
+                                Toast.makeText(getContext(), "Friend request accepted", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Friend request not accepted an error occurred", Toast.LENGTH_SHORT).show();
+                            }
+                            // reload the list
+                            updatePendingFriendListAdapter();
+                            binding.friendsList.getAdapter().notifyDataSetChanged();
+                        });
+                    }).start();
                 }
 
                 @Override
-                public void onDecline() {
-                    loadPendingFriendList();
-                    Toast.makeText(getContext(), "Friend request declined", Toast.LENGTH_SHORT).show();
+                public void onDecline(FriendRequest request) {
+                    // Executor
+                    new Thread(() -> {
+                        BasicResponse response = (new FriendFetcher()).declineFriend(
+                                request.getFriendId()
+                        );
+                        // run on UI thread
+                        requireActivity().runOnUiThread(() -> {
+                            if (response.getMessage().equals("success")) {
+                                Toast.makeText(getContext(), "Friend request declined", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Friend request not declined an error occurred", Toast.LENGTH_SHORT).show();
+                            }
+                            // reload the list
+                            updatePendingFriendListAdapter();
+                            binding.friendsList.getAdapter().notifyDataSetChanged();
+                        });
+                    }).start();
                 }
             });
             binding.friendsRequest.setAdapter(adapter);
@@ -152,7 +184,7 @@ public class UserProfileFragment extends Fragment {
                 }
                 // Add friend with the request
                 (new Thread(() -> {
-                    BasicResponse response = (new FriendFetcher(requireContext())).addFriend(friendName);
+                    BasicResponse response = (new FriendFetcher()).addFriend(friendName);
 
                     requireActivity().runOnUiThread(() -> {
                         // Close keyboard
@@ -219,7 +251,7 @@ public class UserProfileFragment extends Fragment {
     }
 
     public FriendList loadFriendList() {
-        FriendList friendList = (new FriendFetcher(requireContext())).fetchFriendList();
+        FriendList friendList = (new FriendFetcher()).fetchFriendList();
         if (friendList == null) {
             friendList = new FriendList();
         }
@@ -227,7 +259,7 @@ public class UserProfileFragment extends Fragment {
     }
 
     public FriendList loadPendingFriendList() {
-        FriendList pendingFriendList = (new FriendFetcher(requireContext())).fetchPendingFriendList();
+        FriendList pendingFriendList = (new FriendFetcher()).fetchPendingFriendList();
         if (pendingFriendList == null) {
             pendingFriendList = new FriendList();
         }
@@ -244,6 +276,7 @@ public class UserProfileFragment extends Fragment {
 
         }).start();
     }
+
     public void updatePendingFriendListAdapter() {
         new Thread(() -> {
             AtomicReference<FriendList> friendList = new AtomicReference<>(this.loadPendingFriendList());
