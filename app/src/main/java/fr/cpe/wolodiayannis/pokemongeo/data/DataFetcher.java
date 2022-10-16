@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import fr.cpe.wolodiayannis.pokemongeo.api.request.AbilityRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.CaughtInventoryRequest;
+import fr.cpe.wolodiayannis.pokemongeo.api.request.FriendRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.ItemInventoryRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.ItemRequest;
 import fr.cpe.wolodiayannis.pokemongeo.api.request.PokemonRequest;
@@ -16,6 +17,7 @@ import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtInventory;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.PokemonStat;
 import fr.cpe.wolodiayannis.pokemongeo.entity.item.ItemInventory;
+import fr.cpe.wolodiayannis.pokemongeo.entity.lists.FriendList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemBallList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemPotionList;
 import fr.cpe.wolodiayannis.pokemongeo.entity.lists.ItemReviveList;
@@ -201,11 +203,62 @@ public class DataFetcher {
         return CaughtInventoryRequest.updateCaughtPokemon(caughtPokemon);
     }
 
+    /**
+     * Update user money and exp
+     * @param id user id
+     * @param money user money
+     * @param exp user exp
+     */
     public static void updateUserMoneyAndExp(int id, int money, int exp) {
         UserRequest.updateUserMoneyAndExp(id, money, exp);
     }
 
+    /**
+     * Logout user
+     * @param user user to logout
+     */
     public static void logoutUser(User user) {
         UserRequest.logoutUser(user);
+    }
+
+    /**
+     * get friend list
+     * @return friend list
+     */
+    public static FriendList fetchFriendList() {
+        return FriendRequest.getFriendList();
+    }
+  /**
+     * get pending friend list
+     * @return friend list
+     */
+    public static FriendList fetchPendingFriendList() {
+        return FriendRequest.getPendingFriendList();
+    }
+
+    /**
+     * add friend
+     * @param pseudo pseudo of the friend
+     * @return
+     */
+    public static BasicResponse addFriend(String pseudo) {
+        return FriendRequest.addFriend(pseudo);
+    }
+
+    /**
+     * get friend inventory
+     * @param friendId friend id
+     */
+    public static BasicResponse acceptFriend(int friendId) {
+        return FriendRequest.acceptFriend(friendId);
+    }
+
+    /**
+     * decline friend
+     * @param friendId friend id
+     * @return
+     */
+    public static BasicResponse declineFriend(int friendId) {
+        return FriendRequest.declineFriend(friendId);
     }
 }
