@@ -108,9 +108,9 @@ public class PokemonFight {
      * @return The color.
      */
     public int getEnemyProgressBarColor() {
-        if (this.opponentLifePoints > 50) {
+        if (this.opponentLifePoints > this.opponentPokemon.getHp() / 2) {
             return R.color.green;
-        } else if (this.opponentLifePoints > 25) {
+        } else if (this.opponentLifePoints > this.opponentPokemon.getHp() / 4) {
             return R.color.orange;
         } else {
             return R.color.red;
@@ -123,9 +123,9 @@ public class PokemonFight {
      * @return The color.
      */
     public int getPlayerProgressBarColor() {
-        if (this.playerLifePoints > 50) {
+        if (this.playerLifePoints > this.playerPokemon.getHp() / 2) {
             return R.color.green;
-        } else if (this.playerLifePoints > 25) {
+        } else if (this.playerLifePoints > this.playerPokemon.getHp() / 4) {
             return R.color.orange;
         } else {
             return R.color.red;

@@ -407,6 +407,7 @@ public class FightFragment extends Fragment {
         this.binding.pokemonfightActionsBox.fightpopupButtonFight.setEnabled(false);
         this.binding.pokemonfightActionsBox.fightpopupButtonBag.setEnabled(false);
         this.binding.pokemonfightActionsBox.fightpopupButtonPokemon.setEnabled(false);
+        this.binding.pokemonfightActionsBox.fightpopupButtonRun.setEnabled(false);
     }
 
     /**
@@ -416,6 +417,7 @@ public class FightFragment extends Fragment {
         this.binding.pokemonfightActionsBox.fightpopupButtonFight.setEnabled(true);
         this.binding.pokemonfightActionsBox.fightpopupButtonBag.setEnabled(true);
         this.binding.pokemonfightActionsBox.fightpopupButtonPokemon.setEnabled(true);
+        this.binding.pokemonfightActionsBox.fightpopupButtonRun.setEnabled(true);
     }
 
     /**
@@ -586,6 +588,8 @@ public class FightFragment extends Fragment {
                 this.opponentAttack();
             }
         } else if (item instanceof ItemBall) {
+            // deactivating all buttons
+            this.deactivateAllButtons();
             ItemBall ball = (ItemBall) item;
             this.animateCapture(ball.getImageID());
 
