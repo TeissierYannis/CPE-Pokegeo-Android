@@ -50,6 +50,16 @@ public class UserViewModel extends BaseObservable {
         return user.getPseudo().toUpperCase();
     }
 
+    @Bindable
+    public String getPlayingTime() {
+        // TIme diff in minutes
+        long diff = System.currentTimeMillis() - user.getCreatedAt().getTime();
+
+        long diffMinutes = diff / (60 * 1000) % 60;
+
+        return diffMinutes + " minutes";
+    }
+
     /**
      * Get the item name.
      *
