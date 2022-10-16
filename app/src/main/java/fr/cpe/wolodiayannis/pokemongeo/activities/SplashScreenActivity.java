@@ -461,15 +461,14 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
+                // Get location once with the best accuracy
                 LocationServices.getFusedLocationProviderClient(this)
-                        .requestLocationUpdates(
-                                LocationRequest.create()
+                        .requestLocationUpdates(LocationRequest.create()
                                         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                                        .setInterval(10000)
-                                        .setFastestInterval(5000),
+                                        .setNumUpdates(1)
+                                        .setInterval(0),
                                 locationCallback,
-                                Looper.getMainLooper());
-
+                                null);
 
                 // Check if user is already logged in
                 // get user in cache and check if it's not null
