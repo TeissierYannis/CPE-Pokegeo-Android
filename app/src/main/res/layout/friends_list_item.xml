@@ -52,6 +52,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Trade"
+                android:backgroundTint="@color/white"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
@@ -59,6 +60,5 @@
                 style="?android:attr/buttonCornerRadius" />
 
         </LinearLayout>
-
     </LinearLayout>
 </layout>
