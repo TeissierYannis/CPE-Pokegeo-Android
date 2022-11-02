@@ -13,6 +13,7 @@ import java.util.List;
 import fr.cpe.wolodiayannis.pokemongeo.data.Datastore;
 import fr.cpe.wolodiayannis.pokemongeo.entity.CaughtPokemon;
 import fr.cpe.wolodiayannis.pokemongeo.entity.Pokemon;
+import fr.cpe.wolodiayannis.pokemongeo.exception.EndGameException;
 import fr.cpe.wolodiayannis.pokemongeo.observers.PharmaciesObserver;
 import fr.cpe.wolodiayannis.pokemongeo.observers.ShopsObserver;
 
@@ -64,6 +65,11 @@ public class Spawn {
      * @param location Location.
      */
     private void spawnPokemons(GeoPoint location) {
+
+        if (Datastore.getInstance().isEndGame()) {
+            return;
+        }
+
         // Random between 4 and 6 - Corresponds to the number of pokemon to display on the map
         int random = (int) (Math.random() * 9) + 4;
 
@@ -79,7 +85,17 @@ public class Spawn {
         // Fill the list of pokemon to display
         for (int i = 0; i < random; i++) {
 
-            pokemonToDisplay.put(getRandomPokemon(), points[i]);
+            Pokemon rndPokemon = null;
+            try {
+                rndPokemon = getRandomPokemon();
+            } catch (EndGameException e) {
+                e.printStackTrace();
+            }
+            if (rndPokemon != null) {
+                pokemonToDisplay.put(rndPokemon, points[i]);
+            } else {
+                break;
+            }
         }
 
         Datastore.getInstance().setSpawnedPokemons(pokemonToDisplay);
@@ -102,7 +118,7 @@ public class Spawn {
      *
      * @return Pokemon.
      */
-    private Pokemon getRandomPokemon() {
+    private Pokemon getRandomPokemon() throws EndGameException {
 
         // Get the list of pokemon
         List<Pokemon> pokemons = Datastore.getInstance().getPokemons();
@@ -126,7 +142,13 @@ public class Spawn {
             try {
                 return notCaughtPokemons.get(random);
             } catch (IndexOutOfBoundsException e) {
-                return notCaughtPokemons.get(1);
+
+                try {
+                    return notCaughtPokemons.get(1);
+                } catch (IndexOutOfBoundsException ignored) {
+                    Datastore.getInstance().setEndGame(true);
+                    throw new EndGameException("That was the last pokemon, you won !");
+                }
             }
         }
     }

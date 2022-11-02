@@ -127,6 +127,11 @@ public class Datastore implements Comparable<Object>, Serializable {
      */
     private ItemInventory itemInventory;
 
+    /**
+     * End game boolean
+     */
+    private boolean isEndGame;
+
 
     /**
      * Get the user.
@@ -362,6 +367,20 @@ public class Datastore implements Comparable<Object>, Serializable {
         return this;
     }
 
+    /**
+     * Return if the user is end game.
+     */
+    public boolean isEndGame() {
+        return isEndGame;
+    }
+
+    /**
+     * Set if the user is end game.
+     */
+    public void setEndGame(boolean endGame) {
+        isEndGame = endGame;
+    }
+
     /*
      * ===============================================
      *  COMPARABLE INTERFACE IMPLEMENTATION TODO
@@ -440,4 +459,6 @@ public class Datastore implements Comparable<Object>, Serializable {
     public ArrayList<POI> getPharmacies() {
         return pharmacy;
     }
+
+
 }
