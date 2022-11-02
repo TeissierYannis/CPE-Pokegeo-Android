@@ -5,6 +5,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -29,7 +30,7 @@ import fr.cpe.wolodiayannis.pokemongeo.viewmodel.PokemonViewModel;
 /**
  * Adapter for the list of Pokemon.
  */
-public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemonListAdapter.ViewHolder> {
+public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemonListAdapter.ViewHolder> implements Filterable {
     /**
      * Listener for the click on a Pokemon.
      */
@@ -249,7 +250,7 @@ public class CaughtPokemonListAdapter extends RecyclerView.Adapter<CaughtPokemon
             }
 
             FilterResults results = new FilterResults();
-            results.values = caughtInventory;
+            results.values = filteredCaughtInventory;
 
             return results;
         }
