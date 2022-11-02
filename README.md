@@ -2,7 +2,8 @@
 
 Ceci est un projet d'école.
 
-Cette application a pour but de jouer à pokemon en nous baladant dehors en se basant sur la géolocalisation de l’appareil que celle-ci soit au premier plan ou non. Un certain nombre de donnée seront issus d’un webservice ou de donnée géographique.
+Cette application a pour but de jouer à pokemon en nous baladant dehors en se basant sur la géolocalisation de l’appareil
+que celle-ci soit au premier plan ou non. Un certain nombre de données seront issus d’un webservice ou de donnée géographique.
 
 Objectifs:
 
@@ -14,7 +15,7 @@ Objectifs:
 
 ## Avertissement
 
-1. Ne pas lancer l'application sur le réseau internet de l'école.
+1. Ne pas lancer l'application sur le réseau internet de l'école (VPN > API).
 2. Version minimale de l'API android : 30
 3. Problème avec l'API des points d'interets - (API Busy récurent)
 4. API Rest lent, car pas de budget pour un gros serveur.
@@ -23,19 +24,48 @@ Objectifs:
 
 - [x] Carte & Géolocalisation
 - [x] Pokédex avec découverte progressive
-- [x] Inventaire de pokemon capturé
-- [x] Combat de pokemon
-- [x] Capture de pokemon
-- [x] Soigner ses pokemons
-- [x] Faire revivre ses pokemons
-- [x] Gain de pokepieces
+- [x] Pokédex des 8 premières générations
+- [x] Inventaire de Pokémon capturés
+- [x] Barre de recherche par ID et par nom
+- [x] Combat de Pokémon
+- [x] Capture de Pokémon
+- [x] Soigner ses Pokémon
+- [x] Faire revivre ses Pokémon
+- [x] Gain de poképieces
 - [x] Profil utilisateur
-- [x] Systeme de connexion / inscription / deconnexion
-- [x] Systeme de cache
-- [x] Systeme de base de donnée via API Rest (javascript -> express)
-- [x] Spawn des pharamacies sur la carte
-- [x] Spanw des shops sur la carte
-- [x] Spawn de pokemon sur la carte
+- [x] Système de connexion / inscription / déconnexion
+- [x] Ajout d'amis
+- [x] Système de cache
+- [x] Système de base de données via API Rest (javascript -> express)
+- [x] Spawn de Pokémon sur la carte
+- [x] Spawn des shops sur la carte
+- [x] Spawn des pharmacies sur la carte
+- [x] Ajout d'easter eggs 😏
+
+## next features
+
+- [ ] Ajout de la 9ème génération
+- [ ] Gestion des évolutions
+- [ ] Gestion des arènes
+- [ ] Gestion des badges
+- [ ] Gestion d'un mode multijoueur
+- [ ] Gestion d'un mode coopératif
+- [ ] Gestion du niveau du joueur
+- [ ] Gestion du niveau des pokémons
+- [ ] Gestion des statistiques du joueur
+- [ ] Gestion des différentes attaques des pokémons (CT, ...)
+- [ ] Gestion des statistiques des pokémons
+- [ ] Gestion des échanges
+- [ ] Gestion des formes des pokémons
+- [ ] Achat des objets dans les shops
+- [ ] chiffrement des mots de passe dans la partie client et non serveur
+- [ ] Gestion des types de pokémons en combat
+- [ ] Gestion d'une équipe
+- [ ] Améliorations graphiques
+- [ ] Ajout d'un service worker pour lancer les requêtes en arrière plan
+- [ ] Collaboration avec Niantic
+- [ ] Rachat de Niantic
+- [ ] Domination du monde
 
 ## Contributors
 
